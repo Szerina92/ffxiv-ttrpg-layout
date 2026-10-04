@@ -1,0 +1,2738 @@
+/* =========================================================
+   FFXIV TTRPG Layout — Version 1.1
+   Visual direction inspired by the uploaded FFXIV TTRPG
+   Player Book: warm paper, fine gold framing, red headings,
+   restrained blue accents and ornamental geometry.
+   ========================================================= */
+
+.ffxiv-journal-sheet .window-content {
+  padding: 0;
+  overflow: hidden;
+  background: transparent;
+}
+
+.ffxiv-journal-sheet .ffxiv-journal__main {
+  color: var(--ffxiv-ink);
+  font-family: "Noto Serif", serif;
+}
+
+.ffxiv-journal {
+  position: relative;
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--ffxiv-paper);
+}
+
+/* ---------------------------------------------------------
+   Chapter header
+   --------------------------------------------------------- */
+
+.ffxiv-journal__hero {
+  position: relative;
+  flex: 0 0 auto;
+  min-height: 76px;
+  display: grid;
+  grid-template-columns: minmax(80px, 1fr) auto minmax(80px, 1fr);
+  align-items: center;
+  gap: 18px;
+  padding: 13px 30px 15px;
+  background:
+    radial-gradient(circle at 50% 0%, var(--ffxiv-overlay-white-062), transparent 55%),
+    linear-gradient(180deg, var(--ffxiv-paper-light), var(--ffxiv-paper));
+  border-bottom: 1px solid var(--ffxiv-gold);
+  box-shadow: inset 0 -3px var(--ffxiv-overlay-gold-008);
+}
+
+.ffxiv-journal__hero::before,
+.ffxiv-journal__hero::after {
+  content: "";
+  position: absolute;
+  bottom: 4px;
+  width: 76px;
+  height: 8px;
+  border-bottom: 1px solid var(--ffxiv-gold);
+  opacity: .75;
+}
+
+.ffxiv-journal__hero::before {
+  left: 16px;
+  transform: skewX(-28deg);
+  border-left: 1px solid var(--ffxiv-gold);
+}
+
+.ffxiv-journal__hero::after {
+  right: 16px;
+  transform: skewX(28deg);
+  border-right: 1px solid var(--ffxiv-gold);
+}
+
+.ffxiv-journal__chapter-rule {
+  position: relative;
+  height: 16px;
+  border-top: 1px solid var(--ffxiv-gold);
+  border-bottom: 1px solid var(--ffxiv-overlay-gold-045);
+  opacity: .82;
+}
+
+.ffxiv-journal__chapter-rule::after {
+  content: "";
+  position: absolute;
+  top: 4px;
+  width: 8px;
+  height: 8px;
+  border: 1px solid var(--ffxiv-gold);
+  background: var(--ffxiv-paper);
+  transform: rotate(45deg);
+}
+
+.ffxiv-journal__chapter-rule--left::after { right: 0; }
+.ffxiv-journal__chapter-rule--right::after { left: 0; }
+
+.ffxiv-journal__chapter-title {
+  min-width: 0;
+  text-align: center;
+}
+
+.ffxiv-journal__chapter-kicker {
+  margin-bottom: 2px;
+  color: var(--ffxiv-muted);
+  font-size: .57rem;
+  font-weight: 600;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+
+.ffxiv-journal__chapter-title h1 {
+  margin: 0;
+  color: var(--ffxiv-ink);
+  font-family: "Cinzel", "Trajan Pro", Georgia, serif;
+  font-size: 1.16rem;
+  font-weight: 700;
+  letter-spacing: .055em;
+  line-height: 1.15;
+  text-transform: uppercase;
+}
+
+/* ---------------------------------------------------------
+   Layout / Sidebar
+   --------------------------------------------------------- */
+
+ .ffxiv-journal__layout {
+  min-height: 0;
+  flex: 1;
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+}
+
+.ffxiv-journal__sidebar {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: 14px 9px 10px;
+  background: var(--ffxiv-sidebar);
+  color: var(--ffxiv-sidebar-text);
+  border-right: 1px solid var(--ffxiv-line-dark);
+  box-shadow: inset -1px 0 var(--ffxiv-overlay-white-004);
+}
+
+.ffxiv-journal__main {
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.ffxiv-journal__page-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  counter-reset: ffxiv-page;
+}
+
+.ffxiv-journal__page-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: stretch;
+  min-height: 39px;
+  border-radius: 2px;
+  counter-increment: ffxiv-page;
+  transition: background-color .12s ease, box-shadow .12s ease;
+}
+
+.ffxiv-journal__page-item[draggable="true"] { cursor: grab; }
+.ffxiv-journal__page-item[draggable="true"]:active { cursor: grabbing; }
+.ffxiv-journal__page-item.is-dragging { opacity: .45; }
+
+.ffxiv-journal__page-item.is-drag-over {
+  background: var(--ffxiv-overlay-gold-016);
+  box-shadow: inset 0 2px 0 var(--ffxiv-gold);
+}
+
+.ffxiv-journal__page-item.is-drag-over::before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: 8px;
+  width: 8px;
+  height: 8px;
+  border: 1px solid var(--ffxiv-gold-light);
+  background: var(--ffxiv-sidebar);
+  transform: rotate(45deg);
+  z-index: 3;
+}
+
+.ffxiv-journal__page-link {
+  position: relative;
+  display: grid;
+  grid-template-columns: 4px 28px minmax(0,1fr);
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  width: 100%;
+  min-height: 39px;
+  padding: 6px 8px 6px 7px;
+  border: 0;
+  border-radius: 2px;
+  background: transparent;
+  color: var(--ffxiv-sidebar-text);
+  text-align: left;
+  cursor: pointer;
+}
+
+.ffxiv-journal__page-link::before {
+  content: counter(ffxiv-page) ".";
+  min-width: 28px;
+  color: var(--ffxiv-overlay-white-058);
+  font-size: .78rem;
+  font-weight: 600;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.ffxiv-journal__page-link:hover {
+  background: var(--ffxiv-sidebar-hover);
+}
+
+.ffxiv-journal__page-item.is-active .ffxiv-journal__page-link {
+  background: linear-gradient(90deg, var(--ffxiv-overlay-gold-016), var(--ffxiv-overlay-gold-004));
+  color: var(--ffxiv-white-soft);
+}
+
+.ffxiv-journal__page-item.is-active .ffxiv-journal__page-link::before {
+  color: var(--ffxiv-gold-light);
+}
+
+
+.ffxiv-journal__page-indicator {
+  width: 4px;
+  height: 22px;
+  border-radius: 2px;
+  background: transparent;
+}
+
+.ffxiv-journal__page-item.is-active .ffxiv-journal__page-indicator {
+  background: var(--ffxiv-gold);
+  box-shadow: 0 0 7px var(--ffxiv-overlay-gold-035);
+}
+
+
+.ffxiv-journal__page-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: .88rem;
+}
+
+.ffxiv-journal__delete-page {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  min-height: 39px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ffxiv-overlay-white-035);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity .12s ease, color .12s ease, background-color .12s ease;
+}
+
+.ffxiv-journal__page-item:hover .ffxiv-journal__delete-page,
+.ffxiv-journal__page-item:focus-within .ffxiv-journal__delete-page { opacity: 1; }
+
+.ffxiv-journal__delete-page:hover {
+  background: var(--ffxiv-overlay-red-016);
+  color: var(--ffxiv-red-danger);
+}
+
+.ffxiv-journal__sidebar-footer {
+  margin-top: auto;
+  padding: 14px 2px 2px;
+}
+
+.ffxiv-journal__add-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 36px;
+  padding: 7px 10px;
+  border: 1px solid var(--ffxiv-overlay-white-022);
+  border-radius: 2px;
+  background: var(--ffxiv-overlay-white-004);
+  color: var(--ffxiv-sidebar-muted);
+  font-family: inherit;
+  font-size: .8rem;
+  cursor: pointer;
+}
+
+.ffxiv-journal__add-page:hover {
+  border-color: var(--ffxiv-gold);
+  background: var(--ffxiv-overlay-gold-010);
+  color: var(--ffxiv-white-soft);
+}
+
+.ffxiv-journal__add-page i { color: var(--ffxiv-gold-light); }
+
+/* Native Foundry Journal V2 page container: remove core spacing around our parchment page. */
+.ffxiv-journal-sheet .journal-entry-content {
+  padding: 0 !important;
+}
+
+.ffxiv-journal-sheet .journal-entry-pages.ffxiv-journal__native-pages {
+  padding: 0 !important;
+  margin: 0 !important;
+  gap: 0 !important;
+}
+
+/* ---------------------------------------------------------
+   Book page / gold frame
+   --------------------------------------------------------- */
+
+.ffxiv-journal__content {
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 0;
+  background:
+    radial-gradient(circle at 25% 10%, var(--ffxiv-overlay-white-065), transparent 34%),
+    radial-gradient(circle at 80% 75%, var(--ffxiv-overlay-gold-006), transparent 28%),
+    var(--ffxiv-paper-dark);
+}
+
+.ffxiv-journal__page {
+  position: relative;
+  min-height: calc(100% - 2px);
+  max-width: none;
+  width: 100%;
+  margin: 0;
+  padding: 48px 48px 85px;
+  border: 1px solid var(--ffxiv-gold);
+  background-color: var(--ffxiv-paper-light);
+  background-image: url("../../images/pergament.webp");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-shadow:
+    inset 0 0 0 3px var(--ffxiv-overlay-gold-007),
+    0 2px 10px var(--ffxiv-overlay-brown-012b);
+}
+
+/* Image-based FFXIV-style page borders */
+.ffxiv-journal__page::before {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 8px;
+  width: calc(100% - 16px);
+  height: 72px;
+  background: url("../../images/upper_border.png") top center / 100% auto no-repeat;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ffxiv-journal__page::after {
+  content: "";
+  position: absolute;
+  bottom: 2px;
+  left: 8px;
+  width: calc(100% - 16px);
+  height: 190px;
+  background: url("../../images/lower_border.png") bottom center / 100% auto no-repeat;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ffxiv-journal__page-footer::before,
+.ffxiv-journal__page-footer::after {
+  content: none;
+}
+
+.ffxiv-journal__page-header {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+}
+
+/* 1.4.14 — When Foundry's native Text Page setting hides the page title,
+   keep the page actions available without reserving the title's large space. */
+.ffxiv-journal__page-header--title-hidden {
+  min-height: 31px;
+}
+
+.ffxiv-journal__page-title-group {
+  min-width: 0;
+  width: 100%;
+  text-align: center;
+}
+
+/* Class Summary pages use the Job icon as part of the page title.
+   This override is intentionally scoped to Class Summary pages so normal
+   Journal Entry Pages keep their existing centered title presentation. */
+.ffxiv-journal__page-title-group--class-summary {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 14px;
+  width: 100%;
+  text-align: left;
+}
+
+.ffxiv-journal__page-title-job-icon {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  flex: 0 0 auto;
+}
+
+.ffxiv-journal__page-title-text {
+  min-width: 0;
+  flex: 1 1 auto;
+  text-align: left;
+}
+
+.ffxiv-journal__page-header h1,
+.ffxiv-journal__page-header h2,
+.ffxiv-journal__page-header h3,
+.ffxiv-journal__page-header h4,
+.ffxiv-journal__page-header h5,
+.ffxiv-journal__page-header h6 {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  color: var(--ffxiv-black);
+  font-family: "Cinzel", "Trajan Pro", Georgia, serif;
+  font-size: 2.35rem;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: .025em;
+  text-align: center;
+  margin-bottom: 0.85rem;
+  border: 0;
+  box-shadow: none;
+  text-decoration: none;
+}
+
+
+.ffxiv-journal__page-title-group--class-summary h1,
+.ffxiv-journal__page-title-group--class-summary h2,
+.ffxiv-journal__page-title-group--class-summary h3,
+.ffxiv-journal__page-title-group--class-summary h4,
+.ffxiv-journal__page-title-group--class-summary h5,
+.ffxiv-journal__page-title-group--class-summary h6 {
+  text-align: left;
+  margin-bottom: 0;
+}
+
+.ffxiv-journal__page-header h1::before,
+.ffxiv-journal__page-header h2::before,
+.ffxiv-journal__page-header h3::before,
+.ffxiv-journal__page-header h4::before,
+.ffxiv-journal__page-header h5::before,
+.ffxiv-journal__page-header h6::before {
+  content: none;
+}
+
+.ffxiv-journal__accent-line {
+  position: relative;
+  height: 14px;
+  margin: 10px 0 28px;
+}
+
+.ffxiv-journal__accent-line::before {
+  content: "";
+  position: absolute;
+  top: 6px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, var(--ffxiv-gold), var(--ffxiv-line), var(--ffxiv-gold));
+  opacity: .72;
+}
+
+.ffxiv-journal__accent-line span {
+  position: absolute;
+  top: 1px;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  border: 1px solid var(--ffxiv-gold);
+  background: var(--ffxiv-paper-light);
+  transform: rotate(45deg);
+}
+
+/* ---------------------------------------------------------
+   Content typography — FFXIV TTRPG inspired
+   --------------------------------------------------------- */
+
+.ffxiv-journal__page-body {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  font-size: 1rem;
+  line-height: 1.68;
+  color: var(--ffxiv-ink);
+  background: transparent;
+}
+
+.ffxiv-journal__text > :first-child { margin-top: 0; }
+.ffxiv-journal__text > :last-child { margin-bottom: 0; }
+
+/* Paragraph rhythm — no automatic first-line indentation.
+ * All paragraphs begin flush left.
+ * Empty paragraphs still collapse so an intentional blank line remains a
+ * clean visual break without introducing an extra indent on the next paragraph.
+ */
+.ffxiv-journal__text p {
+  margin: .12em 0;
+}
+
+.ffxiv-journal__text p:empty,
+.ffxiv-journal__text p:has(> br:only-child) {
+  margin: 0;
+}
+
+/* Main content headings — 1.3.4 rulebook hierarchy */
+.ffxiv-journal__text h1,
+.ffxiv-journal__text h2,
+.ffxiv-journal__text h3,
+.ffxiv-journal__text h4,
+.prosemirror h1,
+.prosemirror h2,
+.prosemirror h3,
+.prosemirror h4 {
+  position: relative;
+  font-family: "Cinzel", "Trajan Pro", Georgia, serif;
+  font-weight: 700;
+}
+
+/* H1 — chapter: black, with the FFXIV target icon. */
+.ffxiv-journal__text h1,
+.prosemirror h1 {
+  margin: 1.7em 0 .8em;
+  padding: .05em 0 .2em 42px;
+  color: var(--ffxiv-black);
+  font-size: 1.55rem;
+  line-height: 1.22;
+  border: 0;
+}
+
+.ffxiv-journal__text h1::before,
+.prosemirror h1::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 31px;
+  height: 31px;
+  transform: translateY(-50%);
+  background: url("../../images/FFXIV_target.webp") center / contain no-repeat;
+}
+
+/* H2 — section: burgundy with a soft var(--ffxiv-line-burgundy) underline. */
+.ffxiv-journal__text h2,
+.prosemirror h2 {
+  margin: 1.55em 0 .68em;
+  padding: 0 0 .12em;
+  color: var(--ffxiv-red-heading);
+  font-size: 1.25rem;
+  line-height: 1.28;
+  letter-spacing: .012em;
+  border: 0;
+}
+
+.ffxiv-journal__text h2::after,
+.prosemirror h2::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 4px;
+  background: linear-gradient(to bottom, var(--ffxiv-line-burgundy) 0%, transparent 100%);
+}
+
+/* H3 — subsection: same burgundy, no ornament. */
+.ffxiv-journal__text h3,
+.ffxiv-journal__text :is(h3),
+.prosemirror h3 {
+  margin: 1.35em 0 .36em;
+  padding: 0;
+  color: var(--ffxiv-red-heading);
+  font-size: 1rem;
+  line-height: 1.3;
+  letter-spacing: 0;
+  font-weight: 800 !important;
+  font-style: normal !important;
+  -webkit-text-stroke: 0.28px currentColor;
+}
+
+/* H4 — same treatment as H3, but black. */
+.ffxiv-journal__text h4,
+.ffxiv-journal__text :is(h4),
+.prosemirror h4 {
+  margin: 1.25em 0 .36em;
+  padding: 0;
+  color: var(--ffxiv-black);
+  font-size: 1rem;
+  line-height: 1.3;
+  letter-spacing: 0;
+  font-weight: 800 !important;
+  font-style: normal !important;
+  -webkit-text-stroke: 0.28px currentColor;
+}
+
+/* Force the rulebook headings to use a real bold face even when Foundry's
+ * editor styles or inline formatting are present. */
+.ffxiv-journal__text h3 strong,
+.ffxiv-journal__text h3 b,
+.ffxiv-journal__text h4 strong,
+.ffxiv-journal__text h4 b {
+  font-weight: 700 !important;
+  font-style: normal !important;
+}
+
+/* 1.3.4 decorative divider.
+ * The editor command inserts Foundry's native horizontal_rule node.
+ * Styling the native node keeps the ProseMirror document schema valid while
+ * still giving both editor and rendered journal the FFXIV divider appearance.
+ */
+.ffxiv-journal__text hr,
+.prosemirror hr {
+  position: relative;
+  width: 100%;
+  height: 18px;
+  margin: 1.35em 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  opacity: 1;
+}
+
+.ffxiv-journal__text hr::before,
+.prosemirror hr::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  transform: translateY(-50%);
+  background: linear-gradient(90deg, transparent 0%, var(--ffxiv-line-burgundy) 10%, var(--ffxiv-line-burgundy) 44%, transparent 47%, transparent 53%, var(--ffxiv-line-burgundy) 56%, var(--ffxiv-line-burgundy) 90%, transparent 100%);
+}
+
+.ffxiv-journal__text hr::after,
+.prosemirror hr::after {
+  content: "◇";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  background: inherit;
+  color: var(--ffxiv-gold);
+  font-family: Georgia, serif;
+  font-size: 13px;
+  line-height: 1;
+}
+
+/* Editor selection state should not replace the divider styling. */
+.prosemirror hr.ProseMirror-selectednode {
+  outline: 1px solid var(--ffxiv-overlay-gold-035);
+  outline-offset: 3px;
+}
+
+/* Text emphasis — preserve Foundry inline colours */
+.ffxiv-journal__text strong,
+.ffxiv-journal__text b {
+  color: inherit;
+  font-weight: 700;
+}
+
+.ffxiv-journal__text em,
+.ffxiv-journal__text i {
+  color: inherit;
+}
+
+.ffxiv-journal__text u {
+  text-decoration-color: var(--ffxiv-gold);
+  text-underline-offset: 2px;
+}
+
+/* Native Foundry document links — clean FFXIV-style inline links.
+ * The link colour is intentionally exposed as a variable so it can be
+ * changed independently from the other blue accents.
+ */
+.ffxiv-journal__text a {
+  color: var(--ffxiv-blue);
+  text-decoration-color: var(--ffxiv-overlay-blue-045);
+  text-underline-offset: 2px;
+}
+
+.ffxiv-journal__text a:hover {
+  color: var(--ffxiv-blue-light);
+}
+
+.ffxiv-journal__text a.content-link[data-uuid] {
+  display: inline;
+  line-height: inherit;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: none;
+  vertical-align: baseline;
+  transition: color .12s ease, opacity .12s ease;
+}
+
+.ffxiv-journal__text a.content-link[data-uuid]::before {
+  content: "";
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  margin-right: .28em;
+  background: url("../../images/Icons/guildhest.png") center / contain no-repeat;
+  vertical-align: -.12em;
+}
+
+.ffxiv-journal__text a.content-link[data-uuid] > i,
+.ffxiv-journal__text a.content-link[data-uuid] > .fa,
+.ffxiv-journal__text a.content-link[data-uuid] > .fas,
+.ffxiv-journal__text a.content-link[data-uuid] > .far,
+.ffxiv-journal__text a.content-link[data-uuid] > .fa-solid,
+.ffxiv-journal__text a.content-link[data-uuid] > .fa-regular {
+  display: none;
+}
+
+.ffxiv-journal__text a.content-link[data-uuid]:hover,
+.ffxiv-journal__text a.content-link[data-uuid]:focus-visible {
+  color: var(--ffxiv-content-link-hover);
+  text-decoration: none;
+}
+
+.ffxiv-journal__text a.content-link[data-uuid]:focus-visible {
+  outline: 1px dotted currentColor;
+  outline-offset: 2px;
+}
+
+/* Per-link semantic colors. Select a UUID/document link in the editor and
+ * use X|V → Attack Link or Ability Link. The wrapper survives enrichment,
+ * while the content-link itself inherits the selected semantic color. */
+.ffxiv-journal__text .ffxiv-link--att a.content-link[data-uuid],
+.prosemirror .ffxiv-link--att a.content-link[data-uuid] {
+  color: var(--ffxiv-red-bright);
+}
+
+.ffxiv-journal__text .ffxiv-link--att a.content-link[data-uuid]:hover,
+.ffxiv-journal__text .ffxiv-link--att a.content-link[data-uuid]:focus-visible {
+  color: var(--ffxiv-red-deep);
+}
+
+.ffxiv-journal__text .ffxiv-link--abi a.content-link[data-uuid],
+.prosemirror .ffxiv-link--abi a.content-link[data-uuid] {
+  color: var(--ffxiv-black);
+}
+
+.ffxiv-journal__text .ffxiv-link--abi a.content-link[data-uuid]:hover,
+.ffxiv-journal__text .ffxiv-link--abi a.content-link[data-uuid]:focus-visible {
+  color: var(--ffxiv-blue-deep);
+}
+
+/* IMPORTANT — bold emphasis with a subtle background glow on hover. */
+.ffxiv-journal__text .ffxiv-important,
+.prosemirror .ffxiv-important {
+  color: var(--ffxiv-text-important);
+  font-weight: 700;
+  border-radius: 3px;
+  transition: color .12s ease, background-color .12s ease, box-shadow .12s ease;
+}
+
+.ffxiv-journal__text .ffxiv-important:hover,
+.ffxiv-journal__text .ffxiv-important:focus-visible,
+.prosemirror .ffxiv-important:hover,
+.prosemirror .ffxiv-important:focus-visible {
+  color: inherit;
+  background: var(--ffxiv-overlay-white-030);
+  box-shadow: 0 0 14px var(--ffxiv-overlay-white-070), 0 0 4px var(--ffxiv-overlay-white-045);
+}
+
+.ffxiv-editor-xv-menu .ffxiv-editor-accent--important {
+  font-weight: 800;
+  color: inherit;
+}
+
+.ffxiv-editor-xv-menu .ffxiv-editor-semantic-entry--important:hover,
+.ffxiv-editor-xv-menu .ffxiv-editor-semantic-entry--important:focus-visible {
+  color: var(--ffxiv-white);
+}
+
+/* NOTE — muted red semantic text. */
+.ffxiv-journal__text .ffxiv-note,
+.prosemirror .ffxiv-note {
+  color: var(--ffxiv-text-note);
+}
+
+.ffxiv-editor-xv-menu .ffxiv-editor-accent--note,
+.ffxiv-editor-xv-menu .ffxiv-editor-semantic-entry--note:hover,
+.ffxiv-editor-xv-menu .ffxiv-editor-semantic-entry--note:focus-visible {
+  color: var(--ffxiv-red-accent);
+}
+
+/* Lists — 1.3.5
+ * Unordered lists use the module's FFXIV arrow icon instead of the
+ * browser's default bullet. Ordered lists keep their native numbering.
+ * The same treatment is applied inside Foundry's ProseMirror editor so
+ * the author sees the final visual language while editing.
+ */
+.ffxiv-journal__text ul,
+.prosemirror ul,
+.ffxiv-journal__text ol,
+.prosemirror ol {
+  margin: .8em 0 1em;
+  padding-left: 1.75em;
+}
+
+.ffxiv-journal__text ul,
+.prosemirror ul {
+  list-style: none;
+}
+
+.ffxiv-journal__text li,
+.prosemirror li {
+  position: relative;
+  margin: .28em 0;
+  padding-left: .15em;
+}
+
+.ffxiv-journal__text ul > li::before,
+.prosemirror ul > li::before {
+  content: "";
+  position: absolute;
+  left: -1.35em;
+  top: .42em;
+  width: .78em;
+  height: .78em;
+  background: url("../../images/Icons/arrow.png") center / contain no-repeat;
+}
+
+.ffxiv-journal__text ol > li::marker,
+.prosemirror ol > li::marker {
+  color: var(--ffxiv-red);
+  font-weight: 700;
+}
+
+/* Nested unordered lists keep the same icon while receiving a little extra
+   indentation, preserving the hierarchy of longer rule lists. */
+.ffxiv-journal__text ul ul,
+.prosemirror ul ul {
+  margin-top: .25em;
+  margin-bottom: .25em;
+  padding-left: 1.5em;
+}
+
+/* Horizontal rules */
+.ffxiv-journal__text hr {
+  height: 1px;
+  margin: 1.55em 8% 1.45em;
+  border: 0;
+  background: linear-gradient(90deg, transparent, var(--ffxiv-gold), transparent);
+  opacity: .7;
+}
+
+/* Generic Text Editor callouts — component based.
+   Background, header colour and icon are independent properties.
+   Scenario remains a separate legacy/specialized callout. */
+.ffxiv-journal__text .ffxiv-callout[data-ffxiv-callout="true"],
+.prosemirror .ffxiv-callout[data-ffxiv-callout="true"] {
+  position: relative;
+  margin: 1.45em 2px;
+  padding: 16px 20px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background-color: transparent;
+  color: inherit;
+}
+
+.ffxiv-journal__text .ffxiv-callout[data-ffxiv-callout="true"] > p:first-of-type,
+.prosemirror .ffxiv-callout[data-ffxiv-callout="true"] > p:first-of-type {
+  margin-top: 0;
+}
+
+.ffxiv-journal__text .ffxiv-callout[data-ffxiv-callout="true"] > p:last-of-type,
+.prosemirror .ffxiv-callout[data-ffxiv-callout="true"] > p:last-of-type {
+  margin-bottom: 0;
+}
+
+/* HEADER COLOUR — marked text receives the same visual treatment as the
+ * module's H3 headings, without changing the document's heading structure. */
+.ffxiv-journal__text .ffxiv-text-header,
+.prosemirror .ffxiv-text-header {
+  font-family: "Cinzel", "Trajan Pro", Georgia, serif;
+  font-size: 1rem;
+  line-height: 1.3;
+  letter-spacing: 0;
+  font-weight: 800 !important;
+  font-style: normal !important;
+  -webkit-text-stroke: 0.28px currentColor;
+}
+
+.ffxiv-journal__text .ffxiv-text-header--dark-blue,
+.prosemirror .ffxiv-text-header--dark-blue {
+  color: var(--ffxiv-text-header-dark-blue) !important;
+}
+
+.ffxiv-journal__text .ffxiv-text-header--red,
+.prosemirror .ffxiv-text-header--red {
+  color: var(--ffxiv-text-header-red) !important;
+}
+
+.ffxiv-journal__text .ffxiv-text-header--green,
+.prosemirror .ffxiv-text-header--green {
+  color: var(--ffxiv-text-header-green) !important;
+}
+
+.ffxiv-callout[data-ffxiv-callout="true"].ffxiv-callout--background-light-blue,
+.prosemirror .ffxiv-callout[data-ffxiv-callout="true"].ffxiv-callout--background-light-blue {
+  background: transparent url("../../images/callouts/background-light-blue.png") center / 100% 100% no-repeat;
+}
+
+.ffxiv-callout[data-ffxiv-callout="true"].ffxiv-callout--background-white,
+.prosemirror .ffxiv-callout[data-ffxiv-callout="true"].ffxiv-callout--background-white {
+  padding-top: 30px;
+  padding-bottom: 32px;
+  background: transparent url("../../images/callouts/background-white.png") center / 100% 100% no-repeat;
+}
+
+.ffxiv-callout[data-ffxiv-callout="true"].ffxiv-callout--background-paperscroll,
+.prosemirror .ffxiv-callout[data-ffxiv-callout="true"].ffxiv-callout--background-paperscroll {
+  background-color: var(--ffxiv-callout-background-paperscroll);
+}
+
+.ffxiv-callout[data-ffxiv-callout="true"].ffxiv-callout--background-green,
+.prosemirror .ffxiv-callout[data-ffxiv-callout="true"].ffxiv-callout--background-green {
+  background: transparent url("../../images/callouts/background-green.png") center / 100% 100% no-repeat;
+}
+
+.ffxiv-callout[data-ffxiv-callout="true"].ffxiv-callout--icon-gm {
+  padding-top: 28px;
+}
+
+/* The GM icon is a visual property of the callout itself. Rendering it as a
+ * pseudo-element keeps it outside ProseMirror's inline-content normalization,
+ * so it remains centered on the callout's own vertical axis. */
+.ffxiv-callout[data-ffxiv-callout="true"][data-ffxiv-callout-icon="gm"]::before,
+.prosemirror .ffxiv-callout[data-ffxiv-callout="true"][data-ffxiv-callout-icon="gm"]::before {
+  content: "";
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  z-index: 3;
+  width: 48px;
+  height: 48px;
+  margin: 0;
+  transform: translateX(-50%);
+  background: url("../../images/Icons/GM.png") center / contain no-repeat;
+  pointer-events: none;
+}
+
+.ffxiv-text-example,
+.prosemirror .ffxiv-text-example {
+  color: var(--ffxiv-text-example);
+}
+
+/* FFXIV-inspired standalone generic callout blocks.
+   Scenario remains a separate specialized component. */
+.ffxiv-journal__text .ffxiv-callout {
+  position: relative;
+  margin: 1.45em 2px;
+  padding: 16px 20px;
+  border-radius: 4px;
+  background: transparent;
+  color: inherit;
+}
+
+.ffxiv-journal__text .ffxiv-callout > p:first-of-type { margin-top: 0; }
+.ffxiv-journal__text .ffxiv-callout > p:last-of-type { margin-bottom: 0; }
+
+.ffxiv-journal__text .ffxiv-callout__label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0 0 9px;
+  font-family: var(--ffxiv-display);
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .16em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.ffxiv-journal__text .ffxiv-callout__gm-image {
+  display: block;
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+  border: 0;
+  border-radius: 0;
+  margin: 0;
+}
+
+/* SCENARIO — rounded, slightly heavier FFXIV-style frame.
+   The speaker icon sits directly before the first text line;
+   the label word itself is intentionally not displayed. */
+.ffxiv-journal__text .ffxiv-callout--scenario {
+  border: 2px solid var(--ffxiv-overlay-brown-034);
+  border-radius: 14px;
+  color: var(--ffxiv-red-accent);
+  padding: 10px 20px;
+}
+
+.ffxiv-journal__text .ffxiv-callout--scenario .ffxiv-callout__label {
+  float: left;
+  position: relative;
+  z-index: 2;
+  display: block;
+  width: 1.35em;
+  height: 1.35em;
+  margin: .05em .25em 0 0;
+  padding: 0;
+  transform: translateY(.95em);
+  color: var(--ffxiv-red-accent);
+  font-size: 1.05rem;
+  line-height: 1.35;
+  letter-spacing: 0;
+}
+
+.ffxiv-journal__text .ffxiv-callout--scenario .ffxiv-callout__label i {
+  font-size: 1.05rem;
+}
+
+.ffxiv-journal__text .ffxiv-callout--scenario .ffxiv-callout__label .sr-only {
+  display: none;
+}
+
+.ffxiv-journal__text .ffxiv-callout--scenario > p:first-of-type {
+  padding-left: 1.35em;
+}
+
+/* GM — cool grey panel with transparent border and dark text. */
+.ffxiv-journal__text .ffxiv-callout--gm {
+  border: 1px solid transparent;
+  background: var(--ffxiv-callout-gm);
+  color: var(--ffxiv-callout-gm-text);
+}
+
+.ffxiv-journal__text .ffxiv-callout--gm {
+  padding: 2px 20px 10px;
+}
+
+.ffxiv-journal__text .ffxiv-callout--gm .ffxiv-callout__label {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  width: auto;
+  height: 48px;
+  margin: 0;
+  padding: 0;
+  color: var(--ffxiv-callout-gm-text);
+  display: block;
+  line-height: 1;
+}
+
+.ffxiv-journal__text .ffxiv-callout--gm .ffxiv-callout__gm-image {
+  display: block;
+  width: 48px;
+  height: 48px;
+  margin: 0;
+}
+
+.ffxiv-journal__text .ffxiv-callout--gm > p:first-of-type {
+  margin-top: 0;
+}
+
+/* Keep GM callout lists close to the frame, matching the compact rulebook panel. */
+.ffxiv-journal__text .ffxiv-callout--gm ul,
+.ffxiv-journal__text .ffxiv-callout--gm ol {
+  margin-top: .15em;
+  margin-bottom: .2em;
+}
+
+/* EXAMPLE — warm paper panel with muted brown typography. */
+.ffxiv-journal__text .ffxiv-callout--example {
+  border: 1px solid transparent;
+  padding-top: 4px;
+  padding-bottom: 16px;
+  background: var(--ffxiv-paper-example);
+  color: var(--ffxiv-paper-example-text);
+}
+
+.ffxiv-journal__text .ffxiv-callout--example .ffxiv-callout__label {
+  display: none;
+}
+
+/* Global FFXIV semantic rich-text styles — 0.3.3 */
+
+
+/* Global FFXIV semantic rich-text styles — 0.3.3
+ * These classes are intentionally not limited to the Journal text wrapper.
+ * Any rich-text object rendered by the module can therefore use the same
+ * semantic markup: ABI, ATT, IMPORTANT, NOTE, semantic links and callouts.
+ */
+.ffxiv-abi {
+  color: var(--ffxiv-blue-dark);
+  font-weight: 700;
+}
+
+.ffxiv-att {
+  color: var(--ffxiv-red-bright);
+  font-weight: 700;
+}
+
+.ffxiv-important {
+  font-weight: 700;
+  border-radius: 3px;
+  transition: color .12s ease, background-color .12s ease, box-shadow .12s ease;
+}
+
+.ffxiv-important:hover,
+.ffxiv-important:focus-visible {
+  color: inherit;
+  background: var(--ffxiv-overlay-white-030);
+  box-shadow: 0 0 14px var(--ffxiv-overlay-white-070), 0 0 4px var(--ffxiv-overlay-white-045);
+}
+
+.ffxiv-note {
+  color: var(--ffxiv-red-accent);
+}
+
+.ffxiv-link--att a.content-link[data-uuid] {
+  color: var(--ffxiv-red-bright);
+}
+
+.ffxiv-link--att a.content-link[data-uuid]:hover,
+.ffxiv-link--att a.content-link[data-uuid]:focus-visible {
+  color: var(--ffxiv-red-deep);
+}
+
+.ffxiv-link--abi a.content-link[data-uuid] {
+  color: var(--ffxiv-black);
+}
+
+.ffxiv-link--abi a.content-link[data-uuid]:hover,
+.ffxiv-link--abi a.content-link[data-uuid]:focus-visible {
+  color: var(--ffxiv-blue-deep);
+}
+
+/* Global FFXIV callout blocks. */
+.ffxiv-callout {
+  position: relative;
+  margin: 1.45em 2px;
+  padding: 16px 20px;
+  border-radius: 4px;
+  background: transparent;
+  color: inherit;
+}
+
+.ffxiv-callout > p:first-of-type { margin-top: 0; }
+.ffxiv-callout > p:last-of-type { margin-bottom: 0; }
+
+.ffxiv-callout__label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0 0 9px;
+  font-family: var(--ffxiv-display);
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .16em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.ffxiv-callout__gm-image {
+  display: block;
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+  border: 0;
+  border-radius: 0;
+  margin: 0;
+}
+
+.ffxiv-callout--scenario {
+  border: 2px solid var(--ffxiv-overlay-brown-034);
+  border-radius: 14px;
+  color: var(--ffxiv-red-accent);
+  padding: 10px 20px;
+}
+
+.ffxiv-callout--scenario .ffxiv-callout__label {
+  float: left;
+  position: relative;
+  z-index: 2;
+  display: block;
+  width: 1.35em;
+  height: 1.35em;
+  margin: .05em .25em 0 0;
+  padding: 0;
+  transform: translateY(.95em);
+  color: var(--ffxiv-red-accent);
+  font-size: 1.05rem;
+  line-height: 1.35;
+  letter-spacing: 0;
+}
+
+.ffxiv-callout--scenario .ffxiv-callout__label i {
+  font-size: 1.05rem;
+}
+
+.ffxiv-callout--scenario .ffxiv-callout__label .sr-only {
+  display: none;
+}
+
+.ffxiv-callout--scenario > p:first-of-type {
+  padding-left: 1.35em;
+}
+
+.ffxiv-callout--gm {
+  border: 1px solid transparent;
+  background: var(--ffxiv-callout-gm);
+  color: var(--ffxiv-callout-gm-text);
+  padding: 2px 20px 10px;
+}
+
+.ffxiv-callout--gm .ffxiv-callout__label {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  width: auto;
+  height: 40px;
+  margin: 0;
+  padding: 0;
+  color: var(--ffxiv-callout-gm-text);
+  display: block;
+  line-height: 1;
+}
+
+.ffxiv-callout--gm .ffxiv-callout__gm-image {
+  display: block;
+  width: 40px;
+  height: 40px;
+  margin: 0;
+}
+
+.ffxiv-callout--gm > p:first-of-type {
+  margin-top: 0;
+}
+
+.ffxiv-callout--gm ul,
+.ffxiv-callout--gm ol {
+  margin-top: .15em;
+  margin-bottom: .2em;
+}
+
+.ffxiv-callout--example {
+  border: 1px solid transparent;
+  padding-top: 4px;
+  padding-bottom: 16px;
+  background: var(--ffxiv-paper-example);
+  color: var(--ffxiv-paper-example-text);
+}
+
+.ffxiv-callout--example .ffxiv-callout__label {
+  display: none;
+}
+
+/* ---------------------------------------------------------
+   FFXIV Tables
+   Opt-in only: add class="ffxiv-table" to a native table.
+   Visual base: the Class Summary Attributes table.
+   --------------------------------------------------------- */
+.ffxiv-journal__text table.ffxiv-table,
+.prosemirror table.ffxiv-table {
+  width: 100%;
+  margin: 1.1em 0 1.35em;
+  border: 5px solid var(--ffxiv-gold-dark);
+  border-radius: 9px;
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+  background: var(--ffxiv-table-dark);
+  color: var(--ffxiv-table-text);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .82rem;
+  line-height: 1.15;
+  box-shadow: 0 2px 4px var(--ffxiv-overlay-black-024);
+}
+
+/* Keep the native table layout. Only the visual treatment changes. */
+.ffxiv-journal__text table.ffxiv-table thead,
+.prosemirror table.ffxiv-table thead,
+.ffxiv-journal__text table.ffxiv-table thead tr,
+.prosemirror table.ffxiv-table thead tr {
+  background: var(--ffxiv-table-dark-4);
+}
+
+.ffxiv-journal__text table.ffxiv-table thead th,
+.prosemirror table.ffxiv-table thead th {
+  padding: 6px 9px 7px;
+  border: 0;
+  border-bottom: 0;
+  box-shadow: inset 0 -3px 0 var(--ffxiv-table-dark-deep);
+  background: var(--ffxiv-table-dark-4);
+  color: var(--ffxiv-table-text);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .82rem;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: .02em;
+  text-align: left;
+  vertical-align: middle;
+}
+
+/* Optional group headings can be expressed as tbody row headers using <th>. */
+.ffxiv-journal__text table.ffxiv-table tbody th,
+.prosemirror table.ffxiv-table tbody th {
+  padding: 5px 9px;
+  border: 0;
+  border-bottom: 0;
+  background: var(--ffxiv-table-dark-2);
+  color: var(--ffxiv-table-text);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .82rem;
+  font-weight: 700;
+  line-height: 1.1;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.ffxiv-journal__text table.ffxiv-table tbody td,
+.prosemirror table.ffxiv-table tbody td {
+  min-width: 0;
+  padding: 2px 10px;
+  border: 0;
+  border-bottom: 0;
+  background: var(--ffxiv-table-dark-4);
+  color: var(--ffxiv-table-text);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .82rem;
+  line-height: 1.15;
+  text-align: left;
+  vertical-align: middle;
+  overflow-wrap: anywhere;
+}
+
+.ffxiv-journal__text table.ffxiv-table tbody tr:nth-child(even) td,
+.prosemirror table.ffxiv-table tbody tr:nth-child(even) td {
+  background: var(--ffxiv-table-dark-deep);
+}
+
+.ffxiv-journal__text table.ffxiv-table tbody tr:hover td,
+.prosemirror table.ffxiv-table tbody tr:hover td {
+  filter: brightness(1.06);
+}
+
+.ffxiv-journal__text table.ffxiv-table tbody td:first-child,
+.prosemirror table.ffxiv-table tbody td:first-child {
+  font-weight: 700;
+}
+
+.ffxiv-journal__text table.ffxiv-table th:last-child,
+.ffxiv-journal__text table.ffxiv-table td:last-child,
+.prosemirror table.ffxiv-table th:last-child,
+.prosemirror table.ffxiv-table td:last-child {
+  border-right: 0;
+}
+
+.ffxiv-journal__text table.ffxiv-table tr:last-child td,
+.ffxiv-journal__text table.ffxiv-table tr:last-child th,
+.prosemirror table.ffxiv-table tr:last-child td,
+.prosemirror table.ffxiv-table tr:last-child th {
+  border-bottom: 0;
+}
+
+.ffxiv-journal__text table.ffxiv-table td p,
+.ffxiv-journal__text table.ffxiv-table th p,
+.prosemirror table.ffxiv-table td p,
+.prosemirror table.ffxiv-table th p {
+  margin: 0;
+}
+
+@media (max-width: 700px) {
+  .ffxiv-journal__text table.ffxiv-table,
+  .prosemirror table.ffxiv-table {
+    font-size: .78rem;
+  }
+
+  .ffxiv-journal__text table.ffxiv-table thead th,
+  .ffxiv-journal__text table.ffxiv-table tbody th,
+  .ffxiv-journal__text table.ffxiv-table tbody td,
+  .prosemirror table.ffxiv-table thead th,
+  .prosemirror table.ffxiv-table tbody th,
+  .prosemirror table.ffxiv-table tbody td {
+    padding-left: 7px;
+    padding-right: 7px;
+  }
+}
+
+/* Definition-style content */
+.ffxiv-journal__text dl {
+  margin: 1em 0;
+}
+
+.ffxiv-journal__text dt {
+  margin-top: .85em;
+  color: var(--ffxiv-red);
+  font-family: "Cinzel", "Trajan Pro", Georgia, serif;
+  font-weight: 700;
+}
+
+.ffxiv-journal__text dd {
+  margin: .2em 0 0 1.2em;
+  padding-left: .8em;
+  border-left: 1px solid var(--ffxiv-line);
+}
+
+/* Code / preformatted material */
+.ffxiv-journal__text code {
+  padding: .08em .3em;
+  border: 1px solid var(--ffxiv-overlay-gold-025);
+  background: var(--ffxiv-overlay-gold-007);
+  color: var(--ffxiv-red-dark);
+  font-size: .9em;
+}
+
+.ffxiv-journal__text pre {
+  margin: 1.2em 0;
+  padding: 14px 16px;
+  overflow-x: auto;
+  border: 1px solid var(--ffxiv-line);
+  background: var(--ffxiv-overlay-dark-007);
+}
+
+.ffxiv-journal__text pre code {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+}
+
+/* Images inside rich text */
+.ffxiv-journal__text figure {
+  margin: 1.3em 0;
+  text-align: center;
+}
+
+.ffxiv-journal__text figcaption {
+  margin-top: .45em;
+  color: var(--ffxiv-muted);
+  font-size: .82rem;
+  font-style: italic;
+}
+
+.ffxiv-journal__text img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Foundry content should not inherit an accidental hard text colour */
+.ffxiv-journal__text [style*="color"] strong,
+.ffxiv-journal__text [style*="color"] b,
+.ffxiv-journal__text [style*="color"] em,
+.ffxiv-journal__text [style*="color"] i {
+  color: inherit;
+}
+
+/* ---------------------------------------------------------
+   Empty state
+   --------------------------------------------------------- */
+
+.ffxiv-journal__empty-sidebar {
+  padding: 10px;
+  color: var(--ffxiv-sidebar-muted);
+  font-size: .82rem;
+}
+
+.ffxiv-journal__welcome {
+  max-width: 520px;
+  margin: 14vh auto;
+  text-align: center;
+  color: var(--ffxiv-muted);
+}
+
+.ffxiv-journal__welcome-crystal {
+  width: 42px;
+  height: 42px;
+  margin: 0 auto 18px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--ffxiv-gold);
+  color: var(--ffxiv-gold);
+  font-size: 28px;
+  transform: rotate(45deg);
+}
+
+.ffxiv-journal__welcome h2 {
+  margin: 0 0 8px;
+  color: var(--ffxiv-ink);
+  font-family: "Cinzel", "Trajan Pro", Georgia, serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.ffxiv-journal__welcome p { margin: 0; }
+
+/* ---------------------------------------------------------
+   Scrollbars / responsive
+   --------------------------------------------------------- */
+
+.ffxiv-journal__sidebar::-webkit-scrollbar,
+.ffxiv-journal__content::-webkit-scrollbar { width: 8px; }
+
+.ffxiv-journal__sidebar::-webkit-scrollbar-thumb {
+  background: var(--ffxiv-overlay-white-018);
+  border-radius: 4px;
+}
+
+.ffxiv-journal__content::-webkit-scrollbar-thumb {
+  background: var(--ffxiv-overlay-black-016);
+  border-radius: 4px;
+}
+
+@media (max-width: 750px) {
+  .ffxiv-journal__layout { grid-template-columns: 1fr; }
+  .ffxiv-journal__sidebar {
+    max-height: 180px;
+    border-right: 0;
+    border-bottom: 1px solid var(--ffxiv-callout-blue-dark);
+  }
+  .ffxiv-journal__content { padding: 14px; }
+  .ffxiv-journal__page { padding: 30px 25px 42px; }
+  .ffxiv-journal__hero {
+    grid-template-columns: 1fr;
+    min-height: 56px;
+    padding: 12px 20px;
+  }
+  .ffxiv-journal__chapter-rule { display: none; }
+}
+
+/* ---------------------------------------------------------
+   1.3.4 Format dropdown — H1/H2/H3/H4 + Divider
+   --------------------------------------------------------- */
+.ffxiv-editor-format-menu .ffxiv-editor-format-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.1em;
+  font-family: Georgia, serif;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.ffxiv-editor-format-menu .ffxiv-editor-format-entry {
+  display: inline-flex;
+  align-items: center;
+  min-width: 3.2em;
+  font-weight: 800;
+}
+
+.ffxiv-editor-format-entry--h1,
+.ffxiv-editor-format-entry--h4 { color: var(--ffxiv-black); }
+.ffxiv-editor-format-entry--h2,
+.ffxiv-editor-format-entry--h3 { color: var(--ffxiv-red-heading); }
+
+.ffxiv-editor-divider-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--ffxiv-gold);
+}
+
+.ffxiv-editor-divider-icon i {
+  display: inline-block;
+  width: 20px;
+  height: 1px;
+  background: var(--ffxiv-line-burgundy);
+}
+
+.ffxiv-editor-divider-icon b {
+  font-family: Georgia, serif;
+  font-size: .85rem;
+  font-weight: 400;
+}
+
+/* ---------------------------------------------------------
+   X|V semantic formatting dropdown in Foundry's native
+   ProseMirror toolbar.
+   --------------------------------------------------------- */
+/* v1.5.0: X|V native nested submenus. */
+.ffxiv-editor-xv-menu .ffxiv-editor-submenu-entry {
+  font-weight: 700;
+}
+
+.ffxiv-editor-xv-menu .ffxiv-editor-submenu-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25em;
+  margin-right: .25em;
+  font-size: .9em;
+  opacity: .75;
+}
+
+.ffxiv-editor-xv-menu .ffxiv-editor-submenu-entry:hover,
+.ffxiv-editor-xv-menu .ffxiv-editor-submenu-entry:focus-visible {
+  color: inherit;
+}
+
+.ffxiv-editor-xv-menu .ffxiv-editor-color-dot {
+  display: inline-block;
+  width: .8em;
+  height: .8em;
+  margin-right: .45em;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  vertical-align: middle;
+}
+
+.ffxiv-editor-xv-menu .ffxiv-editor-color-dot--dark-blue { background: var(--ffxiv-callout-header-dark-blue); }
+.ffxiv-editor-xv-menu .ffxiv-editor-color-dot--red { background: var(--ffxiv-callout-header-red); }
+.ffxiv-editor-xv-menu .ffxiv-editor-color-dot--green { background: var(--ffxiv-callout-header-green); }
+.ffxiv-editor-xv-menu .ffxiv-editor-color-dot--text-important { background: var(--ffxiv-callout-text-important); }
+.ffxiv-editor-xv-menu .ffxiv-editor-color-dot--text-note { background: var(--ffxiv-callout-text-note); }
+.ffxiv-editor-xv-menu .ffxiv-editor-color-dot--text-example { background: var(--ffxiv-callout-text-example); }
+
+.ffxiv-editor-xv-menu .ffxiv-editor-background-preview {
+  display: inline-block;
+  width: 2.2em;
+  height: 1.05em;
+  margin-right: .45em;
+  border: 1px solid rgba(0,0,0,.25);
+  border-radius: 2px;
+  vertical-align: middle;
+}
+
+.ffxiv-editor-xv-menu .ffxiv-editor-background-preview--light-blue {
+  background: url("../../images/callouts/background-light-blue.png") center / cover no-repeat;
+}
+.ffxiv-editor-xv-menu .ffxiv-editor-background-preview--white {
+  background: url("../../images/callouts/background-white.png") center / cover no-repeat;
+}
+.ffxiv-editor-xv-menu .ffxiv-editor-background-preview--paperscroll {
+  background: var(--ffxiv-callout-background-paperscroll);
+}
+.ffxiv-editor-xv-menu .ffxiv-editor-background-preview--green {
+  background: url("../../images/callouts/background-green.png") center / cover no-repeat;
+}
+
+.ffxiv-editor-xv-menu .ffxiv-editor-rule-entry > i {
+  width: 1.2em;
+  margin-right: .45em;
+  text-align: center;
+}
+
+.ffxiv-editor-xv-menu .ffxiv-editor-icon-preview {
+  display: inline-block;
+  width: 1.6em;
+  height: 1.6em;
+  margin-right: .25em;
+  object-fit: contain;
+  vertical-align: middle;
+}
+
+.ffxiv-editor-xv-menu .ffxiv-editor-icon-none {
+  display: inline-flex;
+  width: 1.6em;
+  height: 1.6em;
+  margin-right: .25em;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  opacity: .65;
+  vertical-align: middle;
+}
+
+.ffxiv-editor-xv-menu .ffxiv-editor-xv-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.4em;
+  font-weight: 800;
+  letter-spacing: .03em;
+}
+
+.ffxiv-editor-xv-menu .ffxiv-editor-accent {
+  display: inline-flex;
+  align-items: center;
+  min-width: 3em;
+  font-weight: 800;
+  letter-spacing: .02em;
+}
+
+.ffxiv-editor-xv-menu .ffxiv-editor-accent--att {
+  color: var(--ffxiv-red-bright);
+}
+
+.ffxiv-editor-xv-menu .ffxiv-editor-accent--abi {
+  color: var(--ffxiv-blue-dark);
+}
+
+.ffxiv-editor-xv-menu .ffxiv-editor-semantic-entry--att:hover,
+.ffxiv-editor-xv-menu .ffxiv-editor-semantic-entry--att:focus-visible {
+  color: var(--ffxiv-red-bright);
+}
+
+.ffxiv-editor-xv-menu .ffxiv-editor-semantic-entry--abi:hover,
+.ffxiv-editor-xv-menu .ffxiv-editor-semantic-entry--abi:focus-visible {
+  color: var(--ffxiv-blue-dark);
+}
+
+/* Semantic marks used by ATT and ABI. */
+.ffxiv-journal__text .ffxiv-att,
+.ffxiv-journal__text .ffxiv-abi,
+.prosemirror .ffxiv-att,
+.prosemirror .ffxiv-abi {
+  font-weight: 700;
+}
+.ffxiv-journal__text .ffxiv-att,
+.prosemirror .ffxiv-att {
+  color: var(--ffxiv-red-bright);
+}
+.ffxiv-journal__text .ffxiv-abi,
+.prosemirror .ffxiv-abi {
+  color: var(--ffxiv-blue-dark);
+}
+
+/* v1.3.5: FFXIV-style numbered list markers */
+.ffxiv-journal__text ol > li::marker,
+.ffxiv-editor .ProseMirror ol > li::marker,
+.prosemirror-menu ol > li::marker {
+  color: var(--ffxiv-black);
+  font-weight: 700;
+}
+
+
+/* Item and NPC embed styling lives in the dedicated embed stylesheets. */
+
+/* ---------------------------------------------------------
+   Class Summary Journal Page
+   --------------------------------------------------------- */
+.ffxiv-journal__class-summary {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.ffxiv-journal__class-summary .ffxiv-class-summary {
+  min-height: auto;
+}
+
+/* ---------------------------------------------------------
+   Rule page
+   Editor follows the fixed FFXIV editor language established
+   by the Class Summary header and rich-text containers.
+   --------------------------------------------------------- */
+.ffxiv-rule-page .window-content {
+  padding: 0;
+  overflow: auto;
+  background: var(--ffxiv-paper);
+}
+
+/* The custom Rule sheet explicitly scopes its active mode. This prevents the
+   view and edit root parts from ever being visible at the same time. */
+.ffxiv-rule-page.ffxiv-rule-page--edit .ffxiv-rule-page__view {
+  display: none !important;
+}
+
+.ffxiv-rule-page.ffxiv-rule-page--view .ffxiv-rule-page__editor {
+  display: none !important;
+}
+
+.ffxiv-rule-page__view,
+.ffxiv-rule-page__editor {
+  min-height: 100%;
+  box-sizing: border-box;
+  padding: 14px 16px 18px;
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--ffxiv-ink) !important;
+  background:
+    linear-gradient(var(--ffxiv-overlay-gold-004), var(--ffxiv-overlay-gold-004)),
+    var(--ffxiv-paper);
+}
+
+.ffxiv-rule-page__key {
+  margin-bottom: 12px;
+  color: var(--ffxiv-red-heading);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: .02em;
+}
+
+.ffxiv-rule-page__content {
+  line-height: 1.45;
+}
+
+/* Fixed native-style editor header */
+.ffxiv-rule-page__page-settings-title > label > i,
+.ffxiv-rule-page__page-setting--icon > i {
+  width: 1rem;
+  flex: 0 0 auto;
+  color: var(--ffxiv-ink);
+  font-size: .86rem;
+  text-align: center;
+}
+
+.ffxiv-rule-page__page-setting--icon > i {
+  flex: 0 0 auto;
+  width: 1rem;
+  color: var(--ffxiv-ink);
+  font-size: .84rem;
+  text-align: center;
+}
+
+/* Rule Key container */
+.ffxiv-rule-page__rule-key-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  margin: 0 0 14px;
+  padding: 10px;
+  border: 1px solid var(--ffxiv-line);
+  border-radius: 4px;
+  background: rgba(255,255,255,.30);
+}
+
+.ffxiv-rule-page__rule-key-heading,
+.ffxiv-rule-page__content-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-width: 0;
+}
+
+.ffxiv-rule-page__rule-key-label,
+.ffxiv-rule-page__content-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--ffxiv-ink);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .9rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.ffxiv-rule-page__rule-key-label i,
+.ffxiv-rule-page__content-label i {
+  color: var(--ffxiv-ink);
+  font-size: .82rem;
+}
+
+.ffxiv-rule-page__rule-key-field input {
+  width: 100%;
+  min-height: 28px;
+  box-sizing: border-box;
+  padding: 4px 7px;
+  border: 1px solid var(--ffxiv-line);
+  border-radius: 4px;
+  background: var(--ffxiv-white);
+  color: var(--ffxiv-ink) !important;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .8rem;
+  box-shadow: none;
+}
+
+.ffxiv-rule-page__rule-key-field input:focus {
+  outline: none;
+  border-color: var(--ffxiv-gold-dark);
+  box-shadow: 0 0 0 1px var(--ffxiv-overlay-gold-016);
+}
+
+.ffxiv-rule-page__rule-key-help {
+  margin: -1px 0 0;
+  color: var(--ffxiv-muted) !important;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .76rem;
+  line-height: 1.25;
+}
+
+/* Rich-text container — same language as Class Summary Introduction */
+.ffxiv-rule-page__content-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  margin: 0 0 14px;
+  padding: var(--ffxiv-container-rich-padding);
+  border: var(--ffxiv-container-rich-border);
+  border-radius: var(--ffxiv-container-rich-radius);
+  background: var(--ffxiv-container-rich-surface);
+}
+
+.ffxiv-rule-page__content-preview {
+  min-height: 112px;
+  max-height: 150px;
+  overflow: auto;
+  padding: var(--ffxiv-container-preview-padding);
+  border: var(--ffxiv-container-preview-border);
+  border-radius: var(--ffxiv-container-preview-radius);
+  background: var(--ffxiv-container-preview-surface);
+  color: var(--ffxiv-ink) !important;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.3;
+}
+
+.ffxiv-rule-page__content-preview > :first-child {
+  margin-top: 0;
+}
+
+.ffxiv-rule-page__content-preview > :last-child {
+  margin-bottom: 0;
+}
+
+.ffxiv-rule-page__edit-content {
+  align-self: flex-end;
+}
+
+.ffxiv-action-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 30px;
+  padding: 4px 9px;
+  border: 1px solid var(--ffxiv-gold-dark);
+  border-radius: 4px;
+  background: var(--ffxiv-paper-light);
+  color: var(--ffxiv-ink) !important;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .76rem;
+  cursor: pointer;
+}
+
+.ffxiv-action-button:hover {
+  background: var(--ffxiv-paper-dark);
+}
+
+/* Shared editor page-settings heading */
+/* Shared editor empty state */
+.ffxiv-empty-state {
+  color: var(--ffxiv-muted);
+  font-style: italic;
+}
+
+.ffxiv-editor-page-settings-title {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 7px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+/* Shared editor page-settings primitives */
+.ffxiv-editor-page-settings {
+  margin: 0 0 14px;
+  padding: var(--ffxiv-container-editor-padding);
+  border: var(--ffxiv-container-editor-border);
+  border-radius: var(--ffxiv-container-editor-radius);
+  background: var(--ffxiv-container-editor-surface);
+  box-shadow: var(--ffxiv-container-editor-shadow);
+}
+
+.ffxiv-editor-page-settings-controls {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.ffxiv-editor-page-setting {
+  color: var(--ffxiv-ink) !important;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .78rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ffxiv-editor-page-setting--icon {
+  gap: 7px;
+}
+
+.ffxiv-editor-page-setting--checkbox {
+  font-weight: 600;
+}
+
+.ffxiv-editor-page-setting--checkbox input {
+  margin: 0;
+  accent-color: var(--ffxiv-gold-dark);
+}
+
+.ffxiv-editor-page-settings-title > label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1rem;
+  margin: 0;
+  cursor: default;
+}
+
+.ffxiv-editor-page-settings-title input,
+.ffxiv-editor-page-setting select {
+  min-height: 28px;
+  box-sizing: border-box;
+  border: 1px solid var(--ffxiv-line);
+  border-radius: 4px;
+  background: var(--ffxiv-white);
+  color: var(--ffxiv-ink) !important;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .8rem;
+}
+
+.ffxiv-editor-page-settings-title input {
+  width: 100%;
+  padding: 4px 7px;
+}
+
+.ffxiv-editor-page-setting select {
+  min-width: 92px;
+  padding: 3px 5px;
+}
+
+.ffxiv-editor-page-setting--icon select {
+  min-width: 100px;
+}
+
+/* Rule page preview/content readability */
+.ffxiv-rule-page__content-preview,
+.ffxiv-rule-page__content-preview *,
+.ffxiv-rule-page__content,
+.ffxiv-rule-page__content * {
+  color: var(--ffxiv-ink) !important;
+  opacity: 1 !important;
+}
+
+/* Native Foundry Journal V2 sidebar is intentionally not styled by the module. */
+.ffxiv-journal-sheet .ffxiv-journal__main {
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+}
+
+/* ---------------------------------------------------------
+   Native Foundry V2 Journal shell — FFXIV page presentation
+   The sidebar/TOC is deliberately left to Foundry. These rules
+   only skin the native pages area and our injected page content.
+   --------------------------------------------------------- */
+.ffxiv-journal-sheet .journal-entry-pages.ffxiv-journal__native-pages {
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  background:
+    radial-gradient(circle at 25% 10%, var(--ffxiv-overlay-white-065), transparent 34%),
+    radial-gradient(circle at 80% 75%, var(--ffxiv-overlay-gold-006), transparent 28%),
+    var(--ffxiv-paper-dark);
+}
+
+.ffxiv-journal-sheet .journal-entry-pages.ffxiv-journal__native-pages > .ffxiv-journal__hero {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  flex: 0 0 auto;
+}
+
+.ffxiv-journal-sheet .journal-entry-pages.ffxiv-journal__native-pages > .journal-entry-page.ffxiv-journal__page {
+  min-height: calc(100% - 2px);
+  max-width: 980px;
+  margin: 0;
+  padding: 48px 48px 48px;
+  border: 1px solid var(--ffxiv-gold);
+  background-color: var(--ffxiv-paper-light);
+  background-image: url("../../images/pergament.webp");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-shadow:
+    inset 0 0 0 3px var(--ffxiv-overlay-gold-007),
+    0 2px 10px var(--ffxiv-overlay-brown-012b);
+}
+
+.ffxiv-journal-sheet .journal-entry-pages.ffxiv-journal__native-pages > .journal-entry-page.ffxiv-journal__page:first-of-type {
+  margin-top: 0;
+}
+
+/* ---------------------------------------------------------
+   FFXIV scrollbar - native Journal V2 pages container
+   --------------------------------------------------------- */
+
+.ffxiv-journal-sheet .journal-entry-pages.ffxiv-journal__native-pages {
+  scrollbar-color: var(--ffxiv-gold) var(--ffxiv-paper-dark);
+  scrollbar-width: thin;
+}
+
+.ffxiv-journal-sheet .journal-entry-pages.ffxiv-journal__native-pages::-webkit-scrollbar {
+  width: 10px;
+}
+
+.ffxiv-journal-sheet .journal-entry-pages.ffxiv-journal__native-pages::-webkit-scrollbar-track {
+  background: var(--ffxiv-paper-dark);
+}
+
+.ffxiv-journal-sheet .journal-entry-pages.ffxiv-journal__native-pages::-webkit-scrollbar-thumb {
+  background: var(--ffxiv-gold);
+  border: 2px solid var(--ffxiv-paper-dark);
+  border-radius: 5px;
+}
+
+.ffxiv-journal-sheet .journal-entry-pages.ffxiv-journal__native-pages::-webkit-scrollbar-thumb:hover {
+  background: var(--ffxiv-gold-light);
+}
+
+
+/* ---------------------------------------------------------
+   Quest Summary — compact player-facing quest briefing card.
+   Inserted from the native ProseMirror toolbar and rendered as part of
+   normal Journal text. Kept scoped to the Layout so it never changes
+   Foundry's native editor content outside this module.
+   --------------------------------------------------------- */
+.ffxiv-journal__text .ffxiv-quest-summary,
+.prosemirror .ffxiv-quest-summary {
+  position: relative;
+  width: 50%;
+  max-width: 50%;
+  margin: 1.45em auto;
+  padding: 18px 20px 20px;
+  box-sizing: border-box;
+  border: 8px solid var(--ffxiv-gold-dark);
+  border-radius: 5px;
+  background:
+    linear-gradient(180deg, var(--ffxiv-paper-light), var(--ffxiv-paper)),
+    var(--ffxiv-paper);
+  box-shadow:
+    inset 0 0 0 1px var(--ffxiv-overlay-gold-025),
+    0 2px 8px var(--ffxiv-overlay-black-016);
+}
+
+/* Quest Summary alignment modes. Center remains the default layout.
+ * Left and Right use float so normal journal text can wrap around the card. */
+.ffxiv-journal__text .ffxiv-quest-summary--align-left,
+.prosemirror .ffxiv-quest-summary--align-left {
+  float: left;
+  margin: 1.45em 24px 1.45em 0;
+}
+
+.ffxiv-journal__text .ffxiv-quest-summary--align-right,
+.prosemirror .ffxiv-quest-summary--align-right {
+  float: right;
+  margin: 1.45em 0 1.45em 24px;
+}
+
+.ffxiv-journal__text .ffxiv-quest-summary--align-center,
+.prosemirror .ffxiv-quest-summary--align-center {
+  float: none;
+  margin: 1.45em auto;
+}
+
+.ffxiv-journal__text .ffxiv-quest-summary__header,
+.prosemirror .ffxiv-quest-summary__header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 68px;
+}
+
+.ffxiv-journal__text .ffxiv-quest-summary__level,
+.prosemirror .ffxiv-quest-summary__level {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 58px;
+  min-height: 58px;
+  padding: 6px 10px;
+  border-radius: 50%;
+  background: var(--ffxiv-table-dark-2);
+  color: var(--ffxiv-white);
+  font-family: "Roboto", sans-serif;
+  font-size: 1.08rem;
+  line-height: 1.05;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.ffxiv-journal__text .ffxiv-quest-summary__title-group,
+.prosemirror .ffxiv-quest-summary__title-group {
+  width: 100%;
+  min-width: 0;
+  padding: 12px 72px 0;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.ffxiv-journal__text .ffxiv-quest-summary--no-style .ffxiv-quest-summary__header,
+.prosemirror .ffxiv-quest-summary--no-style .ffxiv-quest-summary__header {
+  min-height: 56px;
+}
+
+.ffxiv-journal__text .ffxiv-quest-summary--no-style .ffxiv-quest-summary__title-group,
+.prosemirror .ffxiv-quest-summary--no-style .ffxiv-quest-summary__title-group {
+  padding-top: 0;
+}
+
+.ffxiv-journal__text .ffxiv-quest-summary__style,
+.prosemirror .ffxiv-quest-summary__style {
+  position: absolute;
+  left: 50%;
+  top: -47px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 58px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.ffxiv-journal__text .ffxiv-quest-summary__style img,
+.prosemirror .ffxiv-quest-summary__style img {
+  display: block;
+  width: 58px;
+  height: 58px;
+  object-fit: contain;
+  filter: drop-shadow(0 1px 1px var(--ffxiv-overlay-black-016));
+}
+
+.ffxiv-journal__text .ffxiv-quest-summary__title,
+.prosemirror .ffxiv-quest-summary__title {
+  margin: 0;
+  color: var(--ffxiv-ink);
+  font-family: "Roboto", sans-serif;
+  font-size: 1.38rem;
+  font-weight: 400;
+  letter-spacing: .025em;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+.ffxiv-journal__text .ffxiv-quest-summary__subtitle,
+.prosemirror .ffxiv-quest-summary__subtitle {
+  margin-top: 4px;
+  color: var(--ffxiv-ink);
+  font-family: "Roboto", sans-serif;
+  font-size: .86rem;
+  font-weight: 400;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.ffxiv-journal__text .ffxiv-quest-summary__rule,
+.prosemirror .ffxiv-quest-summary__rule {
+  height: 1px;
+  margin: 9px 0 12px;
+  background: var(--ffxiv-paper-dark);
+}
+
+/* Optional quest image — no wrapper is rendered when no image was selected.
+ * The image uses a very subtle four-edge wash: each side softens outward
+ * toward the parchment while the center remains visually clear. */
+.ffxiv-journal__text .ffxiv-quest-summary__image,
+.prosemirror .ffxiv-quest-summary__image {
+  position: relative;
+  margin: 0 0 17px;
+  overflow: hidden;
+  background: var(--ffxiv-paper);
+}
+
+.ffxiv-journal__text .ffxiv-quest-summary__image::after,
+.prosemirror .ffxiv-quest-summary__image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      90deg,
+      var(--ffxiv-paper) 0%,
+      color-mix(in srgb, var(--ffxiv-paper) 58%, transparent) 1.8%,
+      transparent 5.5%,
+      transparent 94.5%,
+      color-mix(in srgb, var(--ffxiv-paper) 58%, transparent) 98.2%,
+      var(--ffxiv-paper) 100%
+    ),
+    linear-gradient(
+      180deg,
+      var(--ffxiv-paper) 0%,
+      color-mix(in srgb, var(--ffxiv-paper) 58%, transparent) 1.8%,
+      transparent 5.5%,
+      transparent 94.5%,
+      color-mix(in srgb, var(--ffxiv-paper) 58%, transparent) 98.2%,
+      var(--ffxiv-paper) 100%
+    );
+}
+
+.ffxiv-journal__text .ffxiv-quest-summary__image img,
+.prosemirror .ffxiv-quest-summary__image img {
+  display: block;
+  width: 100%;
+  max-height: 320px;
+  margin: 0 auto;
+  object-fit: contain;
+  filter: saturate(.92) contrast(.96);
+}
+
+.ffxiv-journal__text .ffxiv-quest-summary__section,
+.prosemirror .ffxiv-quest-summary__section {
+  min-width: 0;
+}
+
+.ffxiv-journal__text .ffxiv-quest-summary__section + .ffxiv-quest-summary__section,
+.prosemirror .ffxiv-quest-summary__section + .ffxiv-quest-summary__section {
+  margin-top: 18px;
+}
+
+.ffxiv-journal__text .ffxiv-quest-summary__section-title,
+.prosemirror .ffxiv-quest-summary__section-title,
+.ffxiv-journal__text .ffxiv-quest-summary__description-title,
+.prosemirror .ffxiv-quest-summary__description-title {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  margin: 0 0 7px;
+  color: var(--ffxiv-white);
+  font-family: "Roboto", sans-serif;
+  font-size: .98rem;
+  font-weight: 700;
+  line-height: 1.15;
+  text-shadow:
+    -1px -1px 0 rgba(0, 0, 0, .95),
+     1px -1px 0 rgba(0, 0, 0, .95),
+    -1px  1px 0 rgba(0, 0, 0, .95),
+     1px  1px 0 rgba(0, 0, 0, .95),
+     0 0 3px rgba(0, 0, 0, .9);
+}
+
+.ffxiv-journal__text .ffxiv-quest-summary__section-title img,
+.prosemirror .ffxiv-quest-summary__section-title img,
+.ffxiv-journal__text .ffxiv-quest-summary__description-title img,
+.prosemirror .ffxiv-quest-summary__description-title img {
+  width: 24px;
+  height: 23px;
+  object-fit: contain;
+  flex: 0 0 auto;
+}
+
+.ffxiv-journal__text .ffxiv-quest-summary__section-content,
+.prosemirror .ffxiv-quest-summary__section-content {
+  min-width: 0;
+  font-family: "Roboto", sans-serif;
+}
+
+.ffxiv-journal__text .ffxiv-quest-summary__section-content > :first-child,
+.prosemirror .ffxiv-quest-summary__section-content > :first-child {
+  margin-top: .12em;
+}
+
+.ffxiv-journal__text .ffxiv-quest-summary__section-content > :last-child,
+.prosemirror .ffxiv-quest-summary__section-content > :last-child {
+  margin-bottom: 0;
+}
+
+/* Editable cards get a subtle interaction affordance without changing the
+ * saved Journal HTML. */
+.ffxiv-journal__text .ffxiv-quest-summary--editable,
+.prosemirror .ffxiv-quest-summary--editable {
+  cursor: pointer;
+  transition: box-shadow .14s ease, border-color .14s ease;
+}
+
+.ffxiv-journal__text .ffxiv-quest-summary--editable:hover,
+.prosemirror .ffxiv-quest-summary--editable:hover {
+  border-color: var(--ffxiv-gold);
+  box-shadow:
+    inset 0 0 0 1px var(--ffxiv-overlay-gold-025),
+    0 3px 11px var(--ffxiv-overlay-black-016);
+}
+
+/* ---------------------------------------------------------
+   Quest Summary Editor — DialogV2 authoring UI.
+   --------------------------------------------------------- */
+.ffxiv-quest-summary-dialog {
+  --ffxiv-dialog-paper: var(--ffxiv-paper, #eeeadd);
+  color: var(--ffxiv-ink, #292b2d);
+}
+
+.ffxiv-quest-summary-dialog .window-content {
+  padding: 14px 16px 16px;
+  overflow: auto;
+  background:
+    linear-gradient(180deg, var(--ffxiv-paper-light), var(--ffxiv-paper)),
+    var(--ffxiv-paper);
+}
+
+.ffxiv-quest-summary-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+
+.ffxiv-quest-summary-editor__header-container,
+.ffxiv-quest-summary-editor__image-container {
+  min-width: 0;
+  padding: var(--ffxiv-container-editor-padding);
+  border: var(--ffxiv-container-editor-border);
+  border-radius: var(--ffxiv-container-editor-radius);
+  background: var(--ffxiv-container-editor-surface);
+  box-shadow: var(--ffxiv-container-editor-shadow);
+}
+
+.ffxiv-quest-summary-editor__header-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* The Quest Header intentionally mirrors the fixed Class Summary editor header:
+ * labels/icons occupy the first column and native controls the second. */
+.ffxiv-quest-summary-editor__title-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 7px;
+  margin: 0;
+}
+
+
+.ffxiv-quest-summary-editor__header-field {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  margin: 0;
+}
+
+.ffxiv-quest-summary-editor__header-field > .ffxiv-quest-summary-editor__label,
+.ffxiv-quest-summary-editor__title-row > .ffxiv-quest-summary-editor__label {
+  margin: 0;
+  white-space: nowrap;
+}
+
+.ffxiv-quest-summary-editor__field--image {
+  min-width: 0;
+}
+
+.ffxiv-quest-summary-editor__label {
+  color: var(--ffxiv-ink);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.ffxiv-quest-summary-editor input[type="text"],
+.ffxiv-quest-summary-editor__file-picker {
+  width: 100%;
+}
+
+.ffxiv-quest-summary-editor input[type="text"] {
+  min-height: 28px;
+  padding: 4px 7px;
+  border: 1px solid var(--ffxiv-line);
+  border-radius: 4px;
+  background: var(--ffxiv-white);
+  color: var(--ffxiv-ink);
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .8rem;
+}
+
+.ffxiv-quest-summary-editor input[type="text"]:focus {
+  border-color: var(--ffxiv-gold);
+  box-shadow: 0 0 0 2px var(--ffxiv-overlay-gold-012);
+  outline: none;
+}
+
+/* Header fields use the same compact native-control dimensions as Class Summary. */
+.ffxiv-quest-summary-editor__title-row input[type="text"],
+.ffxiv-quest-summary-editor__header-field input[type="text"],
+.ffxiv-quest-summary-editor__header-field select {
+  min-height: 28px;
+  box-sizing: border-box;
+  border: 1px solid var(--ffxiv-line);
+  border-radius: 4px;
+  background: var(--ffxiv-white);
+  color: var(--ffxiv-ink) !important;
+  color-scheme: light;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .8rem;
+}
+
+.ffxiv-quest-summary-editor__title-row input[type="text"] {
+  padding: 4px 7px;
+}
+
+.ffxiv-quest-summary-editor__header-secondary {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.ffxiv-quest-summary-editor__header-field {
+  flex: 0 0 auto;
+}
+
+.ffxiv-quest-summary-editor__header-field input[type="text"] {
+  width: 72px;
+  padding: 4px 7px;
+}
+
+.ffxiv-quest-summary-editor__header-field select {
+  padding: 3px 5px;
+}
+
+.ffxiv-quest-summary-editor__field--alignment .ffxiv-quest-summary-editor__alignment-select {
+  width: 104px;
+  min-width: 104px;
+  max-width: 104px;
+  padding: 3px 5px;
+  background: var(--ffxiv-white) !important;
+  color: var(--ffxiv-ink) !important;
+  border: 1px solid var(--ffxiv-line);
+  border-radius: 4px;
+  color-scheme: light;
+}
+
+.ffxiv-quest-summary-editor__field--style .ffxiv-quest-summary-editor__style-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ffxiv-quest-summary-editor__field--style .ffxiv-quest-summary-editor__style-select {
+  width: 132px;
+  min-width: 132px;
+  max-width: 132px;
+  padding: 3px 5px;
+  background: var(--ffxiv-white) !important;
+  color: var(--ffxiv-ink) !important;
+  border: 1px solid var(--ffxiv-line);
+  border-radius: 4px;
+  color-scheme: light;
+}
+
+.ffxiv-quest-summary-editor__style-select option {
+  background: var(--ffxiv-white);
+  color: var(--ffxiv-ink);
+}
+
+.ffxiv-quest-summary-editor__style-preview {
+  display: block;
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  object-fit: contain;
+  filter: drop-shadow(0 1px 1px var(--ffxiv-overlay-black-016));
+}
+
+.ffxiv-quest-summary-editor__style-preview[hidden] {
+  display: none;
+}
+
+
+.ffxiv-quest-summary-editor__image-control {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 6px;
+  align-items: center;
+}
+
+.ffxiv-quest-summary-editor__file-picker {
+  min-width: 0;
+}
+
+.ffxiv-quest-summary-editor__clear-image {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  min-width: 30px;
+  height: 30px;
+  padding: 4px;
+  border: 1px solid var(--ffxiv-gold-dark);
+  border-radius: 4px;
+  background: var(--ffxiv-paper-light);
+  color: var(--ffxiv-ink);
+  cursor: pointer;
+}
+
+.ffxiv-quest-summary-editor__clear-image:hover {
+  background: var(--ffxiv-paper-dark);
+  color: var(--ffxiv-ink);
+}
+
+.ffxiv-quest-summary-editor__image-preview {
+  display: block;
+  width: 100%;
+  max-height: 170px;
+  margin-top: 4px;
+  border: 1px solid var(--ffxiv-line);
+  object-fit: contain;
+  background: var(--ffxiv-paper-dark);
+}
+
+.ffxiv-quest-summary-editor__image-preview[hidden] {
+  display: none;
+}
+
+.ffxiv-quest-summary-editor__editors {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.ffxiv-quest-summary-editor__rich-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  padding: var(--ffxiv-container-rich-padding);
+  border: var(--ffxiv-container-rich-border);
+  border-radius: var(--ffxiv-container-rich-radius);
+  background: var(--ffxiv-container-rich-surface);
+}
+
+.ffxiv-quest-summary-editor__content-preview {
+  min-height: 112px;
+  max-height: 150px;
+  overflow: auto;
+  padding: var(--ffxiv-container-preview-padding);
+  border: var(--ffxiv-container-preview-border);
+  border-radius: var(--ffxiv-container-preview-radius);
+  background: var(--ffxiv-container-preview-surface);
+  color: var(--ffxiv-ink);
+  line-height: 1.3;
+}
+
+.ffxiv-quest-summary-editor__content-preview > :first-child {
+  margin-top: 0;
+}
+
+.ffxiv-quest-summary-editor__content-preview > :last-child {
+  margin-bottom: 0;
+}
+
+.ffxiv-quest-summary-editor__edit-rich {
+  align-self: flex-end;
+}
+
+.ffxiv-quest-summary-dialog .form-footer {
+  margin-top: 4px;
+}
+
+@media (max-width: 760px) {
+  .ffxiv-quest-summary-editor__editors {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Quest toolbar accent. */
+.ffxiv-editor-accent--quest {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 21px;
+  height: 21px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  color: var(--ffxiv-red-heading);
+  font-family: "Cinzel", "Trajan Pro", Georgia, serif;
+  font-size: .7rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+
+/* ---------------------------------------------------------
+   Quest Summary — optional Objectives section
+   --------------------------------------------------------- */
+
+.ffxiv-quest-summary__objectives--hidden {
+  display: none !important;
+}
+
+.ffxiv-quest-summary-editor__section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-width: 0;
+}
+
+.ffxiv-quest-summary-editor__hide-objectives {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  color: var(--ffxiv-ink) !important;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .78rem;
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: pointer;
+  user-select: none;
+}
+
+.ffxiv-quest-summary-editor__hide-objectives input[type="checkbox"] {
+  margin: 0;
+  accent-color: var(--ffxiv-gold-dark);
+}
+
+/* Typography Test: normal Journal prose */
+.ffxiv-journal__text {
+  font-family: "Noto Serif", serif;
+}

@@ -1,0 +1,104 @@
+<div class="ffxiv-rule-page__editor">
+  <section class="ffxiv-editor-page-settings ffxiv-rule-page__page-settings">
+    <div class="ffxiv-editor-page-settings-title ffxiv-rule-page__page-settings-title">
+      <label
+        class="ffxiv-editor-page-setting ffxiv-editor-page-setting--icon ffxiv-rule-page__page-setting ffxiv-rule-page__page-setting--icon"
+        for="ffxiv-rule-page-title"
+        title="{{localize 'FFXIVTTRPGLayout.ClassSummary.PageTitle'}}"
+        aria-label="{{localize 'FFXIVTTRPGLayout.ClassSummary.PageTitle'}}">
+        <i class="fa-solid fa-book" aria-hidden="true"></i>
+      </label>
+      <input
+        id="ffxiv-rule-page-title"
+        type="text"
+        name="name"
+        value="{{pageName}}"
+        autocomplete="off"
+        required
+      >
+    </div>
+
+    <div class="ffxiv-editor-page-settings-controls ffxiv-rule-page__page-settings-controls">
+      {{#if hasCategories}}
+        <label
+          class="ffxiv-editor-page-setting ffxiv-editor-page-setting--icon ffxiv-rule-page__page-setting ffxiv-rule-page__page-setting--icon"
+          title="{{localize 'FFXIVTTRPGLayout.Rule.Category'}}"
+          aria-label="{{localize 'FFXIVTTRPGLayout.Rule.Category'}}">
+          <i class="fa-solid fa-layer-group" aria-hidden="true"></i>
+          <select name="category">
+            <option value="" {{#if isUncategorized}}selected{{/if}}>{{noCategoryLabel}}</option>
+            {{#each categories}}
+              <option value="{{id}}" {{#if (eq id ../pageCategory)}}selected{{/if}}>{{name}}</option>
+            {{/each}}
+          </select>
+        </label>
+      {{/if}}
+
+      <label
+        class="ffxiv-editor-page-setting ffxiv-editor-page-setting--icon ffxiv-rule-page__page-setting ffxiv-rule-page__page-setting--icon"
+        title="{{localize 'FFXIVTTRPGLayout.ClassSummary.Level'}}"
+        aria-label="{{localize 'FFXIVTTRPGLayout.ClassSummary.Level'}}">
+        <i class="fa-solid fa-list-tree" aria-hidden="true"></i>
+        <select name="title.level">
+          {{#each headingLevels}}
+            <option value="{{value}}" {{#if (eq value ../pageTitleLevel)}}selected{{/if}}>{{label}}</option>
+          {{/each}}
+        </select>
+      </label>
+
+      <label class="ffxiv-editor-page-setting ffxiv-editor-page-setting--checkbox ffxiv-rule-page__page-setting ffxiv-rule-page__page-setting--checkbox">
+        <span>{{localize "FFXIVTTRPGLayout.ClassSummary.DisplayPageTitle"}}</span>
+        <input type="checkbox" name="title.show" {{#if pageTitleShow}}checked{{/if}}>
+      </label>
+    </div>
+  </section>
+
+  <section class="ffxiv-rule-page__rule-key-field">
+    <div class="ffxiv-rule-page__rule-key-heading">
+      <span class="ffxiv-rule-page__rule-key-label">
+        <i class="fa-solid fa-key" aria-hidden="true"></i>
+        <span>{{localize "FFXIVTTRPGLayout.Rule.RuleKey"}}</span>
+      </span>
+    </div>
+
+    <input
+      id="ffxiv-rule-key"
+      type="text"
+      name="system.key"
+      value="{{ruleKey}}"
+      autocomplete="off"
+      required
+    >
+
+    <p class="ffxiv-rule-page__rule-key-help">{{localize "FFXIVTTRPGLayout.Rule.RuleKeyHelp"}}</p>
+  </section>
+
+  <section class="ffxiv-rule-page__content-field">
+    <div class="ffxiv-rule-page__content-heading">
+      <span class="ffxiv-rule-page__content-label">
+        <i class="fa-solid fa-book-open" aria-hidden="true"></i>
+        <span>{{localize "FFXIVTTRPGLayout.Rule.RuleContent"}}</span>
+      </span>
+
+    </div>
+
+    <div class="ffxiv-rule-page__content-preview">
+      {{#if ruleContent}}
+        {{{ruleContent}}}
+      {{else}}
+        <span class="ffxiv-empty-state ffxiv-rule-page__content-empty">{{contentEmptyLabel}}</span>
+      {{/if}}
+    </div>
+
+    {{#if isEditable}}
+      <button
+        type="button"
+        class="ffxiv-action-button ffxiv-rule-page__edit-content"
+        data-action="openContentEditor"
+        title="{{localize 'FFXIVTTRPGLayout.Rule.EditRuleContent'}}">
+        <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
+        <span>{{localize "FFXIVTTRPGLayout.Rule.EditRuleContent"}}</span>
+      </button>
+    {{/if}}
+  </section>
+</div>

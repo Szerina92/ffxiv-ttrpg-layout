@@ -1,0 +1,35 @@
+/* FFXIV Ability UUID tooltips use the same Ability Card used by the
+   Class Summary, reduced only to a tooltip-sized surface. */
+#tooltip.ffxiv-ability-tooltip,
+.ffxiv-ability-tooltip {
+  width: min(430px, calc(100vw - 20px)) !important;
+  max-width: min(430px, calc(100vw - 20px)) !important;
+  max-height: 72vh;
+  overflow: auto;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: var(--ffxiv-ink) !important;
+  pointer-events: auto !important;
+  z-index: 10000;
+}
+
+#tooltip.ffxiv-ability-tooltip .ffxiv-class-summary__ability-card,
+.ffxiv-ability-tooltip .ffxiv-class-summary__ability-card {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+#tooltip.ffxiv-ability-tooltip .ffxiv-class-summary__ability-node,
+.ffxiv-ability-tooltip .ffxiv-class-summary__ability-node {
+  margin: 0;
+}
+
+#tooltip.ffxiv-ability-tooltip a,
+.ffxiv-ability-tooltip a {
+  pointer-events: none;
+}

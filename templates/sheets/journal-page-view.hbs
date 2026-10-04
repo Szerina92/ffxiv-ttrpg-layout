@@ -1,0 +1,41 @@
+<div class="journal-page-content ffxiv-journal__page-content">
+<header class="ffxiv-journal__page-header {{#unless titleShow}}ffxiv-journal__page-header--title-hidden{{/unless}} {{#if isClassSummary}}ffxiv-journal__page-header--class-summary{{/if}}">
+  {{#if titleShow}}
+    <div class="ffxiv-journal__page-title-group {{#if isClassSummary}}ffxiv-journal__page-title-group--class-summary{{/if}}">
+      {{#if isClassSummary}}
+        {{#if jobIcon}}
+          <img class="ffxiv-class-summary__job-icon ffxiv-journal__page-title-job-icon" src="{{jobIcon}}" alt="" aria-hidden="true" />
+        {{/if}}
+      {{/if}}
+      <div class="ffxiv-journal__page-title-text">
+        {{#if (eq titleLevel 1)}}<h1>{{name}}</h1>{{/if}}
+        {{#if (eq titleLevel 2)}}<h2>{{name}}</h2>{{/if}}
+        {{#if (eq titleLevel 3)}}<h3>{{name}}</h3>{{/if}}
+        {{#if (eq titleLevel 4)}}<h4>{{name}}</h4>{{/if}}
+        {{#if (eq titleLevel 5)}}<h5>{{name}}</h5>{{/if}}
+        {{#if (eq titleLevel 6)}}<h6>{{name}}</h6>{{/if}}
+      </div>
+    </div>
+  {{/if}}
+
+</header>
+
+<div class="ffxiv-journal__page-body">
+  {{#if isText}}
+    <div class="ffxiv-journal__text">{{{content}}}</div>
+  {{else if isImage}}
+    <figure class="ffxiv-journal__media"><img src="{{src}}" alt="{{name}}"></figure>
+  {{else if isVideo}}
+    <video class="ffxiv-journal__media" controls><source src="{{src}}"></video>
+  {{else if isClassSummary}}
+    <div class="ffxiv-journal__class-summary">{{{content}}}</div>
+  {{else if isRule}}
+    <div class="ffxiv-journal__text ffxiv-journal__rule-page">{{{content}}}</div>
+  {{else}}
+    <div class="ffxiv-journal__unsupported">{{localize "FFXIVTTRPGLayout.Journal.UnsupportedPageType"}}</div>
+  {{/if}}
+</div>
+
+<footer class="ffxiv-journal__page-footer" aria-hidden="true"><span></span></footer>
+
+</div>

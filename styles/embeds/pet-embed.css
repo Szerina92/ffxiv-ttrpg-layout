@@ -1,0 +1,174 @@
+/* FFXIV Pet Embed — Unified Card pet container based on the handbook reference. */
+
+.ffxiv-pet-embed {
+  box-sizing: border-box;
+  width: 450px;
+  min-width: 450px;
+  max-width: 450px;
+  margin: 1.25rem auto;
+  padding: 0 10px 10px;
+  color: var(--ffxiv-ink);
+  background: var(--ffxiv-pet-header);
+  border: 3px solid var(--ffxiv-pet-border, #6a4a32);
+  border-radius: 16px;
+  outline: none;
+  box-shadow: 0 0 1.3em var(--ffxiv-overlay-brown-034);
+  overflow: hidden;
+  font-family: "Roboto", "Noto Sans", Arial, sans-serif;
+}
+
+.ffxiv-pet-embed--float-left {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+.ffxiv-pet-embed--float-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ffxiv-pet-embed--float-right {
+  margin-left: auto;
+  margin-right: 0;
+}
+
+.ffxiv-pet-embed__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0;
+  min-height: 0;
+  margin: 0 -10px;
+  padding: 5px 12px 1px;
+  background: var(--ffxiv-pet-header, #756052);
+  color: var(--ffxiv-white);
+  border-bottom: 0;
+}
+
+.ffxiv-pet-embed__header-main {
+  min-width: 0;
+  width: 100%;
+}
+
+.ffxiv-pet-embed__title-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  min-width: 0;
+}
+
+.ffxiv-pet-embed__name-link {
+  display: block;
+  min-width: 0;
+  color: var(--ffxiv-white);
+  text-decoration: none;
+}
+
+.ffxiv-pet-embed__name-link:hover,
+.ffxiv-pet-embed__name-link:focus-visible {
+  color: var(--ffxiv-white);
+  text-decoration: none;
+}
+
+.ffxiv-pet-embed__name {
+  margin: 0 !important;
+  padding: 0 !important;
+  color: var(--ffxiv-white) !important;
+  font-family: "Roboto Sans", "Roboto", "Noto Sans", Arial, sans-serif !important;
+  font-size: 1.35rem;
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: .02em;
+  overflow-wrap: anywhere;
+}
+
+.ffxiv-pet-embed__type {
+  flex: 0 0 auto;
+  padding: 0;
+  color: var(--ffxiv-white);
+  font-size: .82rem;
+  line-height: 1.1;
+  text-align: right;
+}
+
+.ffxiv-pet-embed__speed {
+  margin-top: 1px;
+  color: var(--ffxiv-white);
+  font-size: .82rem;
+  font-weight: 400;
+  line-height: 1.05;
+}
+
+.ffxiv-pet-embed__content {
+  box-sizing: border-box;
+  margin: 0 -1px;
+  padding: 9px 0 0;
+  background: var(--ffxiv-pet-header);
+}
+
+.ffxiv-pet-embed__traits {
+  margin: 0 0 8px;
+  padding: 6px 8px 7px;
+  border: 2px solid var(--ffxiv-pet-trait-border, #c5b7a5);
+  border-radius: 6px;
+  background: var(--ffxiv-pet-trait-surface, #f4eee5);
+  color: var(--ffxiv-ink);
+  font-size: .84rem;
+  line-height: 1.25;
+}
+
+.ffxiv-pet-embed__label {
+  color: var(--ffxiv-ability-label) !important;
+  font-weight: 700;
+}
+
+.ffxiv-pet-embed__trait-text {
+  display: inline;
+}
+
+.ffxiv-pet-embed__trait-text p {
+  display: inline;
+  margin: 0;
+}
+
+.ffxiv-pet-embed__trait-text p + p::before {
+  content: " ";
+}
+
+.ffxiv-pet-embed__abilities {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.ffxiv-pet-embed__ability-node {
+  min-width: 0;
+}
+
+/* Pet abilities are the same Unified Cards used by the Class Summary. */
+.ffxiv-pet-embed .ffxiv-class-summary__ability-node {
+  margin: 0;
+}
+
+.ffxiv-pet-embed .ffxiv-class-summary__ability-card {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 600px) {
+  .ffxiv-pet-embed {
+    width: min(100%, 450px);
+    min-width: 0;
+    max-width: 450px;
+    border-radius: 13px;
+  }
+
+  .ffxiv-pet-embed__header {
+    min-height: 52px;
+  }
+
+  .ffxiv-pet-embed__name {
+    font-size: 1.15rem;
+  }
+}

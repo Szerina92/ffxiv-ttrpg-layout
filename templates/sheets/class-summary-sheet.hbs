@@ -1,0 +1,260 @@
+<div class="ffxiv-class-summary">
+  {{#if hasSource}}
+    {{#if isJournalRender}}
+      {{#if introductionHTML}}
+        <section class="ffxiv-class-summary__introduction">
+          {{{introductionHTML}}}
+        </section>
+      {{/if}}
+    {{/if}}
+
+    <div class="ffxiv-class-summary__header">
+      <div class="ffxiv-class-summary__job">
+        <img class="ffxiv-class-summary__job-icon" src="{{classSummary.img}}" alt="" />
+        <div class="ffxiv-class-summary__job-title">
+          {{#if isJournalRender}}
+            {{#if hasMultipleJobs}}
+              <label class="ffxiv-class-summary__level-select-wrap">
+                <select
+                  class="ffxiv-class-summary__level-select"
+                  data-ffxiv-class-summary-level
+                  data-page-id="{{pageId}}"
+                  aria-label="{{localize 'FFXIVTTRPGLayout.ClassSummary.SelectJobLevel'}}">
+                  {{#each selectedJobs}}
+                    <option value="{{uuid}}" {{#if (eq uuid ../activeJobUuid)}}selected{{/if}}>LV {{level}}</option>
+                  {{/each}}
+                </select>
+              </label>
+            {{else}}
+              <span class="ffxiv-class-summary__level">LV {{classSummary.level}}</span>
+            {{/if}}
+          {{else}}
+            <span class="ffxiv-class-summary__level">LV {{classSummary.level}}</span>
+          {{/if}}
+          <h1>{{classSummary.name}}</h1>
+        </div>
+      </div>
+    </div>
+
+    {{#if classSummary.attributes}}
+      <section class="ffxiv-class-summary__attributes" aria-label="{{localize 'FFXIVTTRPGLayout.ClassSummary.Attributes'}}">
+        <div class="ffxiv-class-summary__attributes-header">
+          <h2>{{localize "FFXIVTTRPGLayout.ClassSummary.Attributes"}}</h2>
+          <span>LV {{classSummary.attributes.level}}</span>
+        </div>
+
+        <div class="ffxiv-class-summary__attributes-grid" role="table" aria-label="{{localize 'FFXIVTTRPGLayout.ClassSummary.Attributes'}}">
+          <div class="ffxiv-class-summary__attribute-group ffxiv-class-summary__attribute-group--primary" role="rowgroup">
+            <h3>{{classSummary.attributes.primaryHeading}}</h3>
+            {{#each classSummary.attributes.primary}}
+              <div class="ffxiv-class-summary__attribute-row" role="row">
+                <span class="ffxiv-class-summary__attribute-name" role="cell">{{abbr}}</span>
+                <span class="ffxiv-class-summary__attribute-value" role="cell">{{displayValue}}</span>
+              </div>
+            {{/each}}
+          </div>
+
+          <div class="ffxiv-class-summary__attribute-group ffxiv-class-summary__attribute-group--secondary" role="rowgroup">
+            <h3>{{classSummary.attributes.secondaryHeading}}</h3>
+            {{#each classSummary.attributes.secondary}}
+              <div class="ffxiv-class-summary__attribute-row" role="row">
+                <span class="ffxiv-class-summary__attribute-name" role="cell">{{label}}</span>
+                <span class="ffxiv-class-summary__attribute-value" role="cell">{{value}}</span>
+              </div>
+            {{/each}}
+          </div>
+        </div>
+      </section>
+    {{/if}}
+
+    {{#if classSummary.limitBreak.length}}
+      <div class="ffxiv-class-summary__limit-break">
+        {{#each classSummary.limitBreak}}
+          <article class="ffxiv-class-summary__ability-card ffxiv-class-summary__ability-card--limit-break">
+            <div class="ffxiv-class-summary__ability-top">
+              <div class="ffxiv-class-summary__ability-head">
+                {{#if img}}<img src="{{img}}" alt="" class="ffxiv-class-summary__ability-icon" />{{/if}}
+                <div class="ffxiv-class-summary__ability-title-row">
+                  <h3 style="font-weight: 700;">{{name}}</h3>
+                  <span class="ffxiv-class-summary__ability-type">{{localize "FFXIVTTRPGLayout.ClassSummary.LimitBreak"}}{{#if typeLabel}}, {{typeLabel}}{{/if}}</span>
+                </div>
+              </div>
+
+              <div class="ffxiv-class-summary__ability-meta">
+                {{#if cost}}<span class="ffxiv-class-summary__ability-field"><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIVTTRPGLayout.Ability.Cost"}}:</strong> {{cost}}</span>{{/if}}
+                {{#if condition}}<span class="ffxiv-class-summary__ability-field"><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIVTTRPGLayout.Ability.Condition"}}:</strong> {{{condition}}}</span>{{/if}}
+                {{#if trigger}}<span class="ffxiv-class-summary__ability-field"><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIVTTRPGLayout.Ability.Trigger"}}:</strong> {{trigger}}</span>{{/if}}
+                {{#if target}}<span class="ffxiv-class-summary__ability-field"><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIVTTRPGLayout.Ability.Target"}}:</strong> {{target}}</span>{{/if}}
+                {{#if range}}<span class="ffxiv-class-summary__ability-field"><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIVTTRPGLayout.Ability.Range"}}:</strong> {{range}}</span>{{/if}}
+                {{#if check}}<span class="ffxiv-class-summary__ability-field"><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIVTTRPGLayout.Ability.Check"}}:</strong> {{#if isSpecialCheck}}<span>{{checkDisplay}}</span>{{else}}<span class="ffxiv-class-summary__ability-value--blue-dark">{{check}}</span>{{#if checkModifier}}<span class="ffxiv-class-summary__ability-check-modifier">{{checkModifier}}</span>{{/if}}{{/if}}</span>{{/if}}
+                {{#if challenge}}<span class="ffxiv-class-summary__ability-field"><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIVTTRPGLayout.Ability.CR"}}:</strong> {{#each challengeParts}}{{#unless @first}}&#32;{{/unless}}{{#if highlight}}<span class="ffxiv-class-summary__ability-value--blue-dark ffxiv-class-summary__ability-challenge-highlight">{{text}}</span>{{else}}{{text}}{{/if}}{{/each}}</span>{{/if}}
+              </div>
+            </div>
+
+            <div class="ffxiv-class-summary__ability-body">
+              {{#if baseEffect}}<p class="ffxiv-class-summary__ability-row--base"><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIVTTRPGLayout.Ability.BaseEffect"}}:</strong> {{{baseEffect}}}</p>{{/if}}
+              {{#if directHit}}<p><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIVTTRPGLayout.Ability.DirectHit"}}:</strong> {{{directHit}}}</p>{{/if}}
+              {{#if limitations}}<p><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIVTTRPGLayout.Ability.Limitation"}}:</strong> {{limitations}}</p>{{/if}}
+            </div>
+          </article>
+        {{/each}}
+      </div>
+    {{/if}}
+
+    {{#if classSummary.traits.length}}
+      <section class="ffxiv-class-summary__section ffxiv-class-summary__section--traits">
+        <h2>{{localize "FFXIVTTRPGLayout.ClassSummary.TraitsOtherEffects"}}</h2>
+        <div class="ffxiv-class-summary__trait-list">
+          {{#each classSummary.traits}}
+            <div class="ffxiv-class-summary__trait-column">
+              {{#each this}}
+                <article class="ffxiv-class-summary__trait-card">
+                  <div class="ffxiv-class-summary__trait-head">
+                    <h3 style="font-weight: 700;">{{name}}</h3>
+                    {{#if typeLabel}}<span class="ffxiv-class-summary__trait-type">{{typeLabel}}</span>{{/if}}
+                  </div>
+                  {{#if description}}
+                    <div class="ffxiv-class-summary__trait-body">{{{description}}}</div>
+                  {{else if baseEffect}}
+                    <div class="ffxiv-class-summary__trait-body">{{{baseEffect}}}</div>
+                  {{/if}}
+                </article>
+              {{/each}}
+            </div>
+          {{/each}}
+        </div>
+      </section>
+    {{/if}}
+
+    {{#if classSummary.hasSongAbilities}}
+      <section class="ffxiv-class-summary__section ffxiv-class-summary__section--songs">
+        <h2>{{localize "FFXIVTTRPGLayout.ClassSummary.SongAbilities"}}</h2>
+        <div class="ffxiv-class-summary__song-rules" aria-label="Song rules">
+          <p><em>Song</em> abilities can only be used after resolving <strong>Bardsong</strong>.</p>
+          <p>Any die rerolled due to a <strong>song effect</strong> cannot be rerolled again, and its result must be used.</p>
+        </div>
+        <div class="ffxiv-class-summary__ability-grid">
+          {{#each classSummary.songAbilities}}
+            <div class="ffxiv-class-summary__ability-column">
+              {{#each this}}
+                {{> ffxivClassSummaryAbilityCard ability=this}}
+              {{/each}}
+            </div>
+          {{/each}}
+        </div>
+      </section>
+    {{/if}}
+
+    {{#if classSummary.primaryAbilities.length}}
+      <section class="ffxiv-class-summary__section ffxiv-class-summary__section--primary">
+        <h2>{{localize "FFXIVTTRPGLayout.ClassSummary.PrimaryAbilities"}}</h2>
+        <div class="ffxiv-class-summary__ability-grid">
+          {{#each classSummary.primaryAbilities}}
+            <div class="ffxiv-class-summary__ability-column">
+              {{#each this}}
+                {{> ffxivClassSummaryAbilityCard ability=this}}
+              {{/each}}
+            </div>
+          {{/each}}
+        </div>
+      </section>
+    {{/if}}
+
+    {{#if classSummary.hasNinjutsuAbilities}}
+      <section class="ffxiv-class-summary__section ffxiv-class-summary__section--ninjutsu">
+        <h2>{{localize "FFXIVTTRPGLayout.ClassSummary.NinjutsuAbilities"}}</h2>
+        <div class="ffxiv-class-summary__ninjutsu-rules" aria-label="Ninjutsu rules">
+          <p><em>Ninjutsu</em> abilities can only be used after resolving <strong class="ffxiv-class-summary__ability-value--bright-red">Ninjutsu</strong>.</p>
+        </div>
+        <div class="ffxiv-class-summary__ability-grid">
+          {{#each classSummary.ninjutsuAbilities}}
+            <div class="ffxiv-class-summary__ability-column">
+              {{#each this}}
+                {{> ffxivClassSummaryAbilityCard ability=this}}
+              {{/each}}
+            </div>
+          {{/each}}
+        </div>
+      </section>
+    {{/if}}
+
+    {{#if classSummary.secondaryAbilities.length}}
+      <section class="ffxiv-class-summary__section ffxiv-class-summary__section--secondary">
+        <h2>{{localize "FFXIVTTRPGLayout.ClassSummary.SecondaryAbilities"}}</h2>
+        <div class="ffxiv-class-summary__ability-grid">
+          {{#each classSummary.secondaryAbilities}}
+            <div class="ffxiv-class-summary__ability-column">
+              {{#each this}}
+                {{> ffxivClassSummaryAbilityCard ability=this}}
+              {{/each}}
+            </div>
+          {{/each}}
+        </div>
+      </section>
+    {{/if}}
+
+    {{#if classSummary.instantAbilities.length}}
+      <section class="ffxiv-class-summary__section ffxiv-class-summary__section--instant">
+        <h2>{{localize "FFXIVTTRPGLayout.ClassSummary.InstantAbilities"}}</h2>
+        <div class="ffxiv-class-summary__ability-grid">
+          {{#each classSummary.instantAbilities}}
+            <div class="ffxiv-class-summary__ability-column">
+              {{#each this}}
+                {{> ffxivClassSummaryAbilityCard ability=this}}
+              {{/each}}
+            </div>
+          {{/each}}
+        </div>
+      </section>
+    {{/if}}
+
+    {{#if classSummary.hasTechniqueAbilities}}
+      <section class="ffxiv-class-summary__section ffxiv-class-summary__section--techniques">
+        <h2>{{localize "FFXIVTTRPGLayout.ClassSummary.TechniqueAbilities"}}</h2>
+        <div class="ffxiv-class-summary__technique-rules" aria-label="Technique rules">
+          <p><em>Technique</em> abilities can only be used after resolving <strong class="ffxiv-class-summary__ability-value--bright-red">Masterful Blitz</strong>.</p>
+        </div>
+        <div class="ffxiv-class-summary__ability-grid">
+          {{#each classSummary.techniqueAbilities}}
+            <div class="ffxiv-class-summary__ability-column">
+              {{#each this}}
+                {{> ffxivClassSummaryAbilityCard ability=this}}
+              {{/each}}
+            </div>
+          {{/each}}
+        </div>
+      </section>
+    {{/if}}
+
+    {{#if classSummary.hasPets}}
+      <section class="ffxiv-class-summary__section ffxiv-class-summary__section--pets">
+        <h2>{{classSummary.petsSectionLabel}}</h2>
+        <div class="ffxiv-class-summary__pet-list">
+          {{#each classSummary.pets}}
+            <div class="ffxiv-class-summary__pet-column">
+              {{#each this}}
+                {{> ffxivPetCard pet=this}}
+              {{/each}}
+            </div>
+          {{/each}}
+        </div>
+      </section>
+    {{/if}}
+
+  {{else}}
+    <div class="ffxiv-class-summary__empty">
+      <div class="ffxiv-class-summary__empty-inner">
+        <h1>{{localize "FFXIVTTRPGLayout.ClassSummary.Title"}}</h1>
+        {{#if isEditable}}
+          <button
+            type="button"
+            class="ffxiv-class-summary__empty-editor-link"
+            data-action="openEditor"
+            title="{{clickToOpenEditorLabel}}">
+            {{clickToOpenEditorLabel}}
+          </button>
+        {{/if}}
+      </div>
+    </div>
+  {{/if}}
+</div>

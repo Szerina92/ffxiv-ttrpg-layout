@@ -1,0 +1,51 @@
+/* FFXIV TTRPG Layout — Rule link and tooltip presentation. */
+.ffxiv-rule-link {
+  color: #000;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: help;
+}
+
+.ffxiv-rule-tooltip {
+  position: fixed;
+  z-index: 10000;
+  width: min(420px, calc(100vw - 24px));
+  max-height: min(360px, calc(100vh - 24px));
+  overflow: auto;
+  padding: 10px 12px 12px;
+  color: var(--ffxiv-ink);
+  background: var(--ffxiv-paper-light);
+  border: 2px solid var(--ffxiv-gold);
+  border-radius: 8px;
+  box-shadow: 0 5px 16px var(--ffxiv-overlay-black-028);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-2px);
+  transition: opacity .12s ease, transform .12s ease;
+}
+
+.ffxiv-rule-tooltip.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* A middle-click pins the tooltip, allowing the user to move into it and scroll long Rules. */
+.ffxiv-rule-tooltip.is-pinned {
+  pointer-events: auto;
+  cursor: default;
+}
+
+.ffxiv-rule-tooltip__title {
+  margin-bottom: 6px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--ffxiv-gold);
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  color: #000;
+}
+
+.ffxiv-rule-tooltip__body {
+  font-family: "Roboto", sans-serif;
+  line-height: 1.35;
+}
+

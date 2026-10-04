@@ -1,0 +1,118 @@
+<div class="ffxiv-actor-embed ffxiv-actor-embed--npc" data-uuid="{{uuid}}" data-actor-type="{{actorType}}">
+  <header class="ffxiv-actor-embed__header">
+    <div class="ffxiv-actor-embed__identity">
+      <a class="ffxiv-actor-embed__actor-link ffxiv-actor-embed__name-link" href="#" data-ffxiv-actor-uuid="{{uuid}}" aria-label="{{localize 'FFXIVTTRPGLayout.NPC.OpenActor' name=name}}">
+        <h4 class="ffxiv-actor-embed__name">{{name}}</h4>
+      </a>
+    </div>
+  </header>
+
+  {{#if isDouble}}
+    <div class="ffxiv-actor-embed__double-layout">
+      <div class="ffxiv-actor-embed__double-primary">
+  {{/if}}
+
+  <section class="ffxiv-actor-embed__stat-panel">
+    <div class="ffxiv-actor-embed__top-line">
+      <span class="ffxiv-actor-embed__top-line-left">{{sizeText}}{{specieText}}</span>
+      <span class="ffxiv-actor-embed__top-line-right">{{localize "FFXIVTTRPGLayout.NPC.Vigilance"}}: {{vigilance}}</span>
+    </div>
+    <div class="ffxiv-actor-embed__top-content">
+      <div class="ffxiv-actor-embed__top-area">
+        <div class="ffxiv-actor-embed__top-column">
+          {{#each leftProperties}}<div class="ffxiv-actor-embed__property-line"><strong>{{label}}:</strong> {{value}}</div>{{/each}}
+        </div>
+        <div class="ffxiv-actor-embed__top-column">
+          {{#each rightProperties}}<div class="ffxiv-actor-embed__property-line"><strong>{{label}}:</strong> {{value}}</div>{{/each}}
+        </div>
+      </div>
+      <div class="ffxiv-actor-embed__primary-row">
+        {{#each primaryStats}}
+          <div class="ffxiv-actor-embed__primary-stat"><span class="ffxiv-actor-embed__primary-label">{{label}}</span><span class="ffxiv-actor-embed__primary-value">{{value}}</span></div>
+        {{/each}}
+      </div>
+    </div>
+  </section>
+
+  {{#if traits.length}}
+    <section class="ffxiv-actor-embed__section">
+      <h5 class="ffxiv-actor-embed__section-title">{{localize "FFXIVTTRPGLayout.NPC.Traits"}}</h5>
+      <div class="ffxiv-actor-embed__item-list">
+        {{#each traits}}
+          <div class="ffxiv-actor-embed__item-block">
+            <div class="ffxiv-actor-embed__item-name">{{name}}</div>
+            {{#if descriptionHtml}}<div class="ffxiv-actor-embed__trait-detail">{{{descriptionHtml}}}</div>{{/if}}
+          </div>
+        {{/each}}
+      </div>
+    </section>
+  {{/if}}
+
+  {{#if hasAbilities}}
+    <section class="ffxiv-actor-embed__section{{#if traits.length}} ffxiv-actor-embed__section--abilities-after-traits{{/if}}">
+      <h5 class="ffxiv-actor-embed__section-title">{{localize "FFXIVTTRPGLayout.NPC.Abilities"}}</h5>
+
+      {{#if isDouble}}
+        <div class="ffxiv-actor-embed__ability-column ffxiv-actor-embed__ability-column--primary">
+          {{#each doubleAbilityItems}}
+            <div class="ffxiv-actor-embed__ability-block" data-ability-group="{{groupKey}}" data-ability-index="{{index}}" data-ability-order="{{doubleOrder}}">
+              <div class="ffxiv-actor-embed__ability-header">
+  <div class="ffxiv-actor-embed__item-name">{{name}}</div>
+  {{#if typeLabel}}<div class="ffxiv-actor-embed__ability-tags">{{typeLabel}}</div>{{/if}}
+</div>
+<div class="ffxiv-actor-embed__ability-detail">
+  {{#each abilityDetail}}
+    <p class="ffxiv-actor-embed__ability-detail-line">
+      {{#each parts}}
+        {{#if separator}}&#32;{{/if}}<strong>{{label}}:</strong>
+        {{#if rich}} {{{value}}}
+        {{else if crValue}} {{#each crValue}}{{#if highlight}}<span class="ffxiv-actor-embed__ability-value--blue-dark">{{text}}</span>{{else}}{{text}}{{/if}}{{/each}}
+        {{else}} <span class="{{valueClass}}">{{value}}</span>{{#if checkModifier}}<span class="ffxiv-actor-embed__ability-check-modifier">{{checkModifier}}</span>{{/if}}{{/if}}
+      {{/each}}
+    </p>
+  {{/each}}
+</div>
+            </div>
+          {{/each}}
+        </div>
+      {{else}}
+        <div class="ffxiv-actor-embed__ability-columns">
+          {{#each abilityGroups}}
+            {{#if items.length}}
+              <div class="ffxiv-actor-embed__ability-column" data-ability-group-column="{{key}}">
+                {{#each items}}
+                  <div class="ffxiv-actor-embed__ability-block" data-ability-group="{{../key}}" data-ability-index="{{index}}">
+                    <div class="ffxiv-actor-embed__ability-header">
+  <div class="ffxiv-actor-embed__item-name">{{name}}</div>
+  {{#if typeLabel}}<div class="ffxiv-actor-embed__ability-tags">{{typeLabel}}</div>{{/if}}
+</div>
+<div class="ffxiv-actor-embed__ability-detail">
+  {{#each abilityDetail}}
+    <p class="ffxiv-actor-embed__ability-detail-line">
+      {{#each parts}}
+        {{#if separator}}&#32;{{/if}}<strong>{{label}}:</strong>
+        {{#if rich}} {{{value}}}
+        {{else if crValue}} {{#each crValue}}{{#if highlight}}<span class="ffxiv-actor-embed__ability-value--blue-dark">{{text}}</span>{{else}}{{text}}{{/if}}{{/each}}
+        {{else}} <span class="{{valueClass}}">{{value}}</span>{{#if checkModifier}}<span class="ffxiv-actor-embed__ability-check-modifier">{{checkModifier}}</span>{{/if}}{{/if}}
+      {{/each}}
+    </p>
+  {{/each}}
+</div>
+                  </div>
+                {{/each}}
+              </div>
+            {{/if}}
+          {{/each}}
+        </div>
+      {{/if}}
+    </section>
+  {{/if}}
+
+  {{#if isDouble}}
+      </div>
+      <div class="ffxiv-actor-embed__double-extended">
+        <div class="ffxiv-actor-embed__ability-column ffxiv-actor-embed__ability-column--extended"></div>
+      </div>
+    </div>
+  {{/if}}
+</div>

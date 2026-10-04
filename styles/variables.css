@@ -1,0 +1,236 @@
+/* =========================================================
+   FFXIV TTRPG Layout — Version 1.7.2
+   Global design tokens / color variables
+   ========================================================= */
+
+:root {
+  /* -------------------------------------------------------
+     Paper / Surface
+     ------------------------------------------------------- */
+  --ffxiv-paper: #eeeadd;
+  --ffxiv-paper-light: #f7f4e9;
+  --ffxiv-paper-dark: #e2decd;
+  --ffxiv-paper-example: #f2eee6;
+  --ffxiv-paper-example-text: #8a775b;
+
+  /* -------------------------------------------------------
+     Core Text
+     ------------------------------------------------------- */
+  --ffxiv-display: "Cinzel", "Trajan Pro", Georgia, serif;
+  --ffxiv-ink: #292b2d;
+  --ffxiv-muted: #746f64;
+  --ffxiv-black: #000000;
+  --ffxiv-white: #ffffff;
+  --ffxiv-white-soft: #fff;
+
+  /* -------------------------------------------------------
+     Gold / Primary Accent
+     ------------------------------------------------------- */
+  --ffxiv-gold: #b18a45;
+  --ffxiv-gold-light: #d2b66f;
+  --ffxiv-gold-dark: #80602d;
+  /* -------------------------------------------------------
+     Red / Burgundy / Danger
+     ------------------------------------------------------- */
+  --ffxiv-red: #985046;
+  --ffxiv-red-dark: #753c36;
+  --ffxiv-red-heading: #95544b;
+  --ffxiv-red-accent: #944d40;
+  --ffxiv-ability-label: #857359;
+  --ffxiv-ability-header-divider: #a29171;
+  --ffxiv-red-bright: #d34b33;
+  --ffxiv-npc-ability-label: #995b52;
+  --ffxiv-npc-ability-title: #231f20;
+  --ffxiv-red-deep: #a83a27;
+  --ffxiv-red-danger: #e08b8b;
+
+  /* -------------------------------------------------------
+     Blue / Link / Editor Accent
+     ------------------------------------------------------- */
+  --ffxiv-blue: #4e7488;
+  --ffxiv-blue-light: #355b6d;
+  --ffxiv-blue-dark: #2b628d;
+  --ffxiv-blue-deep: #1f4f70;
+
+  /* -------------------------------------------------------
+     Lines / Borders / Ornament
+     ------------------------------------------------------- */
+  --ffxiv-line: #c9c0aa;
+  --ffxiv-line-burgundy: #d6b8ab;
+  --ffxiv-line-dark: #1f1f1f;
+
+  /* -------------------------------------------------------
+     Text Editor / Callout Colors
+     ------------------------------------------------------- */
+  --ffxiv-text-header-dark-blue: #365c74;
+  --ffxiv-text-header-red: #95544b;
+  --ffxiv-text-header-green: #536a55;
+  --ffxiv-text-important: var(--ffxiv-ink);
+  --ffxiv-text-note: var(--ffxiv-text-header-red);
+  --ffxiv-text-example: #695633;
+  --ffxiv-callout-background-paperscroll: #f4d6ae;
+
+  /* -------------------------------------------------------
+     Color Extensions
+     ------------------------------------------------------- */
+  /* Overlay Colors */
+  --ffxiv-overlay-white-070: rgba(255,255,255,.70);
+  --ffxiv-overlay-black-028: rgba(0,0,0,.28);
+
+  /* Class Summary Colors */
+  --ffxiv-class-secondary: #5b9b78;
+  --ffxiv-class-instant: #6c6aa5;
+  --ffxiv-class-trait-gold-light: #d6a53c;
+  --ffxiv-class-trait-gold-dark: #b9831f;
+  --ffxiv-class-trait-border: #8f6518;
+
+  /* -------------------------------------------------------
+     NPC Typography
+     ------------------------------------------------------- */
+  /* -------------------------------------------------------
+     NPC Colors
+     ------------------------------------------------------- */
+  /* -------------------------------------------------------
+     NPC Containers
+     ------------------------------------------------------- */
+  /* -------------------------------------------------------
+     NPC Spacing
+     ------------------------------------------------------- */
+  --ffxiv-npc-content-inset: 18px;
+  --ffxiv-npc-content-inset-mobile: 12px;
+
+  --ffxiv-npc-container-padding: 12px 0 10px;
+  --ffxiv-npc-container-border: 3px solid var(--ffxiv-npc-border);
+  --ffxiv-npc-container-radius: 20px;
+  --ffxiv-npc-container-radius-mobile: 14px;
+  --ffxiv-npc-container-outline: 3px solid var(--ffxiv-npc-outline);
+  --ffxiv-npc-container-shadow: 0 0 1.3em var(--ffxiv-npc-shadow);
+
+  --ffxiv-npc-data-bar-height: 30px;
+  --ffxiv-npc-data-bar-padding: 0 12px;
+  --ffxiv-npc-data-bar-radius: 18px;
+  --ffxiv-npc-data-bar-gap: 12px;
+
+  --ffxiv-npc-stat-content-padding: 25px 10px 10px;
+  --ffxiv-npc-stat-content-border: 2px solid var(--ffxiv-npc-surface);
+  --ffxiv-npc-stat-content-radius: 0 0 10px 10px;
+
+  --ffxiv-npc-text: #1b1713;
+  --ffxiv-npc-surface: #f3e1c6;
+  --ffxiv-npc-border: #6a4a32;
+  --ffxiv-npc-outline: #d4b155;
+  --ffxiv-npc-shadow: rgba(91,72,43,.72);
+  --ffxiv-npc-strong-text: #111;
+  --ffxiv-npc-section-divider: #a08e68;
+  --ffxiv-npc-link: #2d638e;
+  --ffxiv-npc-double-divider: #a8956b;
+  --ffxiv-npc-stat-divider: rgba(255,255,255,.25);
+  --ffxiv-npc-marker-border: #4a4a4a;
+  --ffxiv-npc-marker-surface: #303030;
+  --ffxiv-npc-marker-cell: #3f3f3f;
+  --ffxiv-npc-marker-area: #a96f43;
+  --ffxiv-npc-marker-origin: #d9bd70;
+  --ffxiv-npc-marker-grid-line: rgba(255,255,255,.20);
+  --ffxiv-npc-marker-shadow: rgba(0,0,0,.45);
+
+  --ffxiv-npc-data-font: "Noto Sans", "Myriad Pro", Calibri, Helvetica, Arial, sans-serif;
+  --ffxiv-npc-content-font: "Roboto", sans-serif;
+
+  /* -------------------------------------------------------
+     Unified Cards
+     ------------------------------------------------------- */
+  --ffxiv-card-text: var(--ffxiv-ink);
+  --ffxiv-card-border: 2px solid var(--ffxiv-gold-dark);
+  --ffxiv-card-radius: 8px;
+  --ffxiv-card-surface: var(--ffxiv-paper-light);
+  --ffxiv-card-shadow: 0 1px 3px var(--ffxiv-overlay-black-024);
+
+  /* -------------------------------------------------------
+     Containers
+     ------------------------------------------------------- */
+  /* Editor Panel */
+  --ffxiv-container-editor-padding: 10px 12px;
+  --ffxiv-container-editor-border: 1px solid var(--ffxiv-line);
+  --ffxiv-container-editor-radius: 7px;
+  --ffxiv-container-editor-surface: var(--ffxiv-paper-light);
+  --ffxiv-container-editor-shadow: 0 1px 2px var(--ffxiv-overlay-black-016);
+
+  /* Rich Field */
+  --ffxiv-container-rich-padding: 10px;
+  --ffxiv-container-rich-border: 1px solid var(--ffxiv-line);
+  --ffxiv-container-rich-radius: 4px;
+  --ffxiv-container-rich-surface: var(--ffxiv-overlay-white-030);
+
+  /* Preview Surface */
+  --ffxiv-container-preview-padding: 8px 9px;
+  --ffxiv-container-preview-border: 1px solid var(--ffxiv-line);
+  --ffxiv-container-preview-radius: 3px;
+  --ffxiv-container-preview-surface: var(--ffxiv-overlay-white-058);
+
+  /* -------------------------------------------------------
+     Sidebar
+     ------------------------------------------------------- */
+  --ffxiv-sidebar: #2c2c2c;
+  --ffxiv-sidebar-hover: #383838;
+  --ffxiv-sidebar-text: #e9ecec;
+  --ffxiv-sidebar-muted: #aeb7ba;
+
+  /* -------------------------------------------------------
+     Table surfaces
+     ------------------------------------------------------- */
+  --ffxiv-table-dark: #17191b;
+  --ffxiv-table-dark-deep: #151719;
+  --ffxiv-table-dark-2: #2a2d30;
+  --ffxiv-table-dark-4: #25282a;
+  --ffxiv-table-header: #3b3e41;
+  --ffxiv-table-row-even: #282828;
+  --ffxiv-table-row-odd: #5c5c5c;
+  --ffxiv-table-text: #f3f0e8;
+
+  /* -------------------------------------------------------
+     Callouts / Panels
+     ------------------------------------------------------- */
+  --ffxiv-callout-gm: #dadcdf;
+  --ffxiv-callout-gm-text: #25272a;
+  --ffxiv-callout-blue-dark: #22282c;
+
+  /* -------------------------------------------------------
+     Transparent / Overlay colors
+     These remain tokens so opacity values can be changed in one place.
+     ------------------------------------------------------- */
+  --ffxiv-overlay-black-016: rgba(0,0,0,.16);
+  --ffxiv-overlay-black-024: rgba(0,0,0,.24);
+  --ffxiv-overlay-white-004: rgba(255,255,255,.04);
+  --ffxiv-overlay-white-018: rgba(255,255,255,.18);
+  --ffxiv-overlay-white-022: rgba(255,255,255,.22);
+  --ffxiv-overlay-white-030: rgba(255, 255, 255, .30);
+  --ffxiv-overlay-white-035: rgba(255,255,255,.35);
+  --ffxiv-overlay-white-045: rgba(255, 255, 255, .45);
+  --ffxiv-overlay-white-058: rgba(255,255,255,.58);
+  --ffxiv-overlay-white-062: rgba(255,255,255,.62);
+  --ffxiv-overlay-white-065: rgba(255,255,255,.65);
+
+  --ffxiv-overlay-gold-004: rgba(177,138,69,.04);
+  --ffxiv-overlay-gold-006: rgba(177,138,69,.06);
+  --ffxiv-overlay-gold-007: rgba(177,138,69,.07);
+  --ffxiv-overlay-gold-008: rgba(177,138,69,.08);
+  --ffxiv-overlay-gold-010: rgba(177,138,69,.10);
+  --ffxiv-overlay-gold-016: rgba(177,138,69,.16);
+  --ffxiv-overlay-gold-025: rgba(177,138,69,.25);
+  --ffxiv-overlay-gold-035: rgba(177,138,69,.35);
+  --ffxiv-overlay-gold-045: rgba(177,138,69,.45);
+
+  --ffxiv-overlay-red-016: rgba(190,70,70,.16);
+  --ffxiv-overlay-blue-045: rgba(78,116,136,.45);
+  --ffxiv-overlay-brown-012b: rgba(70,55,35,.12);
+  --ffxiv-overlay-brown-034: rgba(92, 82, 72, .34);
+
+  /* -------------------------------------------------------
+     Pet Embed
+     ------------------------------------------------------- */
+  --ffxiv-pet-header: #756052;
+  --ffxiv-pet-border: #6a4a32;
+  --ffxiv-pet-trait-surface: #f4eee5;
+  --ffxiv-pet-trait-border: #c5b7a5;
+  --ffxiv-overlay-dark-007: rgba(48,56,61,.07);
+}

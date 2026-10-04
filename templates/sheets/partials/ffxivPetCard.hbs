@@ -1,0 +1,34 @@
+<article class="ffxiv-pet-embed" data-uuid="{{pet.uuid}}" data-actor-type="{{pet.actorType}}">
+  <header class="ffxiv-pet-embed__header">
+    <div class="ffxiv-pet-embed__header-main">
+      <div class="ffxiv-pet-embed__title-row">
+        <a class="ffxiv-pet-embed__name-link" href="#" data-ffxiv-actor-uuid="{{pet.uuid}}" aria-label="{{localize 'FFXIVTTRPGLayout.NPC.OpenActor' name=pet.name}}">
+          <h4 class="ffxiv-pet-embed__name">{{pet.name}}</h4>
+        </a>
+        <span class="ffxiv-pet-embed__type">{{pet.petLabel}}</span>
+      </div>
+      {{#if pet.speedText}}
+        <div class="ffxiv-pet-embed__speed">{{pet.speedText}}</div>
+      {{/if}}
+    </div>
+  </header>
+
+  <div class="ffxiv-pet-embed__content">
+    {{#if pet.hasTraits}}
+      <section class="ffxiv-pet-embed__traits">
+        <strong class="ffxiv-pet-embed__label">{{localize "FFXIVTTRPGLayout.Pet.Traits"}}:</strong>
+        <div class="ffxiv-pet-embed__trait-text">{{{pet.traits}}}</div>
+      </section>
+    {{/if}}
+
+    {{#if pet.hasAbilities}}
+      <section class="ffxiv-pet-embed__abilities" aria-label="{{localize 'FFXIVTTRPGLayout.Pet.Abilities'}}">
+        {{#each pet.abilities}}
+          <div class="ffxiv-pet-embed__ability-node">
+            {{> ffxivCard card=this}}
+          </div>
+        {{/each}}
+      </section>
+    {{/if}}
+  </div>
+</article>

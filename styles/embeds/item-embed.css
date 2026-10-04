@@ -1,0 +1,85 @@
+/* FFXIV Item Embed — Item data rendered through the shared FFXIV Card. */
+
+.ffxiv-item-embed {
+  min-width: 0;
+  margin: 0;
+}
+
+/* Item cards use the shared Class Summary card geometry. These rules only
+   provide Item-specific interaction/embedding behavior. */
+.ffxiv-item-embed .ffxiv-item-embed__icon-link {
+  grid-column: 1;
+  grid-row: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  align-self: center;
+  justify-self: center;
+  margin: 2px 0;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.ffxiv-item-embed .ffxiv-item-embed__icon-link:focus-visible,
+.ffxiv-item-embed .ffxiv-item-embed__icon-link:hover {
+  text-decoration: none;
+}
+
+.ffxiv-item-embed .ffxiv-item-embed__icon {
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
+  display: block;
+}
+
+/* Item descriptions use the same card-body typography as abilities. */
+.ffxiv-item-embed .ffxiv-card__description > p {
+  margin: 1px 0;
+}
+
+.ffxiv-item-embed .ffxiv-card__description > :first-child {
+  margin-top: 1px;
+}
+
+.ffxiv-item-embed .ffxiv-card__description > :last-child {
+  margin-bottom: 0;
+}
+
+.ffxiv-item-embed .ffxiv-card__description i,
+.ffxiv-item-embed .ffxiv-card__description em {
+  font-style: italic;
+}
+
+/* Keep the established two-column Item embed utility. */
+.ffxiv-columns > p:empty {
+  display: none;
+}
+
+.ffxiv-columns {
+  column-count: 2;
+  -webkit-column-count: 2;
+  -moz-column-count: 2;
+  column-gap: 0.8em;
+  -webkit-column-gap: 0.8em;
+  -moz-column-gap: 0.8em;
+  width: 100%;
+  margin: .35rem 0;
+}
+
+.ffxiv-columns .ffxiv-item-embed {
+  width: 100%;
+  max-width: none;
+  margin: 0 0 10px;
+  display: inline-block;
+  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+}
+
+@media (max-width: 760px) {
+  .ffxiv-columns {
+    column-count: 1;
+  }
+}

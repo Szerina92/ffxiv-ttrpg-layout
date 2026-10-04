@@ -1,0 +1,87 @@
+{
+  "id": "ffxiv-ttrpg-layout",
+  "title": "FFXIV TTRPG Layout",
+  "version": "0.6.10",
+  "compatibility": {
+    "minimum": "14",
+    "verified": "14"
+  },
+  "flags": {
+    "canUpload": true
+  },
+  "relationships": {
+    "systems": [
+      {
+        "id": "ffxiv",
+        "type": "system",
+        "compatibility": {}
+      }
+    ]
+  },
+  "esmodules": [
+    "scripts/layout.js"
+  ],
+  "styles": [
+    {
+      "src": "styles/variables.css"
+    },
+    {
+      "src": "styles/sheets/journal-sheet.css"
+    },
+    {
+      "src": "styles/sheets/class-summary-sheet.css"
+    },
+    {
+      "src": "styles/embeds/item-embed.css"
+    },
+    {
+      "src": "styles/embeds/npc-embed.css"
+    },
+    {
+      "src": "styles/embeds/pet-embed.css"
+    },
+    {
+      "src": "styles/embeds/ability-tooltip.css"
+    },
+    {
+      "src": "styles/rules/rule-tooltip.css"
+    }
+  ],
+  "description": "<p>Custom FFXIV TTRPG Journal Sheet with separated Item, NPC Actor, Pet, Job Summary, Quest Summary, Rule and experimental marker components.</p>",
+  "documentTypes": {
+    "JournalEntryPage": {
+      "class-summary": {
+        "htmlFields": [
+          "introduction"
+        ]
+      },
+      "rule": {
+        "htmlFields": [
+          "content"
+        ]
+      }
+    }
+  },
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json",
+      "flags": {}
+    }
+  ],
+  "packs": [
+    {
+      "name": "rules",
+      "label": "rules",
+      "path": "packs/rules",
+      "type": "JournalEntry",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      },
+      "system": "ffxiv",
+      "flags": {}
+    }
+  ]
+}

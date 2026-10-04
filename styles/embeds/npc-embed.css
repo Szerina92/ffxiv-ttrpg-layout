@@ -1,0 +1,542 @@
+/* FFXIVActor Embed — extracted from supplied working 1.7.2 stand. */
+
+.ffxiv-actor-embed {
+  display: block;
+  width: min(100%, 760px);
+  margin: .75rem auto;
+  padding: 8px;
+  border: 1px solid #977b66;
+  background: #f7f3e7;
+  color: #000;
+  font-family: Georgia, "Times New Roman", serif;
+  line-height: 1.3;
+}
+
+.ffxiv-actor-embed--npc {
+  box-sizing: border-box;
+  width: 450px;
+  min-width: 450px;
+  max-width: 450px;
+  margin: 1.25rem auto;
+  padding: var(--ffxiv-npc-container-padding);
+  color: var(--ffxiv-npc-text);
+  background: var(--ffxiv-npc-surface);
+  border: var(--ffxiv-npc-container-border);
+  border-radius: var(--ffxiv-npc-container-radius);
+  outline: var(--ffxiv-npc-container-outline);
+  box-shadow: var(--ffxiv-npc-container-shadow);
+  overflow: hidden;
+  font-family: var(--ffxiv-npc-data-font);
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+/* Wide / double-column NPC layout: full bleed across the journal page. */
+.ffxiv-actor-embed--npc.ffxiv-actor-embed--double {
+  width: calc(100% + 96px);
+  min-width: 0;
+  max-width: none;
+  margin: 1.25rem -48px;
+}
+
+/* Double mode: the whole page-width layout uses a wider primary column and a
+   narrower extended column. JavaScript chooses the ability split dynamically
+   after the live DOM has been attached. */
+
+/* Optional positioning modifiers */
+.ffxiv-actor-embed--npc.ffxiv-actor-embed--float-left {
+  float: none;
+  margin: 1.25rem auto 1.25rem 0;
+}
+
+.ffxiv-actor-embed--npc.ffxiv-actor-embed--float-center {
+  float: none;
+  margin: 1.25rem auto;
+}
+
+.ffxiv-actor-embed--npc.ffxiv-actor-embed--float-right {
+  float: none;
+  margin: 1.25rem 0 1.25rem auto;
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__header {
+  display: flex;
+  align-items: flex-start;
+  margin: 0 var(--ffxiv-npc-content-inset) 0.45rem;
+  padding: 0;
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__identity {
+  min-width: 0;
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__name-link {
+  display: inline-block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__name-link:hover {
+  text-decoration: none;
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__name {
+  margin: 0;
+  font-family: var(--ffxiv-display);
+  font-size: 1.65rem;
+  line-height: 1.05;
+  letter-spacing: 0.03em;
+  color: var(--ffxiv-red-heading);
+  font-weight: 400 !important;
+  font-style: normal !important;
+  -webkit-text-stroke: 0;
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__stat-panel {
+  margin: 0 13px;
+}
+
+.ffxiv-actor-embed--npc.ffxiv-actor-embed--double .ffxiv-actor-embed__stat-panel {
+  width: 450px;
+  max-width: 450px;
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__top-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: var(--ffxiv-npc-data-bar-height);
+  gap: var(--ffxiv-npc-data-bar-gap);
+  padding: var(--ffxiv-npc-data-bar-padding);
+  border-radius: var(--ffxiv-npc-data-bar-radius);
+  background: var(--ffxiv-table-row-odd);
+  color: var(--ffxiv-white);
+  font-family: var(--ffxiv-npc-data-font);
+  font-size: 15px;
+  font-weight: 700;
+  position: relative;
+  z-index: 2;
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__top-line-right {
+  min-width: 0;
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__top-line-left {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__top-content {
+  margin-top: -20px;
+  padding: var(--ffxiv-npc-stat-content-padding);
+  border: var(--ffxiv-npc-stat-content-border);
+  border-top: 0;
+  border-radius: var(--ffxiv-npc-stat-content-radius);
+  background: var(--ffxiv-table-row-even);
+  color: var(--ffxiv-white);
+  position: relative;
+  z-index: 1;
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__top-area {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 32px;
+  margin: 0 0 7px;
+  padding: 0 2px 7px;
+  border-bottom: 2px solid var(--ffxiv-npc-stat-divider);
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__top-column {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__property-line {
+  margin: 0;
+  font-family: var(--ffxiv-npc-data-font);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__property-line strong {
+  color: var(--ffxiv-white);
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__primary-row {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+  padding-top: 2px;
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__primary-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+  font-family: var(--ffxiv-npc-data-font);
+  font-weight: 700;
+  text-align: center;
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__primary-label {
+  font-size: 20px;
+  line-height: 1.05;
+  letter-spacing: .08em;
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__primary-value {
+  font-size: 18px;
+  line-height: 1.05;
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__section {
+  margin: 0 var(--ffxiv-npc-content-inset);
+  padding: 0;
+  border: 0;
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__section + .ffxiv-actor-embed__section {
+  margin-top: 3px;
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__section--abilities-after-traits {
+  margin-top: 7px;
+  padding-top: 4px;
+  border-top: 3px solid var(--ffxiv-npc-section-divider);
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__section-title {
+  margin: 0 0 6px;
+  padding: 7px 0 8px;
+  border-bottom: 3px solid var(--ffxiv-npc-section-divider);
+  color: var(--ffxiv-red-heading);
+  font-family: var(--ffxiv-display);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.05;
+  font-variant: small-caps;
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__item-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__item-block {
+  min-width: 0;
+  padding: 0 0 7px;
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__item-name {
+  margin: 0 0 4px;
+  color: var(--ffxiv-npc-ability-title);
+  font-family: var(--ffxiv-npc-content-font);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__trait-detail {
+  margin: 0;
+  color: inherit;
+  font-family: var(--ffxiv-npc-content-font);
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__ability-group + .ffxiv-actor-embed__ability-group {
+  margin-top: 6px;
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__ability-group-title {
+  margin: 0 0 4px;
+  color: var(--ffxiv-npc-strong-text);
+  font-family: var(--ffxiv-display);
+  font-size: 14px;
+  font-weight: 700;
+  font-style: italic;
+  line-height: 1.15;
+  text-transform: uppercase;
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__ability-block {
+  min-width: 0;
+  margin: 0;
+  padding: 0 0 8px;
+  border-bottom: 3px solid var(--ffxiv-npc-section-divider);
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__ability-block + .ffxiv-actor-embed__ability-block {
+  padding-top: 7px;
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__ability-block:last-child {
+  border-bottom: 0;
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__ability-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  margin: 0 0 5px;
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__ability-header .ffxiv-actor-embed__item-name {
+  margin: 0;
+  color: var(--ffxiv-npc-ability-title);
+  font-family: var(--ffxiv-npc-content-font);
+  font-weight: 700;
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__ability-tags {
+  flex: 0 1 auto;
+  color: var(--ffxiv-npc-strong-text);
+  font-family: var(--ffxiv-npc-content-font);
+  font-size: 14px;
+  font-style: italic;
+  line-height: 1.2;
+  text-align: right;
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__ability-detail {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-family: var(--ffxiv-npc-content-font);
+  font-size: 14px;
+  line-height: 1.3;
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__ability-detail-line > strong {
+  color: var(--ffxiv-npc-ability-label);
+  font-weight: 700;
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__ability-value--blue-dark {
+  color: var(--ffxiv-blue-dark);
+  font-weight: 700;
+}
+
+/* Keep NPC ability check modifiers aligned with the Class Summary presentation. */
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__ability-check-modifier {
+  margin-left: 0.25em;
+  color: inherit;
+  font-weight: 400;
+}
+
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__ability-block p {
+  margin: 0 0 3px;
+  padding: 0;
+  font-family: var(--ffxiv-npc-content-font);
+  font-size: 14px;
+  line-height: 1.3;
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__trait-detail strong {
+  color: var(--ffxiv-npc-ability-label);
+  font-weight: 700;
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__rich-text {
+  display: inline;
+  font-size: 14px;
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__rich-text p {
+  display: inline;
+  margin: 0;
+  font-size: 14px;
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__rich-text p + p::before {
+  content: " ";
+}
+
+.ffxiv-actor-embed--npc a {
+  color: var(--ffxiv-npc-link);
+  font-weight: 700;
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__rich-text a {
+  color: var(--ffxiv-npc-link);
+}
+
+/* UUID/document links inside ability rich text use the module's bright red. */
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__ability-detail a.content-link[data-uuid],
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__trait-detail a.content-link[data-uuid] {
+  color: var(--ffxiv-red-bright);
+  font-family: var(--ffxiv-npc-content-font);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__ability-detail a.content-link[data-uuid]:hover,
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__ability-detail a.content-link[data-uuid]:focus-visible,
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__trait-detail a.content-link[data-uuid]:hover,
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__trait-detail a.content-link[data-uuid]:focus-visible {
+  color: var(--ffxiv-red-deep);
+}
+
+@media (max-width: 600px) {
+  .ffxiv-actor-embed--npc {
+    border-radius: var(--ffxiv-npc-container-radius-mobile);
+    padding-top: 8px;
+  }
+
+  .ffxiv-actor-embed--npc .ffxiv-actor-embed__header {
+    margin-left: var(--ffxiv-npc-content-inset-mobile);
+    margin-right: var(--ffxiv-npc-content-inset-mobile);
+  }
+
+  .ffxiv-actor-embed--npc .ffxiv-actor-embed__top-line {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 1px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+
+  .ffxiv-actor-embed--npc .ffxiv-actor-embed__top-line-left {
+    white-space: normal;
+  }
+
+  .ffxiv-actor-embed--npc .ffxiv-actor-embed__top-area {
+    grid-template-columns: 1fr;
+    row-gap: 4px;
+  }
+
+  .ffxiv-actor-embed--npc .ffxiv-actor-embed__primary-label {
+    font-size: 16px;
+  }
+
+  .ffxiv-actor-embed--npc .ffxiv-actor-embed__primary-value {
+    font-size: 15px;
+  }
+
+  .ffxiv-actor-embed--npc .ffxiv-actor-embed__section {
+    margin-left: var(--ffxiv-npc-content-inset-mobile);
+    margin-right: var(--ffxiv-npc-content-inset-mobile);
+  }
+
+  .ffxiv-actor-embed--npc .ffxiv-actor-embed__ability-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .ffxiv-actor-embed--npc .ffxiv-actor-embed__ability-tags {
+    text-align: left;
+  }
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__marker-graphic {
+  float: right;
+  width: min(280px, 44%);
+  aspect-ratio: 1 / 1;
+  max-height: 280px;
+  margin: 1px 0 6px 14px;
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__marker-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--marker-cols), minmax(0, 1fr));
+  grid-template-rows: repeat(var(--marker-rows), minmax(0, 1fr));
+  aspect-ratio: var(--marker-ratio, 1 / 1);
+  overflow: hidden;
+  border: 1px solid var(--ffxiv-npc-marker-border);
+  border-radius: 4px;
+  background: var(--ffxiv-npc-marker-surface);
+  box-shadow: 0 2px 4px rgba(0,0,0,.28);
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__marker-cell {
+  min-width: 0;
+  min-height: 0;
+  box-sizing: border-box;
+  border-right: 1px solid var(--ffxiv-npc-marker-grid-line);
+  border-bottom: 1px solid var(--ffxiv-npc-marker-grid-line);
+  background: var(--ffxiv-npc-marker-cell);
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__marker-cell.is-marker {
+  background: var(--ffxiv-npc-marker-area);
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__marker-cell.is-origin {
+  background: var(--ffxiv-npc-marker-origin);
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__marker-image {
+  position: absolute;
+  left: calc(var(--actor-left) * 100% / var(--marker-cols));
+  top: calc(var(--actor-top) * 100% / var(--marker-rows));
+  width: calc(var(--actor-width) * 100% / var(--marker-cols));
+  height: calc(var(--actor-height) * 100% / var(--marker-rows));
+  object-fit: contain;
+  object-position: center;
+  pointer-events: none;
+  filter: drop-shadow(0 1px 1px var(--ffxiv-npc-marker-shadow));
+}
+
+.ffxiv-actor-embed--npc .ffxiv-actor-embed__ability-block::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+@media (max-width: 600px) {
+  .ffxiv-actor-embed--npc .ffxiv-actor-embed__marker-graphic {
+    width: min(220px, 46%);
+    aspect-ratio: 1 / 1;
+    max-height: 220px;
+    margin-left: 10px;
+  }
+}
+
+
+/* Double mode — full-width two-column layout. The primary column intentionally
+   gets more room than the extended column, matching the NPC rulebook-style mockup. */
+.ffxiv-actor-embed--npc.ffxiv-actor-embed--double .ffxiv-actor-embed__double-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  column-gap: 24px;
+  align-items: start;
+  width: 100%;
+  min-width: 0;
+}
+
+.ffxiv-actor-embed--npc.ffxiv-actor-embed--double .ffxiv-actor-embed__double-primary,
+.ffxiv-actor-embed--npc.ffxiv-actor-embed--double .ffxiv-actor-embed__double-extended {
+  min-width: 0;
+}
+
+.ffxiv-actor-embed--npc.ffxiv-actor-embed--double .ffxiv-actor-embed__double-extended {
+  min-height: 100%;
+  padding-left: 16px;
+  border-left: 1px solid var(--ffxiv-npc-double-divider);
+}
+
+.ffxiv-actor-embed--npc.ffxiv-actor-embed--double .ffxiv-actor-embed__ability-column {
+  min-width: 0;
+}
+
+.ffxiv-actor-embed--npc.ffxiv-actor-embed--double .ffxiv-actor-embed__ability-column--extended:empty {
+  display: none;
+}
+
+.ffxiv-actor-embed--npc.ffxiv-actor-embed--double .ffxiv-actor-embed__stat-panel {
+  width: min(450px, 100%);
+  max-width: 450px;
+}
