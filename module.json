@@ -2,6 +2,8 @@
   "id": "ffxiv-ttrpg-layout",
   "title": "FFXIV TTRPG Layout",
   "version": "0.1.0",
+  "manifest": "https://github.com/Szerina92/ffxiv-ttrpg-layout/releases/latest/download/module.json",
+  "download": "https://github.com/Szerina92/ffxiv-ttrpg-layout/releases/download/v0.1.0/ffxiv-ttrpg-layout.zip",
   "compatibility": {
     "minimum": "14",
     "verified": "14"
