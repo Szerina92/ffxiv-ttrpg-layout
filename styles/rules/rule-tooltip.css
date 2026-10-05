@@ -1,9 +1,32 @@
 /* FFXIV TTRPG Layout — Rule link and tooltip presentation. */
 .ffxiv-rule-link {
-  color: #000;
+  color: var(--ffxiv-rule-link);
   font-weight: 700;
   text-decoration: none;
   cursor: help;
+}
+
+/* Semantic Text Editor colours can intentionally override the Rule colour.
+ * Ability and Attack are the highest-priority text treatments, so Rule links
+ * inside them always use the enclosing Ability/Attack colour. */
+.ffxiv-text-important .ffxiv-rule-link {
+  color: var(--ffxiv-text-important);
+}
+
+.ffxiv-text-note .ffxiv-rule-link {
+  color: var(--ffxiv-text-note);
+}
+
+.ffxiv-text-example .ffxiv-rule-link {
+  color: var(--ffxiv-text-example);
+}
+
+.ffxiv-abi .ffxiv-rule-link {
+  color: var(--ffxiv-blue-dark) !important;
+}
+
+.ffxiv-att .ffxiv-rule-link {
+  color: var(--ffxiv-red-bright) !important;
 }
 
 .ffxiv-rule-tooltip {
@@ -49,3 +72,52 @@
   line-height: 1.35;
 }
 
+
+/* Rich-text semantic colours inside Rule tooltips.
+ * Rule content is enriched as HTML, so the same public text marks used by the
+ * Journal need an explicit tooltip scope rather than relying on Journal-only
+ * selectors. This keeps existing Rule enrichment/storage untouched. */
+.ffxiv-rule-tooltip .ffxiv-text-important {
+  color: var(--ffxiv-text-important);
+  font-weight: 700;
+}
+
+.ffxiv-rule-tooltip .ffxiv-text-note {
+  color: var(--ffxiv-text-note);
+}
+
+.ffxiv-rule-tooltip .ffxiv-text-example {
+  color: var(--ffxiv-text-example);
+}
+
+.ffxiv-rule-tooltip :is(.ffxiv-header-blue, .ffxiv-header-red, .ffxiv-header-green) {
+  font-family: "Cinzel", "Trajan Pro", Georgia, serif;
+  font-size: 1rem;
+  line-height: 1.3;
+  letter-spacing: 0;
+  font-weight: 800 !important;
+  font-style: normal !important;
+  -webkit-text-stroke: 0.28px currentColor;
+}
+
+.ffxiv-rule-tooltip .ffxiv-header-blue {
+  color: var(--ffxiv-header-blue) !important;
+}
+
+.ffxiv-rule-tooltip .ffxiv-header-red {
+  color: var(--ffxiv-header-red) !important;
+}
+
+.ffxiv-rule-tooltip .ffxiv-header-green {
+  color: var(--ffxiv-header-green) !important;
+}
+
+.ffxiv-rule-tooltip .ffxiv-abi {
+  color: var(--ffxiv-blue-dark) !important;
+  font-weight: 700;
+}
+
+.ffxiv-rule-tooltip .ffxiv-att {
+  color: var(--ffxiv-red-bright) !important;
+  font-weight: 700;
+}

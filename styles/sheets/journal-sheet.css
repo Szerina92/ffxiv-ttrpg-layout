@@ -774,18 +774,18 @@
 }
 
 /* IMPORTANT — bold emphasis with a subtle background glow on hover. */
-.ffxiv-journal__text .ffxiv-important,
-.prosemirror .ffxiv-important {
+.ffxiv-journal__text .ffxiv-text-important,
+.prosemirror .ffxiv-text-important {
   color: var(--ffxiv-text-important);
   font-weight: 700;
   border-radius: 3px;
   transition: color .12s ease, background-color .12s ease, box-shadow .12s ease;
 }
 
-.ffxiv-journal__text .ffxiv-important:hover,
-.ffxiv-journal__text .ffxiv-important:focus-visible,
-.prosemirror .ffxiv-important:hover,
-.prosemirror .ffxiv-important:focus-visible {
+.ffxiv-journal__text .ffxiv-text-important:hover,
+.ffxiv-journal__text .ffxiv-text-important:focus-visible,
+.prosemirror .ffxiv-text-important:hover,
+.prosemirror .ffxiv-text-important:focus-visible {
   color: inherit;
   background: var(--ffxiv-overlay-white-030);
   box-shadow: 0 0 14px var(--ffxiv-overlay-white-070), 0 0 4px var(--ffxiv-overlay-white-045);
@@ -802,8 +802,8 @@
 }
 
 /* NOTE — muted red semantic text. */
-.ffxiv-journal__text .ffxiv-note,
-.prosemirror .ffxiv-note {
+.ffxiv-journal__text .ffxiv-text-note,
+.prosemirror .ffxiv-text-note {
   color: var(--ffxiv-text-note);
 }
 
@@ -875,10 +875,10 @@
 }
 
 /* Generic Text Editor callouts — component based.
-   Background, header colour and icon are independent properties.
+   Background and icon are independent public class-based properties.
    Scenario remains a separate legacy/specialized callout. */
-.ffxiv-journal__text .ffxiv-callout[data-ffxiv-callout="true"],
-.prosemirror .ffxiv-callout[data-ffxiv-callout="true"] {
+.ffxiv-journal__text :is(.ffxiv-bg-light-blue, .ffxiv-bg-white, .ffxiv-bg-paperscroll, .ffxiv-bg-green, .ffxiv-icon-gm),
+.prosemirror :is(.ffxiv-bg-light-blue, .ffxiv-bg-white, .ffxiv-bg-paperscroll, .ffxiv-bg-green, .ffxiv-icon-gm) {
   position: relative;
   margin: 1.45em 2px;
   padding: 16px 20px;
@@ -888,20 +888,20 @@
   color: inherit;
 }
 
-.ffxiv-journal__text .ffxiv-callout[data-ffxiv-callout="true"] > p:first-of-type,
-.prosemirror .ffxiv-callout[data-ffxiv-callout="true"] > p:first-of-type {
+.ffxiv-journal__text :is(.ffxiv-bg-light-blue, .ffxiv-bg-white, .ffxiv-bg-paperscroll, .ffxiv-bg-green, .ffxiv-icon-gm) > p:first-of-type,
+.prosemirror :is(.ffxiv-bg-light-blue, .ffxiv-bg-white, .ffxiv-bg-paperscroll, .ffxiv-bg-green, .ffxiv-icon-gm) > p:first-of-type {
   margin-top: 0;
 }
 
-.ffxiv-journal__text .ffxiv-callout[data-ffxiv-callout="true"] > p:last-of-type,
-.prosemirror .ffxiv-callout[data-ffxiv-callout="true"] > p:last-of-type {
+.ffxiv-journal__text :is(.ffxiv-bg-light-blue, .ffxiv-bg-white, .ffxiv-bg-paperscroll, .ffxiv-bg-green, .ffxiv-icon-gm) > p:last-of-type,
+.prosemirror :is(.ffxiv-bg-light-blue, .ffxiv-bg-white, .ffxiv-bg-paperscroll, .ffxiv-bg-green, .ffxiv-icon-gm) > p:last-of-type {
   margin-bottom: 0;
 }
 
 /* HEADER COLOUR — marked text receives the same visual treatment as the
  * module's H3 headings, without changing the document's heading structure. */
-.ffxiv-journal__text .ffxiv-text-header,
-.prosemirror .ffxiv-text-header {
+.ffxiv-journal__text :is(.ffxiv-header-blue, .ffxiv-header-red, .ffxiv-header-green),
+.prosemirror :is(.ffxiv-header-blue, .ffxiv-header-red, .ffxiv-header-green) {
   font-family: "Cinzel", "Trajan Pro", Georgia, serif;
   font-size: 1rem;
   line-height: 1.3;
@@ -911,52 +911,57 @@
   -webkit-text-stroke: 0.28px currentColor;
 }
 
-.ffxiv-journal__text .ffxiv-text-header--dark-blue,
-.prosemirror .ffxiv-text-header--dark-blue {
-  color: var(--ffxiv-text-header-dark-blue) !important;
+.ffxiv-journal__text .ffxiv-header-blue,
+.prosemirror .ffxiv-header-blue {
+  color: var(--ffxiv-header-blue) !important;
 }
 
-.ffxiv-journal__text .ffxiv-text-header--red,
-.prosemirror .ffxiv-text-header--red {
-  color: var(--ffxiv-text-header-red) !important;
+.ffxiv-journal__text .ffxiv-header-red,
+.prosemirror .ffxiv-header-red {
+  color: var(--ffxiv-header-red) !important;
 }
 
-.ffxiv-journal__text .ffxiv-text-header--green,
-.prosemirror .ffxiv-text-header--green {
-  color: var(--ffxiv-text-header-green) !important;
+.ffxiv-journal__text .ffxiv-header-green,
+.prosemirror .ffxiv-header-green {
+  color: var(--ffxiv-header-green) !important;
 }
 
-.ffxiv-callout[data-ffxiv-callout="true"].ffxiv-callout--background-light-blue,
-.prosemirror .ffxiv-callout[data-ffxiv-callout="true"].ffxiv-callout--background-light-blue {
+.ffxiv-journal__text .ffxiv-bg-light-blue,
+.prosemirror .ffxiv-bg-light-blue {
   background: transparent url("../../images/callouts/background-light-blue.png") center / 100% 100% no-repeat;
 }
 
-.ffxiv-callout[data-ffxiv-callout="true"].ffxiv-callout--background-white,
-.prosemirror .ffxiv-callout[data-ffxiv-callout="true"].ffxiv-callout--background-white {
-  padding-top: 30px;
-  padding-bottom: 32px;
+.ffxiv-journal__text .ffxiv-bg-white,
+.prosemirror .ffxiv-bg-white {
+  /* Extend the paper farther toward the page edges without changing the
+     usable text width of the callout. */
+  margin-inline: -56px;
+  padding-inline: 68px;
+  padding-top: 36px;
+  padding-bottom: 38px;
   background: transparent url("../../images/callouts/background-white.png") center / 100% 100% no-repeat;
 }
 
-.ffxiv-callout[data-ffxiv-callout="true"].ffxiv-callout--background-paperscroll,
-.prosemirror .ffxiv-callout[data-ffxiv-callout="true"].ffxiv-callout--background-paperscroll {
-  background-color: var(--ffxiv-callout-background-paperscroll);
+.ffxiv-journal__text .ffxiv-bg-paperscroll,
+.prosemirror .ffxiv-bg-paperscroll {
+  background-color: var(--ffxiv-bg-paperscroll);
 }
 
-.ffxiv-callout[data-ffxiv-callout="true"].ffxiv-callout--background-green,
-.prosemirror .ffxiv-callout[data-ffxiv-callout="true"].ffxiv-callout--background-green {
+.ffxiv-journal__text .ffxiv-bg-green,
+.prosemirror .ffxiv-bg-green {
   background: transparent url("../../images/callouts/background-green.png") center / 100% 100% no-repeat;
 }
 
-.ffxiv-callout[data-ffxiv-callout="true"].ffxiv-callout--icon-gm {
+.ffxiv-journal__text .ffxiv-icon-gm,
+.prosemirror .ffxiv-icon-gm {
   padding-top: 28px;
 }
 
-/* The GM icon is a visual property of the callout itself. Rendering it as a
+/* The GM icon is a visual property of the generic callout. Rendering it as a
  * pseudo-element keeps it outside ProseMirror's inline-content normalization,
  * so it remains centered on the callout's own vertical axis. */
-.ffxiv-callout[data-ffxiv-callout="true"][data-ffxiv-callout-icon="gm"]::before,
-.prosemirror .ffxiv-callout[data-ffxiv-callout="true"][data-ffxiv-callout-icon="gm"]::before {
+.ffxiv-journal__text .ffxiv-icon-gm::before,
+.prosemirror .ffxiv-icon-gm::before {
   content: "";
   position: absolute;
   top: -18px;
@@ -970,7 +975,7 @@
   pointer-events: none;
 }
 
-.ffxiv-text-example,
+.ffxiv-journal__text .ffxiv-text-example,
 .prosemirror .ffxiv-text-example {
   color: var(--ffxiv-text-example);
 }
@@ -1048,238 +1053,6 @@
 
 .ffxiv-journal__text .ffxiv-callout--scenario > p:first-of-type {
   padding-left: 1.35em;
-}
-
-/* GM — cool grey panel with transparent border and dark text. */
-.ffxiv-journal__text .ffxiv-callout--gm {
-  border: 1px solid transparent;
-  background: var(--ffxiv-callout-gm);
-  color: var(--ffxiv-callout-gm-text);
-}
-
-.ffxiv-journal__text .ffxiv-callout--gm {
-  padding: 2px 20px 10px;
-}
-
-.ffxiv-journal__text .ffxiv-callout--gm .ffxiv-callout__label {
-  position: absolute;
-  top: -20px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 2;
-  width: auto;
-  height: 48px;
-  margin: 0;
-  padding: 0;
-  color: var(--ffxiv-callout-gm-text);
-  display: block;
-  line-height: 1;
-}
-
-.ffxiv-journal__text .ffxiv-callout--gm .ffxiv-callout__gm-image {
-  display: block;
-  width: 48px;
-  height: 48px;
-  margin: 0;
-}
-
-.ffxiv-journal__text .ffxiv-callout--gm > p:first-of-type {
-  margin-top: 0;
-}
-
-/* Keep GM callout lists close to the frame, matching the compact rulebook panel. */
-.ffxiv-journal__text .ffxiv-callout--gm ul,
-.ffxiv-journal__text .ffxiv-callout--gm ol {
-  margin-top: .15em;
-  margin-bottom: .2em;
-}
-
-/* EXAMPLE — warm paper panel with muted brown typography. */
-.ffxiv-journal__text .ffxiv-callout--example {
-  border: 1px solid transparent;
-  padding-top: 4px;
-  padding-bottom: 16px;
-  background: var(--ffxiv-paper-example);
-  color: var(--ffxiv-paper-example-text);
-}
-
-.ffxiv-journal__text .ffxiv-callout--example .ffxiv-callout__label {
-  display: none;
-}
-
-/* Global FFXIV semantic rich-text styles — 0.3.3 */
-
-
-/* Global FFXIV semantic rich-text styles — 0.3.3
- * These classes are intentionally not limited to the Journal text wrapper.
- * Any rich-text object rendered by the module can therefore use the same
- * semantic markup: ABI, ATT, IMPORTANT, NOTE, semantic links and callouts.
- */
-.ffxiv-abi {
-  color: var(--ffxiv-blue-dark);
-  font-weight: 700;
-}
-
-.ffxiv-att {
-  color: var(--ffxiv-red-bright);
-  font-weight: 700;
-}
-
-.ffxiv-important {
-  font-weight: 700;
-  border-radius: 3px;
-  transition: color .12s ease, background-color .12s ease, box-shadow .12s ease;
-}
-
-.ffxiv-important:hover,
-.ffxiv-important:focus-visible {
-  color: inherit;
-  background: var(--ffxiv-overlay-white-030);
-  box-shadow: 0 0 14px var(--ffxiv-overlay-white-070), 0 0 4px var(--ffxiv-overlay-white-045);
-}
-
-.ffxiv-note {
-  color: var(--ffxiv-red-accent);
-}
-
-.ffxiv-link--att a.content-link[data-uuid] {
-  color: var(--ffxiv-red-bright);
-}
-
-.ffxiv-link--att a.content-link[data-uuid]:hover,
-.ffxiv-link--att a.content-link[data-uuid]:focus-visible {
-  color: var(--ffxiv-red-deep);
-}
-
-.ffxiv-link--abi a.content-link[data-uuid] {
-  color: var(--ffxiv-black);
-}
-
-.ffxiv-link--abi a.content-link[data-uuid]:hover,
-.ffxiv-link--abi a.content-link[data-uuid]:focus-visible {
-  color: var(--ffxiv-blue-deep);
-}
-
-/* Global FFXIV callout blocks. */
-.ffxiv-callout {
-  position: relative;
-  margin: 1.45em 2px;
-  padding: 16px 20px;
-  border-radius: 4px;
-  background: transparent;
-  color: inherit;
-}
-
-.ffxiv-callout > p:first-of-type { margin-top: 0; }
-.ffxiv-callout > p:last-of-type { margin-bottom: 0; }
-
-.ffxiv-callout__label {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  margin: 0 0 9px;
-  font-family: var(--ffxiv-display);
-  font-size: .72rem;
-  font-weight: 700;
-  letter-spacing: .16em;
-  line-height: 1;
-  text-transform: uppercase;
-}
-
-.ffxiv-callout__gm-image {
-  display: block;
-  width: 34px;
-  height: 34px;
-  object-fit: contain;
-  border: 0;
-  border-radius: 0;
-  margin: 0;
-}
-
-.ffxiv-callout--scenario {
-  border: 2px solid var(--ffxiv-overlay-brown-034);
-  border-radius: 14px;
-  color: var(--ffxiv-red-accent);
-  padding: 10px 20px;
-}
-
-.ffxiv-callout--scenario .ffxiv-callout__label {
-  float: left;
-  position: relative;
-  z-index: 2;
-  display: block;
-  width: 1.35em;
-  height: 1.35em;
-  margin: .05em .25em 0 0;
-  padding: 0;
-  transform: translateY(.95em);
-  color: var(--ffxiv-red-accent);
-  font-size: 1.05rem;
-  line-height: 1.35;
-  letter-spacing: 0;
-}
-
-.ffxiv-callout--scenario .ffxiv-callout__label i {
-  font-size: 1.05rem;
-}
-
-.ffxiv-callout--scenario .ffxiv-callout__label .sr-only {
-  display: none;
-}
-
-.ffxiv-callout--scenario > p:first-of-type {
-  padding-left: 1.35em;
-}
-
-.ffxiv-callout--gm {
-  border: 1px solid transparent;
-  background: var(--ffxiv-callout-gm);
-  color: var(--ffxiv-callout-gm-text);
-  padding: 2px 20px 10px;
-}
-
-.ffxiv-callout--gm .ffxiv-callout__label {
-  position: absolute;
-  top: -20px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 2;
-  width: auto;
-  height: 40px;
-  margin: 0;
-  padding: 0;
-  color: var(--ffxiv-callout-gm-text);
-  display: block;
-  line-height: 1;
-}
-
-.ffxiv-callout--gm .ffxiv-callout__gm-image {
-  display: block;
-  width: 40px;
-  height: 40px;
-  margin: 0;
-}
-
-.ffxiv-callout--gm > p:first-of-type {
-  margin-top: 0;
-}
-
-.ffxiv-callout--gm ul,
-.ffxiv-callout--gm ol {
-  margin-top: .15em;
-  margin-bottom: .2em;
-}
-
-.ffxiv-callout--example {
-  border: 1px solid transparent;
-  padding-top: 4px;
-  padding-bottom: 16px;
-  background: var(--ffxiv-paper-example);
-  color: var(--ffxiv-paper-example-text);
-}
-
-.ffxiv-callout--example .ffxiv-callout__label {
-  display: none;
 }
 
 /* ---------------------------------------------------------
@@ -1634,12 +1407,12 @@
   vertical-align: middle;
 }
 
-.ffxiv-editor-xv-menu .ffxiv-editor-color-dot--dark-blue { background: var(--ffxiv-callout-header-dark-blue); }
-.ffxiv-editor-xv-menu .ffxiv-editor-color-dot--red { background: var(--ffxiv-callout-header-red); }
-.ffxiv-editor-xv-menu .ffxiv-editor-color-dot--green { background: var(--ffxiv-callout-header-green); }
-.ffxiv-editor-xv-menu .ffxiv-editor-color-dot--text-important { background: var(--ffxiv-callout-text-important); }
-.ffxiv-editor-xv-menu .ffxiv-editor-color-dot--text-note { background: var(--ffxiv-callout-text-note); }
-.ffxiv-editor-xv-menu .ffxiv-editor-color-dot--text-example { background: var(--ffxiv-callout-text-example); }
+.ffxiv-editor-xv-menu .ffxiv-editor-color-dot--blue { background: var(--ffxiv-header-blue); }
+.ffxiv-editor-xv-menu .ffxiv-editor-color-dot--red { background: var(--ffxiv-header-red); }
+.ffxiv-editor-xv-menu .ffxiv-editor-color-dot--green { background: var(--ffxiv-header-green); }
+.ffxiv-editor-xv-menu .ffxiv-editor-color-dot--text-important { background: var(--ffxiv-text-important); }
+.ffxiv-editor-xv-menu .ffxiv-editor-color-dot--text-note { background: var(--ffxiv-text-note); }
+.ffxiv-editor-xv-menu .ffxiv-editor-color-dot--text-example { background: var(--ffxiv-text-example); }
 
 .ffxiv-editor-xv-menu .ffxiv-editor-background-preview {
   display: inline-block;
@@ -1658,7 +1431,7 @@
   background: url("../../images/callouts/background-white.png") center / cover no-repeat;
 }
 .ffxiv-editor-xv-menu .ffxiv-editor-background-preview--paperscroll {
-  background: var(--ffxiv-callout-background-paperscroll);
+  background: var(--ffxiv-bg-paperscroll);
 }
 .ffxiv-editor-xv-menu .ffxiv-editor-background-preview--green {
   background: url("../../images/callouts/background-green.png") center / cover no-repeat;

@@ -1,7 +1,7 @@
 {
   "id": "ffxiv-ttrpg-layout",
   "title": "FFXIV TTRPG Layout",
-  "version": "0.6.10",
+  "version": "0.1.0",
   "compatibility": {
     "minimum": "14",
     "verified": "14"
@@ -83,5 +83,13 @@
       "system": "ffxiv",
       "flags": {}
     }
-  ]
+  ],
+  "authors": [
+    {
+      "name": "Szerina",
+      "discord": "Szerina",
+      "flags": {}
+    }
+  ],
+  "url": "https://github.com/Szerina92/ffxiv-ttrpg-layout"
 }

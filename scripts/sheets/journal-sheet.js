@@ -477,11 +477,49 @@ Hooks.on("getProseMirrorMenuDropDowns", (menu, config) => {
     return true;
   };
 
-  /** Apply an FFXIV semantic inline style to the current text selection. */
+  /**
+   * Apply an FFXIV semantic inline style to the current text selection.
+   *
+   * Foundry's generic inline insertion is fine for a selection contained in a
+   * single text block, but wrapping a selection that spans multiple paragraphs
+   * in one <span> collapses the block structure. Split multi-paragraph
+   * selections into one inline operation per text block so paragraph breaks are
+   * preserved. Processing from the end towards the start keeps earlier document
+   * positions stable while each range is updated.
+   */
   const applySemanticInsert = html => {
-    const state = menu?.view?.state;
+    const view = menu?.view;
+    const state = view?.state;
     if (!state || state.selection.from === state.selection.to) return false;
-    return applyInsert(html, { inline: true });
+
+    const { from, to } = state.selection;
+    const ranges = [];
+    state.doc.nodesBetween(from, to, (node, pos) => {
+      if (!node?.isTextblock) return;
+      const blockFrom = pos + 1;
+      const blockTo = pos + node.nodeSize - 1;
+      const rangeFrom = Math.max(from, blockFrom);
+      const rangeTo = Math.min(to, blockTo);
+      if (rangeFrom < rangeTo) ranges.push({ from: rangeFrom, to: rangeTo });
+    });
+
+    if (ranges.length <= 1) return applyInsert(html, { inline: true });
+
+    for (let index = ranges.length - 1; index >= 0; index -= 1) {
+      const range = ranges[index];
+      const currentState = view.state;
+      const selectionType = currentState.selection?.constructor;
+      const selection = selectionType?.create?.(currentState.doc, range.from, range.to);
+      if (!selection) {
+        console.warn("FFXIV TTRPG Layout | Unable to create a paragraph-safe text selection.");
+        return false;
+      }
+
+      view.dispatch(currentState.tr.setSelection(selection));
+      applyInsert(html, { inline: true });
+    }
+
+    return true;
   };
 
   /*
@@ -498,20 +536,6 @@ Hooks.on("getProseMirrorMenuDropDowns", (menu, config) => {
         icon: '<span class="ffxiv-editor-submenu-arrow" aria-hidden="true">▸</span>',
         class: "ffxiv-editor-submenu-entry ffxiv-editor-submenu-entry--text",
         children: [
-          {
-            action: "ffxiv-ability",
-            title: localize("FFXIVTTRPGLayout.Editor.Ability", "Ability"),
-            icon: '<span class="ffxiv-editor-accent ffxiv-editor-accent--abi">ABI</span>',
-            class: "ffxiv-editor-semantic-entry ffxiv-editor-semantic-entry--abi",
-            cmd: () => applySemanticInsert('<span class="ffxiv-abi"><selection></selection></span>')
-          },
-          {
-            action: "ffxiv-attack",
-            title: localize("FFXIVTTRPGLayout.Editor.Attack", "Attack"),
-            icon: '<span class="ffxiv-editor-accent ffxiv-editor-accent--att">ATT</span>',
-            class: "ffxiv-editor-semantic-entry ffxiv-editor-semantic-entry--att",
-            cmd: () => applySemanticInsert('<span class="ffxiv-att"><selection></selection></span>')
-          },
           ...buildCalloutTextEditorEntries({ menu, applyInsert, applySemanticInsert })
         ]
       },

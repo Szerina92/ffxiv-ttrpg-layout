@@ -1,29 +1,32 @@
 import { localize } from "./i18n.js";
 
 const TEXT_HEADER_COLORS = Object.freeze({
-  "dark-blue": {
+  blue: {
     key: "DarkBlue",
-    variable: "--ffxiv-text-header-dark-blue",
+    className: "ffxiv-header-blue",
+    variable: "--ffxiv-header-blue",
   },
   red: {
     key: "Red",
-    variable: "--ffxiv-text-header-red",
+    className: "ffxiv-header-red",
+    variable: "--ffxiv-header-red",
   },
   green: {
     key: "Green",
-    variable: "--ffxiv-text-header-green",
+    className: "ffxiv-header-green",
+    variable: "--ffxiv-header-green",
   },
 });
 
 const TEXT_COLORS = Object.freeze({
   important: {
     key: "Important",
-    className: "ffxiv-important",
+    className: "ffxiv-text-important",
     variable: "--ffxiv-text-important",
   },
   note: {
     key: "Note",
-    className: "ffxiv-note",
+    className: "ffxiv-text-note",
     variable: "--ffxiv-text-note",
   },
   example: {
@@ -36,19 +39,19 @@ const TEXT_COLORS = Object.freeze({
 const CALLOUT_BACKGROUNDS = Object.freeze({
   "light-blue": {
     key: "LightBlue",
-    className: "ffxiv-callout--background-light-blue",
+    className: "ffxiv-bg-light-blue",
   },
   white: {
     key: "White",
-    className: "ffxiv-callout--background-white",
+    className: "ffxiv-bg-white",
   },
   paperscroll: {
     key: "Paperscroll",
-    className: "ffxiv-callout--background-paperscroll",
+    className: "ffxiv-bg-paperscroll",
   },
   green: {
     key: "Green",
-    className: "ffxiv-callout--background-green",
+    className: "ffxiv-bg-green",
   },
 });
 
@@ -59,7 +62,7 @@ const CALLOUT_ICONS = Object.freeze({
   },
   gm: {
     key: "GM",
-    className: "ffxiv-callout--icon-gm",
+    className: "ffxiv-icon-gm",
   },
 });
 
@@ -74,11 +77,18 @@ function closestElement(node, selector) {
   return null;
 }
 
+const CALLOUT_SELECTOR = [
+  ...Object.values(CALLOUT_BACKGROUNDS).map(({ className }) => `.${className}`),
+  ...Object.values(CALLOUT_ICONS)
+    .map(({ className }) => className ? `.${className}` : null)
+    .filter(Boolean),
+].join(', ');
+
 function findCalloutAtPosition(view, position) {
   if (!view?.dom || !Number.isFinite(position)) return null;
   try {
     const dom = view.domAtPos(position, 0)?.node;
-    return closestElement(dom, '[data-ffxiv-callout="true"], .ffxiv-callout[data-ffxiv-callout]');
+    return closestElement(dom, CALLOUT_SELECTOR);
   } catch {
     return null;
   }
@@ -139,12 +149,16 @@ function replaceCallout(menu, callout, mutate) {
     // HTML without invoking the paste-event plugins.
     view.dispatch(view.state.tr.delete(from, to));
 
+    const insertionHTML = replacement.matches(CALLOUT_SELECTOR)
+      ? replacement.outerHTML
+      : replacement.innerHTML;
+
     const nextState = view.state;
     menu._placeInsert(
       nextState,
       view.dispatch.bind(view),
       view,
-      replacement.outerHTML,
+      insertionHTML,
       { inline: false },
     );
 
@@ -164,7 +178,7 @@ function applyHeaderColor(colorKey, applySemanticInsert) {
   // selector. The marked text receives the same typography used by FFXIV H3
   // headings, with the selected header colour applied to that text only.
   return applySemanticInsert(
-    `<span class="ffxiv-text-header ffxiv-text-header--${colorKey}"><selection></selection></span>`
+    `<span class="${color.className}"><selection></selection></span>`
   );
 }
 
@@ -175,17 +189,16 @@ function applyBackground(menu, backgroundKey, applyInsert) {
   const callout = findSelectedCallout(menu?.view);
   if (callout) {
     return replaceCallout(menu, callout, replacement => {
-      removeClassesWithPrefix(replacement, "ffxiv-callout--background-");
+      removeClassesWithPrefix(replacement, "ffxiv-bg-");
       replacement.classList.add(background.className);
-      replacement.dataset.ffxivCalloutBackground = backgroundKey;
-    });
+          });
   }
 
   const state = menu?.view?.state;
   if (!state || state.selection.from === state.selection.to) return false;
 
   applyInsert(
-    `<div class="ffxiv-callout ${background.className}" data-ffxiv-callout="true" data-ffxiv-callout-background="${backgroundKey}"><selection></selection></div>`,
+    `<div class="${background.className}"><selection></selection></div>`,
     { inline: false },
   );
   return true;
@@ -198,8 +211,7 @@ function applyIcon(menu, iconKey, applyInsert) {
   const callout = findSelectedCallout(menu?.view);
   if (callout) {
     return replaceCallout(menu, callout, replacement => {
-      removeClassesWithPrefix(replacement, "ffxiv-callout--icon-");
-      delete replacement.dataset.ffxivCalloutIcon;
+      removeClassesWithPrefix(replacement, "ffxiv-icon-");
 
       // Keep the icon as callout state rather than inserting an inline node.
       // ProseMirror may normalize arbitrary span/img wrappers inside a block,
@@ -207,16 +219,15 @@ function applyIcon(menu, iconKey, applyInsert) {
       // element below is anchored directly to the callout container instead.
       if (iconKey === "gm") {
         replacement.classList.add(icon.className);
-        replacement.dataset.ffxivCalloutIcon = iconKey;
       }
     });
   }
 
   const state = menu?.view?.state;
-  if (!state || state.selection.from === state.selection.to) return false;
+  if (!state || state.selection.from === state.selection.to || iconKey === "none") return false;
 
   applyInsert(
-    `<div class="ffxiv-callout ${icon.className ?? ""}" data-ffxiv-callout="true" data-ffxiv-callout-icon="${iconKey}"><selection></selection></div>`,
+    `<div class="${icon.className}"><selection></selection></div>`,
     { inline: false },
   );
   return true;
@@ -243,13 +254,34 @@ function buildHeaderColorEntries(applySemanticInsert) {
 }
 
 function buildTextColorEntries(menu, applySemanticInsert) {
-  return Object.entries(TEXT_COLORS).map(([key, config]) => ({
+  const colorEntries = Object.entries(TEXT_COLORS).map(([key, config]) => ({
     action: `ffxiv-text-color-${key}`,
     title: localize(`FFXIVTTRPGLayout.Editor.${config.key}`, config.key),
     icon: `<span class="ffxiv-editor-color-dot ffxiv-editor-color-dot--text-${key}" aria-hidden="true"></span>`,
     class: `ffxiv-editor-semantic-entry ffxiv-editor-callout-text-entry ffxiv-editor-callout-text-entry--${key}`,
     cmd: () => applySemanticInsert(`<span class="${config.className}"><selection></selection></span>`),
   }));
+
+  // Ability and Attack are semantic text treatments, so keep them together
+  // with the other text-colour tools in the Text Editor submenu.
+  const semanticEntries = [
+    {
+      action: "ffxiv-ability",
+      title: localize("FFXIVTTRPGLayout.Editor.Ability", "Ability"),
+      icon: '<span class="ffxiv-editor-accent ffxiv-editor-accent--abi">ABI</span>',
+      class: "ffxiv-editor-semantic-entry ffxiv-editor-semantic-entry--abi",
+      cmd: () => applySemanticInsert('<span class="ffxiv-abi"><selection></selection></span>'),
+    },
+    {
+      action: "ffxiv-attack",
+      title: localize("FFXIVTTRPGLayout.Editor.Attack", "Attack"),
+      icon: '<span class="ffxiv-editor-accent ffxiv-editor-accent--att">ATT</span>',
+      class: "ffxiv-editor-semantic-entry ffxiv-editor-semantic-entry--att",
+      cmd: () => applySemanticInsert('<span class="ffxiv-att"><selection></selection></span>'),
+    },
+  ];
+
+  return [...colorEntries, ...semanticEntries];
 }
 
 function buildBackgroundEntries(menu, applyInsert) {

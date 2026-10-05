@@ -62,13 +62,14 @@
   /* -------------------------------------------------------
      Text Editor / Callout Colors
      ------------------------------------------------------- */
-  --ffxiv-text-header-dark-blue: #365c74;
-  --ffxiv-text-header-red: #95544b;
-  --ffxiv-text-header-green: #536a55;
+  --ffxiv-header-blue: #365c74;
+  --ffxiv-header-red: #95544b;
+  --ffxiv-header-green: #536a55;
   --ffxiv-text-important: var(--ffxiv-ink);
-  --ffxiv-text-note: var(--ffxiv-text-header-red);
+  --ffxiv-text-note: var(--ffxiv-header-red);
   --ffxiv-text-example: #695633;
-  --ffxiv-callout-background-paperscroll: #f4d6ae;
+  --ffxiv-rule-link: #000000;
+  --ffxiv-bg-paperscroll: #f4d6ae;
 
   /* -------------------------------------------------------
      Color Extensions
