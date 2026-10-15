@@ -1,0 +1,58 @@
+<div class="ffxiv-toc-editor__content">
+  <p class="ffxiv-toc-editor__hint">{{hint}}</p>
+  {{#if isLocked}}
+    <p class="ffxiv-toc-editor__locked"><i class="fa-solid fa-lock" aria-hidden="true"></i> {{lockedLabel}}</p>
+  {{/if}}
+
+  <div class="ffxiv-toc-editor__body">
+    <table class="ffxiv-toc-editor__table">
+      <thead>
+        <tr>
+          <th>{{localize "FFXIVTTRPGLayout.Toc.Column.Page"}}</th>
+          <th>{{localize "FFXIVTTRPGLayout.Toc.Column.Role"}}</th>
+          <th>{{localize "FFXIVTTRPGLayout.Toc.Column.Parent"}}</th>
+          <th>{{localize "FFXIVTTRPGLayout.Toc.Column.Label"}}</th>
+          <th>{{localize "FFXIVTTRPGLayout.Toc.Column.Order"}}</th>
+          <th title="{{localize 'FFXIVTTRPGLayout.Toc.HeadingsTitle'}}">{{localize "FFXIVTTRPGLayout.Toc.Column.Headings"}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each rows}}
+          <tr data-uuid="{{uuid}}" data-page-name="{{pageName}}" data-is-text="{{isText}}">
+            <td class="ffxiv-toc-editor__page">
+              <input type="hidden" name="rows.{{index}}.uuid" value="{{uuid}}">
+              <span class="ffxiv-toc-editor__journal">{{journalName}}</span>
+              <span class="ffxiv-toc-editor__page-name">{{pageName}}</span>
+            </td>
+            <td>
+              <select name="rows.{{index}}.type" data-role-select>
+                {{#each ../types}}
+                  <option value="{{value}}" {{#if (eq value ../type)}}selected{{/if}}>{{label}}</option>
+                {{/each}}
+              </select>
+            </td>
+            <td>
+              <select name="rows.{{index}}.parent" data-parent-select></select>
+            </td>
+            <td>
+              <input type="text" name="rows.{{index}}.label" value="{{label}}" placeholder="{{pageName}}" data-label-input autocomplete="off">
+            </td>
+            <td>
+              <input type="number" name="rows.{{index}}.order" value="{{order}}" step="1">
+            </td>
+            <td class="ffxiv-toc-editor__headings">
+              <input type="checkbox" name="rows.{{index}}.headings" data-headings-toggle {{#if headings}}checked{{/if}} title="{{localize 'FFXIVTTRPGLayout.Toc.HeadingsTitle'}}">
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+
+  <footer class="ffxiv-toc-editor__footer">
+    <button type="submit" class="ffxiv-action-button" {{#if isLocked}}disabled{{/if}}>
+      <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i>
+      <span>{{localize "FFXIVTTRPGLayout.Toc.Save"}}</span>
+    </button>
+  </footer>
+</div>

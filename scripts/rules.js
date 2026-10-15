@@ -1,5 +1,3 @@
-import { localize } from "./i18n.js";
-
 /**
  * FFXIV TTRPG Layout — global Journal Rule references.
  *
@@ -9,139 +7,95 @@ import { localize } from "./i18n.js";
  *
  * The first value is the rule key; the optional second value is the visible label.
  * When no label is provided, the rule key is used as the visible label.
+ *
+ * Rule Pages themselves are the registry: no manual rule registration is
+ * required. The editor menu is populated from the module's Rules compendium
+ * and displays each Rule's page Header (name) to the user.
  */
 
-const RULE_PAGE_TYPE = "ffxiv-ttrpg-layout.rule";
+import { RULE_PACK_ID, RULE_PAGE_TYPE } from "./constants.js";
+import { localize } from "./i18n.js";
+import { isRulesCompendiumVisible } from "./settings.js";
+import { enrich } from "./utils/enrich.js";
+import { buildSubmenu } from "./utils/menu-entries.js";
+
 const RULE_LINK_PATTERN = /&Rule\[([^\]]+)\](?:\{([^{}]*)\})?/g;
 const RULE_ENRICHER_ID = "ffxiv-ttrpg-layout-rule";
+const RULE_LINK_SELECTOR = ".ffxiv-rule-link";
+const TOOLTIP_SELECTOR = ".ffxiv-rule-tooltip";
+const PACK_SELECTOR = ["data-pack", "data-pack-id", "data-collection"]
+  .map(attribute => `[${attribute}="${RULE_PACK_ID}"]`)
+  .join(", ");
 
-const RULE_PACK_ID = "ffxiv-ttrpg-layout.rules";
-const RULE_PACK_SETTING_KEY = "showRulesCompendium";
+/* -------------------------------------------- */
+/*  Rule lookup                                 */
+/* -------------------------------------------- */
 
-export function registerRulesCompendiumSetting() {
-  game.settings.register("ffxiv-ttrpg-layout", RULE_PACK_SETTING_KEY, {
-    name: "FFXIVTTRPGLayout.Settings.ShowRulesCompendium",
-    hint: "FFXIVTTRPGLayout.Settings.ShowRulesCompendiumHint",
-    scope: "client",
-    config: true,
-    type: Boolean,
-    default: false,
-    onChange: () => {
-      ui?.compendium?.render?.({force: true});
+const ruleKeyOf = page => String(page?.system?.key ?? "").trim();
+const isRulePage = page => (page?.type === RULE_PAGE_TYPE || page?.type === "rule") && ruleKeyOf(page) !== "";
+
+function canViewJournal(journal) {
+  if (!journal || !game.user) return false;
+  return journal.testUserPermission?.(game.user, "OBSERVER") ?? true;
+}
+
+function* rulePagesOf(journals) {
+  for (const journal of journals) {
+    for (const page of journal.pages?.contents ?? []) {
+      if (isRulePage(page)) yield page;
     }
-  });
+  }
 }
 
-export function isRulesCompendiumVisible() {
-  return game.settings.get("ffxiv-ttrpg-layout", RULE_PACK_SETTING_KEY) === true;
+let rulePackJournals = null;
+
+/** Rule pages stored in the module's Rules compendium (not part of game.journal). */
+async function getRulePackPages() {
+  const pack = game.packs?.get?.(RULE_PACK_ID);
+  if (!pack) return [];
+
+  rulePackJournals ??= pack.getDocuments().catch(error => {
+    console.warn("FFXIV TTRPG Layout | Unable to load Rules compendium", error);
+    return [];
+  });
+
+  return [...rulePagesOf(await rulePackJournals)];
 }
+
+async function findRule(key) {
+  const normalized = String(key ?? "").trim().toLowerCase();
+  if (!normalized) return null;
+
+  const worldPages = rulePagesOf(game.journal?.contents.filter(canViewJournal) ?? []);
+  const pages = [...worldPages, ...await getRulePackPages()];
+  return pages.find(page => ruleKeyOf(page).toLowerCase() === normalized) ?? null;
+}
+
+/* -------------------------------------------- */
+/*  Compendium visibility                       */
+/* -------------------------------------------- */
 
 function hideRulesPackInDirectory(app) {
   if (isRulesCompendiumVisible()) return;
   const root = app?.element;
   if (!(root instanceof HTMLElement)) return;
 
-  const selectors = [
-    `[data-pack="${RULE_PACK_ID}"]`,
-    `[data-pack-id="${RULE_PACK_ID}"]`,
-    `[data-collection="${RULE_PACK_ID}"]`
-  ];
-
-  const candidates = new Set();
-  for (const selector of selectors) {
-    for (const element of root.querySelectorAll(selector)) candidates.add(element);
-  }
-
-  // Foundry's V14 directory entry is a directory item. If the pack metadata
-  // is stored on a child element, hide the containing entry instead.
-  for (const element of candidates) {
-    const entry = element.closest?.(".directory-item, li") ?? element;
+  // The pack metadata may sit on a child element; hide the containing entry.
+  for (const element of root.querySelectorAll(PACK_SELECTOR)) {
+    const entry = element.closest(".directory-item, li") ?? element;
     entry.hidden = true;
     entry.classList.add("ffxiv-ttrpg-layout-hidden-rules-pack");
   }
 }
 
-function registerRulesCompendiumDirectoryHook() {
-  Hooks.on("renderCompendiumDirectory", app => hideRulesPackInDirectory(app));
-}
+/* -------------------------------------------- */
+/*  Tooltip                                     */
+/* -------------------------------------------- */
 
-function canViewJournal(journal) {
-  if (!journal || !game.user) return false;
-  if (typeof journal.testUserPermission !== "function") return true;
-  return journal.testUserPermission(game.user, "OBSERVER");
-}
-
-function isRulePage(page) {
-  return page?.type === RULE_PAGE_TYPE || page?.type === "rule";
-}
-
-let rulePackPagesPromise = null;
-let ruleEditorEntries = [];
-let ruleEditorEntriesLoaded = false;
-
-async function getRulePackPages() {
-  const pack = game.packs?.get?.(RULE_PACK_ID);
-  if (!pack) return [];
-
-  if (!rulePackPagesPromise) {
-    rulePackPagesPromise = pack.getDocuments().catch(error => {
-      console.warn("FFXIV TTRPG Layout | Unable to load Rules compendium", error);
-      return [];
-    });
-  }
-
-  const journals = await rulePackPagesPromise;
-  const pages = [];
-  for (const journal of journals) {
-    for (const page of journal.pages?.contents ?? []) {
-      if (!isRulePage(page)) continue;
-      const key = String(page.system?.key ?? "").trim();
-      if (!key) continue;
-      pages.push(page);
-    }
-  }
-  return pages;
-}
-
-export async function getRulePages() {
-  const journals = game.journal?.contents ?? [];
-  const pages = [];
-
-  for (const journal of journals) {
-    if (!canViewJournal(journal)) continue;
-    for (const page of journal.pages?.contents ?? []) {
-      if (!isRulePage(page)) continue;
-      const key = String(page.system?.key ?? "").trim().toLowerCase();
-      if (!key) continue;
-      pages.push(page);
-    }
-  }
-
-  // Rule pages stored in the module's Rules compendium are not part of
-  // game.journal.contents. Load them from the pack as well.
-  const packPages = await getRulePackPages();
-  for (const page of packPages) {
-    const key = String(page.system?.key ?? "").trim().toLowerCase();
-    if (!key) continue;
-    pages.push(page);
-  }
-
-  return pages;
-}
-
-export async function findRule(key) {
-  const normalized = String(key ?? "").trim().toLowerCase();
-  if (!normalized) return null;
-  const pages = await getRulePages();
-  return pages.find(page => String(page.system?.key ?? "").trim().toLowerCase() === normalized) ?? null;
-}
-
-export function getRuleContent(page) {
-  return String(page?.system?.content ?? "").trim();
-}
+const tooltipState = { pinned: false, link: null };
 
 function getTooltip() {
-  let tooltip = document.querySelector(".ffxiv-rule-tooltip");
+  let tooltip = document.querySelector(TOOLTIP_SELECTOR);
   if (tooltip) return tooltip;
 
   tooltip = document.createElement("div");
@@ -152,21 +106,13 @@ function getTooltip() {
 }
 
 function hideRuleTooltip({ force = false } = {}) {
-  if (pinnedRuleTooltip && !force) return;
-  const tooltip = document.querySelector(".ffxiv-rule-tooltip");
+  if (tooltipState.pinned && !force) return;
+  const tooltip = document.querySelector(TOOLTIP_SELECTOR);
   if (!tooltip) return;
   tooltip.classList.remove("is-visible", "is-pinned");
   tooltip.hidden = true;
-  pinnedRuleTooltip = false;
-  pinnedRuleLink = null;
-}
-
-function unpinRuleTooltip() {
-  const tooltip = document.querySelector(".ffxiv-rule-tooltip");
-  if (tooltip) tooltip.classList.remove("is-pinned");
-  pinnedRuleTooltip = false;
-  pinnedRuleLink = null;
-  hideRuleTooltip({ force: true });
+  tooltipState.pinned = false;
+  tooltipState.link = null;
 }
 
 async function showRuleTooltip(link) {
@@ -179,21 +125,12 @@ async function showRuleTooltip(link) {
   }
 
   const tooltip = getTooltip();
-  const title = foundry.utils.escapeHTML(page.name || page.system?.key || key);
-  const content = getRuleContent(page);
+  const title = foundry.utils.escapeHTML(page.name || ruleKeyOf(page) || key);
+  const content = String(page.system?.content ?? "").trim();
 
   let html = content;
   try {
-    html = await foundry.applications.ux.TextEditor.implementation.enrichHTML(content, {
-      async: true,
-      custom: true,
-      documents: true,
-      embeds: true,
-      links: true,
-      rolls: true,
-      secrets: page.parent?.isOwner ?? false,
-      relativeTo: page,
-    });
+    html = await enrich(content, page);
   } catch (error) {
     console.warn("FFXIV TTRPG Layout | Unable to enrich Rule tooltip content", error);
   }
@@ -201,7 +138,7 @@ async function showRuleTooltip(link) {
   tooltip.innerHTML = `<div class="ffxiv-rule-tooltip__title">${title}</div><div class="ffxiv-rule-tooltip__body">${html}</div>`;
   tooltip.hidden = false;
   tooltip.classList.add("is-visible");
-  if (pinnedRuleTooltip) tooltip.classList.add("is-pinned");
+  if (tooltipState.pinned) tooltip.classList.add("is-pinned");
 
   const rect = link.getBoundingClientRect();
   const gap = 8;
@@ -224,105 +161,88 @@ function createRuleLink(match) {
   link.dataset.ffxivRuleKey = key;
   link.tabIndex = 0;
   link.textContent = label;
-
   return link;
 }
 
-let ruleInteractionHandlersRegistered = false;
-let pinnedRuleTooltip = false;
-let pinnedRuleLink = null;
-
 function registerRuleInteractionHandlers() {
-  if (ruleInteractionHandlersRegistered) return;
-  ruleInteractionHandlersRegistered = true;
+  const linkOf = event => event.target?.closest?.(RULE_LINK_SELECTOR);
+  // True when the pointer moves between two nodes inside the same link.
+  const staysInside = (link, related) => related && link.contains(related);
 
   document.addEventListener("pointerover", event => {
-    if (pinnedRuleTooltip) return;
-    const link = event.target?.closest?.(".ffxiv-rule-link");
-    if (!link) return;
-    const from = event.relatedTarget;
-    if (from && link.contains(from)) return;
+    if (tooltipState.pinned) return;
+    const link = linkOf(event);
+    if (!link || staysInside(link, event.relatedTarget)) return;
     showRuleTooltip(link);
   });
 
   document.addEventListener("pointerout", event => {
-    if (pinnedRuleTooltip) return;
-    const link = event.target?.closest?.(".ffxiv-rule-link");
-    if (!link) return;
-    const to = event.relatedTarget;
-    if (to && link.contains(to)) return;
+    if (tooltipState.pinned) return;
+    const link = linkOf(event);
+    if (!link || staysInside(link, event.relatedTarget)) return;
     hideRuleTooltip();
   });
 
   document.addEventListener("focusin", event => {
-    const link = event.target?.closest?.(".ffxiv-rule-link");
+    const link = linkOf(event);
     if (link) showRuleTooltip(link);
   });
 
   document.addEventListener("focusout", event => {
-    const link = event.target?.closest?.(".ffxiv-rule-link");
-    if (link) hideRuleTooltip();
+    if (linkOf(event)) hideRuleTooltip();
   });
 
   // Middle-click pins the tooltip so long Rule text can be scrolled with the mouse.
   document.addEventListener("pointerdown", event => {
-    const link = event.target?.closest?.(".ffxiv-rule-link");
+    const link = linkOf(event);
     if (!link || event.button !== 1) return;
     event.preventDefault();
-    pinnedRuleTooltip = !pinnedRuleTooltip || pinnedRuleLink !== link;
-    pinnedRuleLink = pinnedRuleTooltip ? link : null;
-    if (pinnedRuleTooltip) {
-      showRuleTooltip(link);
-    } else {
-      hideRuleTooltip({ force: true });
-    }
+    tooltipState.pinned = !tooltipState.pinned || tooltipState.link !== link;
+    tooltipState.link = tooltipState.pinned ? link : null;
+    if (tooltipState.pinned) showRuleTooltip(link);
+    else hideRuleTooltip({ force: true });
   });
 
   // While pinned, clicking outside the link or tooltip closes it.
   document.addEventListener("pointerdown", event => {
-    if (!pinnedRuleTooltip || event.button !== 0) return;
-    const tooltip = document.querySelector(".ffxiv-rule-tooltip");
-    const link = event.target?.closest?.(".ffxiv-rule-link");
-    if (tooltip?.contains(event.target) || link === pinnedRuleLink) return;
-    unpinRuleTooltip();
+    if (!tooltipState.pinned || event.button !== 0) return;
+    const tooltip = document.querySelector(TOOLTIP_SELECTOR);
+    if (tooltip?.contains(event.target) || linkOf(event) === tooltipState.link) return;
+    hideRuleTooltip({ force: true });
   });
 
   document.addEventListener("keydown", event => {
-    if (event.key === "Escape" && pinnedRuleTooltip) unpinRuleTooltip();
+    if (event.key === "Escape" && tooltipState.pinned) hideRuleTooltip({ force: true });
   });
 }
 
-function getRuleKeyForEditor(page) {
-  return String(page?.system?.key ?? "").trim();
-}
+/* -------------------------------------------- */
+/*  Editor menu                                 */
+/* -------------------------------------------- */
 
-export async function preloadRuleEditorEntries() {
-  if (ruleEditorEntriesLoaded) return ruleEditorEntries;
+const RULE_ICON = '<i class="fa-solid fa-book-open" aria-hidden="true"></i>';
+
+let ruleEditorEntries = [];
+let ruleEditorEntriesLoaded = false;
+
+async function preloadRuleEditorEntries() {
+  if (ruleEditorEntriesLoaded) return;
   ruleEditorEntriesLoaded = true;
 
   const pages = await getRulePackPages();
-  const sortedPages = [...pages].sort((a, b) =>
-    String(a?.name ?? "").localeCompare(String(b?.name ?? ""), undefined, {
-      sensitivity: "base",
-    }),
-  );
+  pages.sort((a, b) => String(a.name ?? "").localeCompare(String(b.name ?? ""), undefined, { sensitivity: "base" }));
 
-  ruleEditorEntries = sortedPages
-    .map((page, index) => {
-      const ruleKey = String(page?.system?.key ?? "").trim();
-      const label = String(page?.name ?? ruleKey).trim() || ruleKey;
-      if (!ruleKey || !label) return null;
-      return {
-        action: `ffxiv-rule-${index}-${ruleKey.toLowerCase().replace(/[^a-z0-9_-]+/g, "-")}`,
-        title: label,
-        ruleKey,
-        icon: '<i class="fa-solid fa-book-open" aria-hidden="true"></i>',
-        class: "ffxiv-editor-semantic-entry ffxiv-editor-rule-entry",
-      };
-    })
-    .filter(Boolean);
-
-  return ruleEditorEntries;
+  ruleEditorEntries = pages.map((page, index) => {
+    const ruleKey = ruleKeyOf(page);
+    const slug = ruleKey.toLowerCase().replace(/[^a-z0-9_-]+/g, "-");
+    return {
+      action: `ffxiv-rule-${index}-${slug}`,
+      title: String(page.name ?? ruleKey).trim() || ruleKey,
+      ruleKey,
+      icon: RULE_ICON,
+      class: "ffxiv-editor-semantic-entry ffxiv-editor-rule-entry",
+    };
+  });
 }
 
 function applyRuleToSelection(menu, ruleKey) {
@@ -335,9 +255,7 @@ function applyRuleToSelection(menu, ruleKey) {
 
   const $from = state.doc.resolve(from);
   const $to = state.doc.resolve(to);
-  if (!$from.parent.inlineContent || !$to.parent.inlineContent || $from.depth !== $to.depth) {
-    return false;
-  }
+  if (!$from.parent.inlineContent || !$to.parent.inlineContent || $from.depth !== $to.depth) return false;
 
   const selectedText = state.doc.textBetween(from, to, "\n", "\n");
   if (!selectedText.trim()) return false;
@@ -358,43 +276,33 @@ function applyRuleToSelection(menu, ruleKey) {
 }
 
 export function buildRuleEditorEntry({ menu }) {
-  const entries = ruleEditorEntries.length
-    ? ruleEditorEntries.map(entry => ({
-        action: entry.action,
-        title: entry.title,
-        icon: entry.icon,
-        class: entry.class,
-        cmd: () => applyRuleToSelection(menu, entry.ruleKey),
-      }))
+  const children = ruleEditorEntries.length
+    ? ruleEditorEntries.map(({ ruleKey, ...entry }) => ({ ...entry, cmd: () => applyRuleToSelection(menu, ruleKey) }))
     : [{
         action: "ffxiv-rules-empty",
-        title: localize("FFXIVTTRPGLayout.Editor.NoRulesAvailable", "No Rules available"),
-        icon: '<i class="fa-solid fa-book-open" aria-hidden="true"></i>',
+        title: localize("FFXIVTTRPGLayout.Editor.NoRulesAvailable"),
+        icon: RULE_ICON,
         class: "ffxiv-editor-semantic-entry ffxiv-editor-rule-entry ffxiv-editor-rule-entry--empty",
         cmd: () => false,
       }];
 
-  return {
+  return buildSubmenu({
     action: "ffxiv-rules-menu",
-    title: localize("FFXIVTTRPGLayout.Editor.Rules", "Rules"),
-    icon: '<span class="ffxiv-editor-submenu-arrow" aria-hidden="true">▸</span>',
-    class: "ffxiv-editor-submenu-entry ffxiv-editor-submenu-entry--rules",
-    children: entries,
-  };
+    title: localize("FFXIVTTRPGLayout.Editor.Rules"),
+    className: "ffxiv-editor-submenu-entry--rules",
+    children,
+  });
 }
 
-/**
- * Register the custom Foundry V14 TextEditor enricher and the Rule insertion
- * menu data. Rule Pages themselves are the registry: no manual rule
- * registration is required. The editor menu is populated from the module's
- * Rules compendium and displays each Rule's page Header (name) to the user.
- */
-export function registerRuleEnricher() {
-  registerRuleInteractionHandlers();
-  CONFIG.TextEditor ??= {};
-  CONFIG.TextEditor.enrichers ??= [];
+/* -------------------------------------------- */
+/*  Registration                                */
+/* -------------------------------------------- */
 
-  if (CONFIG.TextEditor.enrichers.some(enricher => enricher.id === RULE_ENRICHER_ID)) return;
+/** Register the Rule enricher, tooltip handlers, compendium visibility and editor menu data. */
+export function registerRules() {
+  registerRuleInteractionHandlers();
+  Hooks.on("renderCompendiumDirectory", hideRulesPackInDirectory);
+  Hooks.once("ready", preloadRuleEditorEntries);
 
   CONFIG.TextEditor.enrichers.push({
     id: RULE_ENRICHER_ID,
@@ -402,9 +310,3 @@ export function registerRuleEnricher() {
     enricher: async match => createRuleLink(match),
   });
 }
-
-Hooks.once("ready", () => { preloadRuleEditorEntries(); });
-
-registerRulesCompendiumDirectoryHook();
-
-export { RULE_PAGE_TYPE, RULE_ENRICHER_ID, RULE_PACK_ID, RULE_PACK_SETTING_KEY };

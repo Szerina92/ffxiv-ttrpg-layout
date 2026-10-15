@@ -1,0 +1,38 @@
+# Creates a GitHub release when a version tag (for example v0.2.0) is pushed.
+# It attaches module.json (with version and download URL taken from the tag)
+# and ffxiv-ttrpg-layout.zip, which is what Foundry's installer expects.
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set version and download URL from the tag
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          DOWNLOAD="https://github.com/${GITHUB_REPOSITORY}/releases/download/${GITHUB_REF_NAME}/ffxiv-ttrpg-layout.zip"
+          jq --arg version "$VERSION" --arg download "$DOWNLOAD" \
+            '.version = $version | .download = $download' module.json > module.tmp
+          mv module.tmp module.json
+
+      - name: Build the module zip (module.json at the zip root)
+        run: |
+          zip -r ffxiv-ttrpg-layout.zip . \
+            -x ".git/*" ".github/*" ".gitignore" ".gitattributes" "DEV-NOTES.md" "module.tmp" "ffxiv-ttrpg-layout.zip"
+
+      - name: Create the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" module.json ffxiv-ttrpg-layout.zip \
+            --title "$GITHUB_REF_NAME" --generate-notes

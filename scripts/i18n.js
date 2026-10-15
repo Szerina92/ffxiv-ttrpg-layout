@@ -1,27 +1,27 @@
 /** FFXIV TTRPG Layout — shared localization helpers. */
 
-export function localize(key, fallback = "", data = undefined) {
-  if (!key || typeof game === "undefined" || typeof game?.i18n?.localize !== "function") {
-    return fallback;
-  }
+/**
+ * Localize a module key. With `data`, placeholders such as `{size}` are filled in.
+ * Module strings always exist in lang/en.json, which Foundry uses as fallback.
+ */
+export function localize(key, data) {
+  return data === undefined ? game.i18n.localize(key) : game.i18n.format(key, data);
+}
 
-  const localized = data === undefined
-    ? game.i18n.localize(key)
-    : game.i18n.localize(key, data);
-
-  return localized && localized !== key ? localized : fallback;
+/**
+ * Localize a key that may not exist (for example a key owned by the game
+ * system) and return `fallback` when it is missing.
+ */
+export function localizeOr(key, fallback = "") {
+  return key && game.i18n.has(key) ? game.i18n.localize(key) : fallback;
 }
 
 function tagLeaf(tag) {
-  const normalized = String(tag ?? "").trim();
-  if (!normalized) return "";
-  return normalized.split(".").pop() || normalized;
+  return tag.split(".").pop() || tag;
 }
 
 function tagFallbackLabel(tag) {
-  const leaf = tagLeaf(tag);
-  if (!leaf) return "";
-  return leaf
+  return tagLeaf(tag)
     .replace(/([a-z])([A-Z])/g, "$1 $2")
     .replace(/[_-]+/g, " ")
     .trim();
@@ -32,20 +32,19 @@ function tagFallbackLabel(tag) {
  * The system key is preferred; module-specific wording is used when the
  * module has a matching Tag.* or Item.* localization entry.
  */
-export function localizeTag(tag) {
+function localizeTag(tag) {
   const normalized = String(tag ?? "").trim();
   if (!normalized) return "";
 
   const leaf = tagLeaf(normalized);
   const candidates = [
     normalized,
-    leaf ? `FFXIVTTRPGLayout.Tag.${leaf}` : "",
-    leaf ? `FFXIVTTRPGLayout.Item.${leaf}` : "",
-  ].filter(Boolean);
+    `FFXIVTTRPGLayout.Tag.${leaf}`,
+    `FFXIVTTRPGLayout.Item.${leaf}`,
+  ];
 
   for (const key of candidates) {
-    const value = localize(key, "");
-    if (value) return value;
+    if (game.i18n.has(key)) return game.i18n.localize(key);
   }
 
   return tagFallbackLabel(normalized);
@@ -54,8 +53,5 @@ export function localizeTag(tag) {
 /** Return every supplied tag, in source order, with no whitelist/filter. */
 export function localizeTags(tags) {
   if (!Array.isArray(tags)) return [];
-  return tags
-    .map(localizeTag)
-    .filter(Boolean);
+  return tags.map(localizeTag).filter(Boolean);
 }
-

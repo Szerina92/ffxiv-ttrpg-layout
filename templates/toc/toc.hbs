@@ -1,0 +1,21 @@
+<div class="ffxiv-compendium-toc">
+  <header class="ffxiv-compendium-toc__header">
+    <h1 class="ffxiv-compendium-toc__title">{{packTitle}}</h1>
+    <p class="ffxiv-compendium-toc__subtitle">{{heading}}</p>
+  </header>
+
+  <div class="ffxiv-compendium-toc__body">
+    {{#if isEmpty}}
+      <p class="ffxiv-empty-state ffxiv-compendium-toc__empty">{{emptyLabel}}</p>
+    {{else}}
+      <div class="ffxiv-compendium-toc__grid">
+        {{#each chapters}}
+          {{> ffxivTocGroup group=this}}
+        {{/each}}
+        {{#if otherGroup}}
+          {{> ffxivTocGroup group=otherGroup}}
+        {{/if}}
+      </div>
+    {{/if}}
+  </div>
+</div>

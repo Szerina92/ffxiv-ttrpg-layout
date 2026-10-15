@@ -1,0 +1,207 @@
+/* FFXIV Compendium ToC — table of contents window and its author editor. */
+
+.ffxiv-compendium-toc-app .window-content {
+  padding: 0;
+  background: var(--ffxiv-paper-light) url("../../images/pergament.webp") center / cover;
+}
+
+.ffxiv-compendium-toc {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  color: var(--ffxiv-ink);
+}
+
+.ffxiv-compendium-toc__header {
+  flex: 0 0 auto;
+  padding: 14px 24px 10px;
+  text-align: center;
+  color: var(--ffxiv-white);
+  background: var(--ffxiv-red-heading);
+  border-bottom: 3px solid var(--ffxiv-red-dark);
+}
+
+.ffxiv-compendium-toc__title {
+  margin: 0;
+  border: 0;
+  color: inherit;
+  font-family: var(--ffxiv-display);
+  font-size: 1.6rem;
+  letter-spacing: .04em;
+}
+
+.ffxiv-compendium-toc__subtitle {
+  margin: 2px 0 0;
+  font-family: var(--ffxiv-display);
+  font-size: .9rem;
+  font-variant: small-caps;
+  letter-spacing: .12em;
+  opacity: .9;
+}
+
+.ffxiv-compendium-toc__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 20px 28px 28px;
+}
+
+.ffxiv-compendium-toc__grid {
+  column-count: 2;
+  column-gap: 36px;
+}
+
+/* Groups may flow across columns so the two columns stay balanced; only headings stay with their first entry. */
+.ffxiv-compendium-toc__group {
+  margin: 0 0 22px;
+}
+
+.ffxiv-compendium-toc__chapter,
+.ffxiv-compendium-toc__subchapter {
+  break-after: avoid;
+}
+
+.ffxiv-compendium-toc__entries li {
+  break-inside: avoid;
+}
+
+.ffxiv-compendium-toc__chapter,
+.ffxiv-compendium-toc__subchapter {
+  margin: 0 0 6px;
+  border: 0;
+  font-family: var(--ffxiv-display);
+  color: var(--ffxiv-red-heading);
+}
+
+.ffxiv-compendium-toc__chapter {
+  padding-bottom: 4px;
+  font-size: 1.5rem;
+  border-bottom: 1px solid var(--ffxiv-line) !important;
+}
+
+.ffxiv-compendium-toc__subchapter {
+  margin-top: 10px;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.ffxiv-compendium-toc__entries {
+  margin: 0 0 4px;
+  padding: 0 0 0 14px;
+  list-style: none;
+  font-size: 1rem;
+}
+
+.ffxiv-compendium-toc__entries li {
+  margin: 3px 0;
+}
+
+.ffxiv-compendium-toc__link {
+  all: unset;
+  box-sizing: border-box;
+  cursor: pointer;
+  color: inherit;
+}
+
+.ffxiv-compendium-toc__entries .ffxiv-compendium-toc__link {
+  color: var(--ffxiv-ink);
+}
+
+.ffxiv-compendium-toc__link:hover,
+.ffxiv-compendium-toc__link:focus-visible {
+  color: var(--ffxiv-red-dark);
+  text-decoration: underline;
+}
+
+.ffxiv-compendium-toc__empty {
+  text-align: center;
+}
+
+@media (max-width: 700px) {
+  .ffxiv-compendium-toc__grid {
+    column-count: 1;
+  }
+}
+
+/* Author editor */
+.ffxiv-toc-editor .window-content {
+  background: var(--ffxiv-paper-light);
+}
+
+.ffxiv-toc-editor__content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  height: 100%;
+  color: var(--ffxiv-ink);
+}
+
+.ffxiv-toc-editor__hint,
+.ffxiv-toc-editor__locked {
+  margin: 0;
+  font-size: .9rem;
+}
+
+.ffxiv-toc-editor__locked {
+  color: var(--ffxiv-red-deep);
+  font-weight: 700;
+}
+
+.ffxiv-toc-editor__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  border: 1px solid var(--ffxiv-line);
+  border-radius: 4px;
+  background: var(--ffxiv-overlay-white-058);
+}
+
+.ffxiv-toc-editor__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ffxiv-toc-editor__table th {
+  position: sticky;
+  top: 0;
+  padding: 6px 8px;
+  text-align: left;
+  color: var(--ffxiv-white);
+  background: var(--ffxiv-red-heading);
+  font-family: var(--ffxiv-display);
+}
+
+.ffxiv-toc-editor__table td {
+  padding: 4px 8px;
+  border-top: 1px solid var(--ffxiv-line);
+  vertical-align: middle;
+}
+
+.ffxiv-toc-editor__table select,
+.ffxiv-toc-editor__table input[type="text"],
+.ffxiv-toc-editor__table input[type="number"] {
+  width: 100%;
+}
+
+.ffxiv-toc-editor__table input[type="number"] {
+  max-width: 5rem;
+}
+
+.ffxiv-toc-editor__headings {
+  text-align: center;
+}
+
+.ffxiv-toc-editor__journal {
+  display: block;
+  color: var(--ffxiv-muted);
+  font-size: .8rem;
+}
+
+.ffxiv-toc-editor__page-name {
+  font-weight: 700;
+}
+
+.ffxiv-toc-editor__footer {
+  flex: 0 0 auto;
+  text-align: right;
+}

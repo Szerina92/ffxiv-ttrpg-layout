@@ -198,6 +198,42 @@
       "Type": "Pet",
       "Traits": "Traits",
       "Abilities": "Fähigkeiten"
+    },
+    "Toc": {
+      "Title": "Inhaltsverzeichnis",
+      "Other": "Sonstiges",
+      "Empty": "Dem Inhaltsverzeichnis wurden noch keine Einträge hinzugefügt.",
+      "EditToc": "Inhaltsverzeichnis bearbeiten",
+      "StandardView": "Standardansicht",
+      "TocView": "Inhaltsverzeichnis-Ansicht",
+      "EditorTitle": "Inhaltsverzeichnis: {pack}",
+      "EditorHint": "Lege fest, welche Seiten im Inhaltsverzeichnis erscheinen und in welcher Rolle. Unterkapitel gehören zu einem Kapitel; Einträge zu einem Kapitel oder Unterkapitel. Seiten ohne Rolle werden nicht aufgeführt.",
+      "Locked": "Dieses Kompendium ist gesperrt. Entsperre es, um Änderungen zu speichern.",
+      "Saved": "Inhaltsverzeichnis gespeichert.",
+      "SaveError": "Das Inhaltsverzeichnis konnte nicht gespeichert werden.",
+      "OpenError": "Die Seite konnte nicht geöffnet werden.",
+      "RoleNone": "— nicht aufgeführt —",
+      "Role": {
+        "chapter": "Kapitel",
+        "subchapter": "Unterkapitel",
+        "entry": "Eintrag"
+      },
+      "NoParent": "— keines —",
+      "Column": {
+        "Page": "Seite",
+        "Role": "Rolle",
+        "Parent": "Übergeordnet",
+        "Label": "Anzeigename",
+        "Order": "Reihenfolge",
+        "Headings": "H2"
+      },
+      "Save": "Speichern",
+      "HeadingsTitle": "H2-Überschriften dieser Seite als Einträge anzeigen (Textseiten; nur Kapitel und Unterkapitel)."
+    },
+    "Table": {
+      "Roll": "Würfeln",
+      "Result": "Ergebnis",
+      "RollError": "Die Tabelle konnte nicht gewürfelt werden."
     }
   }
 }

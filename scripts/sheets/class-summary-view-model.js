@@ -8,7 +8,7 @@
  * level-specific presentation data separate from raw Item data.
  */
 
-import { localize } from "../i18n.js";
+import { localize, localizeOr } from "../i18n.js";
 
 const PRIMARY_ATTRIBUTES = [
   {
@@ -93,7 +93,7 @@ export function buildClassSummaryAttributesViewModel(item) {
 
   const primary = PRIMARY_ATTRIBUTES.map(attribute => ({
     key: attribute.key,
-    label: localize(attribute.localization, attribute.abbr),
+    label: localizeOr(attribute.localization, attribute.abbr),
     abbr: attribute.abbr,
     value: readNestedValue(primarySource, attribute.key),
     displayValue: formatSignedValue(readNestedValue(primarySource, attribute.key)),
@@ -101,13 +101,13 @@ export function buildClassSummaryAttributesViewModel(item) {
 
   const secondary = SECONDARY_ATTRIBUTES.map(attribute => ({
     key: attribute.key,
-    label: localize(attribute.localization, attribute.label),
+    label: localizeOr(attribute.localization, attribute.label),
     value: readNestedValue(secondarySource, attribute.key),
   }));
 
   secondary.push({
     key: "max_hp",
-    label: localize("FFXIV.Health.max", "Max HP"),
+    label: localizeOr("FFXIV.Health.max", "Max HP"),
     value: numberValue(system.health?.max),
   });
 
@@ -115,7 +115,7 @@ export function buildClassSummaryAttributesViewModel(item) {
     level: numberValue(system.level),
     primary,
     secondary,
-    primaryHeading: localize("FFXIVTTRPGLayout.ClassSummary.PrimaryAttributes", "Primary Attributes"),
-    secondaryHeading: localize("FFXIVTTRPGLayout.ClassSummary.SecondaryAttributes", "Secondary Attributes"),
+    primaryHeading: localize("FFXIVTTRPGLayout.ClassSummary.PrimaryAttributes"),
+    secondaryHeading: localize("FFXIVTTRPGLayout.ClassSummary.SecondaryAttributes"),
   };
 }

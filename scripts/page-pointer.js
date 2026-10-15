@@ -10,38 +10,26 @@
  * is a DocumentSheetV2 implementation with its own rendered page structure.
  */
 
-const MODULE_ID = "ffxiv-ttrpg-layout";
-const SETTING_KEY = "experimentalPagePointer";
+import { MODULE_ID } from "./constants.js";
+import { isPagePointerEnabled } from "./settings.js";
+
+const POINTER_SRC = `modules/${MODULE_ID}/images/Icons/pointer.webp`;
 const POINTER_TRANSITION = "top 180ms cubic-bezier(0.22, 0.61, 0.36, 1), left 180ms cubic-bezier(0.22, 0.61, 0.36, 1), opacity 120ms";
 
 const CONTROLLERS = new Set();
 let FRONT_CONTROLLER = null;
 
-export function registerPagePointerSetting() {
-  game.settings.register(MODULE_ID, SETTING_KEY, {
-    name: "FFXIVTTRPGLayout.Settings.ExperimentalPagePointer",
-    hint: "FFXIVTTRPGLayout.Settings.ExperimentalPagePointerHint",
-    scope: "client",
-    config: true,
-    type: Boolean,
-    default: false,
-    onChange: enabled => Hooks.callAll("ffxiv-page-pointer-setting-changed", Boolean(enabled))
-  });
+/** Re-apply the Page Pointer setting to every open Journal sheet. */
+export function refreshPagePointers() {
+  for (const controller of CONTROLLERS) controller.sync();
 }
-
-export function isPagePointerEnabled() {
-  return game.settings.get(MODULE_ID, SETTING_KEY) === true;
-}
-
-export { SETTING_KEY as pagePointerSettingKey };
 
 function requestAllUpdates() {
   for (const controller of CONTROLLERS) controller.scheduleUpdate();
 }
 
-function setFrontController(controller) {
-  FRONT_CONTROLLER = controller;
-  requestAllUpdates();
+function zIndexOf(frame, doc) {
+  return Number.parseInt(doc.defaultView?.getComputedStyle(frame).zIndex ?? "0", 10);
 }
 
 export class FFXIVJournalPagePointer {
@@ -56,15 +44,16 @@ export class FFXIVJournalPagePointer {
   #onResize = () => this.scheduleUpdate();
   #onScroll = () => this.scheduleUpdate();
   #onActivate = event => this.#handleActivation(event);
-  #onSettingChanged = enabled => {
-    if (enabled) this.attach();
-    else this.destroy();
-  };
 
   constructor(sheet) {
     this.#sheet = sheet;
     CONTROLLERS.add(this);
-    Hooks.on("ffxiv-page-pointer-setting-changed", this.#onSettingChanged);
+  }
+
+  /** Attach or remove the pointer according to the current setting. */
+  sync() {
+    if (isPagePointerEnabled()) this.attach();
+    else this.destroy();
   }
 
   attach() {
@@ -83,7 +72,7 @@ export class FFXIVJournalPagePointer {
       this.#pointer?.remove();
       this.#pointer = ownerDocument.createElement("img");
       this.#pointer.className = "ffxiv-experimental-page-pointer";
-      this.#pointer.src = "modules/ffxiv-ttrpg-layout/images/Icons/pointer.webp";
+      this.#pointer.src = POINTER_SRC;
       this.#pointer.alt = "";
       this.#pointer.draggable = false;
       this.#pointer.setAttribute("aria-hidden", "true");
@@ -127,7 +116,7 @@ export class FFXIVJournalPagePointer {
 
     // Establish an initial front controller from the current ApplicationV2
     // stacking order without depending on ApplicationV2.frontApp identity.
-    if (!FRONT_CONTROLLER || !this.#hasRenderedApplicationAboveCurrent()) {
+    if (!FRONT_CONTROLLER || this.#isOnTop()) {
       FRONT_CONTROLLER = this.#findFrontControllerForDocument(ownerDocument);
     }
 
@@ -150,7 +139,6 @@ export class FFXIVJournalPagePointer {
   dispose() {
     this.destroy();
     CONTROLLERS.delete(this);
-    Hooks.off("ffxiv-page-pointer-setting-changed", this.#onSettingChanged);
     if (FRONT_CONTROLLER === this) FRONT_CONTROLLER = null;
   }
 
@@ -229,42 +217,41 @@ export class FFXIVJournalPagePointer {
     }
   }
 
+  /** Controllers of this document whose Journal window is rendered and has a pointer. */
+  #localControllers(doc) {
+    return [...CONTROLLERS].filter(controller =>
+      controller.#ownerDocument === doc && controller.#sheet?.element?.isConnected && controller.#pointer
+    );
+  }
+
   #getFrontController() {
     const doc = this.#ownerDocument;
     if (!doc) return null;
 
-    const localControllers = [...CONTROLLERS].filter(controller =>
-      controller.#ownerDocument === doc && controller.#sheet?.element?.isConnected && controller.#pointer
-    );
+    const localControllers = this.#localControllers(doc);
     if (!localControllers.length) return null;
 
     // Explicit activation wins immediately. This avoids waiting for Foundry's
     // own z-index bookkeeping after a click between overlapping windows.
     if (FRONT_CONTROLLER && localControllers.includes(FRONT_CONTROLLER)) {
-      const frontElement = FRONT_CONTROLLER.#sheet?.element;
-      if (frontElement && this.#isLikelyTopApplication(frontElement, doc)) return FRONT_CONTROLLER;
+      if (FRONT_CONTROLLER.#sheet?.element && FRONT_CONTROLLER.#isOnTop()) return FRONT_CONTROLLER;
     }
 
     return this.#findFrontControllerForDocument(doc, localControllers);
   }
 
-  #findFrontControllerForDocument(doc, controllers = null) {
-    const candidates = controllers ?? [...CONTROLLERS].filter(controller =>
-      controller.#ownerDocument === doc && controller.#sheet?.element?.isConnected && controller.#pointer
-    );
-    if (!candidates.length) return null;
-
+  #findFrontControllerForDocument(doc, controllers = this.#localControllers(doc)) {
     let best = null;
     let bestZ = -Infinity;
     let bestIndex = -1;
+    const applications = [...doc.querySelectorAll(".application")];
 
-    for (const controller of candidates) {
-      const element = controller.#sheet?.element;
-      if (!element) continue;
-      const frame = element.closest?.(".application") ?? element;
-      const z = Number.parseInt(doc.defaultView?.getComputedStyle(frame).zIndex ?? "0", 10);
+    for (const controller of controllers) {
+      const frame = controller.#frame();
+      if (!frame) continue;
+      const z = zIndexOf(frame, doc);
       const resolvedZ = Number.isFinite(z) ? z : 0;
-      const index = [...doc.querySelectorAll(".application")].indexOf(frame);
+      const index = applications.indexOf(frame);
       if (resolvedZ > bestZ || (resolvedZ === bestZ && index > bestIndex)) {
         best = controller;
         bestZ = resolvedZ;
@@ -276,27 +263,24 @@ export class FFXIVJournalPagePointer {
     return best;
   }
 
-  #hasRenderedApplicationAboveCurrent() {
-    const doc = this.#ownerDocument;
+  /** The ApplicationV2 frame of this controller's Journal sheet. */
+  #frame() {
     const element = this.#sheet?.element;
-    if (!doc || !element) return false;
-    const currentFrame = element.closest?.(".application") ?? element;
-    const currentZ = Number.parseInt(doc.defaultView?.getComputedStyle(currentFrame).zIndex ?? "0", 10);
-    for (const app of doc.querySelectorAll(".application")) {
-      if (app === currentFrame) continue;
-      const z = Number.parseInt(doc.defaultView?.getComputedStyle(app).zIndex ?? "0", 10);
-      if (Number.isFinite(z) && Number.isFinite(currentZ) && z > currentZ) return true;
-    }
-    return false;
+    return element ? element.closest?.(".application") ?? element : null;
   }
 
-  #isLikelyTopApplication(element, doc) {
-    const frame = element.closest?.(".application") ?? element;
-    const z = Number.parseInt(doc.defaultView?.getComputedStyle(frame).zIndex ?? "0", 10);
+  /** True unless another rendered application has a higher z-index than this Journal. */
+  #isOnTop() {
+    const doc = this.#ownerDocument;
+    const frame = this.#frame();
+    if (!doc || !frame) return true;
+
+    const z = zIndexOf(frame, doc);
     if (!Number.isFinite(z)) return true;
+
     for (const app of doc.querySelectorAll(".application")) {
       if (app === frame) continue;
-      const otherZ = Number.parseInt(doc.defaultView?.getComputedStyle(app).zIndex ?? "0", 10);
+      const otherZ = zIndexOf(app, doc);
       if (Number.isFinite(otherZ) && otherZ > z) return false;
     }
     return true;

@@ -1,4 +1,5 @@
 import { buildAbilityCardData } from "../sheets/class-summary-data.js";
+import { renderElement } from "../utils/render.js";
 
 const TOOLTIP_CLASS = "ffxiv-ability-tooltip";
 const LINK_SELECTOR = "a.content-link[data-uuid]";
@@ -19,15 +20,8 @@ async function renderAbilityTooltip(item) {
   const card = await buildAbilityCardData(item);
   if (!card) return null;
 
-  const html = await foundry.applications.handlebars.renderTemplate(
-    "modules/ffxiv-ttrpg-layout/templates/sheets/partials/ffxivCard.hbs",
-    { card },
-  );
-
-  const template = document.createElement("template");
-  template.innerHTML = String(html ?? "").trim();
-  const node = template.content.firstElementChild;
-  const article = node?.querySelector?.(".ffxiv-class-summary__ability-card");
+  const node = await renderElement("modules/ffxiv-ttrpg-layout/templates/sheets/partials/ffxivCard.hbs", { card });
+  const article = node?.querySelector(".ffxiv-class-summary__ability-card");
   return article ? article.outerHTML : null;
 }
 
@@ -108,4 +102,3 @@ export function activateAbilityTooltips(root) {
   bind(root);
 }
 
-export { renderAbilityTooltip };

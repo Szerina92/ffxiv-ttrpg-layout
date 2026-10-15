@@ -198,6 +198,42 @@
       "Type": "Pet",
       "Traits": "Traits",
       "Abilities": "Abilities"
+    },
+    "Toc": {
+      "Title": "Table of Contents",
+      "Other": "Other",
+      "Empty": "No entries have been added to the Table of Contents yet.",
+      "EditToc": "Edit Table of Contents",
+      "StandardView": "Standard view",
+      "TocView": "Table of Contents view",
+      "EditorTitle": "Table of Contents: {pack}",
+      "EditorHint": "Choose which pages appear in the Table of Contents and in which role. Subchapters belong to a chapter; entries belong to a chapter or subchapter. Pages without a role are not listed.",
+      "Locked": "This compendium is locked. Unlock it to save changes.",
+      "Saved": "Table of Contents saved.",
+      "SaveError": "The Table of Contents could not be saved.",
+      "OpenError": "The page could not be opened.",
+      "RoleNone": "— not listed —",
+      "Role": {
+        "chapter": "Chapter",
+        "subchapter": "Subchapter",
+        "entry": "Entry"
+      },
+      "NoParent": "— none —",
+      "Column": {
+        "Page": "Page",
+        "Role": "Role",
+        "Parent": "Parent",
+        "Label": "Display name",
+        "Order": "Order",
+        "Headings": "H2"
+      },
+      "Save": "Save",
+      "HeadingsTitle": "List the H2 headings of this page as entries (text pages; chapters and subchapters only)."
+    },
+    "Table": {
+      "Roll": "Roll",
+      "Result": "Result",
+      "RollError": "The table could not be rolled."
     }
   }
 }

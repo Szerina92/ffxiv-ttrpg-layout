@@ -1,20 +1,18 @@
 import { localize } from "./i18n.js";
+import { buildSubmenu } from "./utils/menu-entries.js";
 
 const TEXT_HEADER_COLORS = Object.freeze({
   blue: {
     key: "DarkBlue",
     className: "ffxiv-header-blue",
-    variable: "--ffxiv-header-blue",
   },
   red: {
     key: "Red",
     className: "ffxiv-header-red",
-    variable: "--ffxiv-header-red",
   },
   green: {
     key: "Green",
     className: "ffxiv-header-green",
-    variable: "--ffxiv-header-green",
   },
 });
 
@@ -22,17 +20,14 @@ const TEXT_COLORS = Object.freeze({
   important: {
     key: "Important",
     className: "ffxiv-text-important",
-    variable: "--ffxiv-text-important",
   },
   note: {
     key: "Note",
     className: "ffxiv-text-note",
-    variable: "--ffxiv-text-note",
   },
   example: {
     key: "Example",
     className: "ffxiv-text-example",
-    variable: "--ffxiv-text-example",
   },
 });
 
@@ -66,15 +61,10 @@ const CALLOUT_ICONS = Object.freeze({
   },
 });
 
-const isElement = node => node?.nodeType === Node.ELEMENT_NODE;
-
+/** Closest ancestor-or-self element matching the selector; text nodes start at their parent. */
 function closestElement(node, selector) {
-  let current = isElement(node) ? node : node?.parentElement;
-  while (current) {
-    if (current.matches?.(selector)) return current;
-    current = current.parentElement;
-  }
-  return null;
+  const element = node?.nodeType === Node.ELEMENT_NODE ? node : node?.parentElement;
+  return element?.closest(selector) ?? null;
 }
 
 const CALLOUT_SELECTOR = [
@@ -82,7 +72,7 @@ const CALLOUT_SELECTOR = [
   ...Object.values(CALLOUT_ICONS)
     .map(({ className }) => className ? `.${className}` : null)
     .filter(Boolean),
-].join(', ');
+].join(", ");
 
 function findCalloutAtPosition(view, position) {
   if (!view?.dom || !Number.isFinite(position)) return null;
@@ -94,7 +84,7 @@ function findCalloutAtPosition(view, position) {
   }
 }
 
-export function findSelectedCallout(view) {
+function findSelectedCallout(view) {
   const selection = view?.state?.selection;
   if (!selection) return null;
 
@@ -191,7 +181,7 @@ function applyBackground(menu, backgroundKey, applyInsert) {
     return replaceCallout(menu, callout, replacement => {
       removeClassesWithPrefix(replacement, "ffxiv-bg-");
       replacement.classList.add(background.className);
-          });
+    });
   }
 
   const state = menu?.view?.state;
@@ -233,30 +223,20 @@ function applyIcon(menu, iconKey, applyInsert) {
   return true;
 }
 
-function buildSubmenu({ action, titleKey, fallbackTitle, entries, className }) {
-  return {
-    action,
-    title: localize(`FFXIVTTRPGLayout.Editor.${titleKey}`, fallbackTitle),
-    icon: '<span class="ffxiv-editor-submenu-arrow" aria-hidden="true">▸</span>',
-    class: `ffxiv-editor-submenu-entry ${className}`,
-    children: entries,
-  };
-}
-
 function buildHeaderColorEntries(applySemanticInsert) {
   return Object.entries(TEXT_HEADER_COLORS).map(([key, config]) => ({
     action: `ffxiv-header-color-${key}`,
-    title: localize(`FFXIVTTRPGLayout.Editor.${config.key}`, config.key.replace(/-/g, " ")),
+    title: localize(`FFXIVTTRPGLayout.Editor.${config.key}`),
     icon: `<span class="ffxiv-editor-color-dot ffxiv-editor-color-dot--${key}" aria-hidden="true"></span>`,
     class: "ffxiv-editor-semantic-entry ffxiv-editor-callout-color-entry",
     cmd: () => applyHeaderColor(key, applySemanticInsert),
   }));
 }
 
-function buildTextColorEntries(menu, applySemanticInsert) {
+function buildTextColorEntries(applySemanticInsert) {
   const colorEntries = Object.entries(TEXT_COLORS).map(([key, config]) => ({
     action: `ffxiv-text-color-${key}`,
-    title: localize(`FFXIVTTRPGLayout.Editor.${config.key}`, config.key),
+    title: localize(`FFXIVTTRPGLayout.Editor.${config.key}`),
     icon: `<span class="ffxiv-editor-color-dot ffxiv-editor-color-dot--text-${key}" aria-hidden="true"></span>`,
     class: `ffxiv-editor-semantic-entry ffxiv-editor-callout-text-entry ffxiv-editor-callout-text-entry--${key}`,
     cmd: () => applySemanticInsert(`<span class="${config.className}"><selection></selection></span>`),
@@ -267,14 +247,14 @@ function buildTextColorEntries(menu, applySemanticInsert) {
   const semanticEntries = [
     {
       action: "ffxiv-ability",
-      title: localize("FFXIVTTRPGLayout.Editor.Ability", "Ability"),
+      title: localize("FFXIVTTRPGLayout.Editor.Ability"),
       icon: '<span class="ffxiv-editor-accent ffxiv-editor-accent--abi">ABI</span>',
       class: "ffxiv-editor-semantic-entry ffxiv-editor-semantic-entry--abi",
       cmd: () => applySemanticInsert('<span class="ffxiv-abi"><selection></selection></span>'),
     },
     {
       action: "ffxiv-attack",
-      title: localize("FFXIVTTRPGLayout.Editor.Attack", "Attack"),
+      title: localize("FFXIVTTRPGLayout.Editor.Attack"),
       icon: '<span class="ffxiv-editor-accent ffxiv-editor-accent--att">ATT</span>',
       class: "ffxiv-editor-semantic-entry ffxiv-editor-semantic-entry--att",
       cmd: () => applySemanticInsert('<span class="ffxiv-att"><selection></selection></span>'),
@@ -287,7 +267,7 @@ function buildTextColorEntries(menu, applySemanticInsert) {
 function buildBackgroundEntries(menu, applyInsert) {
   return Object.entries(CALLOUT_BACKGROUNDS).map(([key, config]) => ({
     action: `ffxiv-callout-background-${key}`,
-    title: localize(`FFXIVTTRPGLayout.Editor.${config.key}`, config.key),
+    title: localize(`FFXIVTTRPGLayout.Editor.${config.key}`),
     icon: `<span class="ffxiv-editor-background-preview ffxiv-editor-background-preview--${key}" aria-hidden="true"></span>`,
     class: "ffxiv-editor-semantic-entry ffxiv-editor-callout-background-entry",
     cmd: () => applyBackground(menu, key, applyInsert),
@@ -297,10 +277,10 @@ function buildBackgroundEntries(menu, applyInsert) {
 function buildIconEntries(menu, applyInsert) {
   return Object.entries(CALLOUT_ICONS).map(([key, config]) => ({
     action: `ffxiv-callout-icon-${key}`,
-    title: localize(`FFXIVTTRPGLayout.Editor.${config.key}`, config.key),
+    title: localize(`FFXIVTTRPGLayout.Editor.${config.key}`),
     icon: key === "gm"
       ? `<img class="ffxiv-editor-icon-preview" src="modules/ffxiv-ttrpg-layout/images/Icons/GM.png" alt="GM">`
-      : '<span class="ffxiv-editor-icon-none" aria-hidden="true">—</span>', 
+      : '<span class="ffxiv-editor-icon-none" aria-hidden="true">—</span>',
     class: "ffxiv-editor-semantic-entry ffxiv-editor-callout-icon-entry",
     cmd: () => applyIcon(menu, key, applyInsert),
   }));
@@ -310,30 +290,26 @@ export function buildCalloutTextEditorEntries({ menu, applyInsert, applySemantic
   return [
     buildSubmenu({
       action: "ffxiv-header-color-menu",
-      titleKey: "HeaderColour",
-      fallbackTitle: "Header Colour",
-      entries: buildHeaderColorEntries(applySemanticInsert),
+      title: localize("FFXIVTTRPGLayout.Editor.HeaderColour"),
+      children: buildHeaderColorEntries(applySemanticInsert),
       className: "ffxiv-editor-submenu-entry--header-colour",
     }),
     buildSubmenu({
       action: "ffxiv-text-color-menu",
-      titleKey: "TextColour",
-      fallbackTitle: "Text Colour",
-      entries: buildTextColorEntries(menu, applySemanticInsert),
+      title: localize("FFXIVTTRPGLayout.Editor.TextColour"),
+      children: buildTextColorEntries(applySemanticInsert),
       className: "ffxiv-editor-submenu-entry--text-colour",
     }),
     buildSubmenu({
       action: "ffxiv-callout-background-menu",
-      titleKey: "Background",
-      fallbackTitle: "Background",
-      entries: buildBackgroundEntries(menu, applyInsert),
+      title: localize("FFXIVTTRPGLayout.Editor.Background"),
+      children: buildBackgroundEntries(menu, applyInsert),
       className: "ffxiv-editor-submenu-entry--background",
     }),
     buildSubmenu({
       action: "ffxiv-callout-icon-menu",
-      titleKey: "Icon",
-      fallbackTitle: "Icon",
-      entries: buildIconEntries(menu, applyInsert),
+      title: localize("FFXIVTTRPGLayout.Editor.Icon"),
+      children: buildIconEntries(menu, applyInsert),
       className: "ffxiv-editor-submenu-entry--icon",
     }),
   ];
@@ -342,7 +318,7 @@ export function buildCalloutTextEditorEntries({ menu, applyInsert, applySemantic
 export function buildScenarioEditorEntry({ menu }) {
   return {
     action: "ffxiv-scenario",
-    title: localize("FFXIVTTRPGLayout.Editor.Scenario", "Scenario"),
+    title: localize("FFXIVTTRPGLayout.Editor.Scenario"),
     icon: '<span class="ffxiv-editor-accent ffxiv-editor-accent--scenario"><i class="fa-solid fa-volume-high" aria-hidden="true"></i></span>',
     class: "ffxiv-editor-semantic-entry ffxiv-editor-semantic-entry--scenario",
     cmd: () => {

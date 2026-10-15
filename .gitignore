@@ -1,0 +1,5 @@
+# LevelDB runtime/recovery artifacts of the compendium packs
+packs/*/LOCK
+packs/*/LOG
+packs/*/LOG.old
+packs/*/lost/

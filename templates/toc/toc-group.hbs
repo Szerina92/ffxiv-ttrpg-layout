@@ -1,0 +1,45 @@
+<section class="ffxiv-compendium-toc__group">
+  <h2 class="ffxiv-compendium-toc__chapter">
+    {{#if group.uuid}}
+      <button type="button" class="ffxiv-compendium-toc__link" data-action="openPage" data-uuid="{{group.uuid}}">{{group.label}}</button>
+    {{else}}
+      <span>{{group.label}}</span>
+    {{/if}}
+  </h2>
+
+  {{#if group.headings.length}}
+    <ul class="ffxiv-compendium-toc__entries">
+      {{#each group.headings}}
+        <li><button type="button" class="ffxiv-compendium-toc__link" data-action="openPage" data-uuid="{{../group.uuid}}" data-heading="{{text}}" data-occurrence="{{occurrence}}">{{text}}</button></li>
+      {{/each}}
+    </ul>
+  {{/if}}
+
+  {{#if group.entries.length}}
+    <ul class="ffxiv-compendium-toc__entries">
+      {{#each group.entries}}
+        <li><button type="button" class="ffxiv-compendium-toc__link" data-action="openPage" data-uuid="{{uuid}}">{{label}}</button></li>
+      {{/each}}
+    </ul>
+  {{/if}}
+
+  {{#each group.subchapters}}
+    <h3 class="ffxiv-compendium-toc__subchapter">
+      <button type="button" class="ffxiv-compendium-toc__link" data-action="openPage" data-uuid="{{uuid}}">{{label}}</button>
+    </h3>
+    {{#if headings.length}}
+      <ul class="ffxiv-compendium-toc__entries">
+        {{#each headings}}
+          <li><button type="button" class="ffxiv-compendium-toc__link" data-action="openPage" data-uuid="{{../uuid}}" data-heading="{{text}}" data-occurrence="{{occurrence}}">{{text}}</button></li>
+        {{/each}}
+      </ul>
+    {{/if}}
+    {{#if entries.length}}
+      <ul class="ffxiv-compendium-toc__entries">
+        {{#each entries}}
+          <li><button type="button" class="ffxiv-compendium-toc__link" data-action="openPage" data-uuid="{{uuid}}">{{label}}</button></li>
+        {{/each}}
+      </ul>
+    {{/if}}
+  {{/each}}
+</section>

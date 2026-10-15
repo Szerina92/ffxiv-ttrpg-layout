@@ -1,0 +1,133 @@
+/* FFXIV Rollable Table Embed — dark table surface shared with `table.ffxiv-table`.
+   Selectors are prefixed with the root class so generic Journal table styles never win. */
+
+.ffxiv-table-embed {
+  box-sizing: border-box;
+  width: min(100%, 520px);
+  margin: 1.25rem auto;
+  overflow: hidden;
+  color: var(--ffxiv-table-text);
+  background: var(--ffxiv-table-dark);
+  border: 2px solid var(--ffxiv-gold-dark);
+  border-radius: var(--ffxiv-card-radius);
+  box-shadow: 0 1px 3px var(--ffxiv-overlay-black-024);
+}
+
+.ffxiv-table-embed.ffxiv-table-embed--float-left { margin-left: 0; margin-right: auto; }
+.ffxiv-table-embed.ffxiv-table-embed--float-right { margin-left: auto; margin-right: 0; }
+
+.ffxiv-table-embed .ffxiv-table-embed__header {
+  padding: 8px 12px;
+  background: var(--ffxiv-table-header);
+}
+
+.ffxiv-table-embed .ffxiv-table-embed__name {
+  font-family: var(--ffxiv-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ffxiv-table-text);
+  overflow-wrap: anywhere;
+}
+
+.ffxiv-table-embed .ffxiv-table-embed__description {
+  padding: 6px 12px;
+  background: var(--ffxiv-table-dark-2);
+  color: var(--ffxiv-table-text);
+  font-size: .9rem;
+}
+
+.ffxiv-table-embed .ffxiv-table-embed__description p { margin: 0; }
+
+.ffxiv-table-embed .ffxiv-table-embed__scroll {
+  max-height: 26rem;
+  overflow-y: auto;
+}
+
+.ffxiv-table-embed .ffxiv-table-embed__table {
+  width: 100%;
+  margin: 0;
+  border-collapse: collapse;
+  border: 0;
+  background: none;
+}
+
+.ffxiv-table-embed .ffxiv-table-embed__table th,
+.ffxiv-table-embed .ffxiv-table-embed__table td {
+  padding: 5px 12px;
+  border: 0;
+  border-top: 1px solid var(--ffxiv-overlay-white-018);
+  text-align: left;
+  vertical-align: top;
+  color: var(--ffxiv-table-text);
+}
+
+.ffxiv-table-embed .ffxiv-table-embed__table thead th {
+  position: sticky;
+  top: 0;
+  vertical-align: middle;
+  background: var(--ffxiv-table-dark-4);
+  font-size: .8rem;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+.ffxiv-table-embed .ffxiv-table-embed__table td { background: var(--ffxiv-table-dark-4); }
+.ffxiv-table-embed .ffxiv-table-embed__table tbody tr:nth-child(even) td { background: var(--ffxiv-table-dark-deep); }
+
+.ffxiv-table-embed .ffxiv-table-embed__table .ffxiv-table-embed__range {
+  width: 1%;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.ffxiv-table-embed .ffxiv-table-embed__table tbody .ffxiv-table-embed__range {
+  background: var(--ffxiv-table-dark-2);
+  font-weight: 700;
+}
+
+/* Roll button: [die icon] d6, placed in the range column header. */
+.ffxiv-table-embed .ffxiv-table-embed__roll {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: auto;
+  height: auto;
+  min-height: 0;
+  margin: 0;
+  padding: 3px 10px;
+  color: var(--ffxiv-white);
+  background: var(--ffxiv-red-heading);
+  border: 1px solid var(--ffxiv-red-dark);
+  border-radius: 4px;
+  font-size: .85rem;
+  letter-spacing: 0;
+  text-transform: none;
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+.ffxiv-table-embed .ffxiv-table-embed__roll:hover:not(:disabled),
+.ffxiv-table-embed .ffxiv-table-embed__roll:focus-visible {
+  background: var(--ffxiv-red-dark);
+}
+
+.ffxiv-table-embed .ffxiv-table-embed__roll:disabled {
+  opacity: .6;
+  cursor: progress;
+}
+
+.ffxiv-table-embed .ffxiv-table-embed__table a,
+.ffxiv-table-embed .ffxiv-table-embed__table .content-link {
+  color: var(--ffxiv-gold-light);
+}
+
+.ffxiv-table-embed .ffxiv-table-embed__table tr.is-spent td {
+  opacity: .5;
+  text-decoration: line-through;
+}
+
+.ffxiv-table-embed .ffxiv-table-embed__table tr.is-drawn td {
+  background: var(--ffxiv-gold-dark);
+  color: var(--ffxiv-white);
+  opacity: 1;
+}

@@ -2,16 +2,19 @@
  * FFXIV TTRPG Layout — central module hub.
  */
 
+import { registerSettings } from "./settings.js";
 import { registerJournalSheet } from "./sheets/journal-sheet.js";
 import { registerClassSummarySheet } from "./sheets/class-summary-sheet.js";
+import { registerRuleSheet } from "./sheets/rule-sheet.js";
 import { registerItemEmbed } from "./embeds/item-embed.js";
 import { registerNPCEmbed } from "./embeds/npc-embed.js";
 import { registerPetEmbed } from "./embeds/pet-embed.js";
-import { registerMarkerRenderer } from "./marker-renderer.js";
-import { registerRuleSheet } from "./sheets/rule-sheet.js";
-import { registerRuleEnricher, registerRulesCompendiumSetting } from "./rules.js";
-import { registerPagePointerSetting } from "./page-pointer.js";
-import { registerPageChangeSoundSetting } from "./page-change-sound.js";
+import { registerTableEmbed } from "./embeds/table-embed.js";
+import { registerRules } from "./rules.js";
+import { registerEditorMenu } from "./editor-menu.js";
+import { registerCompendiumToc } from "./toc/toc.js";
+import { refreshPagePointers } from "./page-pointer.js";
+import { preloadPageChangeSound } from "./page-change-sound.js";
 
 Hooks.once("init", async () => {
   await foundry.applications.handlebars.loadTemplates({
@@ -19,19 +22,24 @@ Hooks.once("init", async () => {
     ffxivClassSummaryAbilityCard: "modules/ffxiv-ttrpg-layout/templates/sheets/partials/ffxivClassSummaryAbilityCard.hbs",
     ffxivItemCard: "modules/ffxiv-ttrpg-layout/templates/embeds/item-card.hbs",
     ffxivPetCard: "modules/ffxiv-ttrpg-layout/templates/sheets/partials/ffxivPetCard.hbs",
+    ffxivTocGroup: "modules/ffxiv-ttrpg-layout/templates/toc/toc-group.hbs",
   });
+
+  registerSettings({ onPagePointerChange: refreshPagePointers });
 
   registerJournalSheet();
   // Register custom JournalEntryPage data models before any other sheet
   // registration can cause Foundry to cache JournalEntryPage.TYPES.
   registerRuleSheet();
-  registerRuleEnricher();
-  registerRulesCompendiumSetting();
+  registerRules();
   registerClassSummarySheet();
+  registerEditorMenu();
+  registerCompendiumToc();
+
   registerItemEmbed();
   registerNPCEmbed();
   registerPetEmbed();
-  registerMarkerRenderer();
-  registerPagePointerSetting();
-  registerPageChangeSoundSetting();
+  registerTableEmbed();
+
+  preloadPageChangeSound();
 });

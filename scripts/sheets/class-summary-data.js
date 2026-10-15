@@ -7,68 +7,30 @@
 
 import { buildClassSummaryAttributesViewModel } from "./class-summary-view-model.js";
 import { localize, localizeTags } from "../i18n.js";
+import { enrich } from "../utils/enrich.js";
+import { numberOr, text } from "../utils/values.js";
 
-function text(value) {
-  if (value === null || value === undefined) return "";
-  return String(value).trim();
+/** Name variants (English/German) and the abbreviation used to recognise special Jobs. */
+const JOB_ALIASES = Object.freeze({
+  bard: { names: ["bard", "barde"], abbreviation: "brd" },
+  monk: { names: ["monk", "moench", "mönch"], abbreviation: "mnk" },
+  ninja: { names: ["ninja"], abbreviation: "nin" },
+});
+
+function isJob(jobItem, jobKey) {
+  const { names, abbreviation } = JOB_ALIASES[jobKey];
+  const namePattern = new RegExp(`\\b(?:${names.join("|")})\\b`, "i");
+
+  return [jobItem?.name, jobItem?.system?.job_name]
+    .map(text)
+    .filter(Boolean)
+    .some(value => namePattern.test(value) || value.toLowerCase().replace(/[^a-z]/g, "") === abbreviation);
 }
 
-function labelsFromTags(tags) {
-  if (!Array.isArray(tags)) return [];
-  return localizeTags(tags);
+function hasTag(item, tag) {
+  const tags = item?.system?.tags;
+  return Array.isArray(tags) && tags.includes(`FFXIV.Tags.${tag}`);
 }
-
-function isBardJob(jobItem) {
-  const candidates = [
-    text(jobItem?.name),
-    text(jobItem?.system?.job_name),
-  ].map(value => value.toLowerCase().trim()).filter(Boolean);
-
-  return candidates.some(value => {
-    const compact = value.replace(/[^a-z]/g, "");
-    return /\bbard\b/i.test(value) || /\bbarde\b/i.test(value) || compact === "brd";
-  });
-}
-
-function isMonkJob(jobItem) {
-  const candidates = [
-    text(jobItem?.name),
-    text(jobItem?.system?.job_name),
-  ].map(value => value.toLowerCase().trim()).filter(Boolean);
-
-  return candidates.some(value => {
-    const compact = value.replace(/[^a-z]/g, "");
-    return /\bmonk\b/i.test(value) || /\bmoench\b/i.test(value) || /\bmönch\b/i.test(value) || compact === "mnk";
-  });
-}
-
-function isNinjaJob(jobItem) {
-  const candidates = [
-    text(jobItem?.name),
-    text(jobItem?.system?.job_name),
-  ].map(value => value.toLowerCase().trim()).filter(Boolean);
-
-  return candidates.some(value => {
-    const compact = value.replace(/[^a-z]/g, "");
-    return /\bninja\b/i.test(value) || compact === "nin";
-  });
-}
-
-function hasSongTag(item) {
-  const tags = Array.isArray(item?.system?.tags) ? item.system.tags : [];
-  return tags.includes("FFXIV.Tags.Song");
-}
-
-function hasTechniqueTag(item) {
-  const tags = Array.isArray(item?.system?.tags) ? item.system.tags : [];
-  return tags.includes("FFXIV.Tags.Technique");
-}
-
-function hasNinjutsuTag(item) {
-  const tags = Array.isArray(item?.system?.tags) ? item.system.tags : [];
-  return tags.includes("FFXIV.Tags.Ninjutsu");
-}
-
 
 const CHECK_ATTRIBUTE_ABBREVIATIONS = new Map([
   ["FFXIV.Attributes.Strength.long", "STR"],
@@ -91,7 +53,7 @@ const CHECK_ATTRIBUTE_KEYS = new Map([
 function normalizeCheck(value) {
   const normalized = text(value);
   if (!normalized || normalized.toLowerCase() === "none") return "";
-  if (normalized === SPECIAL_CHECK) return localize("FFXIVTTRPGLayout.Ability.Special", "Special");
+  if (normalized === SPECIAL_CHECK) return localize("FFXIVTTRPGLayout.Ability.Special");
   return CHECK_ATTRIBUTE_ABBREVIATIONS.get(normalized) ?? normalized;
 }
 
@@ -138,9 +100,9 @@ function formatChallengeParts(value) {
 
 function abilityTypeFromTags(tags) {
   if (!Array.isArray(tags)) return "";
-  if (tags.includes("FFXIV.Tags.Primary")) return localize("FFXIVTTRPGLayout.Item.Primary", "Primary");
-  if (tags.includes("FFXIV.Tags.Secondary")) return localize("FFXIVTTRPGLayout.Item.Secondary", "Secondary");
-  if (tags.includes("FFXIV.Tags.Instant")) return localize("FFXIVTTRPGLayout.Item.Instant", "Instant");
+  if (tags.includes("FFXIV.Tags.Primary")) return localize("FFXIVTTRPGLayout.Item.Primary");
+  if (tags.includes("FFXIV.Tags.Secondary")) return localize("FFXIVTTRPGLayout.Item.Secondary");
+  if (tags.includes("FFXIV.Tags.Instant")) return localize("FFXIVTTRPGLayout.Item.Instant");
   return "";
 }
 
@@ -306,19 +268,7 @@ async function enrichRichText(value, document) {
   if (!normalized) return "";
 
   try {
-    return await foundry.applications.ux.TextEditor.implementation.enrichHTML(
-      normalized,
-      {
-        async: true,
-        custom: true,
-        documents: true,
-        embeds: true,
-        links: true,
-        rolls: true,
-        secrets: document?.isOwner ?? false,
-        relativeTo: document,
-      },
-    );
+    return await enrich(normalized, document);
   } catch (error) {
     console.warn("FFXIV TTRPG Layout | Unable to enrich Class Summary rich text", error);
     return normalized;
@@ -332,7 +282,7 @@ async function normalizeAbility(grant, item, jobItem) {
   // Keep every tag supplied by the source Item. There is intentionally no
   // whitelist here: the FFXIV system can introduce additional tags without
   // requiring a Layout update.
-  const typeLabels = labelsFromTags(tags);
+  const typeLabels = localizeTags(tags);
 
   return {
     uuid: grant?.uuid ?? item?.uuid ?? "",
@@ -349,7 +299,7 @@ async function normalizeAbility(grant, item, jobItem) {
     range: text(system.range),
     check: normalizeCheck(system.check),
     isSpecialCheck: text(system.check) === SPECIAL_CHECK,
-    checkDisplay: text(system.check) === SPECIAL_CHECK ? localize("FFXIVTTRPGLayout.Ability.SpecialCheck", "Special (d20, Critical)") : normalizeCheck(system.check),
+    checkDisplay: text(system.check) === SPECIAL_CHECK ? localize("FFXIVTTRPGLayout.Ability.SpecialCheck") : normalizeCheck(system.check),
     checkModifier: text(system.check) === SPECIAL_CHECK
       ? ""
       : formatCheckModifier(getCheckModifier(jobSystem, normalizeCheck(system.check))),
@@ -372,7 +322,7 @@ async function normalizeAbility(grant, item, jobItem) {
 async function normalizeTrait(grant, item) {
   const system = item?.system ?? {};
   const tags = Array.isArray(system.tags) ? system.tags : [];
-  const labels = labelsFromTags(tags);
+  const labels = localizeTags(tags);
   return {
     uuid: grant?.uuid ?? item?.uuid ?? "",
     name: text(item?.name ?? grant?.name),
@@ -451,15 +401,15 @@ export async function buildPetCardData(actor) {
   }
 
   const speedValue = text(system.speed?.value);
-  const speedUnit = text(system.speed?.unit) || localize("FFXIVTTRPGLayout.NPC.Squares", "squares");
+  const speedUnit = text(system.speed?.unit) || localize("FFXIVTTRPGLayout.NPC.Squares");
 
   return {
     uuid: actor.uuid ?? "",
     actorType: actor.type,
     name: text(actor.name),
-    petLabel: localize("FFXIVTTRPGLayout.Pet.Type", "Pet"),
+    petLabel: localize("FFXIVTTRPGLayout.Pet.Type"),
     speedText: speedValue
-      ? `${localize("FFXIVTTRPGLayout.NPC.Speed", "Speed")}: ${speedValue} ${speedUnit}`
+      ? `${localize("FFXIVTTRPGLayout.NPC.Speed")}: ${speedValue} ${speedUnit}`
       : "",
     traits: traitsHTML,
     abilities,
@@ -473,7 +423,7 @@ export async function buildAbilityCardData(item, contextDocument = null) {
   return normalizeAbility({ uuid: item.uuid, name: item.name }, item, contextDocument);
 }
 
-export async function resolveJobFromUuid(uuid) {
+async function resolveJobFromUuid(uuid) {
   if (typeof uuid !== "string" || !uuid.trim()) return null;
 
   const item = await fromUuid(uuid.trim());
@@ -481,7 +431,7 @@ export async function resolveJobFromUuid(uuid) {
   return item;
 }
 
-export async function buildClassSummaryData(item) {
+async function buildClassSummaryData(item) {
   if (!item || item.documentName !== "Item" || item.type !== "job") return null;
 
   const system = item.system ?? {};
@@ -505,10 +455,10 @@ export async function buildClassSummaryData(item) {
   const instantAbilities = [];
   const songAbilities = [];
   const traits = [];
-  const bardJob = isBardJob(item);
-  const monkJob = isMonkJob(item);
+  const bardJob = isJob(item, "bard");
+  const monkJob = isJob(item, "monk");
   const techniqueAbilities = [];
-  const ninjaJob = isNinjaJob(item);
+  const ninjaJob = isJob(item, "ninja");
   const ninjutsuAbilities = [];
 
   for (const { grant, item: abilityItem } of resolved) {
@@ -525,17 +475,17 @@ export async function buildClassSummaryData(item) {
     }
 
     const ability = await normalizeAbility(grant, abilityItem, item);
-    if (bardJob && hasSongTag(abilityItem)) {
+    if (bardJob && hasTag(abilityItem, "Song")) {
       songAbilities.push(ability);
       continue;
     }
 
-    if (monkJob && hasTechniqueTag(abilityItem)) {
+    if (monkJob && hasTag(abilityItem, "Technique")) {
       techniqueAbilities.push(ability);
       continue;
     }
 
-    if (ninjaJob && hasNinjutsuTag(abilityItem)) {
+    if (ninjaJob && hasTag(abilityItem, "Ninjutsu")) {
       ninjutsuAbilities.push(ability);
       continue;
     }
@@ -569,7 +519,7 @@ export async function buildClassSummaryData(item) {
   return {
     uuid: item.uuid,
     name: text(system.job_name) || text(item.name),
-    level: Number.isFinite(Number(system.level)) ? Number(system.level) : null,
+    level: numberOr(system.level, null),
     role: text(system.role),
     img: text(item.img),
     attributes: buildClassSummaryAttributesViewModel(item),
@@ -585,7 +535,48 @@ export async function buildClassSummaryData(item) {
     hasNinjutsuAbilities: ninjutsuAbilities.length > 0,
     traits: buildTraitColumns(traits),
     pets: buildPetColumns(pets),
-    petsSectionLabel: localize("FFXIVTTRPGLayout.ClassSummary.Pets", "Pets"),
+    petsSectionLabel: localize("FFXIVTTRPGLayout.ClassSummary.Pets"),
     hasPets: pets.length > 0,
+  };
+}
+
+/**
+ * Build the Class Summary context shared by the Journal view and the page sheet.
+ *
+ * @param {JournalEntryPage} page The Class Summary page.
+ * @param {object} [options]
+ * @param {boolean} [options.includeSummary=true] Build the full Class Summary for the active Job.
+ *   The edit view only needs the Job list and therefore skips this.
+ */
+export async function buildClassSummaryPageContext(page, { includeSummary = true } = {}) {
+  const { jobUuids, currentJobUuid: activeJobUuid, introduction } = page.system;
+
+  const selectedJobs = (await Promise.all(jobUuids.map(async uuid => {
+    const item = await resolveJobFromUuid(uuid);
+    if (!item) return null;
+    return {
+      uuid: item.uuid,
+      name: text(item.system?.job_name || item.name),
+      level: numberOr(item.system?.level, null),
+      img: text(item.img),
+    };
+  }))).filter(Boolean);
+
+  let classSummary = null;
+  if (includeSummary) {
+    const sourceItem = await resolveJobFromUuid(activeJobUuid);
+    classSummary = sourceItem ? await buildClassSummaryData(sourceItem) : null;
+  }
+
+  return {
+    pageId: page.id,
+    classSummary,
+    hasSource: Boolean(classSummary),
+    introductionHTML: introduction ? await enrich(introduction, page) : "",
+    jobUuids,
+    activeJobUuid,
+    selectedJobs,
+    hasSelectedJobs: selectedJobs.length > 0,
+    hasMultipleJobs: selectedJobs.length > 1,
   };
 }

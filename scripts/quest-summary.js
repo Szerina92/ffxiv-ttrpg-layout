@@ -21,61 +21,43 @@ const QUEST_ALIGNMENT_DEFAULT = "center";
 const QUEST_ALIGNMENTS = Object.freeze({
   left: {
     key: "FFXIVTTRPGLayout.Editor.QuestAlignmentLeft",
-    fallback: "Left",
   },
   right: {
     key: "FFXIVTTRPGLayout.Editor.QuestAlignmentRight",
-    fallback: "Right",
   },
   center: {
     key: "FFXIVTTRPGLayout.Editor.QuestAlignmentCenter",
-    fallback: "Center",
   },
 });
 const QUEST_STYLES = Object.freeze({
   none: {
     image: "",
     key: "FFXIVTTRPGLayout.Editor.QuestStyleNone",
-    fallback: "None",
   },
   sidequest: {
     image: "modules/ffxiv-ttrpg-layout/images/Icons/Sidequest1_Icon.png",
     key: "FFXIVTTRPGLayout.Editor.QuestStyleSideQuest",
-    fallback: "Side Quest",
   },
   mainquest: {
     image: "modules/ffxiv-ttrpg-layout/images/Icons/Mainquest1_Icon.png",
     key: "FFXIVTTRPGLayout.Editor.QuestStyleMainQuest",
-    fallback: "Main Quest",
   },
   guildhest: {
     image: "modules/ffxiv-ttrpg-layout/images/Icons/Guildhest1_Icon.png",
     key: "FFXIVTTRPGLayout.Editor.QuestStyleGuildhest",
-    fallback: "Guildhest",
   },
   levequest: {
     image: "modules/ffxiv-ttrpg-layout/images/Icons/Levequest1_Icon.png",
     key: "FFXIVTTRPGLayout.Editor.QuestStyleLevequest",
-    fallback: "Levequest",
   },
 });
 
 function escapeHTML(value) {
-  const text = String(value ?? "");
-  const escape = globalThis.foundry?.utils?.escapeHTML;
-  if (typeof escape === "function") return escape(text);
-  return text
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
+  return foundry.utils.escapeHTML(String(value ?? ""));
 }
 
 function makeQuestSummaryId() {
-  if (typeof foundry?.utils?.randomID === "function") return foundry.utils.randomID(16);
-  if (typeof globalThis.crypto?.randomUUID === "function") return globalThis.crypto.randomUUID().replaceAll("-", "");
-  return `quest-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+  return foundry.utils.randomID(16);
 }
 
 function normalizeData(data = {}) {
@@ -99,7 +81,7 @@ function normalizeData(data = {}) {
 }
 
 function levelPrefix() {
-  return localize("FFXIVTTRPGLayout.Editor.QuestLevelPrefix", "Lv.");
+  return localize("FFXIVTTRPGLayout.Editor.QuestLevelPrefix");
 }
 
 /**
@@ -108,10 +90,10 @@ function levelPrefix() {
 export function buildQuestSummaryHTML(data = {}, { questId = makeQuestSummaryId() } = {}) {
   const value = normalizeData(data);
   const level = escapeHTML(value.level);
-  const name = escapeHTML(value.name || localize("FFXIVTTRPGLayout.Editor.QuestTitlePlaceholder", "Quest Name"));
-  const playerInfo = localize("FFXIVTTRPGLayout.Editor.QuestPlayerInformation", "Player Information");
+  const name = escapeHTML(value.name || localize("FFXIVTTRPGLayout.Editor.QuestTitlePlaceholder"));
+  const playerInfo = localize("FFXIVTTRPGLayout.Editor.QuestPlayerInformation");
   const questStyle = QUEST_STYLES[value.questStyle] ?? QUEST_STYLES[QUEST_STYLE_DEFAULT];
-  const questStyleLabel = escapeHTML(localize(questStyle.key, questStyle.fallback));
+  const questStyleLabel = escapeHTML(localize(questStyle.key));
   const image = escapeHTML(value.image);
   const questStyleHTML = value.questStyle !== QUEST_STYLE_NONE && questStyle.image
     ? `<div class="ffxiv-quest-summary__style" data-ffxiv-quest-style-label="${questStyleLabel}"><img src="${questStyle.image}" alt="" aria-hidden="true"></div>`
@@ -149,14 +131,14 @@ export function buildQuestSummaryHTML(data = {}, { questId = makeQuestSummaryId(
     <div class="ffxiv-quest-summary__section ffxiv-quest-summary__description">
       <div class="ffxiv-quest-summary__section-title">
         <img src="${QUEST_DESCRIPTION_ICON}" alt="" aria-hidden="true">
-        <span>${escapeHTML(localize("FFXIVTTRPGLayout.Editor.QuestDescription", "Description"))}</span>
+        <span>${escapeHTML(localize("FFXIVTTRPGLayout.Editor.QuestDescription"))}</span>
       </div>
       <div class="ffxiv-quest-summary__section-content">${value.description}</div>
     </div>
     <div class="ffxiv-quest-summary__section ffxiv-quest-summary__objectives${hiddenObjectivesClass}">
       <div class="ffxiv-quest-summary__section-title">
         <img src="${QUEST_OBJECTIVES_ICON}" alt="" aria-hidden="true">
-        <span>${escapeHTML(localize("FFXIVTTRPGLayout.Editor.QuestObjectives", "Objectives"))}</span>
+        <span>${escapeHTML(localize("FFXIVTTRPGLayout.Editor.QuestObjectives"))}</span>
       </div>
       <div class="ffxiv-quest-summary__section-content">${value.objectives}</div>
     </div>
@@ -247,7 +229,7 @@ function createContentPreview(value, emptyLabel) {
  * text document, while the real source page is kept untouched until the
  * Quest Summary dialog is finally saved.
  */
-export async function openQuestSummaryFieldEditor(sourcePage, field, value, onChange) {
+async function openQuestSummaryFieldEditor(sourcePage, field, value, onChange) {
   if (!sourcePage?.isOwner) return null;
   if (![
     "description",
@@ -255,8 +237,8 @@ export async function openQuestSummaryFieldEditor(sourcePage, field, value, onCh
   ].includes(field)) return null;
 
   const title = field === "description"
-    ? localize("FFXIVTTRPGLayout.Editor.QuestDescription", "Description")
-    : localize("FFXIVTTRPGLayout.Editor.QuestObjectives", "Objectives");
+    ? localize("FFXIVTTRPGLayout.Editor.QuestDescription")
+    : localize("FFXIVTTRPGLayout.Editor.QuestObjectives");
 
   const editor = new FFXIVQuestSummaryProseMirrorEditor(
     sourcePage,
@@ -304,8 +286,8 @@ class FFXIVQuestSummaryProseMirrorEditor extends JournalEntryPageProseMirrorShee
       window: {
         ...(options.window ?? {}),
         title: field === "description"
-          ? localize("FFXIVTTRPGLayout.Editor.QuestDescription", "Description")
-          : localize("FFXIVTTRPGLayout.Editor.QuestObjectives", "Objectives"),
+          ? localize("FFXIVTTRPGLayout.Editor.QuestDescription")
+          : localize("FFXIVTTRPGLayout.Editor.QuestObjectives"),
         resizable: true,
       },
     });
@@ -320,8 +302,8 @@ class FFXIVQuestSummaryProseMirrorEditor extends JournalEntryPageProseMirrorShee
 
   static #createNativeTextDocument(page, field, state) {
     const title = field === "description"
-      ? localize("FFXIVTTRPGLayout.Editor.QuestDescription", "Description")
-      : localize("FFXIVTTRPGLayout.Editor.QuestObjectives", "Objectives");
+      ? localize("FFXIVTTRPGLayout.Editor.QuestDescription")
+      : localize("FFXIVTTRPGLayout.Editor.QuestObjectives");
 
     return createNativeTextDocument(page, {
       getName: () => title,
@@ -373,11 +355,11 @@ function makeDialogContent(data, editorState, sourcePage) {
   else nameInput.removeAttribute("value");
   nameInput.required = true;
   nameInput.autocomplete = "off";
-  nameInput.placeholder = localize("FFXIVTTRPGLayout.Editor.QuestTitlePlaceholder", "Quest Name");
+  nameInput.placeholder = localize("FFXIVTTRPGLayout.Editor.QuestTitlePlaceholder");
   nameInput.autofocus = true;
 
   const titleRow = createFieldRow(
-    localize("FFXIVTTRPGLayout.Editor.QuestName", "Quest Name"),
+    localize("FFXIVTTRPGLayout.Editor.QuestName"),
     nameInput,
   );
   titleRow.classList.add("ffxiv-quest-summary-editor__title-row");
@@ -396,7 +378,7 @@ function makeDialogContent(data, editorState, sourcePage) {
   levelInput.placeholder = "00";
 
   const levelField = createFieldRow(
-    localize("FFXIVTTRPGLayout.Editor.QuestLevel", "Level"),
+    localize("FFXIVTTRPGLayout.Editor.QuestLevel"),
     levelInput,
   );
   levelField.classList.add("ffxiv-quest-summary-editor__header-field");
@@ -411,7 +393,7 @@ function makeDialogContent(data, editorState, sourcePage) {
 
   const styleLabel = document.createElement("label");
   styleLabel.classList.add("ffxiv-quest-summary-editor__label");
-  styleLabel.textContent = localize("FFXIVTTRPGLayout.Editor.QuestStyle", "Quest Style");
+  styleLabel.textContent = localize("FFXIVTTRPGLayout.Editor.QuestStyle");
   styleLabel.htmlFor = "ffxiv-quest-summary-style-select";
 
   const styleControl = document.createElement("div");
@@ -421,12 +403,12 @@ function makeDialogContent(data, editorState, sourcePage) {
   styleSelect.name = "questStyle";
   styleSelect.id = "ffxiv-quest-summary-style-select";
   styleSelect.classList.add("ffxiv-quest-summary-editor__style-select");
-  styleSelect.setAttribute("aria-label", localize("FFXIVTTRPGLayout.Editor.QuestStyle", "Quest Style"));
+  styleSelect.setAttribute("aria-label", localize("FFXIVTTRPGLayout.Editor.QuestStyle"));
 
   for (const [styleKey, style] of Object.entries(QUEST_STYLES)) {
     const option = document.createElement("option");
     option.value = styleKey;
-    option.textContent = localize(style.key, style.fallback);
+    option.textContent = localize(style.key);
     if (data.questStyle === styleKey) option.setAttribute("selected", "");
     else option.removeAttribute("selected");
     option.selected = data.questStyle === styleKey;
@@ -451,19 +433,19 @@ function makeDialogContent(data, editorState, sourcePage) {
 
   const alignmentLabel = document.createElement("label");
   alignmentLabel.classList.add("ffxiv-quest-summary-editor__label");
-  alignmentLabel.textContent = localize("FFXIVTTRPGLayout.Editor.QuestAlignment", "Alignment");
+  alignmentLabel.textContent = localize("FFXIVTTRPGLayout.Editor.QuestAlignment");
   alignmentLabel.htmlFor = "ffxiv-quest-summary-alignment-select";
 
   const alignmentSelect = document.createElement("select");
   alignmentSelect.name = "alignment";
   alignmentSelect.id = "ffxiv-quest-summary-alignment-select";
   alignmentSelect.classList.add("ffxiv-quest-summary-editor__alignment-select");
-  alignmentSelect.setAttribute("aria-label", localize("FFXIVTTRPGLayout.Editor.QuestAlignment", "Alignment"));
+  alignmentSelect.setAttribute("aria-label", localize("FFXIVTTRPGLayout.Editor.QuestAlignment"));
 
   for (const [alignmentKey, alignment] of Object.entries(QUEST_ALIGNMENTS)) {
     const option = document.createElement("option");
     option.value = alignmentKey;
-    option.textContent = localize(alignment.key, alignment.fallback);
+    option.textContent = localize(alignment.key);
     option.selected = data.alignment === alignmentKey;
     alignmentSelect.appendChild(option);
   }
@@ -483,7 +465,7 @@ function makeDialogContent(data, editorState, sourcePage) {
 
   const imageLabel = document.createElement("div");
   imageLabel.classList.add("ffxiv-quest-summary-editor__label");
-  imageLabel.textContent = localize("FFXIVTTRPGLayout.Editor.QuestImage", "Image");
+  imageLabel.textContent = localize("FFXIVTTRPGLayout.Editor.QuestImage");
 
   const imageControl = document.createElement("div");
   imageControl.classList.add("ffxiv-quest-summary-editor__image-control");
@@ -502,11 +484,11 @@ function makeDialogContent(data, editorState, sourcePage) {
   clearImage.type = "button";
   clearImage.classList.add("ffxiv-quest-summary-editor__clear-image");
   clearImage.innerHTML = '<i class="fa-solid fa-xmark" aria-hidden="true"></i>';
-  clearImage.title = localize("FFXIVTTRPGLayout.Editor.QuestRemoveImage", "Remove Image");
+  clearImage.title = localize("FFXIVTTRPGLayout.Editor.QuestRemoveImage");
 
   const preview = document.createElement("img");
   preview.classList.add("ffxiv-quest-summary-editor__image-preview");
-  preview.alt = localize("FFXIVTTRPGLayout.Editor.QuestImagePreview", "Quest image preview");
+  preview.alt = localize("FFXIVTTRPGLayout.Editor.QuestImagePreview");
 
   imageControl.append(picker, clearImage);
   imageField.append(imageLabel, imageControl, preview);
@@ -525,8 +507,8 @@ function makeDialogContent(data, editorState, sourcePage) {
     const label = document.createElement("div");
     label.classList.add("ffxiv-quest-summary-editor__label");
     label.textContent = field === "description"
-      ? localize("FFXIVTTRPGLayout.Editor.QuestDescription", "Description")
-      : localize("FFXIVTTRPGLayout.Editor.QuestObjectives", "Objectives");
+      ? localize("FFXIVTTRPGLayout.Editor.QuestDescription")
+      : localize("FFXIVTTRPGLayout.Editor.QuestObjectives");
     labelRow.appendChild(label);
 
     if (field === "objectives") {
@@ -541,7 +523,7 @@ function makeDialogContent(data, editorState, sourcePage) {
       else hideInput.removeAttribute("checked");
 
       const hideText = document.createElement("span");
-      hideText.textContent = localize("FFXIVTTRPGLayout.Editor.QuestHideObjectives", "Hide");
+      hideText.textContent = localize("FFXIVTTRPGLayout.Editor.QuestHideObjectives");
 
       hideLabel.append(hideText, hideInput);
       labelRow.appendChild(hideLabel);
@@ -550,8 +532,8 @@ function makeDialogContent(data, editorState, sourcePage) {
     const previewBox = createContentPreview(
       editorState[field],
       field === "description"
-        ? localize("FFXIVTTRPGLayout.Editor.QuestDescriptionEmpty", "No description added.")
-        : localize("FFXIVTTRPGLayout.Editor.QuestObjectivesEmpty", "No objectives added."),
+        ? localize("FFXIVTTRPGLayout.Editor.QuestDescriptionEmpty")
+        : localize("FFXIVTTRPGLayout.Editor.QuestObjectivesEmpty"),
     );
 
     previewBox.dataset.ffxivQuestPreview = field;
@@ -563,8 +545,8 @@ function makeDialogContent(data, editorState, sourcePage) {
     button.innerHTML = '<i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>';
     button.append(
       field === "description"
-        ? localize("FFXIVTTRPGLayout.Editor.QuestEditDescription", "Edit Description")
-        : localize("FFXIVTTRPGLayout.Editor.QuestEditObjectives", "Edit Objectives"),
+        ? localize("FFXIVTTRPGLayout.Editor.QuestEditDescription")
+        : localize("FFXIVTTRPGLayout.Editor.QuestEditObjectives"),
     );
 
     richField.append(labelRow, previewBox, button);
@@ -583,14 +565,14 @@ export async function openQuestSummaryEditor(initial = {}, { sourcePage = null }
   const DialogV2 = globalThis.foundry?.applications?.api?.DialogV2;
   if (!DialogV2) {
     globalThis.ui?.notifications?.error?.(
-      localize("FFXIVTTRPGLayout.Editor.QuestSummaryDialogUnavailable", "The Quest Summary editor is unavailable in this Foundry version.")
+      localize("FFXIVTTRPGLayout.Editor.QuestSummaryDialogUnavailable")
     );
     return null;
   }
 
   if (!sourcePage?.isOwner) {
     globalThis.ui?.notifications?.error?.(
-      localize("FFXIVTTRPGLayout.Editor.QuestSummaryPageUnavailable", "The Quest Summary editor could not determine the current Journal page.")
+      localize("FFXIVTTRPGLayout.Editor.QuestSummaryPageUnavailable")
     );
     return null;
   }
@@ -607,7 +589,7 @@ export async function openQuestSummaryEditor(initial = {}, { sourcePage = null }
 
   const result = await DialogV2.input({
     window: {
-      title: localize("FFXIVTTRPGLayout.Editor.QuestSummary", "Quest Summary"),
+      title: localize("FFXIVTTRPGLayout.Editor.QuestSummary"),
     },
     classes: ["ffxiv-ttrpg-layout", "ffxiv-quest-summary-dialog"],
     position: { width: 760 },
@@ -722,8 +704,8 @@ export async function openQuestSummaryEditor(initial = {}, { sourcePage = null }
             const empty = document.createElement("span");
             empty.classList.add("ffxiv-empty-state", "ffxiv-quest-summary-editor__content-empty");
             empty.textContent = field === "description"
-              ? localize("FFXIVTTRPGLayout.Editor.QuestDescriptionEmpty", "No description added.")
-              : localize("FFXIVTTRPGLayout.Editor.QuestObjectivesEmpty", "No objectives added.");
+              ? localize("FFXIVTTRPGLayout.Editor.QuestDescriptionEmpty")
+              : localize("FFXIVTTRPGLayout.Editor.QuestObjectivesEmpty");
             previewBox.appendChild(empty);
           },
         );
@@ -731,13 +713,13 @@ export async function openQuestSummaryEditor(initial = {}, { sourcePage = null }
       });
     },
     ok: {
-      label: localize("FFXIVTTRPGLayout.Editor.QuestSave", "Save"),
+      label: localize("FFXIVTTRPGLayout.Editor.QuestSave"),
       icon: "fa-solid fa-check",
     },
     buttons: [
       {
         action: "cancel",
-        label: localize("FFXIVTTRPGLayout.Editor.QuestCancel", "Cancel"),
+        label: localize("FFXIVTTRPGLayout.Editor.QuestCancel"),
         icon: "fa-solid fa-xmark",
         callback: () => null,
       },
@@ -790,14 +772,10 @@ export function decorateQuestSummaryCards(root, { editable = false } = {}) {
   for (const card of root.querySelectorAll(".ffxiv-quest-summary")) {
     card.classList.toggle("ffxiv-quest-summary--editable", Boolean(editable));
     if (editable) {
-      card.title = localize(
-        "FFXIVTTRPGLayout.Editor.QuestSummaryEditHint",
-        "Double-click to edit this Quest Summary"
-      );
+      card.title = localize("FFXIVTTRPGLayout.Editor.QuestSummaryEditHint");
     } else {
       card.removeAttribute("title");
     }
   }
 }
 
-export { QUEST_DESCRIPTION_ICON, QUEST_OBJECTIVES_ICON };

@@ -1,0 +1,33 @@
+<div class="ffxiv-table-embed" data-uuid="{{uuid}}">
+  <header class="ffxiv-table-embed__header">
+    <span class="ffxiv-table-embed__name">{{name}}</span>
+  </header>
+
+  {{#if description}}
+    <div class="ffxiv-table-embed__description">{{{description}}}</div>
+  {{/if}}
+
+  <div class="ffxiv-table-embed__scroll">
+    <table class="ffxiv-table-embed__table">
+      <thead>
+        <tr>
+          <th scope="col" class="ffxiv-table-embed__range">
+            <button type="button" class="ffxiv-table-embed__roll" data-ffxiv-table-roll title="{{rollLabel}} {{dice}}" aria-label="{{rollLabel}} {{dice}}">
+              <i class="fa-solid {{diceIcon}}" aria-hidden="true"></i>
+              {{#if dice}}<span>{{dice}}</span>{{/if}}
+            </button>
+          </th>
+          <th scope="col">{{resultLabel}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each results}}
+          <tr data-result-id="{{id}}"{{#if spent}} class="is-spent"{{/if}}>
+            <td class="ffxiv-table-embed__range">{{rangeText}}</td>
+            <td class="ffxiv-table-embed__content">{{{content}}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>

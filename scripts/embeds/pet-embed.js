@@ -1,6 +1,3 @@
-import { parseEnricherOptions } from "../utils/enricher-options.js";
-import { buildPetCardData } from "../sheets/class-summary-data.js";
-
 /**
  * FFXIV TTRPG Layout — Pet Embed
  *
@@ -8,54 +5,33 @@ import { buildPetCardData } from "../sheets/class-summary-data.js";
  * template and the same underlying Pet view model. The presentation remains
  * type-specific, while Ability children use the Unified Card component.
  */
-class FFXIVPetEmbed {
-  static async createPetEmbed(uuid, options = {}) {
-    if (typeof uuid !== "string" || !uuid.trim()) return null;
 
-    const actor = await fromUuid(uuid.trim());
-    const templateData = await buildPetCardData(actor);
-    if (!templateData) return null;
+import { buildPetCardData } from "../sheets/class-summary-data.js";
+import { normalizePosition, parseEnricherOptions, pickPosition } from "../utils/enricher-options.js";
+import { renderElement } from "../utils/render.js";
 
-    const html = await foundry.applications.handlebars.renderTemplate(
-      "modules/ffxiv-ttrpg-layout/templates/embeds/pet-embed.hbs",
-      templateData,
-    );
+async function createPetEmbed(uuid, { label, position } = {}) {
+  if (typeof uuid !== "string" || !uuid.trim()) return null;
 
-    const template = document.createElement("template");
-    template.innerHTML = String(html ?? "").trim();
-    const root = template.content.firstElementChild;
-    if (!root) return null;
+  const actor = await fromUuid(uuid.trim());
+  const templateData = await buildPetCardData(actor);
+  if (!templateData) return null;
 
-    if (options.label) root.dataset.label = options.label;
+  const root = await renderElement("modules/ffxiv-ttrpg-layout/templates/embeds/pet-embed.hbs", templateData);
+  if (!root) return null;
 
-    const position = ["left", "right", "center"].includes(options.position)
-      ? options.position
-      : "center";
-
-    root.classList.add(`ffxiv-pet-embed--float-${position}`);
-    return root;
-  }
-}
-
-export async function createPetEmbed(uuid, options = {}) {
-  return FFXIVPetEmbed.createPetEmbed(uuid, options);
+  if (label) root.dataset.label = label;
+  root.classList.add(`ffxiv-pet-embed--float-${normalizePosition(position)}`);
+  return root;
 }
 
 export function registerPetEmbed() {
   CONFIG.TextEditor.enrichers.push({
     id: "ffxiv-pet-embed",
     pattern: /@FFXIVPet\[([^\]\s]+)\](?:\{([^}]+)\})?/g,
-    enricher: async match => {
-      const uuid = match?.[1];
-      const { label, options } = parseEnricherOptions(match?.[2]);
-      const position = ["left", "right", "center"].find(value =>
-        options.some(part => part.toLowerCase() === value),
-      ) ?? "center";
-
-      const element = await createPetEmbed(uuid, { label, position });
-      if (!element) return null;
-      if (label) element.dataset.label = label;
-      return element;
+    enricher: match => {
+      const { label, options } = parseEnricherOptions(match[2]);
+      return createPetEmbed(match[1], { label, position: pickPosition(options) });
     },
   });
 }
