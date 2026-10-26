@@ -1,0 +1,199 @@
+/* ---------------------------------------------------------
+   FFXIV Tables
+   Opt-in only: add class="ffxiv-table" to a native table.
+   Visual base: the Class Summary Attributes table.
+   --------------------------------------------------------- */
+.ffxiv-journal__text table.ffxiv-table,
+.prosemirror table.ffxiv-table {
+  width: 100%;
+  margin: 1.1em 0 1.35em;
+  border: 5px solid var(--ffxiv-gold-dark);
+  border-radius: 9px;
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+  background: var(--ffxiv-table-dark);
+  color: var(--ffxiv-table-text);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .82rem;
+  line-height: 1.15;
+  box-shadow: 0 2px 4px var(--ffxiv-overlay-black-024);
+}
+
+/* Keep the native table layout. Only the visual treatment changes. */
+.ffxiv-journal__text table.ffxiv-table thead,
+.prosemirror table.ffxiv-table thead,
+.ffxiv-journal__text table.ffxiv-table thead tr,
+.prosemirror table.ffxiv-table thead tr {
+  background: var(--ffxiv-table-dark-4);
+}
+
+.ffxiv-journal__text table.ffxiv-table thead th,
+.prosemirror table.ffxiv-table thead th {
+  padding: 6px 9px 7px;
+  border: 0;
+  border-bottom: 0;
+  box-shadow: inset 0 -3px 0 var(--ffxiv-table-dark-deep);
+  background: var(--ffxiv-table-dark-4);
+  color: var(--ffxiv-table-text);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .82rem;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: .02em;
+  text-align: left;
+  vertical-align: middle;
+}
+
+/* Optional group headings can be expressed as tbody row headers using <th>. */
+.ffxiv-journal__text table.ffxiv-table tbody th,
+.prosemirror table.ffxiv-table tbody th {
+  padding: 5px 9px;
+  border: 0;
+  border-bottom: 0;
+  background: var(--ffxiv-table-dark-2);
+  color: var(--ffxiv-table-text);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .82rem;
+  font-weight: 700;
+  line-height: 1.1;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.ffxiv-journal__text table.ffxiv-table tbody td,
+.prosemirror table.ffxiv-table tbody td {
+  min-width: 0;
+  padding: 2px 10px;
+  border: 0;
+  border-bottom: 0;
+  background: var(--ffxiv-table-dark-4);
+  color: var(--ffxiv-table-text);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .82rem;
+  line-height: 1.15;
+  text-align: left;
+  vertical-align: middle;
+  overflow-wrap: anywhere;
+}
+
+.ffxiv-journal__text table.ffxiv-table tbody tr:nth-child(even) td,
+.prosemirror table.ffxiv-table tbody tr:nth-child(even) td {
+  background: var(--ffxiv-table-dark-deep);
+}
+
+.ffxiv-journal__text table.ffxiv-table tbody tr:hover td,
+.prosemirror table.ffxiv-table tbody tr:hover td {
+  filter: brightness(1.06);
+}
+
+.ffxiv-journal__text table.ffxiv-table tbody td:first-child,
+.prosemirror table.ffxiv-table tbody td:first-child {
+  font-weight: 700;
+}
+
+.ffxiv-journal__text table.ffxiv-table th:last-child,
+.ffxiv-journal__text table.ffxiv-table td:last-child,
+.prosemirror table.ffxiv-table th:last-child,
+.prosemirror table.ffxiv-table td:last-child {
+  border-right: 0;
+}
+
+.ffxiv-journal__text table.ffxiv-table tr:last-child td,
+.ffxiv-journal__text table.ffxiv-table tr:last-child th,
+.prosemirror table.ffxiv-table tr:last-child td,
+.prosemirror table.ffxiv-table tr:last-child th {
+  border-bottom: 0;
+}
+
+.ffxiv-journal__text table.ffxiv-table td p,
+.ffxiv-journal__text table.ffxiv-table th p,
+.prosemirror table.ffxiv-table td p,
+.prosemirror table.ffxiv-table th p {
+  margin: 0;
+}
+
+@media (max-width: 700px) {
+  .ffxiv-journal__text table.ffxiv-table,
+  .prosemirror table.ffxiv-table {
+    font-size: .78rem;
+  }
+
+  .ffxiv-journal__text table.ffxiv-table thead th,
+  .ffxiv-journal__text table.ffxiv-table tbody th,
+  .ffxiv-journal__text table.ffxiv-table tbody td,
+  .prosemirror table.ffxiv-table thead th,
+  .prosemirror table.ffxiv-table tbody th,
+  .prosemirror table.ffxiv-table tbody td {
+    padding-left: 7px;
+    padding-right: 7px;
+  }
+}
+
+/* Definition-style content */
+.ffxiv-journal__text dl {
+  margin: 1em 0;
+}
+
+.ffxiv-journal__text dt {
+  margin-top: .85em;
+  color: var(--ffxiv-red);
+  font-family: "Cinzel", "Trajan Pro", Georgia, serif;
+  font-weight: 700;
+}
+
+.ffxiv-journal__text dd {
+  margin: .2em 0 0 1.2em;
+  padding-left: .8em;
+  border-left: 1px solid var(--ffxiv-line);
+}
+
+/* Code / preformatted material */
+.ffxiv-journal__text code {
+  padding: .08em .3em;
+  border: 1px solid var(--ffxiv-overlay-gold-025);
+  background: var(--ffxiv-overlay-gold-007);
+  color: var(--ffxiv-red-dark);
+  font-size: .9em;
+}
+
+.ffxiv-journal__text pre {
+  margin: 1.2em 0;
+  padding: 14px 16px;
+  overflow-x: auto;
+  border: 1px solid var(--ffxiv-line);
+  background: var(--ffxiv-overlay-dark-007);
+}
+
+.ffxiv-journal__text pre code {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+}
+
+/* Images inside rich text */
+.ffxiv-journal__text figure {
+  margin: 1.3em 0;
+  text-align: center;
+}
+
+.ffxiv-journal__text figcaption {
+  margin-top: .45em;
+  color: var(--ffxiv-muted);
+  font-size: .82rem;
+  font-style: italic;
+}
+
+.ffxiv-journal__text img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Foundry content should not inherit an accidental hard text colour */
+.ffxiv-journal__text [style*="color"] strong,
+.ffxiv-journal__text [style*="color"] b,
+.ffxiv-journal__text [style*="color"] em,
+.ffxiv-journal__text [style*="color"] i {
+  color: inherit;
+}

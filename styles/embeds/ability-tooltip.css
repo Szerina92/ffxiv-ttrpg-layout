@@ -1,4 +1,4 @@
-/* FFXIV Ability UUID tooltips use the same Ability Card used by the
+/* FFXIV Ability and Trait UUID tooltips use the same cards as the
    Class Summary, reduced only to a tooltip-sized surface. */
 #tooltip.ffxiv-ability-tooltip,
 .ffxiv-ability-tooltip {
@@ -18,6 +18,14 @@
 
 #tooltip.ffxiv-ability-tooltip .ffxiv-class-summary__ability-card,
 .ffxiv-ability-tooltip .ffxiv-class-summary__ability-card {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+#tooltip.ffxiv-ability-tooltip .ffxiv-class-summary__trait-card,
+.ffxiv-ability-tooltip .ffxiv-class-summary__trait-card {
   width: 100%;
   max-width: none;
   margin: 0;

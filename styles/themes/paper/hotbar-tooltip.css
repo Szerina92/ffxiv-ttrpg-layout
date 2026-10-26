@@ -1,0 +1,122 @@
+/* =========================================================
+   Paper Theme — Hotbar ability tooltip
+   The tooltip of the hotbar hangs on <body>, outside any sheet. Same 
+   regions and colors as the module's ability card (header and data row 
+   paper-dark, body paper-light), slightly translucent because it is an 
+   overlay.
+   ========================================================= */
+
+body.ffxiv-paper-theme .ffxiv-hotbar-ability-tooltip {
+  padding: 0;
+  border: 2px solid var(--ffxiv-gold-dark);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--ffxiv-paper-light) 82%, transparent);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+  color: var(--ffxiv-ink);
+  font: 14px/1.25 Arial, Helvetica, sans-serif;
+  text-shadow: none;
+  overflow: hidden;
+}
+
+body.ffxiv-paper-theme .ffxiv-hotbar-ability-tooltip * {
+  text-shadow: none;
+}
+
+/* Region 1: header */
+body.ffxiv-paper-theme .ffxiv-hotbar-ability-header {
+  align-items: center;
+  gap: 10px;
+  min-height: 0;
+  margin: 0;
+  padding: 6px 12px 6px 8px;
+  background: color-mix(in srgb, var(--ffxiv-paper-dark) 86%, transparent);
+  border-bottom: 2px solid var(--ffxiv-ability-header-divider);
+}
+
+body.ffxiv-paper-theme .ffxiv-hotbar-ability-header img {
+  flex-basis: 46px;
+  width: 46px;
+  height: 46px;
+  border: 1px solid var(--ffxiv-gold-dark);
+  border-radius: 5px;
+  box-shadow: none;
+}
+
+body.ffxiv-paper-theme .ffxiv-hotbar-ability-name {
+  margin: 0;
+  color: var(--ffxiv-ink);
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+body.ffxiv-paper-theme .ffxiv-hotbar-ability-type {
+  margin-top: 3px;
+  color: var(--ffxiv-ink);
+  font-size: 12.5px;
+  font-style: italic;
+}
+
+/* Region 2: data row as "Label: value" pairs instead of the spread-out grid */
+body.ffxiv-paper-theme .ffxiv-hotbar-ability-details {
+  grid-template-columns: repeat(4, max-content);
+  justify-content: start;
+  gap: 1px 4px;
+  margin: 0;
+  padding: 4px 12px 5px;
+  background: color-mix(in srgb, var(--ffxiv-paper-dark) 86%, transparent);
+  border-bottom: 0;
+  color: var(--ffxiv-ability-label);
+}
+
+body.ffxiv-paper-theme .ffxiv-hotbar-ability-details dt {
+  color: var(--ffxiv-ink);
+  font-weight: 700;
+}
+
+body.ffxiv-paper-theme .ffxiv-hotbar-ability-details dt::after {
+  content: ":";
+}
+
+body.ffxiv-paper-theme .ffxiv-hotbar-ability-details dd {
+  margin-right: 12px;
+  color: var(--ffxiv-ink);
+  text-align: left;
+}
+
+/* Region 3: body */
+body.ffxiv-paper-theme .ffxiv-hotbar-ability-overview {
+  padding: 5px 12px 9px;
+  color: var(--ffxiv-ink);
+}
+
+body.ffxiv-paper-theme .ffxiv-hotbar-ability-section-label {
+  display: inline;
+  margin: 0 3px 0 0;
+  color: var(--ffxiv-ability-label);
+  font-weight: 700;
+}
+
+body.ffxiv-paper-theme .ffxiv-hotbar-ability-section-label::after {
+  content: ":";
+}
+
+body.ffxiv-paper-theme .ffxiv-hotbar-ability-section {
+  display: block;
+}
+
+body.ffxiv-paper-theme .ffxiv-hotbar-ability-section-content {
+  display: inline;
+}
+
+body.ffxiv-paper-theme .ffxiv-hotbar-ability-section-content > p:first-child {
+  display: inline;
+}
+
+body.ffxiv-paper-theme .ffxiv-hotbar-ability-overview hr {
+  margin: 4px 0;
+  background: transparent;
+  height: 0;
+}

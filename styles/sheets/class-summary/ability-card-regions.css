@@ -1,0 +1,221 @@
+/* 0.2.57 — Ability card: three semantic regions. */
+
+
+/* Region 1: compact header. */
+.ffxiv-class-summary__ability-head {
+  border-bottom: 2px solid var(--ffxiv-ability-header-divider);
+}
+
+/* Region 2: execution data. It grows naturally as optional fields are present. */
+.ffxiv-class-summary__ability-meta {
+  padding: 2px 9px 3px;
+  color: var(--ffxiv-ink) !important;
+  background: var(--ffxiv-paper-dark);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .84rem;
+  line-height: 1.22;
+}
+
+.ffxiv-class-summary__ability-meta p {
+  margin: 1px 0;
+}
+
+.ffxiv-class-summary__ability-meta .ffxiv-class-summary__ability-label {
+  color: var(--ffxiv-ability-label);
+  font-weight: 700;
+}
+
+/* Region 3 begins with the lighter card body. */
+.ffxiv-class-summary__ability-body {
+  padding: 3px 9px 7px;
+  background: var(--ffxiv-paper-light);
+}
+
+/* The icon belongs to the header row. Keeping it out of the metadata row
+   prevents the full-width metadata background from covering the lower part
+   of the icon on short ability-card titles. */
+.ffxiv-class-summary__ability-head {
+  min-height: 46px;
+}
+
+
+/* 0.2.57 — Semantic ability-card regions. The icon spans the header and
+   the flexible metadata block, while Region 3 remains a full-width light body. */
+.ffxiv-class-summary__ability-top {
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr) auto;
+  grid-template-rows: auto auto;
+  align-items: stretch;
+  column-gap: 8px;
+  background: var(--ffxiv-paper-dark);
+}
+
+.ffxiv-class-summary__ability-head {
+  display: contents;
+}
+
+.ffxiv-class-summary__ability-icon {
+  grid-column: 1;
+  grid-row: 1;
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
+  align-self: center;
+  justify-self: center;
+  margin: 2px 0;
+}
+
+.ffxiv-class-summary__ability-head h3 {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: center;
+  margin: 0;
+  padding: 2px 0;
+}
+
+.ffxiv-class-summary__ability-type {
+  grid-column: 3;
+  grid-row: 1;
+  align-self: center;
+  padding: 2px 8px 2px 0;
+}
+
+.ffxiv-class-summary__ability-meta {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  min-width: 0;
+  padding: 2px 8px 3px 9px;
+  color: var(--ffxiv-ink) !important;
+  background: var(--ffxiv-paper-dark);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .84rem;
+  line-height: 1.22;
+  border-top: 2px solid var(--ffxiv-ability-header-divider);
+}
+
+/* 0.2.68 — Keep each metadata label/value pair together on line wrapping.
+   The fields are flex items, so a complete field moves to the next line when
+   the remaining width is insufficient, while long values may still wrap
+   inside their own field. */
+.ffxiv-class-summary__ability-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 0.55rem;
+  row-gap: 1px;
+}
+
+/* Each label/value pair moves as one unit when the remaining line width is
+   insufficient. Longer values may still wrap inside their own field. */
+.ffxiv-class-summary__ability-field {
+  display: inline-flex;
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 100%;
+  align-items: baseline;
+  white-space: normal;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+.ffxiv-class-summary__ability-field .ffxiv-class-summary__ability-label {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  margin-right: 0.18em;
+}
+
+/* 0.2.63 — Use Foundry's Roboto for card content. */
+.ffxiv-class-summary__ability-meta,
+.ffxiv-class-summary__ability-body,
+.ffxiv-class-summary__trait-card,
+.ffxiv-class-summary__trait-card .ffxiv-class-summary__trait-body {
+  font-family: "Roboto", sans-serif;
+}
+
+/* 0.2.64 — Use Roboto for the ability-card header as well. */
+.ffxiv-class-summary__ability-head h3,
+.ffxiv-class-summary__ability-type {
+  font-family: "Roboto", sans-serif;
+}
+
+/* 0.2.65 — Preserve the visual space between CR challenge parts inside
+   the flex-based metadata field (e.g. "Target's Defense"). */
+.ffxiv-class-summary__ability-challenge-highlight {
+  margin-left: 0.25em;
+}
+/* 0.2.66 — Check modifier remains normal ink text beside the blue attribute. */
+/* 0.2.68 — Use a real visual gap because the check field is an inline-flex container. */
+.ffxiv-class-summary__ability-check-modifier {
+  margin-left: 0.25em;
+  color: inherit;
+  font-weight: 400;
+}
+
+
+/* 0.3.7 — Force Class Summary card headings to bold. */
+.ffxiv-class-summary .ffxiv-class-summary__trait-head h3,
+.ffxiv-class-summary .ffxiv-class-summary__ability-head h3 {
+  font-weight: 700 !important;
+}
+
+
+/* 0.4.1 — Handbook-style ability title wrapping.
+   The icon keeps its own fixed column. The title and tags share the remaining
+   header width, but the title is explicitly bounded so a long name can wrap
+   instead of pushing the tag block out of view. */
+.ffxiv-class-summary__ability-top {
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  align-items: stretch;
+  column-gap: 8px;
+  background: var(--ffxiv-paper-dark);
+}
+
+/* The semantic head wrapper is transparent to the grid so its icon remains
+   in column 1 while the title row occupies column 2. */
+
+/* The title row is the wrapper that protects both sides of the header.
+   The name receives at most 58% of the available text width; the tag block
+   receives the rest and can therefore always wrap onto additional lines. */
+.ffxiv-class-summary__ability-title-row {
+  grid-column: 2;
+  grid-row: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 58%) minmax(0, 42%);
+  align-items: start;
+  gap: 8px;
+  min-width: 0;
+  width: 100%;
+  padding: 2px 8px 2px 0;
+  box-sizing: border-box;
+}
+
+.ffxiv-class-summary__ability-head h3 {
+  grid-column: 1;
+  min-width: 0;
+  max-width: 100%;
+  margin: 0;
+  padding: 2px 0;
+  white-space: normal;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+.ffxiv-class-summary__ability-type {
+  grid-column: 2;
+  min-width: 0;
+  max-width: 100%;
+  align-self: start;
+  padding: 2px 0;
+  text-align: right;
+  white-space: normal;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+/* Metadata remains a full-width second row, including beneath the icon. */
+.ffxiv-class-summary__ability-meta {
+  grid-column: 1 / -1;
+  grid-row: 2;
+}

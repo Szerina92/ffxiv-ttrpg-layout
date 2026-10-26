@@ -13,7 +13,6 @@
     "ClassSummary": {
       "Title": "Class Summary",
       "PageTitle": "Page Title",
-      "Level": "Level",
       "DisplayPageTitle": "Display Page Title",
       "Introduction": "Introduction",
       "EditIntroduction": "Edit Introduction",
@@ -21,17 +20,9 @@
       "RemoveJobFor": "Remove",
       "DropAnotherJob": "Drop another Job here",
       "SelectJobLevel": "Select Job level",
-      "Attributes": "Attributes",
-      "PrimaryAttributes": "Primary Attributes",
-      "SecondaryAttributes": "Secondary Attributes",
-      "LimitBreak": "Limit Break",
       "TraitsOtherEffects": "Traits & Other Effects",
-      "PrimaryAbilities": "Primary Abilities",
-      "SecondaryAbilities": "Secondary Abilities",
-      "InstantAbilities": "Instant Abilities",
       "ComboAbilities": "Combo abilities",
       "OnlyJobAccepted": "Only Items with the type Job are accepted.",
-      "Pets": "Pets",
       "Category": "Category",
       "NoCategory": "No Category",
       "IntroductionEmpty": "No introduction added.",
@@ -42,56 +33,19 @@
       "NinjutsuAbilities": "Ninjutsu Abilities"
     },
     "Ability": {
-      "Cost": "Cost",
-      "Condition": "Condition",
-      "Trigger": "Trigger",
-      "Target": "Target",
-      "Range": "Range",
-      "Check": "Check",
-      "CR": "CR",
-      "BaseEffect": "Base Effect",
-      "DirectHit": "Direct Hit",
-      "Limitation": "Limitation",
-      "MarkerArea": "Marker Area",
-      "MarkerTrigger": "Marker Trigger",
-      "MarkerEffect": "Marker Effect",
       "Combo": "Combo",
-      "Special": "Special",
       "SpecialCheck": "Special (d20, Critical)"
     },
     "Item": {
       "OpenItem": "Open {name}",
-      "ShopTier": "Shop Tier",
-      "Price": "Price",
-      "Target": "Target",
-      "Range": "Range",
-      "BaseEffect": "Base Effect",
-      "Primary": "Primary",
-      "Secondary": "Secondary",
-      "Consumable": "Consumable",
-      "Instant": "Instant"
+      "Price": "Price"
     },
     "NPC": {
       "OpenActor": "Open {name}",
-      "Size": "Size",
-      "Vigilance": "Vigilance",
-      "Defense": "Defense",
-      "MaxHP": "Max HP",
-      "MagicDefense": "Magic Defense",
-      "Speed": "Speed",
       "Squares": "squares",
-      "Traits": "Traits",
-      "Abilities": "Abilities",
-      "Tags": "Tags",
       "Origin": "Origin",
-      "MarkerArea": "Marker Area",
-      "MarkerTrigger": "Marker Trigger",
-      "MarkerEffect": "Marker Effect",
-      "BaseEffect": "Base Effect",
-      "DirectHit": "Direct Hit",
       "Limitations": "Limitations",
-      "StatusEffects": "Status Effects",
-      "StatusEffect": "Status Effect"
+      "StatusEffects": "Status Effects"
     },
     "Rule": {
       "RuleKey": "Rule Key",
@@ -112,7 +66,11 @@
       "ExperimentalPageChangeSound": "Experimental Page Change Sound",
       "ExperimentalPageChangeSoundHint": "Plays the FFXIV confirmation sound when switching to another Journal page from the table of contents.",
       "ExperimentalPageChangeSoundVolume": "Experimental Page Change Sound Volume (%)",
-      "ExperimentalPageChangeSoundVolumeHint": "Sets the FFXIV confirmation sound volume (0–100%)."
+      "ExperimentalPageChangeSoundVolumeHint": "Sets the FFXIV confirmation sound volume (0–100%).",
+      "PaperTheme": "Paper Theme",
+      "PaperThemeHint": "Overrides core settings light/dark color scheme with a paper theme, inspired by the FFXIV TTRPG Rulebook. Does not work with the Blue Color Theme.",
+      "ChatCards": "Ability cards in chat",
+      "ChatCardsHint": "Shows Ability and Trait chat messages with the module's FFXIV Card instead of the system card. The buttons stay as they are."
     },
     "Journal": {
       "UnsupportedPageType": "This page type is not currently displayed by the Layout.",
@@ -120,7 +78,6 @@
     },
     "Editor": {
       "Text": "Text Editor",
-      "Ability": "Ability",
       "Attack": "Attack",
       "Important": "Important",
       "Note": "Note",
@@ -134,11 +91,8 @@
       "Quest": "Quest",
       "QuestSummary": "Quest Summary",
       "QuestTitlePlaceholder": "Quest Name",
-      "QuestDescription": "Description",
       "QuestName": "Quest Name",
-      "QuestLevel": "Level",
       "QuestStyle": "Quest Style",
-      "QuestStyleNone": "None",
       "QuestStyleSideQuest": "Side Quest",
       "QuestStyleMainQuest": "Main Quest",
       "QuestStyleGuildhest": "Guildhest",
@@ -149,7 +103,6 @@
       "QuestRemoveImage": "Remove Image",
       "QuestObjectives": "Objectives",
       "QuestSave": "Save",
-      "QuestCancel": "Cancel",
       "QuestSummaryEditHint": "Double-click to edit this Quest Summary",
       "QuestLevelPrefix": "Lv.",
       "QuestSummaryDialogUnavailable": "The Quest Summary editor is unavailable in this Foundry version.",
@@ -184,20 +137,8 @@
       "Preview": "{size} marker preview"
     },
     "Tag": {
-      "Physical": "Physical",
-      "Magic": "Magic",
-      "Invoked": "Invoked",
-      "LightningAspected": "Lightning-Aspected",
-      "WaterAspected": "Water-Aspected",
-      "Enhancement": "Enhancement",
       "Trait": "Trait",
-      "WindAspected": "Wind-Aspected",
       "Pet": "Pet"
-    },
-    "Pet": {
-      "Type": "Pet",
-      "Traits": "Traits",
-      "Abilities": "Abilities"
     },
     "Toc": {
       "Title": "Table of Contents",
@@ -221,7 +162,6 @@
       "NoParent": "— none —",
       "Column": {
         "Page": "Page",
-        "Role": "Role",
         "Parent": "Parent",
         "Label": "Display name",
         "Order": "Order",
@@ -231,7 +171,6 @@
       "HeadingsTitle": "List the H2 headings of this page as entries (text pages; chapters and subchapters only)."
     },
     "Table": {
-      "Roll": "Roll",
       "Result": "Result",
       "RollError": "The table could not be rolled."
     }

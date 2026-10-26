@@ -8,7 +8,7 @@
               <img src="{{card.img}}" alt="{{card.name}}" class="ffxiv-class-summary__ability-icon ffxiv-item-embed__icon" loading="lazy" />
             </a>
           {{else}}
-            <img src="{{card.img}}" alt="" class="ffxiv-class-summary__ability-icon" />
+            <img src="{{card.img}}" alt="" class="ffxiv-class-summary__ability-icon"{{#if card.uuid}} data-ffxiv-item-uuid="{{card.uuid}}"{{/if}} />
           {{/if}}
         {{/if}}
         <div class="ffxiv-class-summary__ability-title-row">
@@ -23,29 +23,29 @@
             <span class="ffxiv-class-summary__ability-field"><strong class="ffxiv-class-summary__ability-label">{{label}}:</strong> {{value}}</span>
           {{/each}}
         {{else}}
-          {{#if card.cost}}<span class="ffxiv-class-summary__ability-field"><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIVTTRPGLayout.Ability.Cost"}}:</strong> {{card.cost}}</span>{{/if}}
-          {{#if card.condition}}<span class="ffxiv-class-summary__ability-field"><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIVTTRPGLayout.Ability.Condition"}}:</strong> {{{card.condition}}}</span>{{/if}}
-          {{#if card.trigger}}<span class="ffxiv-class-summary__ability-field"><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIVTTRPGLayout.Ability.Trigger"}}:</strong> {{card.trigger}}</span>{{/if}}
-          {{#if card.target}}<span class="ffxiv-class-summary__ability-field"><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIVTTRPGLayout.Ability.Target"}}:</strong> {{card.target}}</span>{{/if}}
-          {{#if card.range}}<span class="ffxiv-class-summary__ability-field"><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIVTTRPGLayout.Ability.Range"}}:</strong> {{card.range}}</span>{{/if}}
-          {{#if card.check}}<span class="ffxiv-class-summary__ability-field"><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIVTTRPGLayout.Ability.Check"}}:</strong> {{#if card.isSpecialCheck}}<span>{{card.checkDisplay}}</span>{{else}}<span class="ffxiv-class-summary__ability-value--blue-dark">{{card.check}}</span>{{#if card.checkModifier}}<span class="ffxiv-class-summary__ability-check-modifier">{{card.checkModifier}}</span>{{/if}}{{/if}}</span>{{/if}}
-          {{#if card.challenge}}<span class="ffxiv-class-summary__ability-field"><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIVTTRPGLayout.Ability.CR"}}:</strong> {{#each card.challengeParts}}{{#unless @first}}&#32;{{/unless}}{{#if highlight}}<span class="ffxiv-class-summary__ability-value--blue-dark ffxiv-class-summary__ability-challenge-highlight">{{text}}</span>{{else}}{{text}}{{/if}}{{/each}}</span>{{/if}}
+          {{#if card.cost}}<span class="ffxiv-class-summary__ability-field"><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIV.Abilities.Cost"}}:</strong> {{card.cost}}</span>{{/if}}
+          {{#if card.condition}}<span class="ffxiv-class-summary__ability-field"><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIV.Abilities.Condition"}}:</strong> {{{card.condition}}}</span>{{/if}}
+          {{#if card.trigger}}<span class="ffxiv-class-summary__ability-field"><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIV.Abilities.Trigger"}}:</strong> {{card.trigger}}</span>{{/if}}
+          {{#if card.target}}<span class="ffxiv-class-summary__ability-field"><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIV.Abilities.Target"}}:</strong> {{card.target}}</span>{{/if}}
+          {{#if card.range}}<span class="ffxiv-class-summary__ability-field"><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIV.Abilities.Range"}}:</strong> {{card.range}}</span>{{/if}}
+          {{#if card.check}}<span class="ffxiv-class-summary__ability-field"><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIV.Abilities.Check"}}:</strong> {{#if card.isSpecialCheck}}<span>{{card.checkDisplay}}</span>{{else}}<span class="ffxiv-class-summary__ability-value--blue-dark">{{card.check}}</span>{{#if card.checkModifier}}<span class="ffxiv-class-summary__ability-check-modifier">{{card.checkModifier}}</span>{{/if}}{{/if}}</span>{{/if}}
+          {{#if card.challenge}}<span class="ffxiv-class-summary__ability-field"><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIV.Abilities.Challenge"}}:</strong> {{#each card.challengeParts}}{{#unless @first}}&#32;{{/unless}}{{#if highlight}}<span class="ffxiv-class-summary__ability-value--blue-dark ffxiv-class-summary__ability-challenge-highlight">{{text}}</span>{{else}}{{text}}{{/if}}{{/each}}</span>{{/if}}
         {{/if}}
       </div>
     </div>
 
     <div class="ffxiv-class-summary__ability-body">
       {{#if card.isItem}}
-        {{#if card.baseEffect}}<p class="ffxiv-class-summary__ability-row--base"><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIVTTRPGLayout.Item.BaseEffect"}}:</strong> {{{card.baseEffect}}}</p>{{/if}}
+        {{#if card.baseEffect}}<div class="ffxiv-class-summary__ability-row--base"><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIV.Abilities.BaseEffect"}}:</strong> {{{card.baseEffect}}}</div>{{/if}}
         {{#if card.description}}<div class="ffxiv-card__description">{{{card.description}}}</div>{{/if}}
       {{else}}
-        {{#if card.baseEffect}}<p class="ffxiv-class-summary__ability-row--base"><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIVTTRPGLayout.Ability.BaseEffect"}}:</strong> {{{card.baseEffect}}}{{#if card.comboNames.length}} <span class="ffxiv-class-summary__ability-combo-inline"><strong>{{localize "FFXIVTTRPGLayout.Ability.Combo"}}:</strong> <span class="ffxiv-class-summary__ability-combo-names">{{#each card.comboNames}}{{#unless @first}} {{localize "FFXIVTTRPGLayout.Common.Or"}} {{/unless}}{{this}}{{/each}}</span></span>{{/if}}</p>{{else if card.comboNames.length}}<p class="ffxiv-class-summary__ability-row--base"><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIVTTRPGLayout.Ability.Combo"}}:</strong> <span class="ffxiv-class-summary__ability-combo-names">{{#each card.comboNames}}{{#unless @first}} {{localize "FFXIVTTRPGLayout.Common.Or"}} {{/unless}}{{this}}{{/each}}</span></p>{{/if}}
-        {{#if card.directHit}}<p><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIVTTRPGLayout.Ability.DirectHit"}}:</strong> {{{card.directHit}}}</p>{{/if}}
-        {{#if card.limitations}}<p><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIVTTRPGLayout.Ability.Limitation"}}:</strong> {{card.limitations}}</p>{{/if}}
-        {{#if card.markerArea}}<p><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIVTTRPGLayout.Ability.MarkerArea"}}:</strong> {{card.markerArea}}</p>{{/if}}
-        {{#if card.markerTrigger}}<p><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIVTTRPGLayout.Ability.MarkerTrigger"}}:</strong> {{card.markerTrigger}}</p>{{/if}}
-        {{#if card.markerEffect}}<p><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIVTTRPGLayout.Ability.MarkerEffect"}}:</strong> {{{card.markerEffect}}}</p>{{/if}}
-        {{#if card.description}}<p>{{{card.description}}}</p>{{/if}}
+        {{#if card.baseEffect}}<div class="ffxiv-class-summary__ability-row--base"><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIV.Abilities.BaseEffect"}}:</strong> {{{card.baseEffect}}}{{#if card.comboNames.length}} <span class="ffxiv-class-summary__ability-combo-inline"><strong>{{localize "FFXIVTTRPGLayout.Ability.Combo"}}:</strong> <span class="ffxiv-class-summary__ability-combo-names">{{#each card.comboNames}}{{#unless @first}} {{localize "FFXIVTTRPGLayout.Common.Or"}} {{/unless}}{{this}}{{/each}}</span></span>{{/if}}</div>{{else if card.comboNames.length}}<div class="ffxiv-class-summary__ability-row--base"><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIVTTRPGLayout.Ability.Combo"}}:</strong> <span class="ffxiv-class-summary__ability-combo-names">{{#each card.comboNames}}{{#unless @first}} {{localize "FFXIVTTRPGLayout.Common.Or"}} {{/unless}}{{this}}{{/each}}</span></div>{{/if}}
+        {{#if card.directHit}}<div><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIV.Abilities.DirectHit"}}:</strong> {{{card.directHit}}}</div>{{/if}}
+        {{#if card.limitations}}<p><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIV.Abilities.Limitations"}}:</strong> {{card.limitations}}</p>{{/if}}
+        {{#if card.markerArea}}<p><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIV.Abilities.MarkerArea"}}:</strong> {{card.markerArea}}</p>{{/if}}
+        {{#if card.markerTrigger}}<p><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIV.Abilities.MarkerTrigger"}}:</strong> {{card.markerTrigger}}</p>{{/if}}
+        {{#if card.markerEffect}}<div><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIV.Abilities.MarkerEffect"}}:</strong> {{{card.markerEffect}}}</div>{{/if}}
+        {{#if card.description}}<div>{{{card.description}}}</div>{{/if}}
       {{/if}}
     </div>
   </article>

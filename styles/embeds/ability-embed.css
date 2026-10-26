@@ -1,0 +1,80 @@
+/* FFXIV card embeds (Ability, Trait) — shared layout and options. File name kept for module.json. */
+
+.ffxiv-card-embed {
+  min-width: 0;
+  margin: 0 0 10px;
+}
+
+.ffxiv-card-embed .ffxiv-class-summary__ability-card {
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+}
+
+/* The Trait embed's root is the card itself; its width comes from the options. */
+.ffxiv-card-embed.ffxiv-class-summary__trait-card {
+  box-sizing: border-box;
+}
+
+/* Works inside the existing two-column utility, like the Item embed. */
+.ffxiv-columns .ffxiv-card-embed {
+  width: 100%;
+  max-width: none;
+  display: inline-block;
+  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+}
+
+/* `half`: half width, like a Class Summary column. */
+.ffxiv-card-embed--half {
+  width: calc(50% - 5px);
+  box-sizing: border-box;
+}
+
+/* Without an explicit position, half cards flow side by side. */
+.ffxiv-card-embed--half:not([class*="ffxiv-card-embed--float-"]) {
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 10px;
+}
+
+.ffxiv-card-embed--half.ffxiv-card-embed--float-left {
+  float: left;
+  margin-right: 10px;
+}
+
+.ffxiv-card-embed--half.ffxiv-card-embed--float-right {
+  float: right;
+  margin-left: 10px;
+}
+
+.ffxiv-card-embed--half.ffxiv-card-embed--float-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Inside .ffxiv-columns the column already halves the width. */
+.ffxiv-columns .ffxiv-card-embed--half {
+  width: 100%;
+  float: none;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+@media (max-width: 760px) {
+  .ffxiv-card-embed--half {
+    width: 100%;
+    float: none;
+    margin-right: 0;
+    margin-left: 0;
+  }
+}
+
+/* Chat: the system's own card stays in the DOM but is hidden while our card is shown. */
+.ffxiv-chat-card-original {
+  display: none !important;
+}
+
+.ffxiv-chat-card.ffxiv-card-embed {
+  margin: 0;
+}

@@ -1,0 +1,38 @@
+/* ---------------------------------------------------------
+   Journal-rendered introduction
+   --------------------------------------------------------- */
+.ffxiv-class-summary__introduction {
+  margin: 0 0 22px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ffxiv-ink) !important;
+  box-shadow: none;
+}
+
+.ffxiv-class-summary__introduction > :first-child {
+  margin-top: 0;
+}
+
+.ffxiv-class-summary__introduction > :last-child {
+  margin-bottom: 0;
+}
+
+/* Rich-text semantic marks used inside the Class Summary introduction. */
+.ffxiv-class-summary__introduction .ffxiv-abi {
+  color: var(--ffxiv-blue-dark);
+  font-weight: 700;
+}
+
+.ffxiv-class-summary__introduction .ffxiv-att {
+  color: var(--ffxiv-red-bright);
+  font-weight: 700;
+}
+
+/* 0.2.23 — Keep the Class Summary transparent inside the custom Journal page.
+   The Journal page itself supplies the parchment background and frame. */
+.ffxiv-journal__class-summary,
+.ffxiv-journal__class-summary .ffxiv-class-summary {
+  background: transparent !important;
+  background-color: transparent !important;
+}

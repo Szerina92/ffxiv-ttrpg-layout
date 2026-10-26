@@ -1,0 +1,384 @@
+/* ---------------------------------------------------------
+   Content typography — FFXIV TTRPG inspired
+   --------------------------------------------------------- */
+
+.ffxiv-journal__page-body {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  font-size: 1rem;
+  line-height: 1.68;
+  color: var(--ffxiv-ink);
+  background: transparent;
+}
+
+.ffxiv-journal__text > :first-child { margin-top: 0; }
+.ffxiv-journal__text > :last-child { margin-bottom: 0; }
+
+/* Paragraph rhythm — no automatic first-line indentation.
+ * All paragraphs begin flush left.
+ * Empty paragraphs still collapse so an intentional blank line remains a
+ * clean visual break without introducing an extra indent on the next paragraph.
+ */
+.ffxiv-journal__text p {
+  margin: .12em 0;
+}
+
+.ffxiv-journal__text p:empty,
+.ffxiv-journal__text p:has(> br:only-child) {
+  margin: 0;
+}
+
+/* Main content headings — 1.3.4 rulebook hierarchy */
+.ffxiv-journal__text h1,
+.ffxiv-journal__text h2,
+.ffxiv-journal__text h3,
+.ffxiv-journal__text h4,
+.prosemirror h1,
+.prosemirror h2,
+.prosemirror h3,
+.prosemirror h4 {
+  position: relative;
+  font-family: "Cinzel", "Trajan Pro", Georgia, serif;
+  font-weight: 700;
+}
+
+/* H1 — chapter: black, with the FFXIV target icon. */
+.ffxiv-journal__text h1,
+.prosemirror h1 {
+  margin: 1.7em 0 .8em;
+  padding: .05em 0 .2em 42px;
+  color: var(--ffxiv-black);
+  font-size: 1.55rem;
+  line-height: 1.22;
+  border: 0;
+}
+
+.ffxiv-journal__text h1::before,
+.prosemirror h1::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 31px;
+  height: 31px;
+  transform: translateY(-50%);
+  background: url("../../../images/FFXIV_target.webp") center / contain no-repeat;
+}
+
+/* H2 — section: burgundy with a soft var(--ffxiv-line-burgundy) underline. */
+.ffxiv-journal__text h2,
+.prosemirror h2 {
+  margin: 1.55em 0 .68em;
+  padding: 0 0 .12em;
+  color: var(--ffxiv-red-heading);
+  font-size: 1.25rem;
+  line-height: 1.28;
+  letter-spacing: .012em;
+  border: 0;
+}
+
+.ffxiv-journal__text h2::after,
+.prosemirror h2::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 4px;
+  background: linear-gradient(to bottom, var(--ffxiv-line-burgundy) 0%, transparent 100%);
+}
+
+/* H3 — subsection: same burgundy, no ornament. */
+.ffxiv-journal__text h3,
+.ffxiv-journal__text :is(h3),
+.prosemirror h3 {
+  margin: 1.35em 0 .36em;
+  padding: 0;
+  color: var(--ffxiv-red-heading);
+  font-size: 1rem;
+  line-height: 1.3;
+  letter-spacing: 0;
+  font-weight: 800 !important;
+  font-style: normal !important;
+  -webkit-text-stroke: 0.28px currentColor;
+}
+
+/* H4 — same treatment as H3, but black. */
+.ffxiv-journal__text h4,
+.ffxiv-journal__text :is(h4),
+.prosemirror h4 {
+  margin: 1.25em 0 .36em;
+  padding: 0;
+  color: var(--ffxiv-black);
+  font-size: 1rem;
+  line-height: 1.3;
+  letter-spacing: 0;
+  font-weight: 800 !important;
+  font-style: normal !important;
+  -webkit-text-stroke: 0.28px currentColor;
+}
+
+/* Force the rulebook headings to use a real bold face even when Foundry's
+ * editor styles or inline formatting are present. */
+.ffxiv-journal__text h3 strong,
+.ffxiv-journal__text h3 b,
+.ffxiv-journal__text h4 strong,
+.ffxiv-journal__text h4 b {
+  font-weight: 700 !important;
+  font-style: normal !important;
+}
+
+/* 1.3.4 decorative divider.
+ * The editor command inserts Foundry's native horizontal_rule node.
+ * Styling the native node keeps the ProseMirror document schema valid while
+ * still giving both editor and rendered journal the FFXIV divider appearance.
+ */
+.ffxiv-journal__text hr,
+.prosemirror hr {
+  position: relative;
+  width: 100%;
+  height: 18px;
+  margin: 1.35em 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  opacity: 1;
+}
+
+.ffxiv-journal__text hr::before,
+.prosemirror hr::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  transform: translateY(-50%);
+  background: linear-gradient(90deg, transparent 0%, var(--ffxiv-line-burgundy) 10%, var(--ffxiv-line-burgundy) 44%, transparent 47%, transparent 53%, var(--ffxiv-line-burgundy) 56%, var(--ffxiv-line-burgundy) 90%, transparent 100%);
+}
+
+.ffxiv-journal__text hr::after,
+.prosemirror hr::after {
+  content: "◇";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  background: inherit;
+  color: var(--ffxiv-gold);
+  font-family: Georgia, serif;
+  font-size: 13px;
+  line-height: 1;
+}
+
+/* Editor selection state should not replace the divider styling. */
+.prosemirror hr.ProseMirror-selectednode {
+  outline: 1px solid var(--ffxiv-overlay-gold-035);
+  outline-offset: 3px;
+}
+
+/* Text emphasis — preserve Foundry inline colours */
+.ffxiv-journal__text strong,
+.ffxiv-journal__text b {
+  color: inherit;
+  font-weight: 700;
+}
+
+.ffxiv-journal__text em,
+.ffxiv-journal__text i {
+  color: inherit;
+}
+
+.ffxiv-journal__text u {
+  text-decoration-color: var(--ffxiv-gold);
+  text-underline-offset: 2px;
+}
+
+/* Native Foundry document links — clean FFXIV-style inline links.
+ * The link colour is intentionally exposed as a variable so it can be
+ * changed independently from the other blue accents.
+ */
+.ffxiv-journal__text a {
+  color: var(--ffxiv-blue);
+  text-decoration-color: var(--ffxiv-overlay-blue-045);
+  text-underline-offset: 2px;
+}
+
+.ffxiv-journal__text a:hover {
+  color: var(--ffxiv-blue-light);
+}
+
+.ffxiv-journal__text a.content-link[data-uuid] {
+  display: inline;
+  line-height: inherit;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: none;
+  vertical-align: baseline;
+  transition: color .12s ease, opacity .12s ease;
+}
+
+.ffxiv-journal__text a.content-link[data-uuid]::before {
+  content: "";
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  margin-right: .28em;
+  background: url("../../../images/Icons/guildhest.png") center / contain no-repeat;
+  vertical-align: -.12em;
+}
+
+.ffxiv-journal__text a.content-link[data-uuid] > i,
+.ffxiv-journal__text a.content-link[data-uuid] > .fa,
+.ffxiv-journal__text a.content-link[data-uuid] > .fas,
+.ffxiv-journal__text a.content-link[data-uuid] > .far,
+.ffxiv-journal__text a.content-link[data-uuid] > .fa-solid,
+.ffxiv-journal__text a.content-link[data-uuid] > .fa-regular {
+  display: none;
+}
+
+.ffxiv-journal__text a.content-link[data-uuid]:hover,
+.ffxiv-journal__text a.content-link[data-uuid]:focus-visible {
+  color: var(--ffxiv-content-link-hover);
+  text-decoration: none;
+}
+
+.ffxiv-journal__text a.content-link[data-uuid]:focus-visible {
+  outline: 1px dotted currentColor;
+  outline-offset: 2px;
+}
+
+/* Per-link semantic colors. Select a UUID/document link in the editor and
+ * use X|V → Attack Link or Ability Link. The wrapper survives enrichment,
+ * while the content-link itself inherits the selected semantic color. */
+.ffxiv-journal__text .ffxiv-link--att a.content-link[data-uuid],
+.prosemirror .ffxiv-link--att a.content-link[data-uuid] {
+  color: var(--ffxiv-red-bright);
+}
+
+.ffxiv-journal__text .ffxiv-link--att a.content-link[data-uuid]:hover,
+.ffxiv-journal__text .ffxiv-link--att a.content-link[data-uuid]:focus-visible {
+  color: var(--ffxiv-red-deep);
+}
+
+.ffxiv-journal__text .ffxiv-link--abi a.content-link[data-uuid],
+.prosemirror .ffxiv-link--abi a.content-link[data-uuid] {
+  color: var(--ffxiv-black);
+}
+
+.ffxiv-journal__text .ffxiv-link--abi a.content-link[data-uuid]:hover,
+.ffxiv-journal__text .ffxiv-link--abi a.content-link[data-uuid]:focus-visible {
+  color: var(--ffxiv-blue-deep);
+}
+
+/* IMPORTANT — bold emphasis with a subtle background glow on hover. */
+.ffxiv-journal__text .ffxiv-text-important,
+.prosemirror .ffxiv-text-important {
+  color: var(--ffxiv-text-important);
+  font-weight: 700;
+  border-radius: 3px;
+  transition: color .12s ease, background-color .12s ease, box-shadow .12s ease;
+}
+
+.ffxiv-journal__text .ffxiv-text-important:hover,
+.ffxiv-journal__text .ffxiv-text-important:focus-visible,
+.prosemirror .ffxiv-text-important:hover,
+.prosemirror .ffxiv-text-important:focus-visible {
+  color: inherit;
+  background: var(--ffxiv-overlay-white-030);
+  box-shadow: 0 0 14px var(--ffxiv-overlay-white-070), 0 0 4px var(--ffxiv-overlay-white-045);
+}
+
+.ffxiv-editor-xv-menu .ffxiv-editor-accent--important {
+  font-weight: 800;
+  color: inherit;
+}
+
+.ffxiv-editor-xv-menu .ffxiv-editor-semantic-entry--important:hover,
+.ffxiv-editor-xv-menu .ffxiv-editor-semantic-entry--important:focus-visible {
+  color: var(--ffxiv-white);
+}
+
+/* NOTE — muted red semantic text. */
+.ffxiv-journal__text .ffxiv-text-note,
+.prosemirror .ffxiv-text-note {
+  color: var(--ffxiv-text-note);
+}
+
+.ffxiv-editor-xv-menu .ffxiv-editor-accent--note,
+.ffxiv-editor-xv-menu .ffxiv-editor-semantic-entry--note:hover,
+.ffxiv-editor-xv-menu .ffxiv-editor-semantic-entry--note:focus-visible {
+  color: var(--ffxiv-red-accent);
+}
+
+/* Lists — 1.3.5
+ * Unordered lists use the module's FFXIV arrow icon instead of the
+ * browser's default bullet. Ordered lists keep their native numbering.
+ * The same treatment is applied inside Foundry's ProseMirror editor so
+ * the author sees the final visual language while editing.
+ */
+.ffxiv-journal__text ul,
+.prosemirror ul,
+.ffxiv-journal__text ol,
+.prosemirror ol {
+  margin: .8em 0 1em;
+  padding-left: 1.75em;
+}
+
+.ffxiv-journal__text ul,
+.prosemirror ul {
+  list-style: none;
+}
+
+.ffxiv-journal__text li,
+.prosemirror li {
+  position: relative;
+  margin: .28em 0;
+  padding-left: .15em;
+}
+
+.ffxiv-journal__text ul > li::before,
+.prosemirror ul > li::before {
+  content: "";
+  position: absolute;
+  left: -1.35em;
+  top: .42em;
+  width: .78em;
+  height: .78em;
+  background: url("../../../images/Icons/arrow.png") center / contain no-repeat;
+}
+
+.ffxiv-journal__text ol > li::marker,
+.prosemirror ol > li::marker {
+  color: var(--ffxiv-red);
+  font-weight: 700;
+}
+
+/* Nested unordered lists keep the same icon while receiving a little extra
+   indentation, preserving the hierarchy of longer rule lists. */
+.ffxiv-journal__text ul ul,
+.prosemirror ul ul {
+  margin-top: .25em;
+  margin-bottom: .25em;
+  padding-left: 1.5em;
+}
+
+/* Horizontal rules */
+.ffxiv-journal__text hr {
+  height: 1px;
+  margin: 1.55em 8% 1.45em;
+  border: 0;
+  background: linear-gradient(90deg, transparent, var(--ffxiv-gold), transparent);
+  opacity: .7;
+}

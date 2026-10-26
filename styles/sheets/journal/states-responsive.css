@@ -1,0 +1,72 @@
+/* ---------------------------------------------------------
+   Empty state
+   --------------------------------------------------------- */
+
+.ffxiv-journal__empty-sidebar {
+  padding: 10px;
+  color: var(--ffxiv-sidebar-muted);
+  font-size: .82rem;
+}
+
+.ffxiv-journal__welcome {
+  max-width: 520px;
+  margin: 14vh auto;
+  text-align: center;
+  color: var(--ffxiv-muted);
+}
+
+.ffxiv-journal__welcome-crystal {
+  width: 42px;
+  height: 42px;
+  margin: 0 auto 18px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--ffxiv-gold);
+  color: var(--ffxiv-gold);
+  font-size: 28px;
+  transform: rotate(45deg);
+}
+
+.ffxiv-journal__welcome h2 {
+  margin: 0 0 8px;
+  color: var(--ffxiv-ink);
+  font-family: "Cinzel", "Trajan Pro", Georgia, serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.ffxiv-journal__welcome p { margin: 0; }
+
+/* ---------------------------------------------------------
+   Scrollbars / responsive
+   --------------------------------------------------------- */
+
+.ffxiv-journal__sidebar::-webkit-scrollbar,
+.ffxiv-journal__content::-webkit-scrollbar { width: 8px; }
+
+.ffxiv-journal__sidebar::-webkit-scrollbar-thumb {
+  background: var(--ffxiv-overlay-white-018);
+  border-radius: 4px;
+}
+
+.ffxiv-journal__content::-webkit-scrollbar-thumb {
+  background: var(--ffxiv-overlay-black-016);
+  border-radius: 4px;
+}
+
+@media (max-width: 750px) {
+  .ffxiv-journal__layout { grid-template-columns: 1fr; }
+  .ffxiv-journal__sidebar {
+    max-height: 180px;
+    border-right: 0;
+    border-bottom: 1px solid var(--ffxiv-callout-blue-dark);
+  }
+  .ffxiv-journal__content { padding: 14px; }
+  .ffxiv-journal__page { padding: 30px 25px 42px; }
+  .ffxiv-journal__hero {
+    grid-template-columns: 1fr;
+    min-height: 56px;
+    padding: 12px 20px;
+  }
+  .ffxiv-journal__chapter-rule { display: none; }
+}

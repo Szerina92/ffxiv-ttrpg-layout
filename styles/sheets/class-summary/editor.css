@@ -1,0 +1,188 @@
+/* ---------------------------------------------------------
+   Editor — compact configuration view
+   --------------------------------------------------------- */
+.ffxiv-class-summary-editor {
+  min-height: 100%;
+  box-sizing: border-box;
+  padding: 14px 16px 18px;
+  color: var(--ffxiv-ink) !important;
+  font-family: Arial, Helvetica, sans-serif;
+  background:
+    linear-gradient(var(--ffxiv-overlay-gold-004), var(--ffxiv-overlay-gold-004)),
+    var(--ffxiv-paper);
+  background-color: var(--ffxiv-paper);
+}
+
+.ffxiv-class-summary-editor__section {
+  margin: 0 0 14px;
+}
+
+.ffxiv-class-summary-editor__section-heading h2 {
+  margin: 0;
+  color: var(--ffxiv-red-heading);
+  font-size: 1.2rem;
+  line-height: 1.05;
+  font-variant: small-caps;
+}
+
+.ffxiv-class-summary-editor__section-heading p {
+  margin: 2px 0 7px;
+  color: var(--ffxiv-muted);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .76rem;
+  line-height: 1.25;
+}
+
+.ffxiv-class-summary__empty-editor-link {
+  appearance: none;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--ffxiv-ink);
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1.35;
+  cursor: pointer;
+}
+
+.ffxiv-class-summary__empty-editor-link:hover,
+.ffxiv-class-summary__empty-editor-link:focus-visible {
+  color: var(--ffxiv-red-heading);
+  text-decoration: underline;
+  outline: none;
+}
+
+.ffxiv-class-summary-editor__jobs-heading {
+  margin: 0 0 8px;
+}
+
+.ffxiv-class-summary-editor__jobs-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--ffxiv-ink);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .82rem;
+  font-weight: 700;
+}
+
+.ffxiv-class-summary-editor__jobs-label > i {
+  flex: 0 0 auto;
+  width: 1rem;
+  color: var(--ffxiv-ink);
+  font-size: .84rem;
+  text-align: center;
+}
+
+.ffxiv-class-summary-editor__selected-jobs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+  margin-bottom: 7px;
+  align-items: stretch;
+}
+
+.ffxiv-class-summary-editor__job-dropzone {
+  min-height: 58px;
+  display: grid;
+  place-items: center;
+  padding: 7px;
+  border: 2px dashed var(--ffxiv-gold-dark);
+  border-radius: 8px;
+  background: var(--ffxiv-paper-light);
+  transition: border-color .15s ease, background-color .15s ease, box-shadow .15s ease;
+}
+
+.ffxiv-class-summary-page--dragover .ffxiv-class-summary-editor__job-dropzone {
+  border-color: var(--ffxiv-gold);
+  background: var(--ffxiv-paper-dark);
+  box-shadow: inset 0 0 12px var(--ffxiv-overlay-gold-016);
+}
+
+.ffxiv-class-summary-editor__drop-prompt {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--ffxiv-muted);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .86rem;
+}
+
+.ffxiv-class-summary-editor__drop-prompt i {
+  color: var(--ffxiv-gold-dark);
+}
+
+.ffxiv-class-summary-editor__selected-job {
+  width: 100%;
+  min-width: 0;
+  min-height: 48px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 7px 6px 8px;
+  border: 2px solid var(--ffxiv-gold-dark);
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--ffxiv-paper-light), var(--ffxiv-paper-dark));
+  box-shadow: 0 1px 3px var(--ffxiv-overlay-black-024);
+}
+
+.ffxiv-class-summary-editor__job-icon {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+  flex: 0 0 auto;
+}
+
+.ffxiv-class-summary-editor__job-info {
+  min-width: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  flex-wrap: wrap;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.05;
+  color: var(--ffxiv-ink);
+}
+
+.ffxiv-class-summary-editor__job-info strong {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--ffxiv-ink);
+  font-family: var(--ffxiv-display);
+  font-size: .96rem;
+  line-height: 1.05;
+}
+
+.ffxiv-class-summary-editor__job-level {
+  order: -1;
+  color: var(--ffxiv-red-heading);
+  font-weight: 700;
+  font-size: .68rem;
+  white-space: nowrap;
+}
+
+.ffxiv-class-summary-editor__remove-job {
+  margin-left: auto;
+  flex: 0 0 auto;
+  width: 30px;
+  min-width: 30px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border: 1px solid var(--ffxiv-gold-dark);
+  border-radius: 4px;
+  background: var(--ffxiv-paper-light);
+  color: var(--ffxiv-ink);
+  cursor: pointer;
+}
+
+.ffxiv-class-summary-editor__remove-job:hover {
+  background: var(--ffxiv-paper-dark);
+  color: var(--ffxiv-ink);
+}

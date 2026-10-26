@@ -1,0 +1,207 @@
+/* =========================================================
+   Paper Theme — Actor sheets: abilities
+   Ability cards, tabs and buttons of the Character, NPC and Pet sheets, 
+   plus job resources. Mirrors the system's `.blue_theme` rules 
+   (the css folder) with `.paper_theme`, so specificity matches.
+   ========================================================= */
+
+.ffxiv.actor.npc.paper_theme nav.npc-sheet-tabs .sub-tab {
+  border-color: var(--ffxiv-gold);
+  background: var(--paper-tab);
+  color: var(--ffxiv-ink);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+}
+
+.ffxiv.actor.npc.paper_theme nav.npc-sheet-tabs .sub-tab.active {
+  background: var(--paper-btn);
+  color: var(--ffxiv-ink);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+}
+
+.ffxiv.actor.npc.paper_theme .actor-player-abilities.modern-panel {
+  border-color: var(--paper-line);
+  background: var(--paper-panel);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.45);
+}
+
+.ffxiv.actor.npc.paper_theme .actor-player-abilities .npc-create-item {
+  border-color: var(--ffxiv-gold-dark);
+  background: var(--paper-btn);
+  color: var(--ffxiv-ink);
+}
+
+.ffxiv.actor:is(.character, .npc).paper_theme .actor-player-abilities .abilities-tab-content.modern-panel {
+  border-color: var(--paper-line);
+  background: var(--paper-panel);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.45);
+}
+
+.ffxiv.actor:is(.character, .npc).paper_theme .actor-player-abilities .ability-full-tabs .sub-tab {
+  border-color: var(--ffxiv-gold);
+  background: var(--paper-tab);
+  color: var(--ffxiv-ink);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+}
+
+.ffxiv.actor:is(.character, .npc).paper_theme .actor-player-abilities .ability-full-tabs .sub-tab.active {
+  background: var(--paper-btn);
+  color: var(--ffxiv-ink);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+}
+
+.ffxiv.actor:is(.character, .npc).paper_theme .actor-player-abilities .sub-tab-content {
+  border-color: var(--paper-line);
+  background: var(--paper-panel);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.45);
+}
+
+.ffxiv.actor:is(.character, .npc).paper_theme .actor-player-abilities .ability-card {
+  border-color: var(--ffxiv-gold-dark);
+  background: var(--paper-card);
+}
+
+.ffxiv.actor:is(.character, .npc).paper_theme .actor-player-abilities .ability-card-info {
+  background: var(--paper-card-head);
+}
+
+.ffxiv.actor:is(.character, .npc).paper_theme .actor-player-abilities .ability-header {
+  border-bottom-color: var(--ffxiv-ability-header-divider);
+  box-shadow: none;
+}
+
+.ffxiv.actor:is(.character, .npc).paper_theme .actor-player-abilities .ability-tags .tag {
+  border-color: var(--ffxiv-gold);
+  background: transparent;
+  color: var(--ffxiv-ink);
+}
+
+.ffxiv.actor:is(.character, .npc).paper_theme .actor-player-abilities .ability-limitations .checkmark {
+  border-color: var(--ffxiv-gold);
+  background: var(--paper-field);
+  color: var(--ffxiv-ink);
+  text-shadow: none;
+  box-shadow: none;
+}
+
+.ffxiv.actor:is(.character, .npc).paper_theme .actor-player-abilities .ability-limitations input[type=checkbox]:checked + .checkmark {
+  background: var(--paper-btn) !important;
+  border-color: var(--ffxiv-gold-dark) !important;
+  box-shadow: none;
+}
+
+.ffxiv.actor:is(.character, .npc).paper_theme .actor-player-abilities .ability-limitations input[type=checkbox]:checked + .checkmark::after {
+  background: var(--ffxiv-ink);
+}
+
+.ffxiv.actor:is(.character, .npc).paper_theme .actor-player-abilities .ability-roll-button,
+.ffxiv.actor:is(.character, .npc).paper_theme .actor-player-abilities .move-buttons button {
+  border-color: var(--ffxiv-gold-dark);
+  background: var(--paper-btn);
+  color: var(--ffxiv-ink);
+}
+
+.ffxiv.actor:is(.character, .npc).paper_theme .actor-player-abilities .abilities-empty-hint {
+  border-color: var(--paper-line);
+  background: var(--paper-field);
+  color: var(--ffxiv-muted);
+}
+
+.ffxiv.actor.paper_theme .job-resource-row {
+  border-color: var(--paper-line);
+  background: var(--paper-card);
+}
+
+.ffxiv.actor.paper_theme .job-resource-label {
+  color: var(--ffxiv-ability-label);
+}
+
+.ffxiv.actor.paper_theme .job-resource-count,
+.ffxiv.actor.paper_theme .job-resource-boxes .checkmark {
+  border-color: var(--ffxiv-gold);
+  background: var(--paper-field);
+  color: var(--ffxiv-ink);
+  text-shadow: none;
+  box-shadow: none;
+}
+
+.ffxiv.actor.paper_theme .job-resource-boxes input[type=checkbox]:checked + .checkmark {
+  background: var(--paper-btn) !important;
+  border-color: var(--ffxiv-gold-dark) !important;
+  box-shadow: none;
+}
+
+.ffxiv.actor.character.paper_theme .ability-quick-tabs {
+  border-color: var(--paper-line);
+  background: var(--paper-panel);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.45);
+  box-shadow: 0 3px 8px rgba(80, 60, 30, 0.25), inset 0 0 0 1px rgba(255, 255, 255, 0.45);
+}
+
+.ffxiv.actor.character.paper_theme .ability-quick-tabs .sub-tab {
+  border-color: var(--ffxiv-gold);
+  background: radial-gradient(circle at 35% 28%, #fffdf3 0%, var(--ffxiv-paper) 55%, var(--ffxiv-paper-dark) 100%);
+  color: var(--ffxiv-ink);
+}
+
+.ffxiv.actor.character.paper_theme .ability-quick-tabs .sub-tab.active {
+  border-color: var(--ffxiv-gold-dark);
+  background: radial-gradient(circle at 35% 28%, #fff3c8 0%, var(--ffxiv-gold-light) 55%, var(--ffxiv-gold) 100%);
+  color: var(--ffxiv-ink);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.4), 0 0 5px rgba(177, 138, 69, 0.45);
+}
+
+.ffxiv.actor:is(.character, .npc, .pet).paper_theme .modern-panel {
+  border-color: var(--paper-line);
+  background: var(--paper-panel);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.45);
+}
+
+.ffxiv.actor:is(.character, .npc, .pet).paper_theme .actor-abilities .ability-card {
+  border-color: var(--ffxiv-gold-dark);
+  background: var(--paper-card);
+}
+
+.ffxiv.actor:is(.character, .npc, .pet).paper_theme .actor-abilities:not(.actor-companions) .abilities-tab-content.modern-panel {
+  border-color: var(--paper-line);
+  background: var(--paper-panel);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.45);
+}
+
+.ffxiv.actor:is(.character, .npc, .pet).paper_theme .actor-abilities .ability-card-info {
+  background: var(--paper-card-head);
+}
+
+.ffxiv.actor:is(.character, .npc, .pet).paper_theme .actor-abilities .ability-header {
+  border-bottom-color: var(--ffxiv-ability-header-divider);
+  box-shadow: none;
+}
+
+.ffxiv.actor:is(.character, .npc, .pet).paper_theme .actor-abilities .ability-roll-button,
+.ffxiv.actor:is(.character, .npc, .pet).paper_theme .pet-ability-roll-button {
+  border-color: var(--ffxiv-gold-dark);
+  background: var(--paper-btn);
+  color: var(--ffxiv-ink);
+}
+
+.ffxiv.actor:is(.character, .npc, .pet).paper_theme .actor-abilities .ability-roll-button::before,
+.ffxiv.actor:is(.character, .npc, .pet).paper_theme .pet-ability-roll-button::before {
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.12) 55%, rgba(255, 255, 255, 0) 100%);
+}
+
+.ffxiv.actor:is(.character, .npc, .pet).paper_theme .actor-abilities .ability-roll-button:hover,
+.ffxiv.actor:is(.character, .npc, .pet).paper_theme .pet-ability-roll-button:hover {
+  color: #000 !important;
+}
+
+.ffxiv.actor:is(.character, .npc, .pet).paper_theme .abilities-sub-tabs .sub-tab {
+  border-color: var(--ffxiv-gold);
+  background: var(--paper-tab);
+  color: var(--ffxiv-ink);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+}
+
+.ffxiv.actor:is(.character, .npc, .pet).paper_theme .abilities-sub-tabs .sub-tab.active {
+  background: var(--paper-btn);
+  color: var(--ffxiv-ink);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+}

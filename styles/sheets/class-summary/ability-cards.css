@@ -1,0 +1,147 @@
+/* ---------------------------------------------------------
+   Ability cards
+   --------------------------------------------------------- */
+.ffxiv-class-summary__ability-card {
+  min-width: 0;
+  color: var(--ffxiv-card-text) !important;
+  border: var(--ffxiv-card-border);
+  border-radius: var(--ffxiv-card-radius);
+  background: var(--ffxiv-card-surface);
+  box-shadow: var(--ffxiv-card-shadow);
+  overflow: hidden;
+}
+
+.ffxiv-class-summary__ability-card--limit-break {
+  background: var(--ffxiv-paper-light);
+}
+
+.ffxiv-class-summary__ability-head {
+  display: grid;
+  color: var(--ffxiv-ink) !important;
+  grid-template-columns: 54px minmax(0, 1fr) auto;
+  grid-template-rows: auto auto;
+  gap: 0 8px;
+  align-items: center;
+  padding: 2px 8px 0;
+  background: var(--ffxiv-paper-dark);
+}
+
+.ffxiv-class-summary__ability-icon {
+  grid-column: 1;
+  grid-row: 1;
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
+  align-self: center;
+}
+
+.ffxiv-class-summary__ability-head h3 {
+  grid-column: 2;
+  grid-row: 1;
+  margin: 0;
+  color: var(--ffxiv-ink) !important;
+  min-width: 0;
+  font-size: 1.05rem;
+  line-height: 1.05;
+  overflow-wrap: anywhere;
+}
+
+.ffxiv-class-summary__ability-type {
+  grid-column: 3;
+  grid-row: 1;
+  align-self: start;
+  color: var(--ffxiv-ink) !important;
+  padding-top: 2px;
+  font-size: .8rem;
+  font-style: italic;
+  text-align: right;
+  white-space: normal;
+}
+
+.ffxiv-class-summary__ability-body {
+  padding: 0 9px 7px;
+  color: var(--ffxiv-ink) !important;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .84rem;
+  line-height: 1.22;
+}
+
+.ffxiv-class-summary__ability-body p,
+.ffxiv-class-summary__ability-body > div:not(.ffxiv-card__description) {
+  margin: 1px 0;
+}
+
+/* The Target/Check rows visually continue the header; the lighter card body begins at Base Effect. */
+.ffxiv-class-summary__ability-head .ffxiv-class-summary__ability-row--target {
+  grid-column: 2 / -1;
+  grid-row: 2;
+  margin: 0 -8px 0 0;
+  padding: 1px 8px 2px 0;
+  color: var(--ffxiv-ink) !important;
+  background: var(--ffxiv-paper-dark);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .84rem;
+  font-weight: 400;
+  line-height: 1.22;
+}
+
+.ffxiv-class-summary__ability-head .ffxiv-class-summary__ability-row--target strong {
+  font-weight: 700;
+}
+
+/* Check/CR starts beneath the icon; Base Effect is the first light row. */
+.ffxiv-class-summary__ability-body .ffxiv-class-summary__ability-row--check {
+  margin-left: -9px;
+  margin-right: -9px;
+  padding: 1px 9px;
+  background: var(--ffxiv-paper-dark);
+}
+
+.ffxiv-class-summary__ability-body .ffxiv-class-summary__ability-row--base {
+  margin-top: 0;
+  padding-top: 1px;
+}
+
+.ffxiv-class-summary__ability-body strong {
+  color: var(--ffxiv-ability-label);
+  font-weight: 700;
+}
+
+/* Ability field labels (Target, Check, CR, Base Effect, etc.) */
+.ffxiv-class-summary__ability-body .ffxiv-class-summary__ability-label {
+  color: var(--ffxiv-ability-label);
+  font-weight: 700;
+}
+
+.ffxiv-class-summary__ability-body p:first-child strong {
+  color: var(--ffxiv-ability-label);
+}
+
+.ffxiv-class-summary__ability-value--blue-dark {
+  color: var(--ffxiv-blue-dark);
+  font-weight: 700;
+}
+
+.ffxiv-class-summary__ability-value--bright-red {
+  color: var(--ffxiv-red-bright);
+  font-weight: 700;
+}
+
+.ffxiv-class-summary__ability-combo-inline {
+  color: var(--ffxiv-ink);
+}
+
+.ffxiv-class-summary__ability-combo-inline strong {
+  color: var(--ffxiv-ink) !important;
+  font-weight: 700;
+}
+
+.ffxiv-class-summary__ability-combo-names {
+  color: var(--ffxiv-red);
+  font-weight: 700;
+}
+
+/* Clicking an icon opens the document behind the card (see scripts/utils/icon-click.js). */
+.ffxiv-class-summary__ability-icon[data-ffxiv-item-uuid] {
+  cursor: pointer;
+}

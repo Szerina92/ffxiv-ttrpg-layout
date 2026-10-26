@@ -1,0 +1,118 @@
+/* =========================================================
+   Paper Theme — Chat cards
+   Ability/Trait cards, roll results and buttons in the chat. Chat keeps 
+   the system's own theme class, so these hang on the body class.
+   ========================================================= */
+
+body.ffxiv-paper-theme .chat-ffxiv .item-card {
+  border: 2px solid var(--ffxiv-gold-dark);
+  background: var(--paper-card);
+  color: var(--ffxiv-ink);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.24);
+}
+
+/* Two-tone card like the tooltip card: icon + title band on top, effects below.
+   Cards with an icon become a grid; the band is a ::before in the first row,
+   so it follows the header height when the title wraps. */
+body.ffxiv-paper-theme .chat-ffxiv .item-card .item-card-info {
+  background: var(--paper-card);
+  padding: 0;
+  min-height: 0;
+}
+
+body.ffxiv-paper-theme .chat-ffxiv .item-card .item-card-info:has(> .item-dialog-icon) {
+  position: relative;
+  display: grid;
+  grid-template-columns: 55px minmax(0, 1fr);
+  align-items: center;
+}
+
+body.ffxiv-paper-theme .chat-ffxiv .item-card .item-card-info:has(> .item-dialog-icon)::before {
+  content: "";
+  grid-column: 1 / -1;
+  grid-row: 1;
+  align-self: stretch;
+  background: var(--paper-card-head);
+}
+
+body.ffxiv-paper-theme .chat-ffxiv .item-card .item-card-info:has(> .item-dialog-icon) > * {
+  grid-column: 1 / -1;
+}
+
+body.ffxiv-paper-theme .chat-ffxiv .item-card .item-card-info > .item-dialog-icon {
+  grid-column: 1;
+  grid-row: 1;
+  float: none;
+  justify-self: center;
+  margin: 5px;
+  position: relative;
+}
+
+body.ffxiv-paper-theme .chat-ffxiv .item-card .item-card-info > .item-dialog-header:not(.modifier) {
+  grid-column: 2;
+  grid-row: 1;
+  position: relative;
+  display: block;
+  width: auto;
+  margin: 5px 8px 5px 0;
+}
+
+body.ffxiv-paper-theme .chat-ffxiv .item-card .item-dialog-effects {
+  padding: 6px 9px 8px;
+}
+
+body.ffxiv-paper-theme .chat-ffxiv .item-card .item-dialog-header {
+  border-bottom-color: var(--ffxiv-ability-header-divider);
+  box-shadow: none;
+}
+
+body.ffxiv-paper-theme .chat-ffxiv .item-card .item-dialog-tags .tag {
+  border-color: var(--ffxiv-gold);
+  background: transparent;
+  color: var(--ffxiv-ink);
+}
+
+body.ffxiv-paper-theme .chat-ffxiv .item-card strong {
+  color: var(--ffxiv-ability-label);
+}
+
+body.ffxiv-paper-theme .chat-ffxiv .message-content button {
+  background: var(--paper-btn);
+  border: 1px solid var(--ffxiv-gold-dark);
+  color: var(--ffxiv-ink);
+  text-shadow: none;
+}
+
+body.ffxiv-paper-theme .chat-ffxiv .message-content button:hover {
+  border-color: var(--ffxiv-gold-dark);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+}
+
+body.ffxiv-paper-theme .chat-ffxiv .message-content button.ffxiv-apply-dmg {
+  background: linear-gradient(180deg, #a95a4e 0%, #753c36 100%);
+  border-color: #5c2c27;
+  color: #fff;
+}
+
+body.ffxiv-paper-theme .chat-ffxiv .message-content button.ffxiv-apply-heal {
+  background: linear-gradient(180deg, #6f8a70 0%, #47604a 100%);
+  border-color: #34493a;
+  color: #fff;
+}
+
+body.ffxiv-paper-theme .chat-ffxiv .dice-roll .dice-formula,
+body.ffxiv-paper-theme .chat-ffxiv .dice-roll .dice-total {
+  border-color: var(--ffxiv-gold-light);
+  background: var(--paper-field);
+  color: var(--ffxiv-ink);
+  text-shadow: none;
+}
+
+body.ffxiv-paper-theme .chat-ffxiv .dice-roll .dice-total {
+  font-weight: 700;
+}
+
+body.ffxiv-paper-theme .chat-ffxiv .ffxiv-apply-result {
+  border-top-color: var(--paper-line);
+  color: var(--ffxiv-ink);
+}

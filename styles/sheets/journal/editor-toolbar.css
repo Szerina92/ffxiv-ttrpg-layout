@@ -1,0 +1,197 @@
+/* ---------------------------------------------------------
+   1.3.4 Format dropdown — H1/H2/H3/H4 + Divider
+   --------------------------------------------------------- */
+.ffxiv-editor-format-menu .ffxiv-editor-format-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.1em;
+  font-family: Georgia, serif;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.ffxiv-editor-format-menu .ffxiv-editor-format-entry {
+  display: inline-flex;
+  align-items: center;
+  min-width: 3.2em;
+  font-weight: 800;
+}
+
+.ffxiv-editor-format-entry--h1,
+.ffxiv-editor-format-entry--h4 { color: var(--ffxiv-black); }
+.ffxiv-editor-format-entry--h2,
+.ffxiv-editor-format-entry--h3 { color: var(--ffxiv-red-heading); }
+
+.ffxiv-editor-divider-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--ffxiv-gold);
+}
+
+.ffxiv-editor-divider-icon i {
+  display: inline-block;
+  width: 20px;
+  height: 1px;
+  background: var(--ffxiv-line-burgundy);
+}
+
+.ffxiv-editor-divider-icon b {
+  font-family: Georgia, serif;
+  font-size: .85rem;
+  font-weight: 400;
+}
+
+/* ---------------------------------------------------------
+   X|V semantic formatting dropdown in Foundry's native
+   ProseMirror toolbar.
+   --------------------------------------------------------- */
+/* v1.5.0: X|V native nested submenus. */
+.ffxiv-editor-xv-menu .ffxiv-editor-submenu-entry {
+  font-weight: 700;
+}
+
+.ffxiv-editor-xv-menu .ffxiv-editor-submenu-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25em;
+  margin-right: .25em;
+  font-size: .9em;
+  opacity: .75;
+}
+
+.ffxiv-editor-xv-menu .ffxiv-editor-submenu-entry:hover,
+.ffxiv-editor-xv-menu .ffxiv-editor-submenu-entry:focus-visible {
+  color: inherit;
+}
+
+.ffxiv-editor-xv-menu .ffxiv-editor-color-dot {
+  display: inline-block;
+  width: .8em;
+  height: .8em;
+  margin-right: .45em;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  vertical-align: middle;
+}
+
+.ffxiv-editor-xv-menu .ffxiv-editor-color-dot--blue { background: var(--ffxiv-header-blue); }
+.ffxiv-editor-xv-menu .ffxiv-editor-color-dot--red { background: var(--ffxiv-header-red); }
+.ffxiv-editor-xv-menu .ffxiv-editor-color-dot--green { background: var(--ffxiv-header-green); }
+.ffxiv-editor-xv-menu .ffxiv-editor-color-dot--text-important { background: var(--ffxiv-text-important); }
+.ffxiv-editor-xv-menu .ffxiv-editor-color-dot--text-note { background: var(--ffxiv-text-note); }
+.ffxiv-editor-xv-menu .ffxiv-editor-color-dot--text-example { background: var(--ffxiv-text-example); }
+
+.ffxiv-editor-xv-menu .ffxiv-editor-background-preview {
+  display: inline-block;
+  width: 2.2em;
+  height: 1.05em;
+  margin-right: .45em;
+  border: 1px solid rgba(0,0,0,.25);
+  border-radius: 2px;
+  vertical-align: middle;
+}
+
+.ffxiv-editor-xv-menu .ffxiv-editor-background-preview--light-blue {
+  background: url("../../../images/callouts/background-light-blue.png") center / cover no-repeat;
+}
+.ffxiv-editor-xv-menu .ffxiv-editor-background-preview--white {
+  background: url("../../../images/callouts/background-white.png") center / cover no-repeat;
+}
+.ffxiv-editor-xv-menu .ffxiv-editor-background-preview--paperscroll {
+  background: var(--ffxiv-bg-paperscroll);
+}
+.ffxiv-editor-xv-menu .ffxiv-editor-background-preview--green {
+  background: url("../../../images/callouts/background-green.png") center / cover no-repeat;
+}
+
+.ffxiv-editor-xv-menu .ffxiv-editor-rule-entry > i {
+  width: 1.2em;
+  margin-right: .45em;
+  text-align: center;
+}
+
+.ffxiv-editor-xv-menu .ffxiv-editor-icon-preview {
+  display: inline-block;
+  width: 1.6em;
+  height: 1.6em;
+  margin-right: .25em;
+  object-fit: contain;
+  vertical-align: middle;
+}
+
+.ffxiv-editor-xv-menu .ffxiv-editor-icon-none {
+  display: inline-flex;
+  width: 1.6em;
+  height: 1.6em;
+  margin-right: .25em;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  opacity: .65;
+  vertical-align: middle;
+}
+
+.ffxiv-editor-xv-menu .ffxiv-editor-xv-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.4em;
+  font-weight: 800;
+  letter-spacing: .03em;
+}
+
+.ffxiv-editor-xv-menu .ffxiv-editor-accent {
+  display: inline-flex;
+  align-items: center;
+  min-width: 3em;
+  font-weight: 800;
+  letter-spacing: .02em;
+}
+
+.ffxiv-editor-xv-menu .ffxiv-editor-accent--att {
+  color: var(--ffxiv-red-bright);
+}
+
+.ffxiv-editor-xv-menu .ffxiv-editor-accent--abi {
+  color: var(--ffxiv-blue-dark);
+}
+
+.ffxiv-editor-xv-menu .ffxiv-editor-semantic-entry--att:hover,
+.ffxiv-editor-xv-menu .ffxiv-editor-semantic-entry--att:focus-visible {
+  color: var(--ffxiv-red-bright);
+}
+
+.ffxiv-editor-xv-menu .ffxiv-editor-semantic-entry--abi:hover,
+.ffxiv-editor-xv-menu .ffxiv-editor-semantic-entry--abi:focus-visible {
+  color: var(--ffxiv-blue-dark);
+}
+
+/* Semantic marks used by ATT and ABI. */
+.ffxiv-journal__text .ffxiv-att,
+.ffxiv-journal__text .ffxiv-abi,
+.prosemirror .ffxiv-att,
+.prosemirror .ffxiv-abi {
+  font-weight: 700;
+}
+.ffxiv-journal__text .ffxiv-att,
+.prosemirror .ffxiv-att {
+  color: var(--ffxiv-red-bright);
+}
+.ffxiv-journal__text .ffxiv-abi,
+.prosemirror .ffxiv-abi {
+  color: var(--ffxiv-blue-dark);
+}
+
+/* v1.3.5: FFXIV-style numbered list markers */
+.ffxiv-journal__text ol > li::marker,
+.ffxiv-editor .ProseMirror ol > li::marker,
+.prosemirror-menu ol > li::marker {
+  color: var(--ffxiv-black);
+  font-weight: 700;
+}
+
+
+/* Item and NPC embed styling lives in the dedicated embed stylesheets. */

@@ -7,6 +7,7 @@
 
 import { buildClassSummaryAttributesViewModel } from "./class-summary-view-model.js";
 import { localize, localizeTags } from "../i18n.js";
+import { getComboKeys, getContentKeys } from "../utils/content-keys.js";
 import { enrich } from "../utils/enrich.js";
 import { numberOr, text } from "../utils/values.js";
 
@@ -53,7 +54,7 @@ const CHECK_ATTRIBUTE_KEYS = new Map([
 function normalizeCheck(value) {
   const normalized = text(value);
   if (!normalized || normalized.toLowerCase() === "none") return "";
-  if (normalized === SPECIAL_CHECK) return localize("FFXIVTTRPGLayout.Ability.Special");
+  if (normalized === SPECIAL_CHECK) return localize("FFXIV.Special");
   return CHECK_ATTRIBUTE_ABBREVIATIONS.get(normalized) ?? normalized;
 }
 
@@ -67,6 +68,7 @@ function getCheckModifier(jobSystem, check) {
 }
 
 function formatCheckModifier(modifier) {
+  if (modifier === null || modifier === undefined || modifier === "") return "";
   const value = Number(modifier);
   if (!Number.isFinite(value)) return "";
   const operator = value < 0 ? "-" : "+";
@@ -100,9 +102,9 @@ function formatChallengeParts(value) {
 
 function abilityTypeFromTags(tags) {
   if (!Array.isArray(tags)) return "";
-  if (tags.includes("FFXIV.Tags.Primary")) return localize("FFXIVTTRPGLayout.Item.Primary");
-  if (tags.includes("FFXIV.Tags.Secondary")) return localize("FFXIVTTRPGLayout.Item.Secondary");
-  if (tags.includes("FFXIV.Tags.Instant")) return localize("FFXIVTTRPGLayout.Item.Instant");
+  if (tags.includes("FFXIV.Tags.Primary")) return localize("FFXIV.Tags.Primary");
+  if (tags.includes("FFXIV.Tags.Secondary")) return localize("FFXIV.Tags.Secondary");
+  if (tags.includes("FFXIV.Tags.Instant")) return localize("FFXIV.Tags.Instant");
   return "";
 }
 
@@ -118,42 +120,41 @@ function buildAbilityComboGroups(abilities) {
   const entries = Array.isArray(abilities) ? abilities : [];
   if (!entries.length) return [];
 
-  const byName = new Map();
+  // Abilities are matched by translation-safe keys (original and displayed
+  // name), so a combo still resolves when Babele translated the names.
+  const byKey = new Map();
   for (const ability of entries) {
-    const name = text(ability?.name);
-    if (!name || byName.has(name)) continue;
-    byName.set(name, ability);
+    for (const key of ability?.contentKeys ?? []) {
+      if (!byKey.has(key)) byKey.set(key, ability);
+    }
   }
 
   const childrenByParent = new Map();
-  const childNames = new Set();
+  const children = new Set();
 
   for (const ability of entries) {
-    const parentName = text(ability?.combo);
-    if (!parentName) continue;
-
-    const parent = byName.get(parentName);
+    const parent = (ability?.comboKeys ?? []).map(key => byKey.get(key)).find(Boolean);
     if (!parent || parent === ability) continue;
 
-    if (!childrenByParent.has(parentName)) childrenByParent.set(parentName, []);
-    childrenByParent.get(parentName).push(ability);
-    childNames.add(ability.name);
+    if (!childrenByParent.has(parent)) childrenByParent.set(parent, []);
+    childrenByParent.get(parent).push(ability);
+    children.add(ability);
   }
 
   const attachChildren = ability => {
-    const children = childrenByParent.get(ability.name) ?? [];
+    const kids = childrenByParent.get(ability) ?? [];
     return {
       ...ability,
-      comboNames: children.map(child => child.name),
-      comboChildren: children.map(attachChildren),
-      hasComboChildren: children.length > 0,
+      comboNames: kids.map(child => child.name),
+      comboChildren: kids.map(attachChildren),
+      hasComboChildren: kids.length > 0,
     };
   };
 
   // Only abilities without a valid combo parent remain at the root level.
   // This prevents a combo child from also appearing as an independent card.
   return entries
-    .filter(ability => !childNames.has(ability.name))
+    .filter(ability => !children.has(ability))
     .map(attachChildren);
 }
 
@@ -263,16 +264,57 @@ function isLimitBreak(grant, item) {
     || text(grant?.name).startsWith("Limit Break:");
 }
 
+/**
+ * Card rows put a label before rich text ("Base Effect: …"). Authors usually
+ * write that text as paragraphs, and a paragraph inside the row would push the
+ * label onto its own line; blank paragraphs at the start or end would add gaps
+ * ("Direct Hit" floating below an empty line). Trim blank edges and let the
+ * first paragraph flow inline; later paragraphs stay as they are.
+ */
+function tidyRichText(html) {
+  if (!html) return html;
+
+  const template = document.createElement("template");
+  template.innerHTML = html;
+  const content = template.content;
+
+  const isBlank = node => node.nodeType === Node.TEXT_NODE
+    ? !node.textContent.trim()
+    : node.nodeName === "P" && !node.textContent.trim() && !node.querySelector("img, video, iframe");
+
+  while (content.firstChild && isBlank(content.firstChild)) content.firstChild.remove();
+  while (content.lastChild && isBlank(content.lastChild)) content.lastChild.remove();
+
+  const first = content.firstChild;
+  if (first?.nodeName === "P") first.replaceWith(...Array.from(first.childNodes));
+
+  return template.innerHTML;
+}
+
 async function enrichRichText(value, document) {
   const normalized = text(value);
   if (!normalized) return "";
 
   try {
-    return await enrich(normalized, document);
+    return tidyRichText(await enrich(normalized, document));
   } catch (error) {
     console.warn("FFXIV TTRPG Layout | Unable to enrich Class Summary rich text", error);
     return normalized;
   }
+}
+
+/**
+ * "(d20 + 3)" when a Job supplies the attribute value. Without Job context
+ * (tooltip, Ability embed) the attribute name itself is shown: "(d20 + INT)".
+ */
+function buildCheckModifier(rawCheck, jobItem, jobSystem) {
+  if (text(rawCheck) === SPECIAL_CHECK) return "";
+  const check = normalizeCheck(rawCheck);
+  if (!check) return "";
+  const modifier = getCheckModifier(jobSystem, check);
+  if (modifier !== null) return formatCheckModifier(modifier);
+  if (!jobItem && CHECK_ATTRIBUTE_KEYS.has(check.toUpperCase())) return `(d20 + ${check})`;
+  return "";
 }
 
 async function normalizeAbility(grant, item, jobItem) {
@@ -300,14 +342,14 @@ async function normalizeAbility(grant, item, jobItem) {
     check: normalizeCheck(system.check),
     isSpecialCheck: text(system.check) === SPECIAL_CHECK,
     checkDisplay: text(system.check) === SPECIAL_CHECK ? localize("FFXIVTTRPGLayout.Ability.SpecialCheck") : normalizeCheck(system.check),
-    checkModifier: text(system.check) === SPECIAL_CHECK
-      ? ""
-      : formatCheckModifier(getCheckModifier(jobSystem, normalizeCheck(system.check))),
+    checkModifier: buildCheckModifier(system.check, jobItem, jobSystem),
     challenge: text(system.challenge),
     challengeParts: formatChallengeParts(system.challenge),
     trigger: text(system.trigger),
     baseEffect: await enrichRichText(system.base_effect, item),
     combo: text(system.combo),
+    contentKeys: getContentKeys(item),
+    comboKeys: getComboKeys(item),
     comboNames: [],
     directHit: await enrichRichText(system.direct_hit, item),
     limitations: text(system.limitations),
@@ -407,15 +449,20 @@ export async function buildPetCardData(actor) {
     uuid: actor.uuid ?? "",
     actorType: actor.type,
     name: text(actor.name),
-    petLabel: localize("FFXIVTTRPGLayout.Pet.Type"),
+    petLabel: localize("FFXIV.ActorType.pet"),
     speedText: speedValue
-      ? `${localize("FFXIVTTRPGLayout.NPC.Speed")}: ${speedValue} ${speedUnit}`
+      ? `${localize("FFXIV.Attributes.Speed")}: ${speedValue} ${speedUnit}`
       : "",
     traits: traitsHTML,
     abilities,
     hasTraits: Boolean(traitsHTML),
     hasAbilities: abilities.length > 0,
   };
+}
+
+export async function buildTraitCardData(item) {
+  if (!item || item.documentName !== "Item" || item.type !== "trait") return null;
+  return normalizeTrait({ uuid: item.uuid, name: item.name }, item);
 }
 
 export async function buildAbilityCardData(item, contextDocument = null) {
@@ -431,6 +478,28 @@ async function resolveJobFromUuid(uuid) {
   return item;
 }
 
+/**
+ * Resolve a Job grant. The UUID comes first; when it no longer resolves (for
+ * example a translated compendium), the system's name-key matching is used.
+ */
+async function resolveGrantItem(grant) {
+  let item = null;
+  try {
+    item = await fromUuid(grant.uuid);
+  } catch (_error) {
+    item = null;
+  }
+  if (item) return item;
+
+  const key = getContentKeys(grant?.item ?? grant)[0];
+  const collection = String(grant.uuid).split(".").slice(1, 3).join(".");
+  const pack = String(grant.uuid).startsWith("Compendium.") ? game.packs.get(collection) : null;
+  if (!key || pack?.documentName !== "Item") return null;
+
+  const matches = (await pack.getIndex()).filter(entry => getContentKeys(entry).includes(key));
+  return matches.length === 1 ? pack.getDocument(matches[0]._id) : null;
+}
+
 async function buildClassSummaryData(item) {
   if (!item || item.documentName !== "Item" || item.type !== "job") return null;
 
@@ -442,7 +511,7 @@ async function buildClassSummaryData(item) {
     if (!grant?.uuid) return { grant, item: null };
 
     try {
-      return { grant, item: await fromUuid(grant.uuid) };
+      return { grant, item: await resolveGrantItem(grant) };
     } catch (error) {
       console.warn("FFXIV TTRPG Layout | Unable to resolve Job ability grant", grant?.uuid, error);
       return { grant, item: null };
@@ -535,7 +604,7 @@ async function buildClassSummaryData(item) {
     hasNinjutsuAbilities: ninjutsuAbilities.length > 0,
     traits: buildTraitColumns(traits),
     pets: buildPetColumns(pets),
-    petsSectionLabel: localize("FFXIVTTRPGLayout.ClassSummary.Pets"),
+    petsSectionLabel: localize("FFXIV.CharacterSheet.Pets"),
     hasPets: pets.length > 0,
   };
 }

@@ -1,0 +1,117 @@
+/* =========================================================
+   FFXIV TTRPG Layout — Version 1.1
+   Visual direction inspired by the uploaded FFXIV TTRPG
+   Player Book: warm paper, fine gold framing, red headings,
+   restrained blue accents and ornamental geometry.
+   ========================================================= */
+
+.ffxiv-journal-sheet .window-content {
+  padding: 0;
+  overflow: hidden;
+  background: transparent;
+}
+
+.ffxiv-journal-sheet .ffxiv-journal__main {
+  color: var(--ffxiv-ink);
+  font-family: "Noto Serif", serif;
+}
+
+.ffxiv-journal {
+  position: relative;
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--ffxiv-paper);
+}
+
+/* ---------------------------------------------------------
+   Chapter header
+   --------------------------------------------------------- */
+
+.ffxiv-journal__hero {
+  position: relative;
+  flex: 0 0 auto;
+  min-height: 76px;
+  display: grid;
+  grid-template-columns: minmax(80px, 1fr) auto minmax(80px, 1fr);
+  align-items: center;
+  gap: 18px;
+  padding: 13px 30px 15px;
+  background:
+    radial-gradient(circle at 50% 0%, var(--ffxiv-overlay-white-062), transparent 55%),
+    linear-gradient(180deg, var(--ffxiv-paper-light), var(--ffxiv-paper));
+  border-bottom: 1px solid var(--ffxiv-gold);
+  box-shadow: inset 0 -3px var(--ffxiv-overlay-gold-008);
+}
+
+.ffxiv-journal__hero::before,
+.ffxiv-journal__hero::after {
+  content: "";
+  position: absolute;
+  bottom: 4px;
+  width: 76px;
+  height: 8px;
+  border-bottom: 1px solid var(--ffxiv-gold);
+  opacity: .75;
+}
+
+.ffxiv-journal__hero::before {
+  left: 16px;
+  transform: skewX(-28deg);
+  border-left: 1px solid var(--ffxiv-gold);
+}
+
+.ffxiv-journal__hero::after {
+  right: 16px;
+  transform: skewX(28deg);
+  border-right: 1px solid var(--ffxiv-gold);
+}
+
+.ffxiv-journal__chapter-rule {
+  position: relative;
+  height: 16px;
+  border-top: 1px solid var(--ffxiv-gold);
+  border-bottom: 1px solid var(--ffxiv-overlay-gold-045);
+  opacity: .82;
+}
+
+.ffxiv-journal__chapter-rule::after {
+  content: "";
+  position: absolute;
+  top: 4px;
+  width: 8px;
+  height: 8px;
+  border: 1px solid var(--ffxiv-gold);
+  background: var(--ffxiv-paper);
+  transform: rotate(45deg);
+}
+
+.ffxiv-journal__chapter-rule--left::after { right: 0; }
+.ffxiv-journal__chapter-rule--right::after { left: 0; }
+
+.ffxiv-journal__chapter-title {
+  min-width: 0;
+  text-align: center;
+}
+
+.ffxiv-journal__chapter-kicker {
+  margin-bottom: 2px;
+  color: var(--ffxiv-muted);
+  font-size: .57rem;
+  font-weight: 600;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+
+.ffxiv-journal__chapter-title h1 {
+  margin: 0;
+  color: var(--ffxiv-ink);
+  font-family: "Cinzel", "Trajan Pro", Georgia, serif;
+  font-size: 1.16rem;
+  font-weight: 700;
+  letter-spacing: .055em;
+  line-height: 1.15;
+  text-transform: uppercase;
+}

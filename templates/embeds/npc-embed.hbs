@@ -15,7 +15,7 @@
   <section class="ffxiv-actor-embed__stat-panel">
     <div class="ffxiv-actor-embed__top-line">
       <span class="ffxiv-actor-embed__top-line-left">{{sizeText}}{{specieText}}</span>
-      <span class="ffxiv-actor-embed__top-line-right">{{localize "FFXIVTTRPGLayout.NPC.Vigilance"}}: {{vigilance}}</span>
+      <span class="ffxiv-actor-embed__top-line-right">{{localize "FFXIV.Attributes.Vigilance"}}: {{vigilance}}</span>
     </div>
     <div class="ffxiv-actor-embed__top-content">
       <div class="ffxiv-actor-embed__top-area">
@@ -36,7 +36,7 @@
 
   {{#if traits.length}}
     <section class="ffxiv-actor-embed__section">
-      <h5 class="ffxiv-actor-embed__section-title">{{localize "FFXIVTTRPGLayout.NPC.Traits"}}</h5>
+      <h5 class="ffxiv-actor-embed__section-title">{{localize "FFXIV.Abilities.TraitsShort"}}</h5>
       <div class="ffxiv-actor-embed__item-list">
         {{#each traits}}
           <div class="ffxiv-actor-embed__item-block">
@@ -50,7 +50,7 @@
 
   {{#if hasAbilities}}
     <section class="ffxiv-actor-embed__section{{#if traits.length}} ffxiv-actor-embed__section--abilities-after-traits{{/if}}">
-      <h5 class="ffxiv-actor-embed__section-title">{{localize "FFXIVTTRPGLayout.NPC.Abilities"}}</h5>
+      <h5 class="ffxiv-actor-embed__section-title">{{localize "FFXIV.Abilities.Abilities"}}</h5>
 
       {{#if isDouble}}
         <div class="ffxiv-actor-embed__ability-column ffxiv-actor-embed__ability-column--primary">

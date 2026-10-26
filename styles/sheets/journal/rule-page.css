@@ -1,0 +1,305 @@
+/* ---------------------------------------------------------
+   Class Summary Journal Page
+   --------------------------------------------------------- */
+.ffxiv-journal__class-summary {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.ffxiv-journal__class-summary .ffxiv-class-summary {
+  min-height: auto;
+}
+
+/* ---------------------------------------------------------
+   Rule page
+   Editor follows the fixed FFXIV editor language established
+   by the Class Summary header and rich-text containers.
+   --------------------------------------------------------- */
+.ffxiv-rule-page .window-content {
+  padding: 0;
+  overflow: auto;
+  background: var(--ffxiv-paper);
+}
+
+/* The custom Rule sheet explicitly scopes its active mode. This prevents the
+   view and edit root parts from ever being visible at the same time. */
+.ffxiv-rule-page.ffxiv-rule-page--edit .ffxiv-rule-page__view {
+  display: none !important;
+}
+
+.ffxiv-rule-page.ffxiv-rule-page--view .ffxiv-rule-page__editor {
+  display: none !important;
+}
+
+.ffxiv-rule-page__view,
+.ffxiv-rule-page__editor {
+  min-height: 100%;
+  box-sizing: border-box;
+  padding: 14px 16px 18px;
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--ffxiv-ink) !important;
+  background:
+    linear-gradient(var(--ffxiv-overlay-gold-004), var(--ffxiv-overlay-gold-004)),
+    var(--ffxiv-paper);
+}
+
+.ffxiv-rule-page__key {
+  margin-bottom: 12px;
+  color: var(--ffxiv-red-heading);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: .02em;
+}
+
+.ffxiv-rule-page__content {
+  line-height: 1.45;
+}
+
+/* Fixed native-style editor header */
+.ffxiv-rule-page__page-settings-title > label > i,
+.ffxiv-rule-page__page-setting--icon > i {
+  width: 1rem;
+  flex: 0 0 auto;
+  color: var(--ffxiv-ink);
+  font-size: .86rem;
+  text-align: center;
+}
+
+.ffxiv-rule-page__page-setting--icon > i {
+  flex: 0 0 auto;
+  width: 1rem;
+  color: var(--ffxiv-ink);
+  font-size: .84rem;
+  text-align: center;
+}
+
+/* Rule Key container */
+.ffxiv-rule-page__rule-key-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  margin: 0 0 14px;
+  padding: 10px;
+  border: 1px solid var(--ffxiv-line);
+  border-radius: 4px;
+  background: rgba(255,255,255,.30);
+}
+
+.ffxiv-rule-page__rule-key-heading,
+.ffxiv-rule-page__content-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-width: 0;
+}
+
+.ffxiv-rule-page__rule-key-label,
+.ffxiv-rule-page__content-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--ffxiv-ink);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .9rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.ffxiv-rule-page__rule-key-label i,
+.ffxiv-rule-page__content-label i {
+  color: var(--ffxiv-ink);
+  font-size: .82rem;
+}
+
+.ffxiv-rule-page__rule-key-field input {
+  width: 100%;
+  min-height: 28px;
+  box-sizing: border-box;
+  padding: 4px 7px;
+  border: 1px solid var(--ffxiv-line);
+  border-radius: 4px;
+  background: var(--ffxiv-white);
+  color: var(--ffxiv-ink) !important;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .8rem;
+  box-shadow: none;
+}
+
+.ffxiv-rule-page__rule-key-field input:focus {
+  outline: none;
+  border-color: var(--ffxiv-gold-dark);
+  box-shadow: 0 0 0 1px var(--ffxiv-overlay-gold-016);
+}
+
+.ffxiv-rule-page__rule-key-help {
+  margin: -1px 0 0;
+  color: var(--ffxiv-muted) !important;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .76rem;
+  line-height: 1.25;
+}
+
+/* Rich-text container — same language as Class Summary Introduction */
+.ffxiv-rule-page__content-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  margin: 0 0 14px;
+  padding: var(--ffxiv-container-rich-padding);
+  border: var(--ffxiv-container-rich-border);
+  border-radius: var(--ffxiv-container-rich-radius);
+  background: var(--ffxiv-container-rich-surface);
+}
+
+.ffxiv-rule-page__content-preview {
+  min-height: 112px;
+  max-height: 150px;
+  overflow: auto;
+  padding: var(--ffxiv-container-preview-padding);
+  border: var(--ffxiv-container-preview-border);
+  border-radius: var(--ffxiv-container-preview-radius);
+  background: var(--ffxiv-container-preview-surface);
+  color: var(--ffxiv-ink) !important;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.3;
+}
+
+.ffxiv-rule-page__content-preview > :first-child {
+  margin-top: 0;
+}
+
+.ffxiv-rule-page__content-preview > :last-child {
+  margin-bottom: 0;
+}
+
+.ffxiv-rule-page__edit-content {
+  align-self: flex-end;
+}
+
+.ffxiv-action-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 30px;
+  padding: 4px 9px;
+  border: 1px solid var(--ffxiv-gold-dark);
+  border-radius: 4px;
+  background: var(--ffxiv-paper-light);
+  color: var(--ffxiv-ink) !important;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .76rem;
+  cursor: pointer;
+}
+
+.ffxiv-action-button:hover {
+  background: var(--ffxiv-paper-dark);
+}
+
+/* Shared editor page-settings heading */
+/* Shared editor empty state */
+.ffxiv-empty-state {
+  color: var(--ffxiv-muted);
+  font-style: italic;
+}
+
+.ffxiv-editor-page-settings-title {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 7px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+/* Shared editor page-settings primitives */
+.ffxiv-editor-page-settings {
+  margin: 0 0 14px;
+  padding: var(--ffxiv-container-editor-padding);
+  border: var(--ffxiv-container-editor-border);
+  border-radius: var(--ffxiv-container-editor-radius);
+  background: var(--ffxiv-container-editor-surface);
+  box-shadow: var(--ffxiv-container-editor-shadow);
+}
+
+.ffxiv-editor-page-settings-controls {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.ffxiv-editor-page-setting {
+  color: var(--ffxiv-ink) !important;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .78rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ffxiv-editor-page-setting--icon {
+  gap: 7px;
+}
+
+.ffxiv-editor-page-setting--checkbox {
+  font-weight: 600;
+}
+
+.ffxiv-editor-page-setting--checkbox input {
+  margin: 0;
+  accent-color: var(--ffxiv-gold-dark);
+}
+
+.ffxiv-editor-page-settings-title > label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1rem;
+  margin: 0;
+  cursor: default;
+}
+
+.ffxiv-editor-page-settings-title input,
+.ffxiv-editor-page-setting select {
+  min-height: 28px;
+  box-sizing: border-box;
+  border: 1px solid var(--ffxiv-line);
+  border-radius: 4px;
+  background: var(--ffxiv-white);
+  color: var(--ffxiv-ink) !important;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .8rem;
+}
+
+.ffxiv-editor-page-settings-title input {
+  width: 100%;
+  padding: 4px 7px;
+}
+
+.ffxiv-editor-page-setting select {
+  min-width: 92px;
+  padding: 3px 5px;
+}
+
+.ffxiv-editor-page-setting--icon select {
+  min-width: 100px;
+}
+
+/* Rule page preview/content readability */
+.ffxiv-rule-page__content-preview,
+.ffxiv-rule-page__content-preview *,
+.ffxiv-rule-page__content,
+.ffxiv-rule-page__content * {
+  color: var(--ffxiv-ink) !important;
+  opacity: 1 !important;
+}
+
+/* Native Foundry Journal V2 sidebar is intentionally not styled by the module. */
+.ffxiv-journal-sheet .ffxiv-journal__main {
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+}

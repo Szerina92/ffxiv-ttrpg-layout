@@ -1,0 +1,118 @@
+/* ---------------------------------------------------------
+   Native Journal page settings
+   --------------------------------------------------------- */
+.ffxiv-class-summary-editor__page-settings-title > label > i {
+  width: 1rem;
+  color: var(--ffxiv-ink);
+  font-size: .86rem;
+  text-align: center;
+}
+
+.ffxiv-class-summary-editor__page-setting--icon > i {
+  flex: 0 0 auto;
+  width: 1rem;
+  color: var(--ffxiv-ink);
+  font-size: .84rem;
+  text-align: center;
+}
+
+/* ---------------------------------------------------------
+   Rich-text field — shared Quest Summary editor language
+   --------------------------------------------------------- */
+.ffxiv-class-summary-editor__introduction-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  margin: 0 0 14px;
+  padding: var(--ffxiv-container-rich-padding);
+  border: var(--ffxiv-container-rich-border);
+  border-radius: var(--ffxiv-container-rich-radius);
+  background: var(--ffxiv-container-rich-surface);
+}
+
+.ffxiv-class-summary-editor__introduction-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-width: 0;
+}
+
+.ffxiv-class-summary-editor__introduction-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--ffxiv-ink);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .9rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.ffxiv-class-summary-editor__introduction-label i {
+  color: var(--ffxiv-ink);
+  font-size: .82rem;
+}
+
+.ffxiv-class-summary-editor__introduction-preview {
+  min-height: 112px;
+  max-height: 150px;
+  overflow: auto;
+  padding: var(--ffxiv-container-preview-padding);
+  border: var(--ffxiv-container-preview-border);
+  border-radius: var(--ffxiv-container-preview-radius);
+  background: var(--ffxiv-container-preview-surface);
+  color: var(--ffxiv-ink);
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.3;
+}
+
+.ffxiv-class-summary-editor__introduction-preview > :first-child {
+  margin-top: 0;
+}
+
+.ffxiv-class-summary-editor__introduction-preview > :last-child {
+  margin-bottom: 0;
+}
+
+.ffxiv-class-summary-editor__edit-introduction {
+  align-self: flex-end;
+}
+
+/* ---------------------------------------------------------
+   Jobs field — shared editor container language
+   --------------------------------------------------------- */
+@media (max-width: 420px) {
+  .ffxiv-class-summary-editor__selected-jobs {
+    grid-template-columns: 1fr;
+  }
+}
+
+.ffxiv-class-summary-editor__jobs-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  margin: 0 0 14px;
+  padding: 10px;
+  border: 1px solid var(--ffxiv-line);
+  border-radius: 4px;
+  background: rgba(255,255,255,.30);
+}
+
+.ffxiv-class-summary-editor__jobs-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-width: 0;
+}
+
+.ffxiv-class-summary-editor__jobs-label {
+  color: var(--ffxiv-ink);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .9rem;
+  font-weight: 700;
+  line-height: 1.2;
+}

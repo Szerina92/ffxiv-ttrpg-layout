@@ -115,7 +115,7 @@ export function buildClassSummaryAttributesViewModel(item) {
     level: numberValue(system.level),
     primary,
     secondary,
-    primaryHeading: localize("FFXIVTTRPGLayout.ClassSummary.PrimaryAttributes"),
-    secondaryHeading: localize("FFXIVTTRPGLayout.ClassSummary.SecondaryAttributes"),
+    primaryHeading: localize("FFXIV.Attributes.Primary"),
+    secondaryHeading: localize("FFXIV.Attributes.Secondary"),
   };
 }

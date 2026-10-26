@@ -16,13 +16,13 @@
   <div class="ffxiv-pet-embed__content">
     {{#if pet.hasTraits}}
       <section class="ffxiv-pet-embed__traits">
-        <strong class="ffxiv-pet-embed__label">{{localize "FFXIVTTRPGLayout.Pet.Traits"}}:</strong>
+        <strong class="ffxiv-pet-embed__label">{{localize "FFXIV.Abilities.TraitsShort"}}:</strong>
         <div class="ffxiv-pet-embed__trait-text">{{{pet.traits}}}</div>
       </section>
     {{/if}}
 
     {{#if pet.hasAbilities}}
-      <section class="ffxiv-pet-embed__abilities" aria-label="{{localize 'FFXIVTTRPGLayout.Pet.Abilities'}}">
+      <section class="ffxiv-pet-embed__abilities" aria-label="{{localize 'FFXIV.Abilities.Abilities'}}">
         {{#each pet.abilities}}
           <div class="ffxiv-pet-embed__ability-node">
             {{> ffxivCard card=this}}

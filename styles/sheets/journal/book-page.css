@@ -1,0 +1,142 @@
+/* ---------------------------------------------------------
+   Book page / gold frame
+   --------------------------------------------------------- */
+
+.ffxiv-journal__content {
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 0;
+  background:
+    radial-gradient(circle at 25% 10%, var(--ffxiv-overlay-white-065), transparent 34%),
+    radial-gradient(circle at 80% 75%, var(--ffxiv-overlay-gold-006), transparent 28%),
+    var(--ffxiv-paper-dark);
+}
+
+.ffxiv-journal__page {
+  position: relative;
+  max-width: none;
+  width: 100%;
+  margin: 0;
+  padding: 0 48px 28px;
+  background: none;
+}
+
+.ffxiv-journal__page-footer::before,
+.ffxiv-journal__page-footer::after {
+  content: none;
+}
+
+.ffxiv-journal__page-header {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+}
+
+/* 1.4.14 — When Foundry's native Text Page setting hides the page title,
+   keep the page actions available without reserving the title's large space. */
+.ffxiv-journal__page-header--title-hidden {
+  min-height: 31px;
+}
+
+.ffxiv-journal__page-title-group {
+  min-width: 0;
+  width: 100%;
+  text-align: center;
+}
+
+/* Class Summary pages use the Job icon as part of the page title.
+   This override is intentionally scoped to Class Summary pages so normal
+   Journal Entry Pages keep their existing centered title presentation. */
+.ffxiv-journal__page-title-group--class-summary {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 14px;
+  width: 100%;
+  text-align: left;
+}
+
+.ffxiv-journal__page-title-job-icon {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  flex: 0 0 auto;
+}
+
+.ffxiv-journal__page-title-text {
+  min-width: 0;
+  flex: 1 1 auto;
+  text-align: left;
+}
+
+.ffxiv-journal__page-header h1,
+.ffxiv-journal__page-header h2,
+.ffxiv-journal__page-header h3,
+.ffxiv-journal__page-header h4,
+.ffxiv-journal__page-header h5,
+.ffxiv-journal__page-header h6 {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  color: var(--ffxiv-black);
+  font-family: "Cinzel", "Trajan Pro", Georgia, serif;
+  font-size: 2.35rem;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: .025em;
+  text-align: center;
+  margin-bottom: 0.85rem;
+  border: 0;
+  box-shadow: none;
+  text-decoration: none;
+}
+
+
+.ffxiv-journal__page-title-group--class-summary h1,
+.ffxiv-journal__page-title-group--class-summary h2,
+.ffxiv-journal__page-title-group--class-summary h3,
+.ffxiv-journal__page-title-group--class-summary h4,
+.ffxiv-journal__page-title-group--class-summary h5,
+.ffxiv-journal__page-title-group--class-summary h6 {
+  text-align: left;
+  margin-bottom: 0;
+}
+
+.ffxiv-journal__page-header h1::before,
+.ffxiv-journal__page-header h2::before,
+.ffxiv-journal__page-header h3::before,
+.ffxiv-journal__page-header h4::before,
+.ffxiv-journal__page-header h5::before,
+.ffxiv-journal__page-header h6::before {
+  content: none;
+}
+
+.ffxiv-journal__accent-line {
+  position: relative;
+  height: 14px;
+  margin: 10px 0 28px;
+}
+
+.ffxiv-journal__accent-line::before {
+  content: "";
+  position: absolute;
+  top: 6px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, var(--ffxiv-gold), var(--ffxiv-line), var(--ffxiv-gold));
+  opacity: .72;
+}
+
+.ffxiv-journal__accent-line span {
+  position: absolute;
+  top: 1px;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  border: 1px solid var(--ffxiv-gold);
+  background: var(--ffxiv-paper-light);
+  transform: rotate(45deg);
+}

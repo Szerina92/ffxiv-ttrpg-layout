@@ -7,10 +7,11 @@
 
 import { localize, localizeTags } from "../i18n.js";
 import { enrich } from "../utils/enrich.js";
+import { embedPattern, readEmbedMatch } from "../utils/enricher-options.js";
 import { renderElement } from "../utils/render.js";
 import { text } from "../utils/values.js";
 
-async function createItemEmbed(uuid, { label } = {}) {
+export async function createItemEmbed(uuid, { label } = {}) {
   if (typeof uuid !== "string" || !uuid.trim()) return null;
 
   const item = await fromUuid(uuid.trim());
@@ -20,10 +21,10 @@ async function createItemEmbed(uuid, { label } = {}) {
   const price = Number(system.price?.buy ?? 0);
 
   const metaFields = [
-    { label: localize("FFXIVTTRPGLayout.Item.ShopTier"), value: text(system.shop_tier) },
+    { label: localize("FFXIV.Item.ShopTier"), value: text(system.shop_tier) },
     { label: localize("FFXIVTTRPGLayout.Item.Price"), value: price > 0 ? String(price) : "" },
-    { label: localize("FFXIVTTRPGLayout.Item.Target"), value: text(system.target) },
-    { label: localize("FFXIVTTRPGLayout.Item.Range"), value: text(system.range) },
+    { label: localize("FFXIV.Abilities.Target"), value: text(system.target) },
+    { label: localize("FFXIV.Abilities.Range"), value: text(system.range) },
   ].filter(field => field.value);
 
   const description = text(system.description);
@@ -52,7 +53,10 @@ async function createItemEmbed(uuid, { label } = {}) {
 export function registerItemEmbed() {
   CONFIG.TextEditor.enrichers.push({
     id: "ffxiv-item-embed",
-    pattern: /@FFXIVItem\[([^\]\s]+)\](?:\{([^}]+)\})?/g,
-    enricher: match => createItemEmbed(match[1], { label: match[2] }),
+    pattern: embedPattern("FFXIVItem"),
+    enricher: match => {
+      const { uuid, label } = readEmbedMatch(match);
+      return createItemEmbed(uuid, { label });
+    },
   });
 }

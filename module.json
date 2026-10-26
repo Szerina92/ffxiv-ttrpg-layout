@@ -3,9 +3,9 @@
   "title": "FFXIV TTRPG Layout",
   "url": "https://github.com/Szerina92/ffxiv-ttrpg-layout",
   "bugs": "https://github.com/Szerina92/ffxiv-ttrpg-layout/issues",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "manifest": "https://github.com/Szerina92/ffxiv-ttrpg-layout/releases/latest/download/module.json",
-  "download": "https://github.com/Szerina92/ffxiv-ttrpg-layout/releases/download/v0.2.0/ffxiv-ttrpg-layout.zip",
+  "download": "https://github.com/Szerina92/ffxiv-ttrpg-layout/releases/download/v0.3.0/ffxiv-ttrpg-layout.zip",
   "compatibility": {
     "minimum": "14",
     "verified": "14"
@@ -20,6 +20,13 @@
         "type": "system",
         "compatibility": {}
       }
+    ],
+    "recommends": [
+      {
+        "id": "babele",
+        "type": "module",
+        "compatibility": {}
+      }
     ]
   },
   "esmodules": [
@@ -27,34 +34,7 @@
   ],
   "styles": [
     {
-      "src": "styles/variables.css"
-    },
-    {
-      "src": "styles/sheets/journal-sheet.css"
-    },
-    {
-      "src": "styles/sheets/class-summary-sheet.css"
-    },
-    {
-      "src": "styles/embeds/item-embed.css"
-    },
-    {
-      "src": "styles/embeds/npc-embed.css"
-    },
-    {
-      "src": "styles/embeds/pet-embed.css"
-    },
-    {
-      "src": "styles/embeds/table-embed.css"
-    },
-    {
-      "src": "styles/embeds/ability-tooltip.css"
-    },
-    {
-      "src": "styles/rules/rule-tooltip.css"
-    },
-    {
-      "src": "styles/toc/toc.css"
+      "src": "styles/main.css"
     }
   ],
   "description": "<p>Custom FFXIV TTRPG Journal Sheet with separated Item, NPC Actor, Pet, Job Summary, Quest Summary, Rule and experimental marker components.</p>",
@@ -77,6 +57,18 @@
       "lang": "en",
       "name": "English",
       "path": "lang/en.json",
+      "flags": {}
+    },
+    {
+      "lang": "de",
+      "name": "Deutsch",
+      "path": "lang/de.json",
+      "flags": {}
+    },
+    {
+      "lang": "fr",
+      "name": "Français",
+      "path": "lang/fr.json",
       "flags": {}
     }
   ],

@@ -33,3 +33,18 @@ export function pickPosition(options, fallback = "center") {
 export function normalizePosition(position, fallback = "center") {
   return EMBED_POSITIONS.includes(position) ? position : fallback;
 }
+
+/**
+ * Build the shared enricher pattern `@Name[uuid option option]{label|option}`.
+ * Options may sit inside the brackets (after the UUID) and/or after the label.
+ */
+export function embedPattern(name) {
+  return new RegExp(`@${name}\\[([^\\]\\s]+)([^\\]]*)\\](?:\\{([^}]+)\\})?`, "g");
+}
+
+/** Read a match of `embedPattern` into `{uuid, label, options}` (options from both places, in order). */
+export function readEmbedMatch(match) {
+  const bracketOptions = String(match[2] ?? "").split(/\s+/).filter(Boolean);
+  const { label, options } = parseEnricherOptions(match[3]);
+  return { uuid: match[1], label, options: [...bracketOptions, ...options] };
+}

@@ -7,7 +7,6 @@
  */
 
 import { CLASS_SUMMARY_PAGE_TYPE, RULE_PAGE_TYPE } from "../constants.js";
-import { activateAbilityTooltips } from "../embeds/ability-tooltip.js";
 import { playPageChangeSound } from "../page-change-sound.js";
 import { FFXIVJournalPagePointer } from "../page-pointer.js";
 import {
@@ -131,12 +130,11 @@ class FFXIVJournalSheet extends JournalEntrySheet {
     this.#pagePointer ??= new FFXIVJournalPagePointer(this);
     this.#pagePointer.sync();
 
-    // The native Journal header is hidden by CSS (journal-sheet.css).
+    // The native Journal header is hidden by CSS (styles/sheets/journal/late-overrides.css).
     const scroller = this.element?.querySelector(".journal-entry-pages");
     scroller?.classList.add("ffxiv-journal__native-pages");
     this.#bindPageFrame(scroller);
 
-    activateAbilityTooltips(this.element);
     this.#bindDelegatedListeners();
   }
 
@@ -194,7 +192,6 @@ class FFXIVJournalSheet extends JournalEntrySheet {
     root.dataset.ffxivListenersBound = "true";
 
     root.addEventListener("click", event => {
-      this.#onItemIconClick(event);
       this.#onContentLinkClick(event);
     });
     root.addEventListener("change", event => this.#onClassSummaryLevelChange(event));
@@ -205,17 +202,6 @@ class FFXIVJournalSheet extends JournalEntrySheet {
   #closest(event, selector) {
     const match = event.target?.closest?.(selector);
     return match && this.element?.contains(match) ? match : null;
-  }
-
-  async #onItemIconClick(event) {
-    const icon = this.#closest(event, "[data-ffxiv-item-uuid]");
-    const uuid = icon?.dataset.ffxivItemUuid;
-    if (!uuid) return;
-
-    event.preventDefault();
-    event.stopPropagation();
-    const item = await fromUuid(uuid);
-    if (item?.documentName === "Item") await item.sheet?.render({ force: true });
   }
 
   async #onContentLinkClick(event) {

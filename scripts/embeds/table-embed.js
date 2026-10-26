@@ -10,7 +10,7 @@
  */
 
 import { localize } from "../i18n.js";
-import { normalizePosition, parseEnricherOptions, pickPosition } from "../utils/enricher-options.js";
+import { embedPattern, normalizePosition, pickPosition, readEmbedMatch } from "../utils/enricher-options.js";
 import { enrich } from "../utils/enrich.js";
 import { renderElement } from "../utils/render.js";
 
@@ -53,7 +53,7 @@ async function buildTableData(table, label) {
     dice,
     diceIcon: icon,
     description: table.description ? await enrich(table.description, table) : "",
-    rollLabel: localize("FFXIVTTRPGLayout.Table.Roll"),
+    rollLabel: localize("FFXIV.RollDialog.ButtonRoll"),
     resultLabel: localize("FFXIVTTRPGLayout.Table.Result"),
     results: await Promise.all(results.map(async result => ({
       id: result.id,
@@ -64,7 +64,7 @@ async function buildTableData(table, label) {
   };
 }
 
-async function createTableEmbed(uuid, { label, position } = {}) {
+export async function createTableEmbed(uuid, { label, position } = {}) {
   if (typeof uuid !== "string" || !uuid.trim()) return null;
 
   const table = await fromUuid(uuid.trim());
@@ -119,10 +119,10 @@ async function onRollClick(event) {
 export function registerTableEmbed() {
   CONFIG.TextEditor.enrichers.push({
     id: "ffxiv-table-embed",
-    pattern: /@FFXIVTable\[([^\]\s]+)\](?:\{([^}]+)\})?/g,
+    pattern: embedPattern("FFXIVTable"),
     enricher: match => {
-      const { label, options } = parseEnricherOptions(match[2]);
-      return createTableEmbed(match[1], { label, position: pickPosition(options) });
+      const { uuid, label, options } = readEmbedMatch(match);
+      return createTableEmbed(uuid, { label, position: pickPosition(options) });
     },
   });
 

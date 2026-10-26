@@ -37,13 +37,13 @@
     </div>
 
     {{#if classSummary.attributes}}
-      <section class="ffxiv-class-summary__attributes" aria-label="{{localize 'FFXIVTTRPGLayout.ClassSummary.Attributes'}}">
+      <section class="ffxiv-class-summary__attributes" aria-label="{{localize 'FFXIV.Attributes.Attributes'}}">
         <div class="ffxiv-class-summary__attributes-header">
-          <h2>{{localize "FFXIVTTRPGLayout.ClassSummary.Attributes"}}</h2>
+          <h2>{{localize "FFXIV.Attributes.Attributes"}}</h2>
           <span>LV {{classSummary.attributes.level}}</span>
         </div>
 
-        <div class="ffxiv-class-summary__attributes-grid" role="table" aria-label="{{localize 'FFXIVTTRPGLayout.ClassSummary.Attributes'}}">
+        <div class="ffxiv-class-summary__attributes-grid" role="table" aria-label="{{localize 'FFXIV.Attributes.Attributes'}}">
           <div class="ffxiv-class-summary__attribute-group ffxiv-class-summary__attribute-group--primary" role="rowgroup">
             <h3>{{classSummary.attributes.primaryHeading}}</h3>
             {{#each classSummary.attributes.primary}}
@@ -73,28 +73,28 @@
           <article class="ffxiv-class-summary__ability-card ffxiv-class-summary__ability-card--limit-break">
             <div class="ffxiv-class-summary__ability-top">
               <div class="ffxiv-class-summary__ability-head">
-                {{#if img}}<img src="{{img}}" alt="" class="ffxiv-class-summary__ability-icon" />{{/if}}
+                {{#if img}}<img src="{{img}}" alt="" class="ffxiv-class-summary__ability-icon"{{#if uuid}} data-ffxiv-item-uuid="{{uuid}}"{{/if}} />{{/if}}
                 <div class="ffxiv-class-summary__ability-title-row">
                   <h3 style="font-weight: 700;">{{name}}</h3>
-                  <span class="ffxiv-class-summary__ability-type">{{localize "FFXIVTTRPGLayout.ClassSummary.LimitBreak"}}{{#if typeLabel}}, {{typeLabel}}{{/if}}</span>
+                  <span class="ffxiv-class-summary__ability-type">{{localize "FFXIV.ItemType.limit_break"}}{{#if typeLabel}}, {{typeLabel}}{{/if}}</span>
                 </div>
               </div>
 
               <div class="ffxiv-class-summary__ability-meta">
-                {{#if cost}}<span class="ffxiv-class-summary__ability-field"><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIVTTRPGLayout.Ability.Cost"}}:</strong> {{cost}}</span>{{/if}}
-                {{#if condition}}<span class="ffxiv-class-summary__ability-field"><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIVTTRPGLayout.Ability.Condition"}}:</strong> {{{condition}}}</span>{{/if}}
-                {{#if trigger}}<span class="ffxiv-class-summary__ability-field"><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIVTTRPGLayout.Ability.Trigger"}}:</strong> {{trigger}}</span>{{/if}}
-                {{#if target}}<span class="ffxiv-class-summary__ability-field"><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIVTTRPGLayout.Ability.Target"}}:</strong> {{target}}</span>{{/if}}
-                {{#if range}}<span class="ffxiv-class-summary__ability-field"><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIVTTRPGLayout.Ability.Range"}}:</strong> {{range}}</span>{{/if}}
-                {{#if check}}<span class="ffxiv-class-summary__ability-field"><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIVTTRPGLayout.Ability.Check"}}:</strong> {{#if isSpecialCheck}}<span>{{checkDisplay}}</span>{{else}}<span class="ffxiv-class-summary__ability-value--blue-dark">{{check}}</span>{{#if checkModifier}}<span class="ffxiv-class-summary__ability-check-modifier">{{checkModifier}}</span>{{/if}}{{/if}}</span>{{/if}}
-                {{#if challenge}}<span class="ffxiv-class-summary__ability-field"><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIVTTRPGLayout.Ability.CR"}}:</strong> {{#each challengeParts}}{{#unless @first}}&#32;{{/unless}}{{#if highlight}}<span class="ffxiv-class-summary__ability-value--blue-dark ffxiv-class-summary__ability-challenge-highlight">{{text}}</span>{{else}}{{text}}{{/if}}{{/each}}</span>{{/if}}
+                {{#if cost}}<span class="ffxiv-class-summary__ability-field"><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIV.Abilities.Cost"}}:</strong> {{cost}}</span>{{/if}}
+                {{#if condition}}<span class="ffxiv-class-summary__ability-field"><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIV.Abilities.Condition"}}:</strong> {{{condition}}}</span>{{/if}}
+                {{#if trigger}}<span class="ffxiv-class-summary__ability-field"><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIV.Abilities.Trigger"}}:</strong> {{trigger}}</span>{{/if}}
+                {{#if target}}<span class="ffxiv-class-summary__ability-field"><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIV.Abilities.Target"}}:</strong> {{target}}</span>{{/if}}
+                {{#if range}}<span class="ffxiv-class-summary__ability-field"><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIV.Abilities.Range"}}:</strong> {{range}}</span>{{/if}}
+                {{#if check}}<span class="ffxiv-class-summary__ability-field"><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIV.Abilities.Check"}}:</strong> {{#if isSpecialCheck}}<span>{{checkDisplay}}</span>{{else}}<span class="ffxiv-class-summary__ability-value--blue-dark">{{check}}</span>{{#if checkModifier}}<span class="ffxiv-class-summary__ability-check-modifier">{{checkModifier}}</span>{{/if}}{{/if}}</span>{{/if}}
+                {{#if challenge}}<span class="ffxiv-class-summary__ability-field"><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIV.Abilities.Challenge"}}:</strong> {{#each challengeParts}}{{#unless @first}}&#32;{{/unless}}{{#if highlight}}<span class="ffxiv-class-summary__ability-value--blue-dark ffxiv-class-summary__ability-challenge-highlight">{{text}}</span>{{else}}{{text}}{{/if}}{{/each}}</span>{{/if}}
               </div>
             </div>
 
             <div class="ffxiv-class-summary__ability-body">
-              {{#if baseEffect}}<p class="ffxiv-class-summary__ability-row--base"><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIVTTRPGLayout.Ability.BaseEffect"}}:</strong> {{{baseEffect}}}</p>{{/if}}
-              {{#if directHit}}<p><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIVTTRPGLayout.Ability.DirectHit"}}:</strong> {{{directHit}}}</p>{{/if}}
-              {{#if limitations}}<p><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIVTTRPGLayout.Ability.Limitation"}}:</strong> {{limitations}}</p>{{/if}}
+              {{#if baseEffect}}<div class="ffxiv-class-summary__ability-row--base"><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIV.Abilities.BaseEffect"}}:</strong> {{{baseEffect}}}</div>{{/if}}
+              {{#if directHit}}<div><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIV.Abilities.DirectHit"}}:</strong> {{{directHit}}}</div>{{/if}}
+              {{#if limitations}}<p><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIV.Abilities.Limitations"}}:</strong> {{limitations}}</p>{{/if}}
             </div>
           </article>
         {{/each}}
@@ -108,17 +108,7 @@
           {{#each classSummary.traits}}
             <div class="ffxiv-class-summary__trait-column">
               {{#each this}}
-                <article class="ffxiv-class-summary__trait-card">
-                  <div class="ffxiv-class-summary__trait-head">
-                    <h3 style="font-weight: 700;">{{name}}</h3>
-                    {{#if typeLabel}}<span class="ffxiv-class-summary__trait-type">{{typeLabel}}</span>{{/if}}
-                  </div>
-                  {{#if description}}
-                    <div class="ffxiv-class-summary__trait-body">{{{description}}}</div>
-                  {{else if baseEffect}}
-                    <div class="ffxiv-class-summary__trait-body">{{{baseEffect}}}</div>
-                  {{/if}}
-                </article>
+                {{> ffxivTraitCard card=this}}
               {{/each}}
             </div>
           {{/each}}
@@ -147,7 +137,7 @@
 
     {{#if classSummary.primaryAbilities.length}}
       <section class="ffxiv-class-summary__section ffxiv-class-summary__section--primary">
-        <h2>{{localize "FFXIVTTRPGLayout.ClassSummary.PrimaryAbilities"}}</h2>
+        <h2>{{localize "FFXIV.Abilities.Primary"}}</h2>
         <div class="ffxiv-class-summary__ability-grid">
           {{#each classSummary.primaryAbilities}}
             <div class="ffxiv-class-summary__ability-column">
@@ -180,7 +170,7 @@
 
     {{#if classSummary.secondaryAbilities.length}}
       <section class="ffxiv-class-summary__section ffxiv-class-summary__section--secondary">
-        <h2>{{localize "FFXIVTTRPGLayout.ClassSummary.SecondaryAbilities"}}</h2>
+        <h2>{{localize "FFXIV.Abilities.Secondary"}}</h2>
         <div class="ffxiv-class-summary__ability-grid">
           {{#each classSummary.secondaryAbilities}}
             <div class="ffxiv-class-summary__ability-column">
@@ -195,7 +185,7 @@
 
     {{#if classSummary.instantAbilities.length}}
       <section class="ffxiv-class-summary__section ffxiv-class-summary__section--instant">
-        <h2>{{localize "FFXIVTTRPGLayout.ClassSummary.InstantAbilities"}}</h2>
+        <h2>{{localize "FFXIV.Abilities.Instant"}}</h2>
         <div class="ffxiv-class-summary__ability-grid">
           {{#each classSummary.instantAbilities}}
             <div class="ffxiv-class-summary__ability-column">

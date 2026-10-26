@@ -32,7 +32,7 @@ const QUEST_ALIGNMENTS = Object.freeze({
 const QUEST_STYLES = Object.freeze({
   none: {
     image: "",
-    key: "FFXIVTTRPGLayout.Editor.QuestStyleNone",
+    key: "FFXIV.None",
   },
   sidequest: {
     image: "modules/ffxiv-ttrpg-layout/images/Icons/Sidequest1_Icon.png",
@@ -131,7 +131,7 @@ export function buildQuestSummaryHTML(data = {}, { questId = makeQuestSummaryId(
     <div class="ffxiv-quest-summary__section ffxiv-quest-summary__description">
       <div class="ffxiv-quest-summary__section-title">
         <img src="${QUEST_DESCRIPTION_ICON}" alt="" aria-hidden="true">
-        <span>${escapeHTML(localize("FFXIVTTRPGLayout.Editor.QuestDescription"))}</span>
+        <span>${escapeHTML(localize("FFXIV.Item.Description"))}</span>
       </div>
       <div class="ffxiv-quest-summary__section-content">${value.description}</div>
     </div>
@@ -237,7 +237,7 @@ async function openQuestSummaryFieldEditor(sourcePage, field, value, onChange) {
   ].includes(field)) return null;
 
   const title = field === "description"
-    ? localize("FFXIVTTRPGLayout.Editor.QuestDescription")
+    ? localize("FFXIV.Item.Description")
     : localize("FFXIVTTRPGLayout.Editor.QuestObjectives");
 
   const editor = new FFXIVQuestSummaryProseMirrorEditor(
@@ -286,7 +286,7 @@ class FFXIVQuestSummaryProseMirrorEditor extends JournalEntryPageProseMirrorShee
       window: {
         ...(options.window ?? {}),
         title: field === "description"
-          ? localize("FFXIVTTRPGLayout.Editor.QuestDescription")
+          ? localize("FFXIV.Item.Description")
           : localize("FFXIVTTRPGLayout.Editor.QuestObjectives"),
         resizable: true,
       },
@@ -302,7 +302,7 @@ class FFXIVQuestSummaryProseMirrorEditor extends JournalEntryPageProseMirrorShee
 
   static #createNativeTextDocument(page, field, state) {
     const title = field === "description"
-      ? localize("FFXIVTTRPGLayout.Editor.QuestDescription")
+      ? localize("FFXIV.Item.Description")
       : localize("FFXIVTTRPGLayout.Editor.QuestObjectives");
 
     return createNativeTextDocument(page, {
@@ -378,7 +378,7 @@ function makeDialogContent(data, editorState, sourcePage) {
   levelInput.placeholder = "00";
 
   const levelField = createFieldRow(
-    localize("FFXIVTTRPGLayout.Editor.QuestLevel"),
+    localize("FFXIV.Level"),
     levelInput,
   );
   levelField.classList.add("ffxiv-quest-summary-editor__header-field");
@@ -507,7 +507,7 @@ function makeDialogContent(data, editorState, sourcePage) {
     const label = document.createElement("div");
     label.classList.add("ffxiv-quest-summary-editor__label");
     label.textContent = field === "description"
-      ? localize("FFXIVTTRPGLayout.Editor.QuestDescription")
+      ? localize("FFXIV.Item.Description")
       : localize("FFXIVTTRPGLayout.Editor.QuestObjectives");
     labelRow.appendChild(label);
 
@@ -719,7 +719,7 @@ export async function openQuestSummaryEditor(initial = {}, { sourcePage = null }
     buttons: [
       {
         action: "cancel",
-        label: localize("FFXIVTTRPGLayout.Editor.QuestCancel"),
+        label: localize("FFXIV.Dialogs.Cancel"),
         icon: "fa-solid fa-xmark",
         callback: () => null,
       },

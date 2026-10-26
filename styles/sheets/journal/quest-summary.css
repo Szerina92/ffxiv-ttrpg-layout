@@ -1,0 +1,602 @@
+/* ---------------------------------------------------------
+   Quest Summary — compact player-facing quest briefing card.
+   Inserted from the native ProseMirror toolbar and rendered as part of
+   normal Journal text. Kept scoped to the Layout so it never changes
+   Foundry's native editor content outside this module.
+   --------------------------------------------------------- */
+.ffxiv-journal__text .ffxiv-quest-summary,
+.prosemirror .ffxiv-quest-summary {
+  position: relative;
+  width: 50%;
+  max-width: 50%;
+  margin: 1.45em auto;
+  padding: 18px 20px 20px;
+  box-sizing: border-box;
+  border: 8px solid var(--ffxiv-gold-dark);
+  border-radius: 5px;
+  background:
+    linear-gradient(180deg, var(--ffxiv-paper-light), var(--ffxiv-paper)),
+    var(--ffxiv-paper);
+  box-shadow:
+    inset 0 0 0 1px var(--ffxiv-overlay-gold-025),
+    0 2px 8px var(--ffxiv-overlay-black-016);
+}
+
+/* Quest Summary alignment modes. Center remains the default layout.
+ * Left and Right use float so normal journal text can wrap around the card. */
+.ffxiv-journal__text .ffxiv-quest-summary--align-left,
+.prosemirror .ffxiv-quest-summary--align-left {
+  float: left;
+  margin: 1.45em 24px 1.45em 0;
+}
+
+.ffxiv-journal__text .ffxiv-quest-summary--align-right,
+.prosemirror .ffxiv-quest-summary--align-right {
+  float: right;
+  margin: 1.45em 0 1.45em 24px;
+}
+
+.ffxiv-journal__text .ffxiv-quest-summary--align-center,
+.prosemirror .ffxiv-quest-summary--align-center {
+  float: none;
+  margin: 1.45em auto;
+}
+
+.ffxiv-journal__text .ffxiv-quest-summary__header,
+.prosemirror .ffxiv-quest-summary__header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 68px;
+}
+
+.ffxiv-journal__text .ffxiv-quest-summary__level,
+.prosemirror .ffxiv-quest-summary__level {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 58px;
+  min-height: 58px;
+  padding: 6px 10px;
+  border-radius: 50%;
+  background: var(--ffxiv-table-dark-2);
+  color: var(--ffxiv-white);
+  font-family: "Roboto", sans-serif;
+  font-size: 1.08rem;
+  line-height: 1.05;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.ffxiv-journal__text .ffxiv-quest-summary__title-group,
+.prosemirror .ffxiv-quest-summary__title-group {
+  width: 100%;
+  min-width: 0;
+  padding: 12px 72px 0;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.ffxiv-journal__text .ffxiv-quest-summary--no-style .ffxiv-quest-summary__header,
+.prosemirror .ffxiv-quest-summary--no-style .ffxiv-quest-summary__header {
+  min-height: 56px;
+}
+
+.ffxiv-journal__text .ffxiv-quest-summary--no-style .ffxiv-quest-summary__title-group,
+.prosemirror .ffxiv-quest-summary--no-style .ffxiv-quest-summary__title-group {
+  padding-top: 0;
+}
+
+.ffxiv-journal__text .ffxiv-quest-summary__style,
+.prosemirror .ffxiv-quest-summary__style {
+  position: absolute;
+  left: 50%;
+  top: -47px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 58px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.ffxiv-journal__text .ffxiv-quest-summary__style img,
+.prosemirror .ffxiv-quest-summary__style img {
+  display: block;
+  width: 58px;
+  height: 58px;
+  object-fit: contain;
+  filter: drop-shadow(0 1px 1px var(--ffxiv-overlay-black-016));
+}
+
+.ffxiv-journal__text .ffxiv-quest-summary__title,
+.prosemirror .ffxiv-quest-summary__title {
+  margin: 0;
+  color: var(--ffxiv-ink);
+  font-family: "Roboto", sans-serif;
+  font-size: 1.38rem;
+  font-weight: 400;
+  letter-spacing: .025em;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+.ffxiv-journal__text .ffxiv-quest-summary__subtitle,
+.prosemirror .ffxiv-quest-summary__subtitle {
+  margin-top: 4px;
+  color: var(--ffxiv-ink);
+  font-family: "Roboto", sans-serif;
+  font-size: .86rem;
+  font-weight: 400;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.ffxiv-journal__text .ffxiv-quest-summary__rule,
+.prosemirror .ffxiv-quest-summary__rule {
+  height: 1px;
+  margin: 9px 0 12px;
+  background: var(--ffxiv-paper-dark);
+}
+
+/* Optional quest image — no wrapper is rendered when no image was selected.
+ * The image uses a very subtle four-edge wash: each side softens outward
+ * toward the parchment while the center remains visually clear. */
+.ffxiv-journal__text .ffxiv-quest-summary__image,
+.prosemirror .ffxiv-quest-summary__image {
+  position: relative;
+  margin: 0 0 17px;
+  overflow: hidden;
+  background: var(--ffxiv-paper);
+}
+
+.ffxiv-journal__text .ffxiv-quest-summary__image::after,
+.prosemirror .ffxiv-quest-summary__image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      90deg,
+      var(--ffxiv-paper) 0%,
+      color-mix(in srgb, var(--ffxiv-paper) 58%, transparent) 1.8%,
+      transparent 5.5%,
+      transparent 94.5%,
+      color-mix(in srgb, var(--ffxiv-paper) 58%, transparent) 98.2%,
+      var(--ffxiv-paper) 100%
+    ),
+    linear-gradient(
+      180deg,
+      var(--ffxiv-paper) 0%,
+      color-mix(in srgb, var(--ffxiv-paper) 58%, transparent) 1.8%,
+      transparent 5.5%,
+      transparent 94.5%,
+      color-mix(in srgb, var(--ffxiv-paper) 58%, transparent) 98.2%,
+      var(--ffxiv-paper) 100%
+    );
+}
+
+.ffxiv-journal__text .ffxiv-quest-summary__image img,
+.prosemirror .ffxiv-quest-summary__image img {
+  display: block;
+  width: 100%;
+  max-height: 320px;
+  margin: 0 auto;
+  object-fit: contain;
+  filter: saturate(.92) contrast(.96);
+}
+
+.ffxiv-journal__text .ffxiv-quest-summary__section,
+.prosemirror .ffxiv-quest-summary__section {
+  min-width: 0;
+}
+
+.ffxiv-journal__text .ffxiv-quest-summary__section + .ffxiv-quest-summary__section,
+.prosemirror .ffxiv-quest-summary__section + .ffxiv-quest-summary__section {
+  margin-top: 18px;
+}
+
+.ffxiv-journal__text .ffxiv-quest-summary__section-title,
+.prosemirror .ffxiv-quest-summary__section-title,
+.ffxiv-journal__text .ffxiv-quest-summary__description-title,
+.prosemirror .ffxiv-quest-summary__description-title {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  margin: 0 0 7px;
+  color: var(--ffxiv-white);
+  font-family: "Roboto", sans-serif;
+  font-size: .98rem;
+  font-weight: 700;
+  line-height: 1.15;
+  text-shadow:
+    -1px -1px 0 rgba(0, 0, 0, .95),
+     1px -1px 0 rgba(0, 0, 0, .95),
+    -1px  1px 0 rgba(0, 0, 0, .95),
+     1px  1px 0 rgba(0, 0, 0, .95),
+     0 0 3px rgba(0, 0, 0, .9);
+}
+
+.ffxiv-journal__text .ffxiv-quest-summary__section-title img,
+.prosemirror .ffxiv-quest-summary__section-title img,
+.ffxiv-journal__text .ffxiv-quest-summary__description-title img,
+.prosemirror .ffxiv-quest-summary__description-title img {
+  width: 24px;
+  height: 23px;
+  object-fit: contain;
+  flex: 0 0 auto;
+}
+
+.ffxiv-journal__text .ffxiv-quest-summary__section-content,
+.prosemirror .ffxiv-quest-summary__section-content {
+  min-width: 0;
+  font-family: "Roboto", sans-serif;
+}
+
+.ffxiv-journal__text .ffxiv-quest-summary__section-content > :first-child,
+.prosemirror .ffxiv-quest-summary__section-content > :first-child {
+  margin-top: .12em;
+}
+
+.ffxiv-journal__text .ffxiv-quest-summary__section-content > :last-child,
+.prosemirror .ffxiv-quest-summary__section-content > :last-child {
+  margin-bottom: 0;
+}
+
+/* Editable cards get a subtle interaction affordance without changing the
+ * saved Journal HTML. */
+.ffxiv-journal__text .ffxiv-quest-summary--editable,
+.prosemirror .ffxiv-quest-summary--editable {
+  cursor: pointer;
+  transition: box-shadow .14s ease, border-color .14s ease;
+}
+
+.ffxiv-journal__text .ffxiv-quest-summary--editable:hover,
+.prosemirror .ffxiv-quest-summary--editable:hover {
+  border-color: var(--ffxiv-gold);
+  box-shadow:
+    inset 0 0 0 1px var(--ffxiv-overlay-gold-025),
+    0 3px 11px var(--ffxiv-overlay-black-016);
+}
+
+/* ---------------------------------------------------------
+   Quest Summary Editor — DialogV2 authoring UI.
+   --------------------------------------------------------- */
+.ffxiv-quest-summary-dialog {
+  --ffxiv-dialog-paper: var(--ffxiv-paper, #eeeadd);
+  color: var(--ffxiv-ink, #292b2d);
+}
+
+.ffxiv-quest-summary-dialog .window-content {
+  padding: 14px 16px 16px;
+  overflow: auto;
+  background:
+    linear-gradient(180deg, var(--ffxiv-paper-light), var(--ffxiv-paper)),
+    var(--ffxiv-paper);
+}
+
+.ffxiv-quest-summary-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+
+.ffxiv-quest-summary-editor__header-container,
+.ffxiv-quest-summary-editor__image-container {
+  min-width: 0;
+  padding: var(--ffxiv-container-editor-padding);
+  border: var(--ffxiv-container-editor-border);
+  border-radius: var(--ffxiv-container-editor-radius);
+  background: var(--ffxiv-container-editor-surface);
+  box-shadow: var(--ffxiv-container-editor-shadow);
+}
+
+.ffxiv-quest-summary-editor__header-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* The Quest Header intentionally mirrors the fixed Class Summary editor header:
+ * labels/icons occupy the first column and native controls the second. */
+.ffxiv-quest-summary-editor__title-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 7px;
+  margin: 0;
+}
+
+
+.ffxiv-quest-summary-editor__header-field {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  margin: 0;
+}
+
+.ffxiv-quest-summary-editor__header-field > .ffxiv-quest-summary-editor__label,
+.ffxiv-quest-summary-editor__title-row > .ffxiv-quest-summary-editor__label {
+  margin: 0;
+  white-space: nowrap;
+}
+
+.ffxiv-quest-summary-editor__field--image {
+  min-width: 0;
+}
+
+.ffxiv-quest-summary-editor__label {
+  color: var(--ffxiv-ink);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.ffxiv-quest-summary-editor input[type="text"],
+.ffxiv-quest-summary-editor__file-picker {
+  width: 100%;
+}
+
+.ffxiv-quest-summary-editor input[type="text"] {
+  min-height: 28px;
+  padding: 4px 7px;
+  border: 1px solid var(--ffxiv-line);
+  border-radius: 4px;
+  background: var(--ffxiv-white);
+  color: var(--ffxiv-ink);
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .8rem;
+}
+
+.ffxiv-quest-summary-editor input[type="text"]:focus {
+  border-color: var(--ffxiv-gold);
+  box-shadow: 0 0 0 2px var(--ffxiv-overlay-gold-012);
+  outline: none;
+}
+
+/* Header fields use the same compact native-control dimensions as Class Summary. */
+.ffxiv-quest-summary-editor__title-row input[type="text"],
+.ffxiv-quest-summary-editor__header-field input[type="text"],
+.ffxiv-quest-summary-editor__header-field select {
+  min-height: 28px;
+  box-sizing: border-box;
+  border: 1px solid var(--ffxiv-line);
+  border-radius: 4px;
+  background: var(--ffxiv-white);
+  color: var(--ffxiv-ink) !important;
+  color-scheme: light;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .8rem;
+}
+
+.ffxiv-quest-summary-editor__title-row input[type="text"] {
+  padding: 4px 7px;
+}
+
+.ffxiv-quest-summary-editor__header-secondary {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.ffxiv-quest-summary-editor__header-field {
+  flex: 0 0 auto;
+}
+
+.ffxiv-quest-summary-editor__header-field input[type="text"] {
+  width: 72px;
+  padding: 4px 7px;
+}
+
+.ffxiv-quest-summary-editor__header-field select {
+  padding: 3px 5px;
+}
+
+.ffxiv-quest-summary-editor__field--alignment .ffxiv-quest-summary-editor__alignment-select {
+  width: 104px;
+  min-width: 104px;
+  max-width: 104px;
+  padding: 3px 5px;
+  background: var(--ffxiv-white) !important;
+  color: var(--ffxiv-ink) !important;
+  border: 1px solid var(--ffxiv-line);
+  border-radius: 4px;
+  color-scheme: light;
+}
+
+.ffxiv-quest-summary-editor__field--style .ffxiv-quest-summary-editor__style-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ffxiv-quest-summary-editor__field--style .ffxiv-quest-summary-editor__style-select {
+  width: 132px;
+  min-width: 132px;
+  max-width: 132px;
+  padding: 3px 5px;
+  background: var(--ffxiv-white) !important;
+  color: var(--ffxiv-ink) !important;
+  border: 1px solid var(--ffxiv-line);
+  border-radius: 4px;
+  color-scheme: light;
+}
+
+.ffxiv-quest-summary-editor__style-select option {
+  background: var(--ffxiv-white);
+  color: var(--ffxiv-ink);
+}
+
+.ffxiv-quest-summary-editor__style-preview {
+  display: block;
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  object-fit: contain;
+  filter: drop-shadow(0 1px 1px var(--ffxiv-overlay-black-016));
+}
+
+.ffxiv-quest-summary-editor__style-preview[hidden] {
+  display: none;
+}
+
+
+.ffxiv-quest-summary-editor__image-control {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 6px;
+  align-items: center;
+}
+
+.ffxiv-quest-summary-editor__file-picker {
+  min-width: 0;
+}
+
+.ffxiv-quest-summary-editor__clear-image {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  min-width: 30px;
+  height: 30px;
+  padding: 4px;
+  border: 1px solid var(--ffxiv-gold-dark);
+  border-radius: 4px;
+  background: var(--ffxiv-paper-light);
+  color: var(--ffxiv-ink);
+  cursor: pointer;
+}
+
+.ffxiv-quest-summary-editor__clear-image:hover {
+  background: var(--ffxiv-paper-dark);
+  color: var(--ffxiv-ink);
+}
+
+.ffxiv-quest-summary-editor__image-preview {
+  display: block;
+  width: 100%;
+  max-height: 170px;
+  margin-top: 4px;
+  border: 1px solid var(--ffxiv-line);
+  object-fit: contain;
+  background: var(--ffxiv-paper-dark);
+}
+
+.ffxiv-quest-summary-editor__image-preview[hidden] {
+  display: none;
+}
+
+.ffxiv-quest-summary-editor__editors {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.ffxiv-quest-summary-editor__rich-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  padding: var(--ffxiv-container-rich-padding);
+  border: var(--ffxiv-container-rich-border);
+  border-radius: var(--ffxiv-container-rich-radius);
+  background: var(--ffxiv-container-rich-surface);
+}
+
+.ffxiv-quest-summary-editor__content-preview {
+  min-height: 112px;
+  max-height: 150px;
+  overflow: auto;
+  padding: var(--ffxiv-container-preview-padding);
+  border: var(--ffxiv-container-preview-border);
+  border-radius: var(--ffxiv-container-preview-radius);
+  background: var(--ffxiv-container-preview-surface);
+  color: var(--ffxiv-ink);
+  line-height: 1.3;
+}
+
+.ffxiv-quest-summary-editor__content-preview > :first-child {
+  margin-top: 0;
+}
+
+.ffxiv-quest-summary-editor__content-preview > :last-child {
+  margin-bottom: 0;
+}
+
+.ffxiv-quest-summary-editor__edit-rich {
+  align-self: flex-end;
+}
+
+.ffxiv-quest-summary-dialog .form-footer {
+  margin-top: 4px;
+}
+
+@media (max-width: 760px) {
+  .ffxiv-quest-summary-editor__editors {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Quest toolbar accent. */
+.ffxiv-editor-accent--quest {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 21px;
+  height: 21px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  color: var(--ffxiv-red-heading);
+  font-family: "Cinzel", "Trajan Pro", Georgia, serif;
+  font-size: .7rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+
+/* ---------------------------------------------------------
+   Quest Summary — optional Objectives section
+   --------------------------------------------------------- */
+
+.ffxiv-quest-summary__objectives--hidden {
+  display: none !important;
+}
+
+.ffxiv-quest-summary-editor__section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-width: 0;
+}
+
+.ffxiv-quest-summary-editor__hide-objectives {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  color: var(--ffxiv-ink) !important;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .78rem;
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: pointer;
+  user-select: none;
+}
+
+.ffxiv-quest-summary-editor__hide-objectives input[type="checkbox"] {
+  margin: 0;
+  accent-color: var(--ffxiv-gold-dark);
+}

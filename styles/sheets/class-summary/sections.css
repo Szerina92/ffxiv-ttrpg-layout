@@ -1,0 +1,186 @@
+/* ---------------------------------------------------------
+   Sections
+   --------------------------------------------------------- */
+.ffxiv-class-summary__section {
+  margin: 0 0 24px;
+}
+
+.ffxiv-class-summary__section h2 {
+  margin: 0 0 12px;
+  padding: 5px 14px 7px;
+  border: 2px solid var(--ffxiv-gold-dark);
+  border-radius: 13px;
+  color: var(--ffxiv-white);
+  font-size: 1.25rem;
+  font-variant: small-caps;
+  letter-spacing: .03em;
+  line-height: 1.1;
+  background: var(--ffxiv-red-heading);
+  box-shadow: 0 1px 2px var(--ffxiv-overlay-black-016);
+}
+
+.ffxiv-class-summary__section--secondary h2 {
+  background: var(--ffxiv-class-secondary);
+}
+
+.ffxiv-class-summary__section--instant h2 {
+  background: var(--ffxiv-class-instant);
+}
+
+.ffxiv-class-summary__section--traits h2 {
+  color: var(--ffxiv-white);
+  background: linear-gradient(to bottom, var(--ffxiv-class-trait-gold-light), var(--ffxiv-class-trait-gold-dark));
+  border-color: var(--ffxiv-class-trait-border);
+}
+
+.ffxiv-class-summary__section--pets h2 {
+  color: var(--ffxiv-white);
+  background: var(--ffxiv-pet-header);
+  border-color: var(--ffxiv-pet-border);
+}
+
+.ffxiv-class-summary__section--songs h2,
+.ffxiv-class-summary__section--techniques h2,
+.ffxiv-class-summary__section--ninjutsu h2 {
+  color: var(--ffxiv-white);
+  background: var(--ffxiv-pet-header);
+  border-color: var(--ffxiv-pet-border);
+}
+
+.ffxiv-class-summary__song-rules,
+.ffxiv-class-summary__technique-rules,
+.ffxiv-class-summary__ninjutsu-rules {
+  margin: 8px 18px 10px;
+  color: var(--ffxiv-ink);
+  font-family: "Roboto", sans-serif;
+  font-size: 0.88rem;
+  line-height: 1.35;
+}
+
+.ffxiv-class-summary__song-rules p,
+.ffxiv-class-summary__technique-rules p,
+.ffxiv-class-summary__ninjutsu-rules p {
+  margin: 0;
+  padding: 0;
+}
+
+.ffxiv-class-summary__song-rules p + p,
+.ffxiv-class-summary__technique-rules p + p,
+.ffxiv-class-summary__ninjutsu-rules p + p {
+  margin-top: 4px;
+}
+
+.ffxiv-class-summary__pet-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  align-items: start;
+}
+
+.ffxiv-class-summary__pet-column {
+  min-width: 0;
+  display: grid;
+  gap: 10px;
+  align-content: start;
+}
+
+.ffxiv-class-summary__pet-list .ffxiv-pet-embed {
+  width: 100%;
+  min-width: 0;
+  max-width: none;
+  margin: 0;
+}
+
+
+@media (max-width: 700px) {
+  .ffxiv-class-summary__pet-list {
+    grid-template-columns: 1fr;
+  }
+
+  .ffxiv-class-summary__pet-column {
+    gap: 10px;
+  }
+}
+
+.ffxiv-class-summary__trait-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  align-items: start;
+}
+
+.ffxiv-class-summary__trait-column {
+  min-width: 0;
+  display: grid;
+  gap: 10px;
+  align-content: start;
+}
+
+.ffxiv-class-summary__trait-card {
+  min-width: 0;
+  color: var(--ffxiv-card-text) !important;
+  border: var(--ffxiv-card-border);
+  border-radius: var(--ffxiv-card-radius);
+  background: var(--ffxiv-card-surface);
+  box-shadow: var(--ffxiv-card-shadow);
+  overflow: hidden;
+}
+
+.ffxiv-class-summary__trait-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  min-height: 34px;
+  padding: 4px 8px;
+  background: var(--ffxiv-paper-dark);
+  border-bottom: 2px solid var(--ffxiv-ability-header-divider);
+}
+
+.ffxiv-class-summary__trait-head h3 {
+  margin: 0;
+  color: var(--ffxiv-ink) !important;
+  font-family: "Roboto", sans-serif;
+  font-size: 1rem;
+  line-height: 1.1;
+}
+
+.ffxiv-class-summary__trait-type {
+  color: var(--ffxiv-ink) !important;
+  font-family: "Roboto", sans-serif;
+  font-size: .8rem;
+  font-style: italic;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.ffxiv-class-summary__trait-body {
+  padding: 3px 9px 7px;
+  color: var(--ffxiv-ink) !important;
+  font-family: "Roboto", sans-serif;
+  font-size: .84rem;
+  line-height: 1.25;
+  background: var(--ffxiv-paper-light);
+}
+
+.ffxiv-class-summary__trait-body p {
+  margin: 0;
+}
+
+.ffxiv-class-summary__trait-body strong {
+  color: var(--ffxiv-ink) !important;
+}
+
+.ffxiv-class-summary__ability-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  align-items: start;
+}
+
+.ffxiv-class-summary__ability-column {
+  min-width: 0;
+  display: grid;
+  gap: 10px;
+  align-content: start;
+}

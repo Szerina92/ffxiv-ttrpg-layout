@@ -6,7 +6,7 @@
 import { localize } from "../i18n.js";
 import { isMarkerRendererEnabled } from "../settings.js";
 import { buildAbilityCardData } from "../sheets/class-summary-data.js";
-import { normalizePosition, parseEnricherOptions, pickPosition } from "../utils/enricher-options.js";
+import { embedPattern, normalizePosition, pickPosition, readEmbedMatch } from "../utils/enricher-options.js";
 import { enrich } from "../utils/enrich.js";
 import { renderElement } from "../utils/render.js";
 import { numberOr, text } from "../utils/values.js";
@@ -134,31 +134,31 @@ async function buildAbilityDetailData(item, { checkModifier = "" } = {}) {
   const target = text(system.target);
   const range = text(system.range);
   addPairLine(
-    detailPart(localize("FFXIVTTRPGLayout.Ability.Target"), target),
-    detailPart(localize("FFXIVTTRPGLayout.Ability.Range"), range),
+    detailPart(localize("FFXIV.Abilities.Target"), target),
+    detailPart(localize("FFXIV.Abilities.Range"), range),
   );
 
   const check = text(formatAbilityCheck(system.check));
   const challenge = text(system.challenge);
   addPairLine(
-    detailPart(localize("FFXIVTTRPGLayout.Ability.Check"), check, {
+    detailPart(localize("FFXIV.Abilities.Check"), check, {
       valueClass: "ffxiv-actor-embed__ability-value--blue-dark",
       checkModifier,
     }),
-    detailPart(localize("FFXIVTTRPGLayout.Ability.CR"), challenge, { crValue: formatCrValue(challenge) }),
+    detailPart(localize("FFXIV.Abilities.Challenge"), challenge, { crValue: formatCrValue(challenge) }),
   );
 
   addLine(localize("FFXIVTTRPGLayout.NPC.Origin"), system.origin);
-  addLine(localize("FFXIVTTRPGLayout.NPC.MarkerArea"), system.marker_area);
-  addLine(localize("FFXIVTTRPGLayout.NPC.MarkerTrigger"), system.marker_trigger);
-  await appendRichTextLine(lines, localize("FFXIVTTRPGLayout.NPC.MarkerEffect"), system.marker_effect, item);
-  await appendRichTextLine(lines, localize("FFXIVTTRPGLayout.NPC.BaseEffect"), system.base_effect, item);
-  await appendRichTextLine(lines, localize("FFXIVTTRPGLayout.NPC.DirectHit"), system.direct_hit, item);
+  addLine(localize("FFXIV.Abilities.MarkerArea"), system.marker_area);
+  addLine(localize("FFXIV.Abilities.MarkerTrigger"), system.marker_trigger);
+  await appendRichTextLine(lines, localize("FFXIV.Abilities.MarkerEffect"), system.marker_effect, item);
+  await appendRichTextLine(lines, localize("FFXIV.Abilities.BaseEffect"), system.base_effect, item);
+  await appendRichTextLine(lines, localize("FFXIV.Abilities.DirectHit"), system.direct_hit, item);
   await appendRichTextLine(lines, localize("FFXIVTTRPGLayout.NPC.Limitations"), system.limitations, item);
 
   const statuses = Array.isArray(system.status_effects) ? system.status_effects.filter(Boolean) : [];
   if (statuses.length) addLine(localize("FFXIVTTRPGLayout.NPC.StatusEffects"), statuses.join(", "));
-  addLine(localize("FFXIVTTRPGLayout.NPC.StatusEffect"), system.status_effect);
+  addLine(localize("FFXIV.Abilities.StatusEffect"), system.status_effect);
 
   return lines;
 }
@@ -221,17 +221,17 @@ async function buildActorEmbedData(actor, { double = false } = {}) {
     uuid: actor.uuid,
     actorType: actor.type,
     name: actor.name ?? "",
-    sizeText: size ? `${localize("FFXIVTTRPGLayout.NPC.Size")}: ${size}${sizeGrid ? ` (${sizeGrid})` : ""}` : "",
+    sizeText: size ? `${localize("FFXIV.CharacterSheet.Size")}: ${size}${sizeGrid ? ` (${sizeGrid})` : ""}` : "",
     specieText: specie ? ` - ${specie}` : "",
     vigilance: numberOr(secondary.vigilance?.value, 0),
     leftProperties: [
-      { label: localize("FFXIVTTRPGLayout.NPC.Defense"), value: numberOr(secondary.defense?.value, 0) },
-      { label: localize("FFXIVTTRPGLayout.NPC.MaxHP"), value: numberOr(system.health?.max, 0) },
+      { label: localize("FFXIV.Attributes.Defense"), value: numberOr(secondary.defense?.value, 0) },
+      { label: localize("FFXIV.Health.max"), value: numberOr(system.health?.max, 0) },
     ],
     rightProperties: [
-      { label: localize("FFXIVTTRPGLayout.NPC.MagicDefense"), value: numberOr(secondary.magic_defense?.value, 0) },
+      { label: localize("FFXIV.Attributes.MagicDefense"), value: numberOr(secondary.magic_defense?.value, 0) },
       {
-        label: localize("FFXIVTTRPGLayout.NPC.Speed"),
+        label: localize("FFXIV.Attributes.Speed"),
         value: `${numberOr(secondary.speed?.value, 0)} ${text(secondary.speed?.unit) || localize("FFXIVTTRPGLayout.NPC.Squares")}`,
       },
     ],
@@ -263,7 +263,7 @@ function addMarkerGraphics(root, abilityGroups, sourceGroups, actor) {
   }
 }
 
-async function createActorEmbed(uuid, { label, position, double = false } = {}) {
+export async function createActorEmbed(uuid, { label, position, double = false } = {}) {
   if (typeof uuid !== "string" || !uuid.trim()) return null;
 
   const actor = await fromUuid(uuid.trim());
@@ -288,11 +288,11 @@ async function createActorEmbed(uuid, { label, position, double = false } = {}) 
 export function registerNPCEmbed() {
   CONFIG.TextEditor.enrichers.push({
     id: "ffxiv-actor-embed",
-    pattern: /@FFXIVActor\[([^\]\s]+)\](?:\{([^}]+)\})?/g,
+    pattern: embedPattern("FFXIVActor"),
     enricher: match => {
-      const { label, options } = parseEnricherOptions(match[2]);
+      const { uuid, label, options } = readEmbedMatch(match);
       const double = options.some(option => option.toLowerCase() === "double");
-      return createActorEmbed(match[1], { label, position: double ? "center" : pickPosition(options), double });
+      return createActorEmbed(uuid, { label, position: double ? "center" : pickPosition(options), double });
     },
   });
 }

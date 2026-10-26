@@ -247,7 +247,7 @@ function buildTextColorEntries(applySemanticInsert) {
   const semanticEntries = [
     {
       action: "ffxiv-ability",
-      title: localize("FFXIVTTRPGLayout.Editor.Ability"),
+      title: localize("FFXIV.ItemType.ability"),
       icon: '<span class="ffxiv-editor-accent ffxiv-editor-accent--abi">ABI</span>',
       class: "ffxiv-editor-semantic-entry ffxiv-editor-semantic-entry--abi",
       cmd: () => applySemanticInsert('<span class="ffxiv-abi"><selection></selection></span>'),

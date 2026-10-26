@@ -1,0 +1,54 @@
+/* =========================================================
+   Paper Theme — NPC statblock
+   Hard-coded dark areas of the NPC statblock; the system sets these with 
+   high specificity, hence `!important`.
+   ========================================================= */
+
+/* NPC / statblock */
+body.ffxiv-paper-theme .ffxiv.actor .npc-statblock,
+body.ffxiv-paper-theme .ffxiv.actor .statblock-content,
+body.ffxiv-paper-theme .ffxiv.actor .npc-secondary-stat,
+body.ffxiv-paper-theme .ffxiv.actor .npc-defense-cell,
+body.ffxiv-paper-theme .ffxiv.actor .npc-elite-foe-toggle,
+body.ffxiv-paper-theme .ffxiv.actor .npc-main-stats .resource {
+  background: var(--paper-field) !important;
+  border-color: var(--paper-line) !important;
+}
+
+body.ffxiv-paper-theme .ffxiv.actor .npc-stat-label,
+body.ffxiv-paper-theme .ffxiv.actor .statblock-header {
+  background: var(--paper-tab) !important;
+  color: var(--ffxiv-ink) !important;
+  border-color: var(--ffxiv-gold-light) !important;
+}
+
+body.ffxiv-paper-theme .ffxiv.actor .npc-statblock .resources.grid-5col .resource .resource-label.roll-attribute {
+  background: var(--paper-btn) !important;
+  color: var(--ffxiv-ink) !important;
+}
+
+/* NPC: labels that the system hard-codes light grey, and the dark attribute boxes */
+body.ffxiv-paper-theme .ffxiv.actor .npc-secondary-label,
+body.ffxiv-paper-theme .ffxiv.actor .npc-defense-heading {
+  color: var(--ffxiv-ink) !important;
+  opacity: 1;
+}
+
+body.ffxiv-paper-theme .ffxiv.actor .npc-statblock .resources.grid-5col .resource {
+  background: var(--paper-field) !important;
+  border-color: var(--ffxiv-gold-light) !important;
+}
+
+body.ffxiv-paper-theme .ffxiv.actor .npc-statblock .resources.grid-5col .resource .resource-content,
+body.ffxiv-paper-theme .ffxiv.actor .npc-statblock .resources.grid-5col .resource .resource-content .npc-plain-value,
+body.ffxiv-paper-theme .ffxiv.actor .npc-statblock .resources.grid-5col .resource .resource-content input {
+  color: var(--ffxiv-ink) !important;
+  text-shadow: none !important;
+}
+
+body.ffxiv-paper-theme .ffxiv.actor .npc-statblock .npc-plain-value,
+body.ffxiv-paper-theme .ffxiv.actor .npc-statblock .npc-stat-number,
+body.ffxiv-paper-theme .ffxiv.actor .npc-statblock .input-window {
+  color: var(--ffxiv-ink) !important;
+  text-shadow: none !important;
+}

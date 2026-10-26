@@ -1,0 +1,195 @@
+/* ---------------------------------------------------------
+   Layout / Sidebar
+   --------------------------------------------------------- */
+
+ .ffxiv-journal__layout {
+  min-height: 0;
+  flex: 1;
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+}
+
+.ffxiv-journal__sidebar {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: 14px 9px 10px;
+  background: var(--ffxiv-sidebar);
+  color: var(--ffxiv-sidebar-text);
+  border-right: 1px solid var(--ffxiv-line-dark);
+  box-shadow: inset -1px 0 var(--ffxiv-overlay-white-004);
+}
+
+.ffxiv-journal__main {
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.ffxiv-journal__page-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  counter-reset: ffxiv-page;
+}
+
+.ffxiv-journal__page-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: stretch;
+  min-height: 39px;
+  border-radius: 2px;
+  counter-increment: ffxiv-page;
+  transition: background-color .12s ease, box-shadow .12s ease;
+}
+
+.ffxiv-journal__page-item[draggable="true"] { cursor: grab; }
+.ffxiv-journal__page-item[draggable="true"]:active { cursor: grabbing; }
+.ffxiv-journal__page-item.is-dragging { opacity: .45; }
+
+.ffxiv-journal__page-item.is-drag-over {
+  background: var(--ffxiv-overlay-gold-016);
+  box-shadow: inset 0 2px 0 var(--ffxiv-gold);
+}
+
+.ffxiv-journal__page-item.is-drag-over::before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: 8px;
+  width: 8px;
+  height: 8px;
+  border: 1px solid var(--ffxiv-gold-light);
+  background: var(--ffxiv-sidebar);
+  transform: rotate(45deg);
+  z-index: 3;
+}
+
+.ffxiv-journal__page-link {
+  position: relative;
+  display: grid;
+  grid-template-columns: 4px 28px minmax(0,1fr);
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  width: 100%;
+  min-height: 39px;
+  padding: 6px 8px 6px 7px;
+  border: 0;
+  border-radius: 2px;
+  background: transparent;
+  color: var(--ffxiv-sidebar-text);
+  text-align: left;
+  cursor: pointer;
+}
+
+.ffxiv-journal__page-link::before {
+  content: counter(ffxiv-page) ".";
+  min-width: 28px;
+  color: var(--ffxiv-overlay-white-058);
+  font-size: .78rem;
+  font-weight: 600;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.ffxiv-journal__page-link:hover {
+  background: var(--ffxiv-sidebar-hover);
+}
+
+.ffxiv-journal__page-item.is-active .ffxiv-journal__page-link {
+  background: linear-gradient(90deg, var(--ffxiv-overlay-gold-016), var(--ffxiv-overlay-gold-004));
+  color: var(--ffxiv-white-soft);
+}
+
+.ffxiv-journal__page-item.is-active .ffxiv-journal__page-link::before {
+  color: var(--ffxiv-gold-light);
+}
+
+
+.ffxiv-journal__page-indicator {
+  width: 4px;
+  height: 22px;
+  border-radius: 2px;
+  background: transparent;
+}
+
+.ffxiv-journal__page-item.is-active .ffxiv-journal__page-indicator {
+  background: var(--ffxiv-gold);
+  box-shadow: 0 0 7px var(--ffxiv-overlay-gold-035);
+}
+
+
+.ffxiv-journal__page-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: .88rem;
+}
+
+.ffxiv-journal__delete-page {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  min-height: 39px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ffxiv-overlay-white-035);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity .12s ease, color .12s ease, background-color .12s ease;
+}
+
+.ffxiv-journal__page-item:hover .ffxiv-journal__delete-page,
+.ffxiv-journal__page-item:focus-within .ffxiv-journal__delete-page { opacity: 1; }
+
+.ffxiv-journal__delete-page:hover {
+  background: var(--ffxiv-overlay-red-016);
+  color: var(--ffxiv-red-danger);
+}
+
+.ffxiv-journal__sidebar-footer {
+  margin-top: auto;
+  padding: 14px 2px 2px;
+}
+
+.ffxiv-journal__add-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 36px;
+  padding: 7px 10px;
+  border: 1px solid var(--ffxiv-overlay-white-022);
+  border-radius: 2px;
+  background: var(--ffxiv-overlay-white-004);
+  color: var(--ffxiv-sidebar-muted);
+  font-family: inherit;
+  font-size: .8rem;
+  cursor: pointer;
+}
+
+.ffxiv-journal__add-page:hover {
+  border-color: var(--ffxiv-gold);
+  background: var(--ffxiv-overlay-gold-010);
+  color: var(--ffxiv-white-soft);
+}
+
+.ffxiv-journal__add-page i { color: var(--ffxiv-gold-light); }
+
+/* Native Foundry Journal V2 page container: remove core spacing around our parchment page. */
+.ffxiv-journal-sheet .journal-entry-content {
+  padding: 0 !important;
+}
+
+.ffxiv-journal-sheet .journal-entry-pages.ffxiv-journal__native-pages {
+  padding: 0 !important;
+  margin: 0 !important;
+  gap: 0 !important;
+}

@@ -1,0 +1,26 @@
+/* =========================================================
+   Paper Theme — Pet sheet
+   Pet name and speed value (the system inherits the light header color).
+   ========================================================= */
+
+/* Pet sheet: name and speed value (the system inherits the light header color) */
+.ffxiv.actor.pet.paper_theme .header-fields .charname,
+.ffxiv.actor.pet.paper_theme .header-fields .charname input,
+.ffxiv.actor.pet.paper_theme .header-fields .charname textarea,
+.ffxiv.actor.pet.paper_theme .header-fields .charname h1 {
+  color: var(--ffxiv-ink);
+  text-shadow: none;
+}
+
+.ffxiv.actor.pet.paper_theme .pet-header-speed .npc-plain-value,
+.ffxiv.actor.pet.paper_theme .pet-header-speed .pet-speed-number,
+.ffxiv.actor.pet.paper_theme .pet-header-speed .npc-secondary-label {
+  color: var(--ffxiv-ink);
+  text-shadow: none;
+  opacity: 1;
+}
+
+.ffxiv.actor.pet.actor-editing.paper_theme .header-fields .charname textarea {
+  background: var(--paper-field);
+  border-color: var(--ffxiv-gold-dark);
+}

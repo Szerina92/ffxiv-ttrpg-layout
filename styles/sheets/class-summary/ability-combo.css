@@ -1,0 +1,75 @@
+/* ---------------------------------------------------------
+   Ability combo nesting
+   --------------------------------------------------------- */
+.ffxiv-class-summary__ability-node {
+  min-width: 0;
+}
+
+.ffxiv-class-summary__ability-node--combo-parent {
+  position: relative;
+}
+
+.ffxiv-class-summary__ability-children {
+  position: relative;
+  display: grid;
+  gap: 10px;
+  margin: 0 0 0 18px;
+  padding: 10px 0 0 22px;
+}
+
+/*
+ * Combo connector geometry:
+ *
+ * The connector lives 21px left of every child card. The first child owns
+ * the short vertical segment coming up from the parent card, while the
+ * child nodes continue the spine only as far as the next child / the final
+ * child's center. This prevents any connector from extending below the
+ * combo group.
+ */
+.ffxiv-class-summary__ability-children > .ffxiv-class-summary__ability-node {
+  position: relative;
+  z-index: 1;
+}
+
+.ffxiv-class-summary__ability-children > .ffxiv-class-summary__ability-node:not(:last-child)::after,
+.ffxiv-class-summary__ability-children > .ffxiv-class-summary__ability-node:last-child::after {
+  content: "";
+  position: absolute;
+  left: -21px;
+  width: 5px;
+  border-radius: 5px;
+  background: var(--ffxiv-gold-dark);
+  opacity: .9;
+  pointer-events: none;
+}
+
+.ffxiv-class-summary__ability-children > .ffxiv-class-summary__ability-node:not(:last-child)::after {
+  top: 0;
+  bottom: -10px;
+}
+
+/* The first child starts directly at the parent card's bottom. */
+.ffxiv-class-summary__ability-children > .ffxiv-class-summary__ability-node:first-child:not(:last-child)::after {
+  top: -10px;
+}
+
+/* The final child stops exactly at its own vertical center. */
+.ffxiv-class-summary__ability-children > .ffxiv-class-summary__ability-node:last-child::after {
+  top: -10px;
+  bottom: auto;
+  height: calc(50% + 10px);
+}
+
+.ffxiv-class-summary__ability-children > .ffxiv-class-summary__ability-node::before {
+  content: "";
+  position: absolute;
+  left: -21px;
+  top: 50%;
+  width: 21px;
+  height: 5px;
+  transform: translateY(-50%);
+  border-radius: 5px;
+  background: var(--ffxiv-gold-dark);
+  opacity: .9;
+  pointer-events: none;
+}

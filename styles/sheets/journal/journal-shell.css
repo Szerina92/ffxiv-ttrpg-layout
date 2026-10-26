@@ -1,0 +1,143 @@
+/* ---------------------------------------------------------
+   Native Foundry V2 Journal shell — FFXIV page presentation
+   The sidebar/TOC is deliberately left to Foundry. These rules
+   only skin the native pages area and our injected page content.
+   --------------------------------------------------------- */
+/*
+ * Page frame. The parchment and both gold ornaments belong to the scrolling
+ * container, not to the page text: the parchment is stretched over the whole
+ * container (the complete sheet is visible), and the upper and lower ornament
+ * float above the text, which scrolls behind them.
+ *
+ * Each overlay carries the matching slice of the parchment (page-frame.js
+ * publishes the container size as --ffxiv-page-w / --ffxiv-page-h) and is
+ * masked, so the text is hidden at the ornament's border and fades out softly
+ * before it. Both ornaments keep their natural proportions; percentage padding
+ * and margins (relative to the width) size them, and the first and last page
+ * reserve the same space.
+ */
+.ffxiv-journal-sheet .journal-entry-pages.ffxiv-journal__native-pages {
+  --ffxiv-upper-ornament-ratio: 5.625%;   /* 1600 x 90 */
+  --ffxiv-lower-ornament-ratio: 19.753%;  /* 1620 x 320 */
+  --ffxiv-ornament-gap: 14px;
+  --ffxiv-text-fade: 26px;                /* soft fade zone next to the ornament border */
+  --ffxiv-lower-band: 25%;                /* part of the lower ornament (bar + swirls) that hides text */
+  --ffxiv-parchment: url("../../../images/pergament.webp");
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  background: var(--ffxiv-parchment) 0 0 / 100% 100% no-repeat, var(--ffxiv-paper-light);
+  /* Keep anchors and page jumps clear of the floating ornaments. */
+  scroll-padding-top: 72px;
+  scroll-padding-bottom: 120px;
+}
+
+.ffxiv-journal-sheet .journal-entry-pages.ffxiv-journal__native-pages::before,
+.ffxiv-journal-sheet .journal-entry-pages.ffxiv-journal__native-pages::after {
+  content: "";
+  position: sticky;
+  z-index: 4;
+  flex: none;
+  box-sizing: content-box;
+  pointer-events: none;
+}
+
+/* Upper ornament: ornament height (padding) plus the fade zone below it (height). */
+.ffxiv-journal-sheet .journal-entry-pages.ffxiv-journal__native-pages::before {
+  top: 0;
+  height: var(--ffxiv-text-fade);
+  padding-top: var(--ffxiv-upper-ornament-ratio);
+  margin-bottom: calc(-1 * (var(--ffxiv-upper-ornament-ratio) + var(--ffxiv-text-fade)));
+  background:
+    url("../../../images/upper_border.png") top center / 100% auto no-repeat,
+    var(--ffxiv-parchment) 0 0 / var(--ffxiv-page-w, 100%) var(--ffxiv-page-h, 100%) no-repeat;
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - var(--ffxiv-text-fade)), transparent);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - var(--ffxiv-text-fade)), transparent);
+}
+
+/* Lower ornament: only its lower band (and the side posts) hide text; above the band the text fades out. */
+.ffxiv-journal-sheet .journal-entry-pages.ffxiv-journal__native-pages::after {
+  bottom: 0;
+  height: 0;
+  padding-bottom: var(--ffxiv-lower-ornament-ratio);
+  margin-top: calc(-1 * var(--ffxiv-lower-ornament-ratio));
+  background:
+    url("../../../images/lower_border.png") bottom center / 100% auto no-repeat,
+    var(--ffxiv-parchment)
+      0 calc(-1 * (var(--ffxiv-page-h, 0px) - var(--ffxiv-page-w, 0px) * 0.19753))
+      / var(--ffxiv-page-w, 100%) var(--ffxiv-page-h, 100%) no-repeat;
+  -webkit-mask-image:
+    linear-gradient(90deg, #000 6%, transparent 6%, transparent 94%, #000 94%),
+    linear-gradient(to bottom, transparent calc(100% - var(--ffxiv-lower-band) - 12%), #000 calc(100% - var(--ffxiv-lower-band)));
+  mask-image:
+    linear-gradient(90deg, #000 6%, transparent 6%, transparent 94%, #000 94%),
+    linear-gradient(to bottom, transparent calc(100% - var(--ffxiv-lower-band) - 12%), #000 calc(100% - var(--ffxiv-lower-band)));
+  -webkit-mask-composite: source-over;
+  mask-composite: add;
+}
+
+.ffxiv-journal-sheet .journal-entry-pages.ffxiv-journal__native-pages > .ffxiv-journal__hero {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  flex: 0 0 auto;
+}
+
+.ffxiv-journal-sheet .journal-entry-pages.ffxiv-journal__native-pages > .journal-entry-page.ffxiv-journal__page {
+  flex: 1 0 auto;
+  max-width: none;
+  margin: 0;
+  padding: 0 48px 28px;
+  border: 0;
+  background: none;
+  box-shadow: none;
+}
+
+/* The first page leaves room below the floating upper ornament, the last page above the lower one. */
+.ffxiv-journal-sheet .journal-entry-pages.ffxiv-journal__native-pages > .journal-entry-page.ffxiv-journal__page:is(:first-child, :first-of-type) {
+  padding-top: calc(var(--ffxiv-upper-ornament-ratio) + var(--ffxiv-ornament-gap));
+}
+
+/* The last page leaves room for the floating lower ornament. */
+.ffxiv-journal-sheet .journal-entry-pages.ffxiv-journal__native-pages > .journal-entry-page.ffxiv-journal__page:is(:last-child, :last-of-type) {
+  padding-bottom: calc(var(--ffxiv-lower-ornament-ratio) + 12px);
+}
+
+/* Consecutive pages of one Journal are separated by a fine gold rule. */
+.ffxiv-journal-sheet .journal-entry-pages.ffxiv-journal__native-pages > .journal-entry-page.ffxiv-journal__page + .journal-entry-page.ffxiv-journal__page {
+  border-top: 1px solid var(--ffxiv-overlay-gold-045);
+  padding-top: 20px;
+}
+
+.ffxiv-journal-sheet .journal-entry-pages.ffxiv-journal__native-pages > .journal-entry-page.ffxiv-journal__page:first-of-type {
+  margin-top: 0;
+}
+
+/* ---------------------------------------------------------
+   FFXIV scrollbar - native Journal V2 pages container
+   --------------------------------------------------------- */
+
+.ffxiv-journal-sheet .journal-entry-pages.ffxiv-journal__native-pages {
+  scrollbar-color: var(--ffxiv-gold) var(--ffxiv-paper-dark);
+  scrollbar-width: thin;
+}
+
+.ffxiv-journal-sheet .journal-entry-pages.ffxiv-journal__native-pages::-webkit-scrollbar {
+  width: 10px;
+}
+
+.ffxiv-journal-sheet .journal-entry-pages.ffxiv-journal__native-pages::-webkit-scrollbar-track {
+  background: var(--ffxiv-paper-dark);
+}
+
+.ffxiv-journal-sheet .journal-entry-pages.ffxiv-journal__native-pages::-webkit-scrollbar-thumb {
+  background: var(--ffxiv-gold);
+  border: 2px solid var(--ffxiv-paper-dark);
+  border-radius: 5px;
+}
+
+.ffxiv-journal-sheet .journal-entry-pages.ffxiv-journal__native-pages::-webkit-scrollbar-thumb:hover {
+  background: var(--ffxiv-gold-light);
+}

@@ -1,0 +1,69 @@
+/* =========================================================
+   FFXIV TTRPG Layout — central stylesheet entry point
+
+   module.json loads only this file. New style files are added here
+   with one @import line, so adding one needs a page reload instead of
+   a full Foundry restart.
+
+   Order matters (later rules win at equal specificity):
+   1. variables  — design tokens used by everything below
+   2. sheets     — Journal and Class Summary pages
+   3. embeds     — cards, tooltips and chat cards built from them
+   4. rules/toc  — Rule tooltip and Table of Contents
+   5. themes     — Paper Theme for the FFXIV system, last because it
+                   overrides system styles and the card styles above
+   ========================================================= */
+
+/* 1. Variables */
+@import url("variables.css");
+
+/* 2. Sheets. Each folder is the former single file cut into consecutive
+      sections, so the cascade order is unchanged. */
+/* 2a. Journal (frame, typography, callouts, tables, editor, Rule page, Quest Summary) */
+@import url("sheets/journal/base-and-header.css");
+@import url("sheets/journal/layout.css");
+@import url("sheets/journal/book-page.css");
+@import url("sheets/journal/typography.css");
+@import url("sheets/journal/callouts.css");
+@import url("sheets/journal/tables.css");
+@import url("sheets/journal/states-responsive.css");
+@import url("sheets/journal/editor-toolbar.css");
+@import url("sheets/journal/rule-page.css");
+@import url("sheets/journal/journal-shell.css");
+@import url("sheets/journal/quest-summary.css");
+@import url("sheets/journal/late-overrides.css");
+
+/* 2b. Class Summary */
+@import url("sheets/class-summary/header.css");
+@import url("sheets/class-summary/attributes.css");
+@import url("sheets/class-summary/sections.css");
+@import url("sheets/class-summary/ability-combo.css");
+@import url("sheets/class-summary/ability-cards.css");
+@import url("sheets/class-summary/empty-state.css");
+@import url("sheets/class-summary/editor.css");
+@import url("sheets/class-summary/editor-fields.css");
+@import url("sheets/class-summary/journal-page.css");
+@import url("sheets/class-summary/ability-card-regions.css");
+@import url("sheets/class-summary/late-overrides.css");
+
+/* 3. Embeds */
+@import url("embeds/item-embed.css");
+@import url("embeds/npc-embed.css");
+@import url("embeds/pet-embed.css");
+@import url("embeds/table-embed.css");
+@import url("embeds/ability-embed.css");
+@import url("embeds/ability-tooltip.css");
+
+/* 4. Rules and Table of Contents */
+@import url("rules/rule-tooltip.css");
+@import url("toc/toc.css");
+
+/* 5. Paper Theme (tokens first, then one file per area) */
+@import url("themes/paper/tokens.css");
+@import url("themes/paper/actor-abilities.css");
+@import url("themes/paper/actor-sheet.css");
+@import url("themes/paper/actor-npc.css");
+@import url("themes/paper/actor-pet.css");
+@import url("themes/paper/item-sheets.css");
+@import url("themes/paper/chat-cards.css");
+@import url("themes/paper/hotbar-tooltip.css");

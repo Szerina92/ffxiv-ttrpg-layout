@@ -1,0 +1,77 @@
+/* =========================================================
+   Paper Theme — Tokens
+   Colors and variables of the Paper Theme. `.paper_theme` is the class 
+   the system puts on sheets, item sheets and floating tooltips 
+   (CONFIG.theme = "paper", see scripts/paper-theme.js). Chat cards keep 
+   the system's own theme class, so they get the same tokens through the 
+   body class `ffxiv-paper-theme`.
+   ========================================================= */
+
+.paper_theme,
+body.ffxiv-paper-theme .chat-ffxiv:is(.dark_theme, .light_theme, .blue_theme) {
+  color-scheme: light;
+
+  /* --- Variables the system's own themes define (css/vars.css) --- */
+  --option-background-color: var(--ffxiv-paper-light);
+  --background-color: var(--ffxiv-paper-parchment, none) 0 0 / 100% 100% no-repeat, var(--ffxiv-paper);
+  --text-color: var(--ffxiv-ink);
+  --text-color-input: var(--ffxiv-ink);
+  --invert-text-color: var(--ffxiv-paper-light);
+  --text-color-strong: var(--ffxiv-ability-label);
+
+  --primary-color: var(--ffxiv-paper-light);
+  --secondary-color: var(--ffxiv-gold-light);
+
+  --pet-color: var(--ffxiv-red-dark);
+
+  --border-color-1: var(--ffxiv-gold);
+  --border-color-2: var(--ffxiv-gold-light);
+  --border-shadow-1: var(--ffxiv-gold-dark);
+
+  --gradient-color-1: var(--ffxiv-paper-light);
+  --gradient-color-2: var(--ffxiv-paper);
+  --gradient-color-3: var(--ffxiv-paper-dark);
+  --gradient-color-4: #d3c9ac;
+  --gradient-stats-sidebar: linear-gradient(180deg, #eadfc2 0%, #dccda5 35%, #cdb888 100%);
+
+  --shadow-color-top: rgb(255, 255, 255);
+  --shadow-color-bottom: rgba(80, 60, 30, 0.6);
+  --shadow-improve-readability-white: 0 0 4px rgba(255, 255, 255, 0.8);
+  --shadow-improve-readability-light: 0 0 3px rgba(255, 255, 255, 0.5);
+  --shadow-improve-readability-dark: none;
+  --text-shadow-color: transparent;
+
+  --tooltip: rgba(41, 43, 45, 0.88);
+
+  --chip-color: var(--ffxiv-paper-dark);
+  --chip-color-active: var(--ffxiv-gold);
+
+  --placeholder-color: var(--ffxiv-muted);
+  --subtabactive-background: linear-gradient(0deg, var(--gradient-color-1) 0%, var(--gradient-color-2) 40%, var(--gradient-color-3) 60%, var(--gradient-color-4) 100%);
+  --subtabactive-filter: none;
+
+  /* --- Rarity colors readable on parchment (the system's basic rarity is white) --- */
+  --rarity-basic: var(--ffxiv-ink);
+  --rarity-green: #1f7a4a;
+  --rarity-aetherial: #b83a82;
+  --rarity-blue: #2b628d;
+  --rarity-relic: #5a2f8c;
+  --rarity-unique: #b01c1c;
+
+  /* --- Surfaces shared by the rules below --- */
+  --paper-line: var(--ffxiv-gold-light);
+  --paper-panel: linear-gradient(180deg, rgba(247, 244, 233, 0.62) 0%, rgba(238, 234, 221, 0.62) 100%);
+  --paper-card: var(--ffxiv-paper-light);
+  --paper-card-head: linear-gradient(180deg, #e9e5d4 0%, var(--ffxiv-paper-dark) 100%);
+  --paper-field: rgba(255, 255, 255, 0.55);
+  --paper-tab: linear-gradient(180deg, var(--ffxiv-paper-light) 0%, var(--ffxiv-paper-dark) 100%);
+  --paper-btn: linear-gradient(180deg, var(--ffxiv-gold-light) 0%, var(--ffxiv-gold) 100%);
+
+  /* --- Foundry variables the system's CSS reads (ink instead of the
+         light-on-dark values of Foundry's dark theme) --- */
+  --color-text-primary: var(--ffxiv-ink);
+  --color-text-secondary: var(--ffxiv-muted);
+  --color-border-light-primary: var(--ffxiv-gold);
+  --color-border-light-secondary: var(--ffxiv-gold-light);
+  --color-border-light-tertiary: var(--ffxiv-gold-light);
+}

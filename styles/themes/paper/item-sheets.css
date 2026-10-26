@@ -1,0 +1,83 @@
+/* =========================================================
+   Paper Theme — Item sheets
+   Panels, tags and list rows of the Item and Job sheets. The system lays 
+   rgba(0,0,0,.12) panels over the sheet, which turn grey on parchment.
+   ========================================================= */
+
+.ffxiv.item.paper_theme .ability-sheet-tabs .item,
+.ffxiv.item.paper_theme .item-sheet-tabs .item,
+.ffxiv.item.paper_theme .ability-sheet-panel,
+.ffxiv.item.paper_theme .summon-actors-editor,
+.ffxiv.item.paper_theme .status-effects-editor {
+  border-color: var(--paper-line);
+}
+
+.ffxiv.item.paper_theme .ability-sheet-tabs .item.active,
+.ffxiv.item.paper_theme .item-sheet-tabs .item.active {
+  border-color: var(--ffxiv-gold);
+  background: rgba(177, 138, 69, 0.18);
+}
+
+.ffxiv.item.paper_theme .ability-panel-header,
+.ffxiv.item.paper_theme .status-effects-header {
+  border-bottom-color: var(--paper-line);
+}
+
+/* Item sheets: the system lays rgba(0,0,0,.12) panels over the sheet, which
+   turns grey on parchment. Same selectors as the system, with the theme class. */
+.ffxiv.item.paper_theme .item-modern-panel,
+.ffxiv.item.paper_theme .job-attribute-section,
+.ffxiv.item.item-modern-sheet.paper_theme .item-details-card {
+  background: var(--paper-panel);
+  border-color: var(--ffxiv-gold-light);
+  box-shadow: none;
+}
+
+.ffxiv.item.paper_theme .job-ability-name,
+.ffxiv.item.paper_theme .job-ability-type,
+.ffxiv.item.paper_theme .job-ability-empty {
+  background: var(--paper-field);
+  border-color: var(--ffxiv-gold-light);
+  color: var(--ffxiv-ink);
+}
+
+.ffxiv.item.paper_theme .job-ability-row button:not(.remove-job-ability):not(.remove-job-pet):not(.remove-summon-actor) {
+  background: var(--paper-btn);
+  border: 1px solid var(--ffxiv-gold-dark);
+  color: var(--ffxiv-ink);
+}
+
+.ffxiv.item.paper_theme .job-attribute-section h2,
+.ffxiv.item.paper_theme .ability-panel-header h2 {
+  color: var(--ffxiv-ink);
+}
+
+/* Tags (locked view and editor) */
+.ffxiv.item.item-locked.paper_theme .ability-tags-editor .item-locked-tag-list .tag,
+.ffxiv.item.paper_theme .tag-list .tag {
+  background: transparent;
+  border-color: var(--ffxiv-gold);
+  color: var(--ffxiv-ink);
+}
+
+/* Greyed "None" values and other muted text on the sheet */
+.ffxiv.item.paper_theme .item-locked-field,
+.ffxiv.item.paper_theme .item-details-card .resource-content,
+.ffxiv.item.paper_theme .item-details-card .resource-content > * {
+  color: var(--ffxiv-ink);
+}
+
+/* Item sheets */
+body.ffxiv-paper-theme .ffxiv.item.item-modern-sheet .sheet-body > .attributes,
+body.ffxiv-paper-theme .ffxiv.item.item-modern-sheet .sheet-body > .resources,
+body.ffxiv-paper-theme .ffxiv.item.item-modern-sheet .sheet-body > .tags-container,
+body.ffxiv-paper-theme .ffxiv.item.item-modern-sheet .sheet-body > prose-mirror {
+  background: var(--paper-panel) !important;
+}
+
+/* Gear: Job Requirement / Modifiers chips in the locked view */
+body.ffxiv-paper-theme .ffxiv.item.item-locked .tags-container .item-locked-field {
+  background: var(--paper-field);
+  border-color: var(--ffxiv-gold-light);
+  color: var(--ffxiv-ink);
+}

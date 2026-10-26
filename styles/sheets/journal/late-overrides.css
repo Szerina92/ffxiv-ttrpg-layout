@@ -1,0 +1,10 @@
+/* Typography Test: normal Journal prose */
+.ffxiv-journal__text {
+  font-family: "Noto Serif", serif;
+}
+
+/* The journal name is not shown by the FFXIV layout: hide Foundry's native Journal header
+   (but never the sidebar, the window header or headers belonging to individual pages). */
+.ffxiv-journal-sheet :is(.journal-header, .journal-entry-header):not(.journal-entry-sidebar *, .window-header *, .journal-entry-page *) {
+  display: none;
+}

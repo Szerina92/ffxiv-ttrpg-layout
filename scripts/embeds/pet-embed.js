@@ -7,10 +7,10 @@
  */
 
 import { buildPetCardData } from "../sheets/class-summary-data.js";
-import { normalizePosition, parseEnricherOptions, pickPosition } from "../utils/enricher-options.js";
+import { embedPattern, normalizePosition, pickPosition, readEmbedMatch } from "../utils/enricher-options.js";
 import { renderElement } from "../utils/render.js";
 
-async function createPetEmbed(uuid, { label, position } = {}) {
+export async function createPetEmbed(uuid, { label, position } = {}) {
   if (typeof uuid !== "string" || !uuid.trim()) return null;
 
   const actor = await fromUuid(uuid.trim());
@@ -28,10 +28,10 @@ async function createPetEmbed(uuid, { label, position } = {}) {
 export function registerPetEmbed() {
   CONFIG.TextEditor.enrichers.push({
     id: "ffxiv-pet-embed",
-    pattern: /@FFXIVPet\[([^\]\s]+)\](?:\{([^}]+)\})?/g,
+    pattern: embedPattern("FFXIVPet"),
     enricher: match => {
-      const { label, options } = parseEnricherOptions(match[2]);
-      return createPetEmbed(match[1], { label, position: pickPosition(options) });
+      const { uuid, label, options } = readEmbedMatch(match);
+      return createPetEmbed(uuid, { label, position: pickPosition(options) });
     },
   });
 }

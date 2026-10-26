@@ -1,0 +1,178 @@
+/* =========================================================
+   Paper Theme — Actor sheets: attributes, header, inventory
+   Attributes tab, HP/MP gauges, barrier, profile, fortune row, 
+   inventory, effects. Mirrors the system's `.blue_theme` rules, plus 
+   areas where the system hard-codes dark colors (no Blue Theme variant 
+   exists).
+   ========================================================= */
+
+.ffxiv.actor.paper_theme .actor-attributes-tab h2 {
+  color: var(--ffxiv-gold-dark);
+  text-shadow: none;
+}
+
+.ffxiv.actor.paper_theme .attribute-panel {
+  border-color: var(--paper-line);
+  background: var(--paper-panel);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.45);
+}
+
+.ffxiv.actor.paper_theme .primary-attribute-card {
+  border-color: var(--paper-line);
+  background: var(--paper-card);
+}
+
+.ffxiv.actor.paper_theme .primary-roll-trigger {
+  border-color: var(--ffxiv-gold-dark);
+  background: var(--paper-btn);
+  color: var(--ffxiv-ink);
+}
+
+.ffxiv.actor.paper_theme .primary-roll-trigger i {
+  color: var(--ffxiv-ink);
+}
+
+.ffxiv.actor.paper_theme input.primary-attribute-input {
+  border-color: var(--ffxiv-gold-light);
+  background: var(--paper-field);
+  color: var(--ffxiv-ink);
+  text-shadow: none;
+}
+
+.ffxiv.actor.paper_theme .secondary-attribute-card {
+  border-color: var(--paper-line);
+  background: var(--paper-card);
+}
+
+.ffxiv.actor.paper_theme .secondary-attribute-name {
+  color: var(--ffxiv-ability-label);
+}
+
+.ffxiv.actor.paper_theme input.secondary-attribute-input,
+.ffxiv.actor.paper_theme .secondary-attribute-input {
+  border-color: var(--ffxiv-gold-light);
+  background: var(--paper-field);
+  color: var(--ffxiv-ink);
+  text-shadow: none;
+}
+
+.ffxiv.actor.paper_theme .secondary-attribute-modifier {
+  color: var(--ffxiv-ink);
+}
+
+.ffxiv.actor.paper_theme .secondary-attribute-unit {
+  color: var(--ffxiv-ability-label);
+}
+
+.ffxiv.actor.character.paper_theme .actor-companions .companions-sub-tab-content {
+  border-color: var(--paper-line);
+  background: var(--paper-panel);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.45);
+}
+
+.ffxiv.actor.paper_theme .companions-empty-hint {
+  border-color: var(--paper-line);
+  background: var(--paper-field);
+  color: var(--ffxiv-muted);
+}
+
+.ffxiv.actor.paper_theme .ffxiv-fortune-row {
+  border-color: var(--ffxiv-gold);
+  background: var(--paper-card);
+  box-shadow: none;
+}
+
+.ffxiv.actor.paper_theme .ffxiv-fortune-row input#ffxiv-fortune {
+  border-color: var(--ffxiv-gold-light);
+  background: var(--paper-field);
+  color: var(--ffxiv-ink);
+  box-shadow: none;
+}
+
+.ffxiv.actor.paper_theme .actor-profile .profile-field-value,
+.ffxiv.actor.paper_theme .actor-profile .profile-short-text,
+.ffxiv.actor.paper_theme .actor-profile .profile-paragraph-block {
+  border-color: var(--paper-line);
+  background: var(--paper-field);
+}
+
+.ffxiv.actor.paper_theme .actor-titles .actor-titles-box {
+  border-color: var(--paper-line);
+  background: var(--paper-field);
+}
+
+.ffxiv.actor.paper_theme .ffxiv-gauge .gauge-label {
+  color: var(--ffxiv-ink);
+  text-shadow: none;
+}
+
+.ffxiv.actor.paper_theme .barrier-chip {
+  border-color: var(--ffxiv-gold);
+  background: var(--paper-tab);
+  color: var(--ffxiv-ink);
+  box-shadow: none;
+}
+
+/* Barrier label: no text shadow on the light chip. */
+.ffxiv.actor.paper_theme .barrier-chip-label {
+  color: var(--ffxiv-ink);
+  text-shadow: none;
+}
+
+/* Value fields inside the HP/MP bars keep the system's light text on the colored bar;
+   only the barrier number sits on the paper chip. */
+.ffxiv.actor.paper_theme .barrier-chip input.barrier-input {
+  color: var(--ffxiv-ink);
+  text-shadow: none;
+}
+
+.ffxiv.actor.paper_theme .sidebar-stat-summary {
+  border-color: var(--paper-line);
+  background: var(--paper-panel);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.45);
+}
+
+.ffxiv.actor.paper_theme .sidebar-stat-cell {
+  border-color: var(--ffxiv-gold-light);
+  background: var(--paper-tab);
+}
+
+.ffxiv.actor.paper_theme .sidebar-stat-label {
+  color: var(--ffxiv-ability-label);
+}
+
+.ffxiv.actor.paper_theme .sidebar-stat-value,
+.ffxiv.actor.paper_theme .sidebar-secondary-value {
+  color: var(--ffxiv-ink);
+  text-shadow: none;
+}
+
+.ffxiv.actor.paper_theme .sidebar-secondary-cell {
+  border-color: var(--paper-line);
+  background: var(--paper-card);
+}
+
+body.ffxiv-paper-theme .ffxiv.actor .inventory-item {
+  background: linear-gradient(180deg, #ddd4b8 60%, #d1c7a8 100%);
+  box-shadow: inset 0 0 0 1px var(--ffxiv-gold-light), inset 0 2px 4px rgba(80, 60, 30, 0.25);
+}
+
+body.ffxiv-paper-theme .ffxiv.actor .inventory-item:not(:has(img)) {
+  border-bottom-color: var(--ffxiv-gold-light);
+}
+
+body.ffxiv-paper-theme .ffxiv-inventory-context-menu {
+  background: var(--paper-card) !important;
+  border: 1px solid var(--ffxiv-gold) !important;
+  color: var(--ffxiv-ink) !important;
+}
+
+body.ffxiv-paper-theme .ffxiv.actor .gear-bonuses thead th {
+  background: rgba(177, 138, 69, 0.18);
+}
+
+body.ffxiv-paper-theme .ffxiv.actor .actor-effects .effect-row,
+body.ffxiv-paper-theme .ffxiv.actor .actor-job-slot {
+  background: var(--paper-field);
+  border-color: var(--paper-line);
+}
