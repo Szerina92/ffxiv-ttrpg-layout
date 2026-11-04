@@ -6,7 +6,7 @@
  * This sheet only controls their presentation.
  */
 
-import { CLASS_SUMMARY_PAGE_TYPE, RULE_PAGE_TYPE } from "../constants.js";
+import { CLASS_SUMMARY_PAGE_TYPE, SYSTEM_RULE_PAGE_TYPE } from "../constants.js";
 import { playPageChangeSound } from "../page-change-sound.js";
 import { FFXIVJournalPagePointer } from "../page-pointer.js";
 import {
@@ -79,7 +79,7 @@ class FFXIVJournalSheet extends JournalEntrySheet {
       case "text":
         content = await enrich(await normalizeJournalEntryEmbeds(page.text?.content ?? ""), page);
         break;
-      case RULE_PAGE_TYPE:
+      case SYSTEM_RULE_PAGE_TYPE:
         content = await enrich(page.system?.content, page);
         break;
     }
@@ -94,8 +94,7 @@ class FFXIVJournalSheet extends JournalEntrySheet {
       src: page.src ?? "",
       jobIcon,
       isClassSummary: page.type === CLASS_SUMMARY_PAGE_TYPE,
-      isRule: page.type === RULE_PAGE_TYPE,
-      isText: page.type === "text",
+      isText: page.type === "text" || page.type === SYSTEM_RULE_PAGE_TYPE,
       isImage: page.type === "image",
       isVideo: page.type === "video",
       isEditable: this.isEditable,

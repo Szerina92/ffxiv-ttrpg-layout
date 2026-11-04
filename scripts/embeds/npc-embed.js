@@ -4,14 +4,13 @@
  */
 
 import { localize } from "../i18n.js";
-import { isMarkerRendererEnabled } from "../settings.js";
 import { buildAbilityCardData } from "../sheets/class-summary-data.js";
 import { embedPattern, normalizePosition, pickPosition, readEmbedMatch } from "../utils/enricher-options.js";
 import { enrich } from "../utils/enrich.js";
 import { renderElement } from "../utils/render.js";
 import { numberOr, text } from "../utils/values.js";
+import { defensePattern, defenseTerms } from "../utils/defense-terms.js";
 import { scheduleDoubleBalance } from "./npc-embed-balance.js";
-import { buildMarkerGraphics } from "./npc-embed-marker.js";
 
 const TEMPLATE = "modules/ffxiv-ttrpg-layout/templates/embeds/npc-embed.hbs";
 
@@ -55,10 +54,11 @@ function formatCrValue(value) {
   const crText = text(value);
   if (!crText) return null;
 
+  const terms = defenseTerms();
   return crText
-    .split(/(Magic Defense|Defense)/)
+    .split(defensePattern({ capture: true }))
     .filter(Boolean)
-    .map(part => ({ text: part, highlight: part === "Magic Defense" || part === "Defense" }));
+    .map(part => ({ text: part, highlight: terms.includes(part) }));
 }
 
 function getActorAbilityGroup(item) {
@@ -169,7 +169,6 @@ async function buildAbilityDetailData(item, { checkModifier = "" } = {}) {
 
 /**
  * Build the template data of an NPC embed.
- * Also returns the source ability Items per group, which the marker renderer needs.
  */
 async function buildActorEmbedData(actor, { double = false } = {}) {
   const system = actor.system ?? {};
@@ -248,19 +247,7 @@ async function buildActorEmbedData(actor, { double = false } = {}) {
     isDouble: double,
   };
 
-  return { data, sourceGroups };
-}
-
-/** Append the experimental marker graphics to the rendered ability blocks. */
-function addMarkerGraphics(root, abilityGroups, sourceGroups, actor) {
-  for (const group of abilityGroups) {
-    sourceGroups[group.key].forEach((item, index) => {
-      const block = root.querySelector(
-        `[data-ability-group="${CSS.escape(group.key)}"] [data-ability-index="${index}"]`,
-      );
-      if (block) block.append(...buildMarkerGraphics(item, actor));
-    });
-  }
+  return data;
 }
 
 export async function createActorEmbed(uuid, { label, position, double = false } = {}) {
@@ -271,15 +258,12 @@ export async function createActorEmbed(uuid, { label, position, double = false }
   // Pet Actors are handled exclusively by pet-embed.js / @FFXIVPet.
   if (actor?.documentName !== "Actor" || actor.type !== "npc") return null;
 
-  const { data, sourceGroups } = await buildActorEmbedData(actor, { double });
+  const data = await buildActorEmbedData(actor, { double });
   const root = await renderElement(TEMPLATE, data);
   if (!root) return null;
 
   if (label) root.dataset.label = label;
   root.classList.add(double ? "ffxiv-actor-embed--double" : `ffxiv-actor-embed--float-${normalizePosition(position)}`);
-
-  // Experimental marker graphics are optional and controlled by a module setting.
-  if (isMarkerRendererEnabled()) addMarkerGraphics(root, data.abilityGroups, sourceGroups, actor);
 
   if (double && data.doubleAbilityItems.length > 1) scheduleDoubleBalance(root);
   return root;

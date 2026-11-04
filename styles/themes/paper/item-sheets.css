@@ -81,3 +81,10 @@ body.ffxiv-paper-theme .ffxiv.item.item-locked .tags-container .item-locked-fiel
   border-color: var(--ffxiv-gold-light);
   color: var(--ffxiv-ink);
 }
+
+/* Ability sheet, critical-hit rules (system 5.5.0): the divider between rules
+   is a light gold that nearly disappears on parchment. */
+.ffxiv.item.paper_theme .ability-critical-rule + .ability-critical-rule {
+  border-top-color: var(--paper-line);
+}
+

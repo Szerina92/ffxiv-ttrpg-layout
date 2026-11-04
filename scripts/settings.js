@@ -7,23 +7,17 @@
 import { MODULE_ID } from "./constants.js";
 
 const SETTINGS = Object.freeze({
-  showRulesCompendium: "showRulesCompendium",
-  experimentalMarkers: "experimentalMarkers",
-  experimentalPagePointer: "experimentalPagePointer",
+  pagePointer: "pagePointer",
   pageChangeSound: "experimentalPageChangeSound",
   pageChangeSoundVolume: "experimentalPageChangeSoundVolume",
   paperTheme: "paperTheme",
-  chatCards: "chatCards",
 });
 
 const getSetting = key => game.settings.get(MODULE_ID, key);
 
-export const isRulesCompendiumVisible = () => getSetting(SETTINGS.showRulesCompendium) === true;
-export const isMarkerRendererEnabled = () => getSetting(SETTINGS.experimentalMarkers) === true;
-export const isPagePointerEnabled = () => getSetting(SETTINGS.experimentalPagePointer) === true;
+export const isPagePointerEnabled = () => getSetting(SETTINGS.pagePointer) === true;
 export const isPageChangeSoundEnabled = () => getSetting(SETTINGS.pageChangeSound) === true;
 export const isPaperThemeEnabled = () => getSetting(SETTINGS.paperTheme) === true;
-export const isChatCardsEnabled = () => getSetting(SETTINGS.chatCards) === true;
 export const getPageChangeSoundVolumePercent = () => Number(getSetting(SETTINGS.pageChangeSoundVolume));
 
 /**
@@ -39,29 +33,18 @@ export function registerSettings({ onPagePointerChange } = {}) {
     ...data,
   });
 
-  register(SETTINGS.showRulesCompendium, "ShowRulesCompendium", {
+  register(SETTINGS.pagePointer, "PagePointer", {
     type: Boolean,
-    default: false,
-    onChange: () => ui.compendium?.render?.({ force: true }),
-  });
-
-  register(SETTINGS.experimentalMarkers, "ExperimentalMarkerRenderer", {
-    type: Boolean,
-    default: false,
-  });
-
-  register(SETTINGS.experimentalPagePointer, "ExperimentalPagePointer", {
-    type: Boolean,
-    default: false,
+    default: true,
     onChange: () => onPagePointerChange?.(),
   });
 
-  register(SETTINGS.pageChangeSound, "ExperimentalPageChangeSound", {
+  register(SETTINGS.pageChangeSound, "PageChangeSound", {
     type: Boolean,
     default: true,
   });
 
-  register(SETTINGS.pageChangeSoundVolume, "ExperimentalPageChangeSoundVolume", {
+  register(SETTINGS.pageChangeSoundVolume, "PageChangeSoundVolume", {
     type: Number,
     range: { min: 0, max: 100, step: 5 },
     default: 50,
@@ -71,10 +54,5 @@ export function registerSettings({ onPagePointerChange } = {}) {
     type: Boolean,
     default: false,
     requiresReload: true,
-  });
-
-  register(SETTINGS.chatCards, "ChatCards", {
-    type: Boolean,
-    default: true,
   });
 }

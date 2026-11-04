@@ -6,7 +6,6 @@ import "./babele.js";
 import { registerSettings } from "./settings.js";
 import { registerJournalSheet } from "./sheets/journal-sheet.js";
 import { registerClassSummarySheet } from "./sheets/class-summary-sheet.js";
-import { registerRuleSheet } from "./sheets/rule-sheet.js";
 import { registerItemEmbed } from "./embeds/item-embed.js";
 import { registerAbilityEmbed } from "./embeds/ability-embed.js";
 import { registerTraitEmbed } from "./embeds/trait-embed.js";
@@ -17,10 +16,11 @@ import { registerTableEmbed } from "./embeds/table-embed.js";
 import { registerChatCards } from "./embeds/chat-card.js";
 import { activateAbilityTooltips } from "./embeds/ability-tooltip.js";
 import { activateIconLinks } from "./utils/icon-click.js";
-import { registerRules } from "./rules.js";
+import { registerRuleMigration } from "./rule-migration.js";
 import { registerEditorMenu } from "./editor-menu.js";
 import { registerCompendiumToc } from "./toc/toc.js";
 import { registerPaperTheme } from "./paper-theme.js";
+import { registerActorAbilityCards } from "./sheets/actor-ability-cards.js";
 import { refreshPagePointers } from "./page-pointer.js";
 import { preloadPageChangeSound } from "./page-change-sound.js";
 
@@ -37,14 +37,12 @@ Hooks.once("init", async () => {
   registerSettings({ onPagePointerChange: refreshPagePointers });
 
   registerJournalSheet();
-  // Register custom JournalEntryPage data models before any other sheet
-  // registration can cause Foundry to cache JournalEntryPage.TYPES.
-  registerRuleSheet();
-  registerRules();
+  registerRuleMigration();
   registerClassSummarySheet();
   registerEditorMenu();
   registerCompendiumToc();
   registerPaperTheme();
+  registerActorAbilityCards();
 
   registerItemEmbed();
   registerAbilityEmbed();

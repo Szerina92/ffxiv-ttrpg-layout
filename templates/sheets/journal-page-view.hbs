@@ -29,8 +29,6 @@
     <video class="ffxiv-journal__media" controls><source src="{{src}}"></video>
   {{else if isClassSummary}}
     <div class="ffxiv-journal__class-summary">{{{content}}}</div>
-  {{else if isRule}}
-    <div class="ffxiv-journal__text ffxiv-journal__rule-page">{{{content}}}</div>
   {{else}}
     <div class="ffxiv-journal__unsupported">{{localize "FFXIVTTRPGLayout.Journal.UnsupportedPageType"}}</div>
   {{/if}}

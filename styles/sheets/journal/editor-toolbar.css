@@ -107,12 +107,6 @@
   background: url("../../../images/callouts/background-green.png") center / cover no-repeat;
 }
 
-.ffxiv-editor-xv-menu .ffxiv-editor-rule-entry > i {
-  width: 1.2em;
-  margin-right: .45em;
-  text-align: center;
-}
-
 .ffxiv-editor-xv-menu .ffxiv-editor-icon-preview {
   display: inline-block;
   width: 1.6em;

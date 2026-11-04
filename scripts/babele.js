@@ -1,22 +1,25 @@
-import { CLASS_SUMMARY_PAGE_TYPE, MODULE_ID, RULE_PAGE_TYPE } from "./constants.js";
+/**
+ * FFXIV TTRPG Layout — optional Babele interface.
+ *
+ * The Layout ships no translations. It only tells Babele how to read and
+ * write its own content, so any translation module, or a folder set in
+ * Babele's settings, can translate it:
+ *
+ * - `class-summary` pages keep their text in `system.introduction`
+ * - the Table of Contents label is a module flag on the page
+ *
+ * The mapping is global and uses Babele's default document identity (ID,
+ * name, source ID). Rules are no longer part of the Layout; the system
+ * provides them.
+ */
 
-const RULE_KEY_EXTRACTOR = "ffxivRuleKey";
+import { CLASS_SUMMARY_PAGE_TYPE, MODULE_ID } from "./constants.js";
 
 Hooks.once("babele.init", babele => {
-  babele.registerIdentityExtractor(RULE_KEY_EXTRACTOR, page => {
-    const key = page?.system?.key;
-    return typeof key === "string" && key.trim() ? key.trim() : null;
-  });
-
   babele.registerMapping({
     JournalEntryPage: {
-      _identity: {
-        export: [RULE_KEY_EXTRACTOR, "name", "_id", "id"],
-        match: [RULE_KEY_EXTRACTOR, "_id", "name", "sourceId"],
-      },
       tocLabel: `flags.${MODULE_ID}.toc.label`,
       _variants: [
-        { _when: { path: "type", equals: RULE_PAGE_TYPE }, content: "system.content" },
         { _when: { path: "type", equals: CLASS_SUMMARY_PAGE_TYPE }, introduction: "system.introduction" },
       ],
     },

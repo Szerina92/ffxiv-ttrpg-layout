@@ -1,13 +1,20 @@
 /**
+ * FFXIV TTRPG Layout — universal Embed
+ *
  * `@FFXIV[uuid option ...]{label|option|...}` picks the matching embed from the
  * document behind the UUID:
  *
  *   Item (type ability)  -> Ability card   (options: half, left/right/center)
  *   Item (type trait)    -> Trait card     (options: half, left/right/center)
  *   Item (anything else) -> Item card
- *   Actor (npc)          -> Actor embed   (option `double` supported, experimental)
+ *   Actor (npc)          -> Actor embed   (option `double` supported)
  *   Actor (pet)          -> Pet embed
  *   RollTable            -> Table embed
+ *
+ * The type-specific enrichers (`@FFXIVItem`, `@FFXIVAbility`, `@FFXIVActor`,
+ * `@FFXIVPet`, `@FFXIVTable`) keep working unchanged.
+ *
+ * Not named `@Embed`: Foundry core already owns that enricher.
  */
 
 import { embedPattern, pickPosition, readEmbedMatch } from "../utils/enricher-options.js";

@@ -1,4 +1,14 @@
-import { isChatCardsEnabled } from "../settings.js";
+/**
+ * FFXIV TTRPG Layout — Chat Cards
+ *
+ * Shows Ability and Trait chat messages of the FFXIV system with the same FFXIV
+ * Card as the Class Summary, embeds and tooltips. Purely a display change: the
+ * stored message is untouched, the system's `.item-card` stays in the DOM
+ * (hidden) so the system's own button handlers keep working. Part of the Paper
+ * Theme: the cards only appear while the Paper Theme setting is on.
+ */
+
+import { isPaperThemeEnabled } from "../settings.js";
 import { createAbilityEmbed } from "./ability-embed.js";
 import { createTraitEmbed } from "./trait-embed.js";
 
@@ -29,7 +39,7 @@ async function replaceItemCard(original) {
 
 export function registerChatCards() {
   Hooks.on("renderChatMessageHTML", (message, html) => {
-    if (!isChatCardsEnabled()) return;
+    if (!isPaperThemeEnabled()) return;
     const root = html instanceof HTMLElement ? html : html?.[0];
     if (!root) return;
 

@@ -1,5 +1,7 @@
 /** FFXIV TTRPG Layout — shared rich-text enrichment. */
 
+import { stripRuleMacros } from "../rule-migration.js";
+
 const TextEditor = foundry.applications.ux.TextEditor.implementation;
 
 /**
@@ -13,7 +15,7 @@ const TextEditor = foundry.applications.ux.TextEditor.implementation;
  * @returns {Promise<string>}
  */
 export function enrich(content, relativeTo = null, { secrets = relativeTo?.isOwner ?? false } = {}) {
-  return TextEditor.enrichHTML(String(content ?? ""), {
+  return TextEditor.enrichHTML(stripRuleMacros(String(content ?? "")), {
     custom: true,
     documents: true,
     embeds: true,

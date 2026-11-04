@@ -1,8 +1,7 @@
 {
   "TYPES": {
     "JournalEntryPage": {
-      "ffxiv-ttrpg-layout.class-summary": "Class Summary",
-      "ffxiv-ttrpg-layout.rule": "Rule"
+      "ffxiv-ttrpg-layout.class-summary": "Class Summary"
     }
   },
   "FFXIVTTRPGLayout": {
@@ -47,30 +46,15 @@
       "Limitations": "Limitations",
       "StatusEffects": "Status Effects"
     },
-    "Rule": {
-      "RuleKey": "Rule Key",
-      "RuleKeyHelp": "Use this key in text as &Rule[Key]{Label}.",
-      "RuleContent": "Rule Content",
-      "EditRuleContent": "Edit Rule Content",
-      "Category": "Category",
-      "NoCategory": "No Category",
-      "RuleContentEmpty": "No rule content added."
-    },
     "Settings": {
-      "ShowRulesCompendium": "Show Rules Compendium",
-      "ShowRulesCompendiumHint": "Shows the internal Rules Compendium in the Compendium Browser. The Rule system works regardless of this setting.",
-      "ExperimentalMarkerRenderer": "Experimental Marker Renderer",
-      "ExperimentalMarkerRendererHint": "Enables the experimental marker graphics in FFXIVActor embeds. Centered and Adjacent markers are supported; line markers remain excluded.",
-      "ExperimentalPagePointer": "Experimental Page Pointer",
-      "ExperimentalPagePointerHint": "Enables the experimental pointer for the active Journal page. When multiple Journals are open, it is shown only in the front-most window.",
-      "ExperimentalPageChangeSound": "Experimental Page Change Sound",
-      "ExperimentalPageChangeSoundHint": "Plays the FFXIV confirmation sound when switching to another Journal page from the table of contents.",
-      "ExperimentalPageChangeSoundVolume": "Experimental Page Change Sound Volume (%)",
-      "ExperimentalPageChangeSoundVolumeHint": "Sets the FFXIV confirmation sound volume (0–100%).",
+      "PagePointer": "Page Pointer",
+      "PagePointerHint": "Shows a pointer next to the active page in the Journal page list. With several windows open, it only appears where the page entry is visible.",
+      "PageChangeSound": "Page Change Sound",
+      "PageChangeSoundHint": "Plays the FFXIV confirmation sound when switching to another Journal page from the table of contents.",
+      "PageChangeSoundVolume": "Page Change Sound Volume (%)",
+      "PageChangeSoundVolumeHint": "Sets the FFXIV confirmation sound volume (0–100%).",
       "PaperTheme": "Paper Theme",
-      "PaperThemeHint": "Overrides core settings light/dark color scheme with a paper theme, inspired by the FFXIV TTRPG Rulebook. Does not work with the Blue Color Theme.",
-      "ChatCards": "Ability cards in chat",
-      "ChatCardsHint": "Shows Ability and Trait chat messages with the module's FFXIV Card instead of the system card. The buttons stay as they are."
+      "PaperThemeHint": "Overrides core settings light/dark color scheme with a paper theme, inspired by the FFXIV TTRPG Rulebook. Does not work with the Blue Color Theme."
     },
     "Journal": {
       "UnsupportedPageType": "This page type is not currently displayed by the Layout.",
@@ -123,18 +107,10 @@
       "White": "White",
       "Paperscroll": "Paperscroll",
       "IconNone": "None",
-      "Rules": "Rules",
-      "NoRulesAvailable": "No Rules available",
       "QuestAlignment": "Alignment",
       "QuestAlignmentLeft": "Left",
       "QuestAlignmentRight": "Right",
       "QuestAlignmentCenter": "Center"
-    },
-    "Marker": {
-      "StraightLine": "{size} straight-line marker",
-      "Adjacent": "{size} adjacent marker",
-      "Area": "{size} marker area",
-      "Preview": "{size} marker preview"
     },
     "Tag": {
       "Trait": "Trait",
@@ -173,6 +149,21 @@
     "Table": {
       "Result": "Result",
       "RollError": "The table could not be rolled."
+    },
+    "RuleMigration": {
+      "Name": "Remove Rule links",
+      "Label": "Remove Rule links",
+      "Hint": "The Layout no longer has its own Rule system. Replaces &Rule[Key]{Text} in your world and in unlocked compendiums (world and module) with the plain text. Use the Rules of the FFXIV system instead.",
+      "Title": "Remove Rule links",
+      "Found": "{links} Rule link(s) in {documents} document(s) will be replaced by their visible text:",
+      "More": "… and {count} more",
+      "NoLinks": "No Rule links found.",
+      "Locked": "Locked compendiums are not scanned: {packs}. Unlock them (Compendium → right-click → Toggle Edit Lock) and run the tool again to include them. System compendiums are never changed.",
+      "DeletePages": "Also delete {count} leftover Rule page(s) from the removed Rule page type",
+      "Backup": "This changes your documents permanently. Make a backup first.",
+      "Run": "Remove",
+      "NothingToDo": "No Rule links or Rule pages found. Nothing to do.",
+      "Done": "Rule cleanup finished: {updated} document(s) updated, {deleted} Rule page(s) deleted, {failed} failed, {remaining} Rule link(s) left (see console)."
     }
   }
 }

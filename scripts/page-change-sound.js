@@ -1,5 +1,5 @@
 /**
- * FFXIV TTRPG Layout — Experimental Journal Page Change Sound.
+ * FFXIV TTRPG Layout — Journal Page Change Sound.
  *
  * Plays a local UI confirmation sound when the user selects a different
  * Journal page from the custom TOC. Enabled by default and client-local.

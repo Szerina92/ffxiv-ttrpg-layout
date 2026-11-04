@@ -3,14 +3,13 @@
  *
  * V14 exposes getProseMirrorMenuDropDowns specifically for adding custom
  * top-level dropdowns to the existing editor toolbar. The dropdown contains
- * the FFXIV semantic text styles, Rule references, Quest Summaries,
+ * the FFXIV semantic text styles, Quest Summaries,
  * Scenario callouts and ATT/ABI links.
  */
 
 import { localize } from "./i18n.js";
 import { buildCalloutTextEditorEntries, buildScenarioEditorEntry } from "./callouts.js";
 import { buildQuestSummaryHTML, openQuestSummaryEditor } from "./quest-summary.js";
-import { buildRuleEditorEntry } from "./rules.js";
 import { buildSubmenu } from "./utils/menu-entries.js";
 
 async function getQuestSummaryEditorPageFromMenu(menu) {
@@ -156,7 +155,6 @@ function addEditorMenu(menu, config) {
         className: "ffxiv-editor-submenu-entry--text",
         children: buildCalloutTextEditorEntries({ menu, applyInsert, applySemanticInsert }),
       }),
-      buildRuleEditorEntry({ menu }),
       buildSubmenu({
         action: "ffxiv-quest-menu",
         title: localize("FFXIVTTRPGLayout.Editor.Quest"),

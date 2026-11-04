@@ -7,14 +7,15 @@
 
 import { buildClassSummaryAttributesViewModel } from "./class-summary-view-model.js";
 import { localize, localizeTags } from "../i18n.js";
-import { getComboKeys, getContentKeys } from "../utils/content-keys.js";
+import { getComboKeys, getContentKeys, getSourceText } from "../utils/content-keys.js";
+import { defensePattern } from "../utils/defense-terms.js";
 import { enrich } from "../utils/enrich.js";
 import { numberOr, text } from "../utils/values.js";
 
 /** Name variants (English/German) and the abbreviation used to recognise special Jobs. */
 const JOB_ALIASES = Object.freeze({
   bard: { names: ["bard", "barde"], abbreviation: "brd" },
-  monk: { names: ["monk", "moench", "mönch"], abbreviation: "mnk" },
+  monk: { names: ["monk", "moench", "mönch", "moine"], abbreviation: "mnk" },
   ninja: { names: ["ninja"], abbreviation: "nin" },
 });
 
@@ -22,7 +23,7 @@ function isJob(jobItem, jobKey) {
   const { names, abbreviation } = JOB_ALIASES[jobKey];
   const namePattern = new RegExp(`\\b(?:${names.join("|")})\\b`, "i");
 
-  return [jobItem?.name, jobItem?.system?.job_name]
+  return [jobItem?.name, jobItem?.system?.job_name, getSourceText(jobItem, "name"), getSourceText(jobItem, "job_name")]
     .map(text)
     .filter(Boolean)
     .some(value => namePattern.test(value) || value.toLowerCase().replace(/[^a-z]/g, "") === abbreviation);
@@ -80,7 +81,7 @@ function formatChallengeParts(value) {
   if (!normalized) return [];
 
   const parts = [];
-  const pattern = /Magic Defense|Defense/g;
+  const pattern = defensePattern();
   let cursor = 0;
   let match;
 
@@ -102,9 +103,10 @@ function formatChallengeParts(value) {
 
 function abilityTypeFromTags(tags) {
   if (!Array.isArray(tags)) return "";
-  if (tags.includes("FFXIV.Tags.Primary")) return localize("FFXIV.Tags.Primary");
-  if (tags.includes("FFXIV.Tags.Secondary")) return localize("FFXIV.Tags.Secondary");
-  if (tags.includes("FFXIV.Tags.Instant")) return localize("FFXIV.Tags.Instant");
+  // Fixed keys, not translated words: the sections are chosen by these.
+  if (tags.includes("FFXIV.Tags.Primary")) return "Primary";
+  if (tags.includes("FFXIV.Tags.Secondary")) return "Secondary";
+  if (tags.includes("FFXIV.Tags.Instant")) return "Instant";
   return "";
 }
 

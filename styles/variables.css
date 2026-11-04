@@ -68,7 +68,6 @@
   --ffxiv-text-important: var(--ffxiv-ink);
   --ffxiv-text-note: var(--ffxiv-header-red);
   --ffxiv-text-example: #695633;
-  --ffxiv-rule-link: #000000;
   --ffxiv-bg-paperscroll: #f4d6ae;
 
   /* -------------------------------------------------------
@@ -126,13 +125,6 @@
   --ffxiv-npc-link: #2d638e;
   --ffxiv-npc-double-divider: #a8956b;
   --ffxiv-npc-stat-divider: rgba(255,255,255,.25);
-  --ffxiv-npc-marker-border: #4a4a4a;
-  --ffxiv-npc-marker-surface: #303030;
-  --ffxiv-npc-marker-cell: #3f3f3f;
-  --ffxiv-npc-marker-area: #a96f43;
-  --ffxiv-npc-marker-origin: #d9bd70;
-  --ffxiv-npc-marker-grid-line: rgba(255,255,255,.20);
-  --ffxiv-npc-marker-shadow: rgba(0,0,0,.45);
 
   --ffxiv-npc-data-font: "Noto Sans", "Myriad Pro", Calibri, Helvetica, Arial, sans-serif;
   --ffxiv-npc-content-font: "Roboto", sans-serif;

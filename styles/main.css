@@ -9,7 +9,7 @@
    1. variables  — design tokens used by everything below
    2. sheets     — Journal and Class Summary pages
    3. embeds     — cards, tooltips and chat cards built from them
-   4. rules/toc  — Rule tooltip and Table of Contents
+   4. toc        — Table of Contents
    5. themes     — Paper Theme for the FFXIV system, last because it
                    overrides system styles and the card styles above
    ========================================================= */
@@ -19,7 +19,7 @@
 
 /* 2. Sheets. Each folder is the former single file cut into consecutive
       sections, so the cascade order is unchanged. */
-/* 2a. Journal (frame, typography, callouts, tables, editor, Rule page, Quest Summary) */
+/* 2a. Journal (frame, typography, callouts, tables, editor, shared page-editor controls, Quest Summary) */
 @import url("sheets/journal/base-and-header.css");
 @import url("sheets/journal/layout.css");
 @import url("sheets/journal/book-page.css");
@@ -28,7 +28,7 @@
 @import url("sheets/journal/tables.css");
 @import url("sheets/journal/states-responsive.css");
 @import url("sheets/journal/editor-toolbar.css");
-@import url("sheets/journal/rule-page.css");
+@import url("sheets/journal/page-shared.css");
 @import url("sheets/journal/journal-shell.css");
 @import url("sheets/journal/quest-summary.css");
 @import url("sheets/journal/late-overrides.css");
@@ -54,8 +54,7 @@
 @import url("embeds/ability-embed.css");
 @import url("embeds/ability-tooltip.css");
 
-/* 4. Rules and Table of Contents */
-@import url("rules/rule-tooltip.css");
+/* 4. Table of Contents */
 @import url("toc/toc.css");
 
 /* 5. Paper Theme (tokens first, then one file per area) */
@@ -67,3 +66,4 @@
 @import url("themes/paper/item-sheets.css");
 @import url("themes/paper/chat-cards.css");
 @import url("themes/paper/hotbar-tooltip.css");
+@import url("themes/paper/rule-tooltip.css");

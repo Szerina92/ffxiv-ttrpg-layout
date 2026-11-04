@@ -102,8 +102,10 @@
   padding-top: 1px;
 }
 
+/* Bold in descriptive text keeps the text color; authors can color it with
+   HTML. Labels have their own rule below. */
 .ffxiv-class-summary__ability-body strong {
-  color: var(--ffxiv-ability-label);
+  color: inherit;
   font-weight: 700;
 }
 
@@ -114,7 +116,7 @@
 }
 
 .ffxiv-class-summary__ability-body p:first-child strong {
-  color: var(--ffxiv-ability-label);
+  color: inherit;
 }
 
 .ffxiv-class-summary__ability-value--blue-dark {
@@ -144,4 +146,18 @@
 /* Clicking an icon opens the document behind the card (see scripts/utils/icon-click.js). */
 .ffxiv-class-summary__ability-icon[data-ffxiv-item-uuid] {
   cursor: pointer;
+}
+
+/* Rich-text semantic marks (editor menu: ABI, ATT) inside ability and trait
+   cards, so they work in the Class Summary, embeds, tooltips and chat. */
+.ffxiv-class-summary__ability-body .ffxiv-abi,
+.ffxiv-class-summary__trait-body .ffxiv-abi {
+  color: var(--ffxiv-blue-dark);
+  font-weight: 700;
+}
+
+.ffxiv-class-summary__ability-body .ffxiv-att,
+.ffxiv-class-summary__trait-body .ffxiv-att {
+  color: var(--ffxiv-red-bright);
+  font-weight: 700;
 }

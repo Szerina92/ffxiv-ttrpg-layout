@@ -1,3 +1,11 @@
+/**
+ * FFXIV TTRPG Layout — Trait Embed
+ *
+ * `@FFXIVTrait[uuid option]{label}` renders an Item of type "trait" as the
+ * Trait card used by the Class Summary and the tooltip. Options: half,
+ * left/right/center (same as the Ability embed).
+ */
+
 import { buildTraitCardData } from "../sheets/class-summary-data.js";
 import { applyCardEmbedOptions } from "../utils/card-embed.js";
 import { embedPattern, readEmbedMatch } from "../utils/enricher-options.js";

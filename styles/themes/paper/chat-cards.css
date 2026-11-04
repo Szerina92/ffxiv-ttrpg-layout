@@ -116,3 +116,18 @@ body.ffxiv-paper-theme .chat-ffxiv .ffxiv-apply-result {
   border-top-color: var(--paper-line);
   color: var(--ffxiv-ink);
 }
+
+/* System card (items without a module card): same rule as on the actor sheet. */
+body.ffxiv-paper-theme .chat-ffxiv .item-card .effect :is(p, li) strong {
+  color: inherit;
+}
+
+body.ffxiv-paper-theme .chat-ffxiv .item-card .effect .ffxiv-abi {
+  color: var(--ffxiv-blue-dark);
+  font-weight: 700;
+}
+
+body.ffxiv-paper-theme .chat-ffxiv .item-card .effect .ffxiv-att {
+  color: var(--ffxiv-red-bright);
+  font-weight: 700;
+}
