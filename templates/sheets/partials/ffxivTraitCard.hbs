@@ -1,0 +1,11 @@
+<article class="ffxiv-class-summary__trait-card">
+  <div class="ffxiv-class-summary__trait-head">
+    <h3 style="font-weight: 700;">{{card.name}}</h3>
+    {{#if card.typeLabel}}<span class="ffxiv-class-summary__trait-type">{{card.typeLabel}}</span>{{/if}}
+  </div>
+  {{#if card.description}}
+    <div class="ffxiv-class-summary__trait-body">{{{card.description}}}</div>
+  {{else if card.baseEffect}}
+    <div class="ffxiv-class-summary__trait-body">{{{card.baseEffect}}}</div>
+  {{/if}}
+</article>

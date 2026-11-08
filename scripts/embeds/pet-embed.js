@@ -7,14 +7,14 @@
  */
 
 import { buildPetCardData } from "../sheets/class-summary-data.js";
-import { embedPattern, normalizePosition, pickPosition, readEmbedMatch } from "../utils/enricher-options.js";
+import { embedPattern, enrichEmbed, normalizePosition, pickPosition } from "../utils/enricher-options.js";
 import { renderElement } from "../utils/render.js";
 
-export async function createPetEmbed(uuid, { label, position } = {}) {
+export async function createPetEmbed(uuid, { label, position, depth = 1 } = {}) {
   if (typeof uuid !== "string" || !uuid.trim()) return null;
 
   const actor = await fromUuid(uuid.trim());
-  const templateData = await buildPetCardData(actor);
+  const templateData = await buildPetCardData(actor, { depth });
   if (!templateData) return null;
 
   const root = await renderElement("modules/ffxiv-ttrpg-layout/templates/embeds/pet-embed.hbs", templateData);
@@ -29,9 +29,7 @@ export function registerPetEmbed() {
   CONFIG.TextEditor.enrichers.push({
     id: "ffxiv-pet-embed",
     pattern: embedPattern("FFXIVPet"),
-    enricher: match => {
-      const { uuid, label, options } = readEmbedMatch(match);
-      return createPetEmbed(uuid, { label, position: pickPosition(options) });
-    },
+    enricher: (match, enrichOptions) => enrichEmbed(match, enrichOptions, ({ uuid, label, options, depth }) =>
+      createPetEmbed(uuid, { label, position: pickPosition(options), depth })),
   });
 }

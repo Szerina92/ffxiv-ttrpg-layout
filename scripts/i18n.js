@@ -53,5 +53,13 @@ function localizeTag(tag) {
 /** Return every supplied tag, in source order, with no whitelist/filter. */
 export function localizeTags(tags) {
   if (!Array.isArray(tags)) return [];
-  return tags.map(localizeTag).filter(Boolean);
+  // Different tag keys can share a label (e.g. the item type and the tag
+  // "Limit Break"); every label appears once.
+  const seen = new Set();
+  return tags.map(localizeTag).filter(label => {
+    const key = String(label ?? "").trim().toLowerCase();
+    if (!key || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
 }

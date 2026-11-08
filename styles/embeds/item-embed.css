@@ -48,9 +48,16 @@
   margin-bottom: 0;
 }
 
+/* Item descriptions often arrive wrapped in <em>/<i> (flavor text); the card
+   shows them upright, the red-brown color marks them as flavor text. */
 .ffxiv-item-embed .ffxiv-card__description i,
 .ffxiv-item-embed .ffxiv-card__description em {
-  font-style: italic;
+  font-style: normal;
+}
+
+/* Flavor text of items in the rulebook's red-brown. */
+.ffxiv-item-embed .ffxiv-card__description {
+  color: var(--ffxiv-red);
 }
 
 /* Keep the established two-column Item embed utility. */

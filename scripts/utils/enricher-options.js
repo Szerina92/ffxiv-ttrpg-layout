@@ -11,7 +11,7 @@ const EMBED_POSITIONS = Object.freeze(["left", "right", "center"]);
  * @param {string} rawOptions Raw text from the optional enricher block.
  * @returns {{label: string, options: string[]}}
  */
-export function parseEnricherOptions(rawOptions = "") {
+function parseEnricherOptions(rawOptions = "") {
   const optionParts = String(rawOptions ?? "").trim()
     ? String(rawOptions).split("|").map(part => part.trim()).filter(Boolean)
     : [];
@@ -43,8 +43,54 @@ export function embedPattern(name) {
 }
 
 /** Read a match of `embedPattern` into `{uuid, label, options}` (options from both places, in order). */
-export function readEmbedMatch(match) {
+function readEmbedMatch(match) {
   const bracketOptions = String(match[2] ?? "").split(/\s+/).filter(Boolean);
   const { label, options } = parseEnricherOptions(match[3]);
   return { uuid: match[1], label, options: [...bracketOptions, ...options] };
+}
+
+/* -------------------------------------------- */
+/*  Nested embeds                               */
+/* -------------------------------------------- */
+
+/**
+ * Cards may contain cards (an augment showing the ability it grants), one
+ * level deep: a card inside a card renders, anything deeper becomes a normal
+ * link. That also stops loops such as an item that embeds itself.
+ */
+export const MAX_EMBED_DEPTH = 2;
+
+/** Safety net in case nesting information is lost on the way (e.g. foreign enrichment). */
+const MAX_ACTIVE_EMBEDS = 40;
+let activeEmbeds = 0;
+
+/** A plain content link to the document, used where a card would nest too deep. */
+async function embedLink(uuid, label) {
+  let document = null;
+  try {
+    document = await fromUuid(String(uuid ?? "").trim());
+  } catch (_error) {
+    document = null;
+  }
+  return document?.toAnchor?.({ name: label || document.name }) ?? null;
+}
+
+/**
+ * Enricher body shared by all Layout embeds. Reads the match, works out the
+ * nesting level from the enrichment options and calls
+ * `create({ uuid, label, options, depth })`, or returns a link when the card
+ * would nest too deep. `depth` is the level of the new card (1 = top level);
+ * the card passes it on when it enriches its own text.
+ */
+export async function enrichEmbed(match, enrichOptions, create) {
+  const { uuid, label, options } = readEmbedMatch(match);
+  const depth = Number(enrichOptions?.ffxivEmbedDepth ?? 0) + 1;
+  if (depth > MAX_EMBED_DEPTH || activeEmbeds >= MAX_ACTIVE_EMBEDS) return embedLink(uuid, label);
+
+  activeEmbeds += 1;
+  try {
+    return await create({ uuid, label, options, depth });
+  } finally {
+    activeEmbeds -= 1;
+  }
 }

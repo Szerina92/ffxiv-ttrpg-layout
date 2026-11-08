@@ -1,0 +1,133 @@
+/* =========================================================
+   Themes (Paper, Eorzea) — Chat cards
+   Ability/Trait cards, roll results and buttons in the chat. Chat keeps 
+   the system's own theme class, so these hang on the body class.
+   ========================================================= */
+
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .chat-ffxiv .item-card {
+  border: 2px solid var(--ffxiv-gold-dark);
+  background: var(--theme-card);
+  color: var(--ffxiv-ink);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.24);
+}
+
+/* Two-tone card like the tooltip card: icon + title band on top, effects below.
+   Cards with an icon become a grid; the band is a ::before in the first row,
+   so it follows the header height when the title wraps. */
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .chat-ffxiv .item-card .item-card-info {
+  background: var(--theme-card);
+  padding: 0;
+  min-height: 0;
+}
+
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .chat-ffxiv .item-card .item-card-info:has(> .item-dialog-icon) {
+  position: relative;
+  display: grid;
+  grid-template-columns: 55px minmax(0, 1fr);
+  align-items: center;
+}
+
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .chat-ffxiv .item-card .item-card-info:has(> .item-dialog-icon)::before {
+  content: "";
+  grid-column: 1 / -1;
+  grid-row: 1;
+  align-self: stretch;
+  background: var(--theme-card-head);
+}
+
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .chat-ffxiv .item-card .item-card-info:has(> .item-dialog-icon) > * {
+  grid-column: 1 / -1;
+}
+
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .chat-ffxiv .item-card .item-card-info > .item-dialog-icon {
+  grid-column: 1;
+  grid-row: 1;
+  float: none;
+  justify-self: center;
+  margin: 5px;
+  position: relative;
+}
+
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .chat-ffxiv .item-card .item-card-info > .item-dialog-header:not(.modifier) {
+  grid-column: 2;
+  grid-row: 1;
+  position: relative;
+  display: block;
+  width: auto;
+  margin: 5px 8px 5px 0;
+}
+
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .chat-ffxiv .item-card .item-dialog-effects {
+  padding: 6px 9px 8px;
+}
+
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .chat-ffxiv .item-card .item-dialog-header {
+  border-bottom-color: var(--ffxiv-ability-header-divider);
+  box-shadow: none;
+}
+
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .chat-ffxiv .item-card .item-dialog-tags .tag {
+  border-color: var(--ffxiv-gold);
+  background: transparent;
+  color: var(--ffxiv-ink);
+}
+
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .chat-ffxiv .item-card strong {
+  color: var(--ffxiv-ability-label);
+}
+
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .chat-ffxiv .message-content button {
+  background: var(--theme-btn);
+  border: 1px solid var(--ffxiv-gold-dark);
+  color: var(--ffxiv-ink);
+  text-shadow: none;
+}
+
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .chat-ffxiv .message-content button:hover {
+  border-color: var(--ffxiv-gold-dark);
+  box-shadow: inset 0 0 0 1px var(--theme-sheen-40);
+}
+
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .chat-ffxiv .message-content button.ffxiv-apply-dmg {
+  background: linear-gradient(180deg, #a95a4e 0%, #753c36 100%);
+  border-color: #5c2c27;
+  color: #fff;
+}
+
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .chat-ffxiv .message-content button.ffxiv-apply-heal {
+  background: linear-gradient(180deg, #6f8a70 0%, #47604a 100%);
+  border-color: #34493a;
+  color: #fff;
+}
+
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .chat-ffxiv .dice-roll .dice-formula,
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .chat-ffxiv .dice-roll .dice-total {
+  border-color: var(--ffxiv-gold-light);
+  background: var(--theme-field);
+  color: var(--ffxiv-ink);
+  text-shadow: none;
+}
+
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .chat-ffxiv .dice-roll .dice-total {
+  font-weight: 700;
+}
+
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .chat-ffxiv .ffxiv-apply-result {
+  border-top-color: var(--theme-line);
+  color: var(--ffxiv-ink);
+}
+
+/* System card (items without a module card): same rule as on the actor sheet. */
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .chat-ffxiv .item-card .effect :is(p, li) strong {
+  color: inherit;
+}
+
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .chat-ffxiv .item-card .effect .ffxiv-abi {
+  color: var(--ffxiv-blue-dark);
+  font-weight: 700;
+}
+
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .chat-ffxiv .item-card .effect .ffxiv-att {
+  color: var(--ffxiv-red-bright);
+  font-weight: 700;
+}

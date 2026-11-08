@@ -8,7 +8,7 @@
  * (`flags.babele.sourceText`) the system reads.
  */
 
-export function normalizeContentKey(value) {
+function normalizeContentKey(value) {
   return String(value ?? "")
     .trim()
     .toLowerCase()

@@ -130,17 +130,6 @@
   line-height: 1;
   text-transform: uppercase;
 }
-
-.ffxiv-journal__text .ffxiv-callout__gm-image {
-  display: block;
-  width: 34px;
-  height: 34px;
-  object-fit: contain;
-  border: 0;
-  border-radius: 0;
-  margin: 0;
-}
-
 /* SCENARIO — rounded, slightly heavier FFXIV-style frame.
    The speaker icon sits directly before the first text line;
    the label word itself is intentionally not displayed. */
@@ -170,11 +159,6 @@
 .ffxiv-journal__text .ffxiv-callout--scenario .ffxiv-callout__label i {
   font-size: 1.05rem;
 }
-
-.ffxiv-journal__text .ffxiv-callout--scenario .ffxiv-callout__label .sr-only {
-  display: none;
-}
-
 .ffxiv-journal__text .ffxiv-callout--scenario > p:first-of-type {
   padding-left: 1.35em;
 }

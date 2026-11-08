@@ -70,33 +70,6 @@
 .ffxiv-class-summary__ability-body > div:not(.ffxiv-card__description) {
   margin: 1px 0;
 }
-
-/* The Target/Check rows visually continue the header; the lighter card body begins at Base Effect. */
-.ffxiv-class-summary__ability-head .ffxiv-class-summary__ability-row--target {
-  grid-column: 2 / -1;
-  grid-row: 2;
-  margin: 0 -8px 0 0;
-  padding: 1px 8px 2px 0;
-  color: var(--ffxiv-ink) !important;
-  background: var(--ffxiv-paper-dark);
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: .84rem;
-  font-weight: 400;
-  line-height: 1.22;
-}
-
-.ffxiv-class-summary__ability-head .ffxiv-class-summary__ability-row--target strong {
-  font-weight: 700;
-}
-
-/* Check/CR starts beneath the icon; Base Effect is the first light row. */
-.ffxiv-class-summary__ability-body .ffxiv-class-summary__ability-row--check {
-  margin-left: -9px;
-  margin-right: -9px;
-  padding: 1px 9px;
-  background: var(--ffxiv-paper-dark);
-}
-
 .ffxiv-class-summary__ability-body .ffxiv-class-summary__ability-row--base {
   margin-top: 0;
   padding-top: 1px;

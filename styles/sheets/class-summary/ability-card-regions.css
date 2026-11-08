@@ -1,6 +1,5 @@
 /* 0.2.57 — Ability card: three semantic regions. */
 
-
 /* Region 1: compact header. */
 .ffxiv-class-summary__ability-head {
   border-bottom: 2px solid var(--ffxiv-ability-header-divider);
@@ -37,7 +36,6 @@
 .ffxiv-class-summary__ability-head {
   min-height: 46px;
 }
-
 
 /* 0.2.57 — Semantic ability-card regions. The icon spans the header and
    the flexible metadata block, while Region 3 remains a full-width light body. */
@@ -124,6 +122,18 @@
   margin-right: 0.18em;
 }
 
+/* The value is one flex item, so elements inside it (rule references,
+   links, highlights) flow as normal inline text instead of becoming
+   separate flex columns. */
+.ffxiv-class-summary__ability-value {
+  min-width: 0;
+}
+
+/* Inside the value, normal spaces work; the flex-era gap is not needed. */
+.ffxiv-class-summary__ability-value .ffxiv-class-summary__ability-challenge-highlight {
+  margin-left: 0;
+}
+
 /* 0.2.63 — Use Foundry's Roboto for card content. */
 .ffxiv-class-summary__ability-meta,
 .ffxiv-class-summary__ability-body,
@@ -151,13 +161,11 @@
   font-weight: 400;
 }
 
-
 /* 0.3.7 — Force Class Summary card headings to bold. */
 .ffxiv-class-summary .ffxiv-class-summary__trait-head h3,
 .ffxiv-class-summary .ffxiv-class-summary__ability-head h3 {
   font-weight: 700 !important;
 }
-
 
 /* 0.4.1 — Handbook-style ability title wrapping.
    The icon keeps its own fixed column. The title and tags share the remaining

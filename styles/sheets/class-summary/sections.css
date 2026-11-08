@@ -91,7 +91,6 @@
   margin: 0;
 }
 
-
 @media (max-width: 700px) {
   .ffxiv-class-summary__pet-list {
     grid-template-columns: 1fr;

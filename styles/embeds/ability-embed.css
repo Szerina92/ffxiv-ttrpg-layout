@@ -78,3 +78,14 @@
 .ffxiv-chat-card.ffxiv-card-embed {
   margin: 0;
 }
+
+/* Drag handle of Item, Ability and Trait embeds (scripts/utils/card-drag.js):
+   the icon, which keeps its pointer cursor because a click opens the item;
+   on Trait cards, which have no icon, the name. */
+.ffxiv-class-summary__trait-head h3.ffxiv-card-drag-handle {
+  cursor: grab;
+}
+
+.ffxiv-class-summary__trait-head h3.ffxiv-card-drag-handle:active {
+  cursor: grabbing;
+}

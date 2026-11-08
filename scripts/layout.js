@@ -14,8 +14,8 @@ import { registerNPCEmbed } from "./embeds/npc-embed.js";
 import { registerPetEmbed } from "./embeds/pet-embed.js";
 import { registerTableEmbed } from "./embeds/table-embed.js";
 import { registerChatCards } from "./embeds/chat-card.js";
-import { activateAbilityTooltips } from "./embeds/ability-tooltip.js";
 import { activateIconLinks } from "./utils/icon-click.js";
+import { activateCardDrag } from "./utils/card-drag.js";
 import { registerRuleMigration } from "./rule-migration.js";
 import { registerEditorMenu } from "./editor-menu.js";
 import { registerCompendiumToc } from "./toc/toc.js";
@@ -57,6 +57,6 @@ Hooks.once("init", async () => {
 });
 
 Hooks.once("ready", () => {
-  activateAbilityTooltips();
   activateIconLinks();
+  activateCardDrag();
 });

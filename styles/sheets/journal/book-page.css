@@ -1,18 +1,6 @@
 /* ---------------------------------------------------------
    Book page / gold frame
    --------------------------------------------------------- */
-
-.ffxiv-journal__content {
-  min-width: 0;
-  min-height: 0;
-  overflow-y: auto;
-  padding: 0;
-  background:
-    radial-gradient(circle at 25% 10%, var(--ffxiv-overlay-white-065), transparent 34%),
-    radial-gradient(circle at 80% 75%, var(--ffxiv-overlay-gold-006), transparent 28%),
-    var(--ffxiv-paper-dark);
-}
-
 .ffxiv-journal__page {
   position: relative;
   max-width: none;
@@ -93,7 +81,6 @@
   text-decoration: none;
 }
 
-
 .ffxiv-journal__page-title-group--class-summary h1,
 .ffxiv-journal__page-title-group--class-summary h2,
 .ffxiv-journal__page-title-group--class-summary h3,
@@ -111,32 +98,4 @@
 .ffxiv-journal__page-header h5::before,
 .ffxiv-journal__page-header h6::before {
   content: none;
-}
-
-.ffxiv-journal__accent-line {
-  position: relative;
-  height: 14px;
-  margin: 10px 0 28px;
-}
-
-.ffxiv-journal__accent-line::before {
-  content: "";
-  position: absolute;
-  top: 6px;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, var(--ffxiv-gold), var(--ffxiv-line), var(--ffxiv-gold));
-  opacity: .72;
-}
-
-.ffxiv-journal__accent-line span {
-  position: absolute;
-  top: 1px;
-  left: 0;
-  width: 10px;
-  height: 10px;
-  border: 1px solid var(--ffxiv-gold);
-  background: var(--ffxiv-paper-light);
-  transform: rotate(45deg);
 }

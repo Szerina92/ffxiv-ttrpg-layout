@@ -3,9 +3,9 @@
   "title": "FFXIV TTRPG Layout",
   "url": "https://github.com/Szerina92/ffxiv-ttrpg-layout",
   "bugs": "https://github.com/Szerina92/ffxiv-ttrpg-layout/issues",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "manifest": "https://github.com/Szerina92/ffxiv-ttrpg-layout/releases/latest/download/module.json",
-  "download": "https://github.com/Szerina92/ffxiv-ttrpg-layout/releases/download/v0.4.0/ffxiv-ttrpg-layout.zip",
+  "download": "https://github.com/Szerina92/ffxiv-ttrpg-layout/releases/download/v0.5.0/ffxiv-ttrpg-layout.zip",
   "compatibility": {
     "minimum": "14",
     "verified": "14"

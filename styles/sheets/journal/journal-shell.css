@@ -77,14 +77,6 @@
   -webkit-mask-composite: source-over;
   mask-composite: add;
 }
-
-.ffxiv-journal-sheet .journal-entry-pages.ffxiv-journal__native-pages > .ffxiv-journal__hero {
-  position: sticky;
-  top: 0;
-  z-index: 5;
-  flex: 0 0 auto;
-}
-
 .ffxiv-journal-sheet .journal-entry-pages.ffxiv-journal__native-pages > .journal-entry-page.ffxiv-journal__page {
   flex: 1 0 auto;
   max-width: none;

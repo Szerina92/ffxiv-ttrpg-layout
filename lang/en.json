@@ -6,7 +6,6 @@
   },
   "FFXIVTTRPGLayout": {
     "Common": {
-      "Edit": "Edit",
       "Or": "or"
     },
     "ClassSummary": {
@@ -54,7 +53,9 @@
       "PageChangeSoundVolume": "Page Change Sound Volume (%)",
       "PageChangeSoundVolumeHint": "Sets the FFXIV confirmation sound volume (0–100%).",
       "PaperTheme": "Paper Theme",
-      "PaperThemeHint": "Overrides core settings light/dark color scheme with a paper theme, inspired by the FFXIV TTRPG Rulebook. Does not work with the Blue Color Theme."
+      "PaperThemeHint": "Overrides core settings light/dark color scheme with a paper theme, inspired by the FFXIV TTRPG Rulebook. Does not work with the Blue Color Theme.",
+      "EorzeaTheme": "Eorzea Theme",
+      "EorzeaThemeHint": "Overrides core settings light/dark color scheme with a dark theme, inspired by the FFXIV game interface. Does not work with the Blue Color Theme. Switches the Paper Theme off."
     },
     "Journal": {
       "UnsupportedPageType": "This page type is not currently displayed by the Layout.",
@@ -65,7 +66,6 @@
       "Attack": "Attack",
       "Important": "Important",
       "Note": "Note",
-      "Callouts": "Callouts",
       "GM": "GM",
       "Scenario": "Scenario",
       "Example": "Example",

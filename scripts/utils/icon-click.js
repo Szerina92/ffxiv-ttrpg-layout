@@ -1,16 +1,17 @@
 /**
  * FFXIV TTRPG Layout — open the document behind a card icon.
  *
- * Cards mark their icon with `data-ffxiv-item-uuid`. A click on it opens that
- * document's sheet instead of Foundry's image popout. One listener on the
- * document covers Journals, embeds and chat cards.
+ * Cards mark their icon with `data-ffxiv-item-uuid`, NPC and Pet embeds their
+ * name link with `data-ffxiv-actor-uuid`. A click opens that document's sheet
+ * instead of Foundry's image popout or the browser following the link. One
+ * listener on the document covers Journals, embeds and chat cards.
  */
 
-const SELECTOR = "[data-ffxiv-item-uuid]";
+const SELECTOR = "[data-ffxiv-item-uuid], [data-ffxiv-actor-uuid]";
 
 async function onClick(event) {
   const icon = event.target?.closest?.(SELECTOR);
-  const uuid = icon?.dataset.ffxivItemUuid?.trim();
+  const uuid = (icon?.dataset.ffxivItemUuid ?? icon?.dataset.ffxivActorUuid)?.trim();
   if (!uuid) return;
 
   // Capture phase: runs before Foundry's own image handlers.

@@ -273,7 +273,7 @@ function isLimitBreak(grant, item) {
  * ("Direct Hit" floating below an empty line). Trim blank edges and let the
  * first paragraph flow inline; later paragraphs stay as they are.
  */
-function tidyRichText(html) {
+export function tidyRichText(html) {
   if (!html) return html;
 
   const template = document.createElement("template");
@@ -293,12 +293,12 @@ function tidyRichText(html) {
   return template.innerHTML;
 }
 
-async function enrichRichText(value, document) {
+async function enrichRichText(value, document, depth = 0) {
   const normalized = text(value);
   if (!normalized) return "";
 
   try {
-    return tidyRichText(await enrich(normalized, document));
+    return tidyRichText(await enrich(normalized, document, { depth }));
   } catch (error) {
     console.warn("FFXIV TTRPG Layout | Unable to enrich Class Summary rich text", error);
     return normalized;
@@ -319,7 +319,7 @@ function buildCheckModifier(rawCheck, jobItem, jobSystem) {
   return "";
 }
 
-async function normalizeAbility(grant, item, jobItem) {
+async function normalizeAbility(grant, item, jobItem, depth = 0) {
   const system = item?.system ?? {};
   const jobSystem = jobItem?.system ?? {};
   const tags = Array.isArray(system.tags) ? system.tags : [];
@@ -348,22 +348,22 @@ async function normalizeAbility(grant, item, jobItem) {
     challenge: text(system.challenge),
     challengeParts: formatChallengeParts(system.challenge),
     trigger: text(system.trigger),
-    baseEffect: await enrichRichText(system.base_effect, item),
+    baseEffect: await enrichRichText(system.base_effect, item, depth),
     combo: text(system.combo),
     contentKeys: getContentKeys(item),
     comboKeys: getComboKeys(item),
     comboNames: [],
-    directHit: await enrichRichText(system.direct_hit, item),
+    directHit: await enrichRichText(system.direct_hit, item, depth),
     limitations: text(system.limitations),
     markerArea: text(system.marker_area),
     markerTrigger: text(system.marker_trigger),
-    markerEffect: await enrichRichText(system.marker_effect, item),
-    condition: await enrichRichText(system.condition, item),
-    description: await enrichRichText(system.description, item),
+    markerEffect: await enrichRichText(system.marker_effect, item, depth),
+    condition: await enrichRichText(system.condition, item, depth),
+    description: await enrichRichText(system.description, item, depth),
   };
 }
 
-async function normalizeTrait(grant, item) {
+async function normalizeTrait(grant, item, depth = 0) {
   const system = item?.system ?? {};
   const tags = Array.isArray(system.tags) ? system.tags : [];
   const labels = localizeTags(tags);
@@ -371,8 +371,8 @@ async function normalizeTrait(grant, item) {
     uuid: grant?.uuid ?? item?.uuid ?? "",
     name: text(item?.name ?? grant?.name),
     img: text(item?.img),
-    description: await enrichRichText(system.description, item),
-    baseEffect: await enrichRichText(system.base_effect, item),
+    description: await enrichRichText(system.description, item, depth),
+    baseEffect: await enrichRichText(system.base_effect, item, depth),
     typeLabel: labels.join(", "),
   };
 }
@@ -431,16 +431,16 @@ function buildPetColumns(pets) {
   return columns.filter(column => column.length);
 }
 
-export async function buildPetCardData(actor) {
+export async function buildPetCardData(actor, { depth = 0 } = {}) {
   if (!actor || actor.documentName !== "Actor" || actor.type !== "pet") return null;
 
   const system = actor.system ?? {};
-  const traitsHTML = await enrichRichText(system.traits, actor);
+  const traitsHTML = await enrichRichText(system.traits, actor, depth);
   const abilities = [];
 
   for (const child of Array.from(actor.items ?? [])) {
     if (child?.type !== "ability") continue;
-    const ability = await buildAbilityCardData(child, actor);
+    const ability = await buildAbilityCardData(child, actor, { depth });
     if (ability) abilities.push(ability);
   }
 
@@ -462,14 +462,14 @@ export async function buildPetCardData(actor) {
   };
 }
 
-export async function buildTraitCardData(item) {
+export async function buildTraitCardData(item, { depth = 0 } = {}) {
   if (!item || item.documentName !== "Item" || item.type !== "trait") return null;
-  return normalizeTrait({ uuid: item.uuid, name: item.name }, item);
+  return normalizeTrait({ uuid: item.uuid, name: item.name }, item, depth);
 }
 
-export async function buildAbilityCardData(item, contextDocument = null) {
+export async function buildAbilityCardData(item, contextDocument = null, { depth = 0 } = {}) {
   if (!item || item.documentName !== "Item" || item.type !== "ability") return null;
-  return normalizeAbility({ uuid: item.uuid, name: item.name }, item, contextDocument);
+  return normalizeAbility({ uuid: item.uuid, name: item.name }, item, contextDocument, depth);
 }
 
 async function resolveJobFromUuid(uuid) {

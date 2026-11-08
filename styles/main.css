@@ -10,8 +10,9 @@
    2. sheets     — Journal and Class Summary pages
    3. embeds     — cards, tooltips and chat cards built from them
    4. toc        — Table of Contents
-   5. themes     — Paper Theme for the FFXIV system, last because it
-                   overrides system styles and the card styles above
+   5. themes     — Paper and Eorzea Theme for the FFXIV system, last
+                   because they override system styles and the card
+                   styles above
    ========================================================= */
 
 /* 1. Variables */
@@ -52,18 +53,19 @@
 @import url("embeds/pet-embed.css");
 @import url("embeds/table-embed.css");
 @import url("embeds/ability-embed.css");
-@import url("embeds/ability-tooltip.css");
 
 /* 4. Table of Contents */
 @import url("toc/toc.css");
 
-/* 5. Paper Theme (tokens first, then one file per area) */
+/* 5. Themes for the FFXIV system: one token file per theme, then the
+      rules both themes share (one file per area). */
 @import url("themes/paper/tokens.css");
-@import url("themes/paper/actor-abilities.css");
-@import url("themes/paper/actor-sheet.css");
-@import url("themes/paper/actor-npc.css");
-@import url("themes/paper/actor-pet.css");
-@import url("themes/paper/item-sheets.css");
-@import url("themes/paper/chat-cards.css");
-@import url("themes/paper/hotbar-tooltip.css");
-@import url("themes/paper/rule-tooltip.css");
+@import url("themes/eorzea/tokens.css");
+@import url("themes/common/actor-abilities.css");
+@import url("themes/common/actor-sheet.css");
+@import url("themes/common/actor-npc.css");
+@import url("themes/common/actor-pet.css");
+@import url("themes/common/item-sheets.css");
+@import url("themes/common/chat-cards.css");
+@import url("themes/common/hotbar-tooltip.css");
+@import url("themes/common/rule-tooltip.css");

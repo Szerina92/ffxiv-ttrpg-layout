@@ -1,0 +1,54 @@
+/* =========================================================
+   Themes (Paper, Eorzea) — Rule tooltip (system 5.6.0)
+   The system shows rule explanations in Foundry's core tooltip
+   (`#tooltip`, and `.locked-tooltip` once pinned), both hung on <body>
+   with the class `ffxiv-enriched-tooltip` (also used for the hover tooltip
+   of UUID links). Same paper look and translucency as the hotbar ability
+   tooltip. Rule tooltips (`ffxiv-rule-tooltip`) start with the rule name in
+   a <strong> inside the first <p>, followed by the rule text.
+   ========================================================= */
+
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) :is(#tooltip, .locked-tooltip).ffxiv-enriched-tooltip {
+  border: 2px solid var(--ffxiv-gold-dark);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--ffxiv-paper-light) 82%, transparent);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+  color: var(--ffxiv-ink);
+  font: 14px/1.3 Arial, Helvetica, sans-serif;
+  text-shadow: none;
+}
+
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) :is(#tooltip, .locked-tooltip).ffxiv-enriched-tooltip * {
+  text-shadow: none;
+}
+
+/* Rule name (rule tooltips only; link tooltips start with plain description text) */
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) :is(#tooltip, .locked-tooltip).ffxiv-rule-tooltip > p:first-child {
+  margin: 0 0 4px;
+  padding-bottom: 3px;
+  border-bottom: 1px solid var(--ffxiv-gold-light);
+}
+
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) :is(#tooltip, .locked-tooltip).ffxiv-rule-tooltip > p:first-child strong {
+  color: var(--ffxiv-ink);
+  font-size: 15px;
+}
+
+/* Rule text: bold keeps the text color, links and rule references stay readable */
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) :is(#tooltip, .locked-tooltip).ffxiv-enriched-tooltip :is(p, li) strong {
+  color: inherit;
+}
+
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) :is(#tooltip, .locked-tooltip).ffxiv-enriched-tooltip .ffxiv-rule-reference {
+  color: inherit;
+}
+
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) :is(#tooltip, .locked-tooltip).ffxiv-enriched-tooltip p {
+  margin: 0 0 4px;
+}
+
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) :is(#tooltip, .locked-tooltip).ffxiv-enriched-tooltip > :last-child {
+  margin-bottom: 0;
+}

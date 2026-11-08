@@ -71,16 +71,6 @@
   width: fit-content;
   color: var(--ffxiv-red-heading);
 }
-
-.ffxiv-class-summary__level-label {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: .68rem;
-  font-weight: 700;
-  letter-spacing: .05em;
-  text-transform: uppercase;
-  opacity: .8;
-}
-
 .ffxiv-class-summary__level-select {
   margin: 0;
   padding: 1px 4px;
@@ -120,4 +110,14 @@
 
 .ffxiv-class-summary__limit-break .ffxiv-class-summary__ability-card {
   width: 100%;
+}
+
+/* The job icon carries the Job of the selected level: drag it onto a
+   character sheet (scripts/utils/card-drag.js). */
+.ffxiv-class-summary__job-icon[data-ffxiv-drag-uuid] {
+  cursor: grab;
+}
+
+.ffxiv-class-summary__job-icon[data-ffxiv-drag-uuid]:active {
+  cursor: grabbing;
 }

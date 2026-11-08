@@ -12,27 +12,6 @@
     var(--ffxiv-paper);
   background-color: var(--ffxiv-paper);
 }
-
-.ffxiv-class-summary-editor__section {
-  margin: 0 0 14px;
-}
-
-.ffxiv-class-summary-editor__section-heading h2 {
-  margin: 0;
-  color: var(--ffxiv-red-heading);
-  font-size: 1.2rem;
-  line-height: 1.05;
-  font-variant: small-caps;
-}
-
-.ffxiv-class-summary-editor__section-heading p {
-  margin: 2px 0 7px;
-  color: var(--ffxiv-muted);
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: .76rem;
-  line-height: 1.25;
-}
-
 .ffxiv-class-summary__empty-editor-link {
   appearance: none;
   border: 0;

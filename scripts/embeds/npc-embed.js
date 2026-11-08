@@ -5,7 +5,7 @@
 
 import { localize } from "../i18n.js";
 import { buildAbilityCardData } from "../sheets/class-summary-data.js";
-import { embedPattern, normalizePosition, pickPosition, readEmbedMatch } from "../utils/enricher-options.js";
+import { embedPattern, enrichEmbed, normalizePosition, pickPosition } from "../utils/enricher-options.js";
 import { enrich } from "../utils/enrich.js";
 import { renderElement } from "../utils/render.js";
 import { numberOr, text } from "../utils/values.js";
@@ -83,11 +83,11 @@ function getActorAbilityGroup(item) {
 
 const detailPart = (label, value, extra = {}) => ({ label, value, rich: false, separator: false, ...extra });
 
-async function appendRichTextLine(lines, label, content, relativeTo = null) {
+async function appendRichTextLine(lines, label, content, relativeTo = null, depth = 0) {
   const html = text(content);
   if (!html) return;
 
-  const enriched = await enrich(html, relativeTo);
+  const enriched = await enrich(html, relativeTo, { depth });
 
   // The NPC Embed places this rich value inside an existing <p>.
   // Foundry's enrichment may return one or more block-level <p>/<div>
@@ -115,7 +115,7 @@ async function appendRichTextLine(lines, label, content, relativeTo = null) {
   if (inlineValue) lines.push({ parts: [detailPart(label, inlineValue, { rich: true })] });
 }
 
-async function buildAbilityDetailData(item, { checkModifier = "" } = {}) {
+async function buildAbilityDetailData(item, { checkModifier = "", depth = 0 } = {}) {
   const system = item?.system ?? {};
   const lines = [];
 
@@ -151,10 +151,10 @@ async function buildAbilityDetailData(item, { checkModifier = "" } = {}) {
   addLine(localize("FFXIVTTRPGLayout.NPC.Origin"), system.origin);
   addLine(localize("FFXIV.Abilities.MarkerArea"), system.marker_area);
   addLine(localize("FFXIV.Abilities.MarkerTrigger"), system.marker_trigger);
-  await appendRichTextLine(lines, localize("FFXIV.Abilities.MarkerEffect"), system.marker_effect, item);
-  await appendRichTextLine(lines, localize("FFXIV.Abilities.BaseEffect"), system.base_effect, item);
-  await appendRichTextLine(lines, localize("FFXIV.Abilities.DirectHit"), system.direct_hit, item);
-  await appendRichTextLine(lines, localize("FFXIVTTRPGLayout.NPC.Limitations"), system.limitations, item);
+  await appendRichTextLine(lines, localize("FFXIV.Abilities.MarkerEffect"), system.marker_effect, item, depth);
+  await appendRichTextLine(lines, localize("FFXIV.Abilities.BaseEffect"), system.base_effect, item, depth);
+  await appendRichTextLine(lines, localize("FFXIV.Abilities.DirectHit"), system.direct_hit, item, depth);
+  await appendRichTextLine(lines, localize("FFXIVTTRPGLayout.NPC.Limitations"), system.limitations, item, depth);
 
   const statuses = Array.isArray(system.status_effects) ? system.status_effects.filter(Boolean) : [];
   if (statuses.length) addLine(localize("FFXIVTTRPGLayout.NPC.StatusEffects"), statuses.join(", "));
@@ -170,7 +170,7 @@ async function buildAbilityDetailData(item, { checkModifier = "" } = {}) {
 /**
  * Build the template data of an NPC embed.
  */
-async function buildActorEmbedData(actor, { double = false } = {}) {
+async function buildActorEmbedData(actor, { double = false, depth = 0 } = {}) {
   const system = actor.system ?? {};
   const primary = system.primary_attributes ?? {};
   const secondary = system.secondary_attributes ?? {};
@@ -184,7 +184,7 @@ async function buildActorEmbedData(actor, { double = false } = {}) {
   for (const item of Array.from(actor.items ?? [])) {
     if (item?.type === "trait") {
       const description = text(item.system?.description);
-      traits.push({ name: item.name ?? "", descriptionHtml: description ? await enrich(description, item) : "" });
+      traits.push({ name: item.name ?? "", descriptionHtml: description ? await enrich(description, item, { depth }) : "" });
       continue;
     }
     if (item?.type === "limit_break") continue;
@@ -199,13 +199,13 @@ async function buildActorEmbedData(actor, { double = false } = {}) {
   for (const [key, sourceItems] of Object.entries(sourceGroups)) {
     const items = [];
     for (const [index, item] of sourceItems.entries()) {
-      const card = await buildAbilityCardData(item, actor);
+      const card = await buildAbilityCardData(item, actor, { depth });
       if (!card) continue;
 
       const itemData = {
         ...card,
         typeLabel: card.typeLabel ?? "",
-        abilityDetail: await buildAbilityDetailData(item, { checkModifier: card.checkModifier }),
+        abilityDetail: await buildAbilityDetailData(item, { checkModifier: card.checkModifier, depth }),
         index,
         groupKey: key,
         doubleOrder: doubleAbilityItems.length,
@@ -250,7 +250,7 @@ async function buildActorEmbedData(actor, { double = false } = {}) {
   return data;
 }
 
-export async function createActorEmbed(uuid, { label, position, double = false } = {}) {
+export async function createActorEmbed(uuid, { label, position, double = false, depth = 1 } = {}) {
   if (typeof uuid !== "string" || !uuid.trim()) return null;
 
   const actor = await fromUuid(uuid.trim());
@@ -258,7 +258,7 @@ export async function createActorEmbed(uuid, { label, position, double = false }
   // Pet Actors are handled exclusively by pet-embed.js / @FFXIVPet.
   if (actor?.documentName !== "Actor" || actor.type !== "npc") return null;
 
-  const data = await buildActorEmbedData(actor, { double });
+  const data = await buildActorEmbedData(actor, { double, depth });
   const root = await renderElement(TEMPLATE, data);
   if (!root) return null;
 
@@ -273,10 +273,9 @@ export function registerNPCEmbed() {
   CONFIG.TextEditor.enrichers.push({
     id: "ffxiv-actor-embed",
     pattern: embedPattern("FFXIVActor"),
-    enricher: match => {
-      const { uuid, label, options } = readEmbedMatch(match);
+    enricher: (match, enrichOptions) => enrichEmbed(match, enrichOptions, ({ uuid, label, options, depth }) => {
       const double = options.some(option => option.toLowerCase() === "double");
-      return createActorEmbed(uuid, { label, position: double ? "center" : pickPosition(options), double });
-    },
+      return createActorEmbed(uuid, { label, position: double ? "center" : pickPosition(options), double, depth });
+    }),
   });
 }

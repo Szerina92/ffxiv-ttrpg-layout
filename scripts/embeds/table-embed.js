@@ -10,7 +10,7 @@
  */
 
 import { localize } from "../i18n.js";
-import { embedPattern, normalizePosition, pickPosition, readEmbedMatch } from "../utils/enricher-options.js";
+import { embedPattern, enrichEmbed, normalizePosition, pickPosition } from "../utils/enricher-options.js";
 import { enrich } from "../utils/enrich.js";
 import { renderElement } from "../utils/render.js";
 
@@ -43,7 +43,7 @@ function resultSource(result) {
   return [heading, description].filter(Boolean).join(" ");
 }
 
-async function buildTableData(table, label) {
+async function buildTableData(table, label, depth) {
   const results = [...table.results.contents].sort((a, b) => a.range[0] - b.range[0]);
   const { dice, icon } = describeFormula(table.formula);
 
@@ -52,26 +52,26 @@ async function buildTableData(table, label) {
     name: label || table.name,
     dice,
     diceIcon: icon,
-    description: table.description ? await enrich(table.description, table) : "",
+    description: table.description ? await enrich(table.description, table, { depth }) : "",
     rollLabel: localize("FFXIV.RollDialog.ButtonRoll"),
     resultLabel: localize("FFXIVTTRPGLayout.Table.Result"),
     results: await Promise.all(results.map(async result => ({
       id: result.id,
       rangeText: formatRange(result.range),
-      content: await enrich(resultSource(result), table),
+      content: await enrich(resultSource(result), table, { depth }),
       spent: result.drawn && !table.replacement,
     }))),
   };
 }
 
-export async function createTableEmbed(uuid, { label, position } = {}) {
+export async function createTableEmbed(uuid, { label, position, depth = 1 } = {}) {
   if (typeof uuid !== "string" || !uuid.trim()) return null;
 
   const table = await fromUuid(uuid.trim());
   if (table?.documentName !== "RollTable") return null;
   if (!table.testUserPermission(game.user, "OBSERVER")) return null;
 
-  const root = await renderElement(TEMPLATE, await buildTableData(table, label));
+  const root = await renderElement(TEMPLATE, await buildTableData(table, label, depth));
   if (!root) return null;
 
   root.classList.add(`ffxiv-table-embed--float-${normalizePosition(position)}`);
@@ -120,10 +120,8 @@ export function registerTableEmbed() {
   CONFIG.TextEditor.enrichers.push({
     id: "ffxiv-table-embed",
     pattern: embedPattern("FFXIVTable"),
-    enricher: match => {
-      const { uuid, label, options } = readEmbedMatch(match);
-      return createTableEmbed(uuid, { label, position: pickPosition(options) });
-    },
+    enricher: (match, enrichOptions) => enrichEmbed(match, enrichOptions, ({ uuid, label, options, depth }) =>
+      createTableEmbed(uuid, { label, position: pickPosition(options), depth })),
   });
 
   // Enriched HTML is serialized, so listeners cannot live on the elements themselves.

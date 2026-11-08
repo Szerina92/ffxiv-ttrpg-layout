@@ -1,0 +1,178 @@
+/* =========================================================
+   Themes (Paper, Eorzea) — Actor sheets: attributes, header, inventory
+   Attributes tab, HP/MP gauges, barrier, profile, fortune row, 
+   inventory, effects. Mirrors the system's `.blue_theme` rules, plus 
+   areas where the system hard-codes dark colors (no Blue Theme variant 
+   exists).
+   ========================================================= */
+
+.ffxiv.actor:is(.paper_theme, .eorzea_theme) .actor-attributes-tab h2 {
+  color: var(--ffxiv-gold-dark);
+  text-shadow: none;
+}
+
+.ffxiv.actor:is(.paper_theme, .eorzea_theme) .attribute-panel {
+  border-color: var(--theme-line);
+  background: var(--theme-panel);
+  box-shadow: inset 0 0 0 1px var(--theme-sheen-45);
+}
+
+.ffxiv.actor:is(.paper_theme, .eorzea_theme) .primary-attribute-card {
+  border-color: var(--theme-line);
+  background: var(--theme-card);
+}
+
+.ffxiv.actor:is(.paper_theme, .eorzea_theme) .primary-roll-trigger {
+  border-color: var(--ffxiv-gold-dark);
+  background: var(--theme-btn);
+  color: var(--ffxiv-ink);
+}
+
+.ffxiv.actor:is(.paper_theme, .eorzea_theme) .primary-roll-trigger i {
+  color: var(--ffxiv-ink);
+}
+
+.ffxiv.actor:is(.paper_theme, .eorzea_theme) input.primary-attribute-input {
+  border-color: var(--ffxiv-gold-light);
+  background: var(--theme-field);
+  color: var(--ffxiv-ink);
+  text-shadow: none;
+}
+
+.ffxiv.actor:is(.paper_theme, .eorzea_theme) .secondary-attribute-card {
+  border-color: var(--theme-line);
+  background: var(--theme-card);
+}
+
+.ffxiv.actor:is(.paper_theme, .eorzea_theme) .secondary-attribute-name {
+  color: var(--ffxiv-ability-label);
+}
+
+.ffxiv.actor:is(.paper_theme, .eorzea_theme) input.secondary-attribute-input,
+.ffxiv.actor:is(.paper_theme, .eorzea_theme) .secondary-attribute-input {
+  border-color: var(--ffxiv-gold-light);
+  background: var(--theme-field);
+  color: var(--ffxiv-ink);
+  text-shadow: none;
+}
+
+.ffxiv.actor:is(.paper_theme, .eorzea_theme) .secondary-attribute-modifier {
+  color: var(--ffxiv-ink);
+}
+
+.ffxiv.actor:is(.paper_theme, .eorzea_theme) .secondary-attribute-unit {
+  color: var(--ffxiv-ability-label);
+}
+
+.ffxiv.actor.character:is(.paper_theme, .eorzea_theme) .actor-companions .companions-sub-tab-content {
+  border-color: var(--theme-line);
+  background: var(--theme-panel);
+  box-shadow: inset 0 0 0 1px var(--theme-sheen-45);
+}
+
+.ffxiv.actor:is(.paper_theme, .eorzea_theme) .companions-empty-hint {
+  border-color: var(--theme-line);
+  background: var(--theme-field);
+  color: var(--ffxiv-muted);
+}
+
+.ffxiv.actor:is(.paper_theme, .eorzea_theme) .ffxiv-fortune-row {
+  border-color: var(--ffxiv-gold);
+  background: var(--theme-card);
+  box-shadow: none;
+}
+
+.ffxiv.actor:is(.paper_theme, .eorzea_theme) .ffxiv-fortune-row input#ffxiv-fortune {
+  border-color: var(--ffxiv-gold-light);
+  background: var(--theme-field);
+  color: var(--ffxiv-ink);
+  box-shadow: none;
+}
+
+.ffxiv.actor:is(.paper_theme, .eorzea_theme) .actor-profile .profile-field-value,
+.ffxiv.actor:is(.paper_theme, .eorzea_theme) .actor-profile .profile-short-text,
+.ffxiv.actor:is(.paper_theme, .eorzea_theme) .actor-profile .profile-paragraph-block {
+  border-color: var(--theme-line);
+  background: var(--theme-field);
+}
+
+.ffxiv.actor:is(.paper_theme, .eorzea_theme) .actor-titles .actor-titles-box {
+  border-color: var(--theme-line);
+  background: var(--theme-field);
+}
+
+.ffxiv.actor:is(.paper_theme, .eorzea_theme) .ffxiv-gauge .gauge-label {
+  color: var(--ffxiv-ink);
+  text-shadow: none;
+}
+
+.ffxiv.actor:is(.paper_theme, .eorzea_theme) .barrier-chip {
+  border-color: var(--ffxiv-gold);
+  background: var(--theme-tab);
+  color: var(--ffxiv-ink);
+  box-shadow: none;
+}
+
+/* Barrier label: no text shadow on the light chip. */
+.ffxiv.actor:is(.paper_theme, .eorzea_theme) .barrier-chip-label {
+  color: var(--ffxiv-ink);
+  text-shadow: none;
+}
+
+/* Value fields inside the HP/MP bars keep the system's light text on the colored bar;
+   only the barrier number sits on the paper chip. */
+.ffxiv.actor:is(.paper_theme, .eorzea_theme) .barrier-chip input.barrier-input {
+  color: var(--ffxiv-ink);
+  text-shadow: none;
+}
+
+.ffxiv.actor:is(.paper_theme, .eorzea_theme) .sidebar-stat-summary {
+  border-color: var(--theme-line);
+  background: var(--theme-panel);
+  box-shadow: inset 0 0 0 1px var(--theme-sheen-45);
+}
+
+.ffxiv.actor:is(.paper_theme, .eorzea_theme) .sidebar-stat-cell {
+  border-color: var(--ffxiv-gold-light);
+  background: var(--theme-tab);
+}
+
+.ffxiv.actor:is(.paper_theme, .eorzea_theme) .sidebar-stat-label {
+  color: var(--ffxiv-ability-label);
+}
+
+.ffxiv.actor:is(.paper_theme, .eorzea_theme) .sidebar-stat-value,
+.ffxiv.actor:is(.paper_theme, .eorzea_theme) .sidebar-secondary-value {
+  color: var(--ffxiv-ink);
+  text-shadow: none;
+}
+
+.ffxiv.actor:is(.paper_theme, .eorzea_theme) .sidebar-secondary-cell {
+  border-color: var(--theme-line);
+  background: var(--theme-card);
+}
+
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv.actor .inventory-item {
+  background: linear-gradient(180deg, var(--theme-slot-top) 60%, var(--theme-slot-bottom) 100%);
+  box-shadow: inset 0 0 0 1px var(--ffxiv-gold-light), inset 0 2px 4px var(--theme-shadow-warm);
+}
+
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv.actor .inventory-item:not(:has(img)) {
+  border-bottom-color: var(--ffxiv-gold-light);
+}
+
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv-inventory-context-menu {
+  background: var(--theme-card) !important;
+  border: 1px solid var(--ffxiv-gold) !important;
+  color: var(--ffxiv-ink) !important;
+}
+
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv.actor .gear-bonuses thead th {
+  background: var(--theme-gold-tint);
+}
+
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv.actor .actor-effects .effect-row,
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv.actor .actor-job-slot {
+  background: var(--theme-field);
+  border-color: var(--theme-line);
+}

@@ -10,7 +10,7 @@
 
     <div class="ffxiv-class-summary__header">
       <div class="ffxiv-class-summary__job">
-        <img class="ffxiv-class-summary__job-icon" src="{{classSummary.img}}" alt="" />
+        <img class="ffxiv-class-summary__job-icon" src="{{classSummary.img}}" alt=""{{#if classSummary.uuid}} draggable="true" data-ffxiv-drag-uuid="{{classSummary.uuid}}"{{/if}} />
         <div class="ffxiv-class-summary__job-title">
           {{#if isJournalRender}}
             {{#if hasMultipleJobs}}

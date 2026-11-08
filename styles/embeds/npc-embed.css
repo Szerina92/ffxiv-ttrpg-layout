@@ -252,22 +252,6 @@
   font-size: 14px;
   line-height: 1.35;
 }
-
-.ffxiv-actor-embed--npc .ffxiv-actor-embed__ability-group + .ffxiv-actor-embed__ability-group {
-  margin-top: 6px;
-}
-
-.ffxiv-actor-embed--npc .ffxiv-actor-embed__ability-group-title {
-  margin: 0 0 4px;
-  color: var(--ffxiv-npc-strong-text);
-  font-family: var(--ffxiv-display);
-  font-size: 14px;
-  font-weight: 700;
-  font-style: italic;
-  line-height: 1.15;
-  text-transform: uppercase;
-}
-
 .ffxiv-actor-embed--npc .ffxiv-actor-embed__ability-block {
   min-width: 0;
   margin: 0;
@@ -334,7 +318,6 @@
   font-weight: 400;
 }
 
-
 .ffxiv-actor-embed--npc .ffxiv-actor-embed__ability-block p {
   margin: 0 0 3px;
   padding: 0;
@@ -347,31 +330,10 @@
   color: var(--ffxiv-npc-ability-label);
   font-weight: 700;
 }
-
-.ffxiv-actor-embed--npc .ffxiv-actor-embed__rich-text {
-  display: inline;
-  font-size: 14px;
-}
-
-.ffxiv-actor-embed--npc .ffxiv-actor-embed__rich-text p {
-  display: inline;
-  margin: 0;
-  font-size: 14px;
-}
-
-.ffxiv-actor-embed--npc .ffxiv-actor-embed__rich-text p + p::before {
-  content: " ";
-}
-
 .ffxiv-actor-embed--npc a {
   color: var(--ffxiv-npc-link);
   font-weight: 700;
 }
-
-.ffxiv-actor-embed--npc .ffxiv-actor-embed__rich-text a {
-  color: var(--ffxiv-npc-link);
-}
-
 /* UUID/document links inside ability rich text use the module's bright red. */
 .ffxiv-actor-embed--npc .ffxiv-actor-embed__ability-detail a.content-link[data-uuid],
 .ffxiv-actor-embed--npc .ffxiv-actor-embed__trait-detail a.content-link[data-uuid] {

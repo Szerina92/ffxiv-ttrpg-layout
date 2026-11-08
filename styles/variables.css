@@ -10,8 +10,6 @@
   --ffxiv-paper: #eeeadd;
   --ffxiv-paper-light: #f7f4e9;
   --ffxiv-paper-dark: #e2decd;
-  --ffxiv-paper-example: #f2eee6;
-  --ffxiv-paper-example-text: #8a775b;
 
   /* -------------------------------------------------------
      Core Text
@@ -21,7 +19,6 @@
   --ffxiv-muted: #746f64;
   --ffxiv-black: #000000;
   --ffxiv-white: #ffffff;
-  --ffxiv-white-soft: #fff;
 
   /* -------------------------------------------------------
      Gold / Primary Accent
@@ -42,7 +39,6 @@
   --ffxiv-npc-ability-label: #995b52;
   --ffxiv-npc-ability-title: #231f20;
   --ffxiv-red-deep: #a83a27;
-  --ffxiv-red-danger: #e08b8b;
 
   /* -------------------------------------------------------
      Blue / Link / Editor Accent
@@ -57,7 +53,6 @@
      ------------------------------------------------------- */
   --ffxiv-line: #c9c0aa;
   --ffxiv-line-burgundy: #d6b8ab;
-  --ffxiv-line-dark: #1f1f1f;
 
   /* -------------------------------------------------------
      Text Editor / Callout Colors
@@ -70,12 +65,8 @@
   --ffxiv-text-example: #695633;
   --ffxiv-bg-paperscroll: #f4d6ae;
 
-  /* -------------------------------------------------------
-     Color Extensions
-     ------------------------------------------------------- */
   /* Overlay Colors */
   --ffxiv-overlay-white-070: rgba(255,255,255,.70);
-  --ffxiv-overlay-black-028: rgba(0,0,0,.28);
 
   /* Class Summary Colors */
   --ffxiv-class-secondary: #5b9b78;
@@ -84,15 +75,6 @@
   --ffxiv-class-trait-gold-dark: #b9831f;
   --ffxiv-class-trait-border: #8f6518;
 
-  /* -------------------------------------------------------
-     NPC Typography
-     ------------------------------------------------------- */
-  /* -------------------------------------------------------
-     NPC Colors
-     ------------------------------------------------------- */
-  /* -------------------------------------------------------
-     NPC Containers
-     ------------------------------------------------------- */
   /* -------------------------------------------------------
      NPC Spacing
      ------------------------------------------------------- */
@@ -138,9 +120,6 @@
   --ffxiv-card-surface: var(--ffxiv-paper-light);
   --ffxiv-card-shadow: 0 1px 3px var(--ffxiv-overlay-black-024);
 
-  /* -------------------------------------------------------
-     Containers
-     ------------------------------------------------------- */
   /* Editor Panel */
   --ffxiv-container-editor-padding: 10px 12px;
   --ffxiv-container-editor-border: 1px solid var(--ffxiv-line);
@@ -161,14 +140,6 @@
   --ffxiv-container-preview-surface: var(--ffxiv-overlay-white-058);
 
   /* -------------------------------------------------------
-     Sidebar
-     ------------------------------------------------------- */
-  --ffxiv-sidebar: #2c2c2c;
-  --ffxiv-sidebar-hover: #383838;
-  --ffxiv-sidebar-text: #e9ecec;
-  --ffxiv-sidebar-muted: #aeb7ba;
-
-  /* -------------------------------------------------------
      Table surfaces
      ------------------------------------------------------- */
   --ffxiv-table-dark: #17191b;
@@ -181,41 +152,24 @@
   --ffxiv-table-text: #f3f0e8;
 
   /* -------------------------------------------------------
-     Callouts / Panels
-     ------------------------------------------------------- */
-  --ffxiv-callout-gm: #dadcdf;
-  --ffxiv-callout-gm-text: #25272a;
-  --ffxiv-callout-blue-dark: #22282c;
-
-  /* -------------------------------------------------------
      Transparent / Overlay colors
      These remain tokens so opacity values can be changed in one place.
      ------------------------------------------------------- */
   --ffxiv-overlay-black-016: rgba(0,0,0,.16);
   --ffxiv-overlay-black-024: rgba(0,0,0,.24);
-  --ffxiv-overlay-white-004: rgba(255,255,255,.04);
   --ffxiv-overlay-white-018: rgba(255,255,255,.18);
-  --ffxiv-overlay-white-022: rgba(255,255,255,.22);
   --ffxiv-overlay-white-030: rgba(255, 255, 255, .30);
-  --ffxiv-overlay-white-035: rgba(255,255,255,.35);
   --ffxiv-overlay-white-045: rgba(255, 255, 255, .45);
   --ffxiv-overlay-white-058: rgba(255,255,255,.58);
-  --ffxiv-overlay-white-062: rgba(255,255,255,.62);
-  --ffxiv-overlay-white-065: rgba(255,255,255,.65);
 
   --ffxiv-overlay-gold-004: rgba(177,138,69,.04);
-  --ffxiv-overlay-gold-006: rgba(177,138,69,.06);
   --ffxiv-overlay-gold-007: rgba(177,138,69,.07);
-  --ffxiv-overlay-gold-008: rgba(177,138,69,.08);
-  --ffxiv-overlay-gold-010: rgba(177,138,69,.10);
   --ffxiv-overlay-gold-016: rgba(177,138,69,.16);
   --ffxiv-overlay-gold-025: rgba(177,138,69,.25);
   --ffxiv-overlay-gold-035: rgba(177,138,69,.35);
   --ffxiv-overlay-gold-045: rgba(177,138,69,.45);
 
-  --ffxiv-overlay-red-016: rgba(190,70,70,.16);
   --ffxiv-overlay-blue-045: rgba(78,116,136,.45);
-  --ffxiv-overlay-brown-012b: rgba(70,55,35,.12);
   --ffxiv-overlay-brown-034: rgba(92, 82, 72, .34);
 
   /* -------------------------------------------------------

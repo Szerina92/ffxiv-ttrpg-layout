@@ -1,0 +1,125 @@
+/* =========================================================
+   Eorzea Theme — Tokens
+   Dark theme after the FFXIV game interface: charcoal window surfaces,
+   slightly lighter cards on them, light text, grey secondary text,
+   gold-orange labels, gold frames, bronze for active/primary buttons and
+   an amber selection tint, cyan for highlighted values. Same structure as the Paper Theme: the rules live
+   in styles/themes/common/ and read the variables below.
+
+   `.eorzea_theme` is the class the system puts on sheets, item sheets
+   and floating tooltips (CONFIG.theme = "eorzea", see
+   scripts/paper-theme.js). Chat, the hotbar tooltip, enriched tooltips
+   and the inventory context menu hang on <body>; they get the tokens
+   through the body class `ffxiv-eorzea-theme`.
+
+   Unlike the Paper Theme, this file also redefines the Layout's own
+   colors (`--ffxiv-ink`, `--ffxiv-paper-*`, `--ffxiv-gold-*` …), because
+   they are tuned for parchment. The override is limited to the themed
+   areas, so Journals and the Layout's own pages keep their look.
+   ========================================================= */
+
+.eorzea_theme,
+body.ffxiv-eorzea-theme .chat-ffxiv:is(.dark_theme, .light_theme, .blue_theme),
+body.ffxiv-eorzea-theme :is(
+  .ffxiv-hotbar-ability-tooltip,
+  #tooltip.ffxiv-enriched-tooltip,
+  .locked-tooltip.ffxiv-enriched-tooltip,
+  .ffxiv-inventory-context-menu
+) {
+  color-scheme: dark;
+
+  /* --- The Layout's own colors, dark variant --- */
+  --ffxiv-ink: #e8e4da;
+  --ffxiv-muted: #b0aba0;
+  --ffxiv-paper: #262626;
+  --ffxiv-paper-light: #363636;
+  --ffxiv-paper-dark: #404040;
+  --ffxiv-gold: #c9a961;
+  --ffxiv-gold-light: #6f6146;
+  --ffxiv-gold-dark: #b59a5e;
+  --ffxiv-line: #5a5548;
+  --ffxiv-ability-label: #c9a45a;
+  --ffxiv-ability-header-divider: #5a5347;
+  --ffxiv-blue-dark: #5cc8ff;
+  --ffxiv-red-bright: #ff7a5c;
+  --ffxiv-red-dark: #e0806f;
+  --ffxiv-card-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+
+  /* --- Variables the system's own themes define (css/vars.css) --- */
+  --option-background-color: #2a2a2a;
+  --background-color: linear-gradient(180deg, #2b2b2b 0%, #232323 55%, #1c1c1c 100%);
+  --text-color: var(--ffxiv-ink);
+  --text-color-input: var(--ffxiv-ink);
+  --invert-text-color: #1c1c1c;
+  --text-color-strong: var(--ffxiv-ability-label);
+
+  --primary-color: #333333;
+  --secondary-color: var(--ffxiv-gold-dark);
+
+  --pet-color: #4a3b36;
+
+  --border-color-1: var(--ffxiv-gold-dark);
+  --border-color-2: #4f4a40;
+  --border-shadow-1: #111111;
+
+  --gradient-color-1: #2e2e2e;
+  --gradient-color-2: #353535;
+  --gradient-color-3: #444444;
+  --gradient-color-4: #3a3a3a;
+  --gradient-stats-sidebar: linear-gradient(180deg, #3d3d3d 0%, #2c2c2c 35%, #1f1f1f 100%);
+
+  --shadow-color-top: rgba(255, 255, 255, 0.08);
+  --shadow-color-bottom: rgba(0, 0, 0, 0.7);
+  --shadow-improve-readability-white: 0 0 4px rgba(0, 0, 0, 0.6);
+  --shadow-improve-readability-light: 0 0 3px rgba(0, 0, 0, 0.5);
+  --shadow-improve-readability-dark: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --text-shadow-color: rgba(0, 0, 0, 0.6);
+
+  --tooltip: rgba(20, 20, 20, 0.92);
+
+  --chip-color: #3a3a3a;
+  --chip-color-active: var(--ffxiv-gold);
+
+  --placeholder-color: #8a857b;
+  --subtabactive-background: linear-gradient(0deg, #3a3a3a 0%, #4a4a4a 100%);
+  --subtabactive-filter: none;
+
+  /* --- Rarity colors readable on dark surfaces --- */
+  --rarity-basic: var(--ffxiv-ink);
+  --rarity-green: #6fd38e;
+  --rarity-aetherial: #e27bc0;
+  --rarity-blue: #6fb3e8;
+  --rarity-relic: #b48cf0;
+  --rarity-unique: #ff6b6b;
+
+  /* --- Surfaces shared by the rules in styles/themes/common/ --- */
+  --theme-line: #5a5548;
+  --theme-panel: linear-gradient(180deg, rgba(0, 0, 0, 0.14) 0%, rgba(0, 0, 0, 0.22) 100%);
+  --theme-card: #363636;
+  --theme-card-head: linear-gradient(180deg, #424242 0%, #383838 100%);
+  --theme-field: rgba(0, 0, 0, 0.4);
+  --theme-tab: linear-gradient(180deg, #3e3e3e 0%, #2c2c2c 100%);
+  --theme-btn: linear-gradient(180deg, #5c4b30 0%, #3d3323 100%);
+
+  /* --- Single values of the shared rules --- */
+  --theme-sheen-50: rgba(255, 255, 255, 0.08);
+  --theme-sheen-45: rgba(255, 255, 255, 0.07);
+  --theme-sheen-40: rgba(255, 255, 255, 0.06);
+  --theme-sheen-35: rgba(255, 255, 255, 0.05);
+  --theme-sheen-12: rgba(255, 255, 255, 0.03);
+  --theme-shadow-warm: rgba(0, 0, 0, 0.5);
+  --theme-tab-highlight: #555555;
+  --theme-tab-highlight-active: #f0dc9c;
+  --theme-gold-glow: rgba(201, 169, 97, 0.5);
+  --theme-gold-tint: rgba(150, 105, 55, 0.4);
+  --theme-button-hover-text: #ffffff;
+  --theme-slot-top: #3a3a3a;
+  --theme-slot-bottom: #2e2e2e;
+
+  /* --- Foundry variables the system's CSS reads --- */
+  --color-text-primary: var(--ffxiv-ink);
+  --color-text-secondary: var(--ffxiv-muted);
+  --color-border-light-primary: var(--ffxiv-gold);
+  --color-border-light-secondary: var(--ffxiv-gold-dark);
+  --color-border-light-tertiary: var(--ffxiv-gold-light);
+}

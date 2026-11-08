@@ -1,12 +1,12 @@
 /* =========================================================
-   Paper Theme — Hotbar ability tooltip
+   Themes (Paper, Eorzea) — Hotbar ability tooltip
    The tooltip of the hotbar hangs on <body>, outside any sheet. Same 
    regions and colors as the module's ability card (header and data row 
    paper-dark, body paper-light), slightly translucent because it is an 
    overlay.
    ========================================================= */
 
-body.ffxiv-paper-theme .ffxiv-hotbar-ability-tooltip {
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv-hotbar-ability-tooltip {
   padding: 0;
   border: 2px solid var(--ffxiv-gold-dark);
   border-radius: 6px;
@@ -20,12 +20,12 @@ body.ffxiv-paper-theme .ffxiv-hotbar-ability-tooltip {
   overflow: hidden;
 }
 
-body.ffxiv-paper-theme .ffxiv-hotbar-ability-tooltip * {
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv-hotbar-ability-tooltip * {
   text-shadow: none;
 }
 
 /* Region 1: header */
-body.ffxiv-paper-theme .ffxiv-hotbar-ability-header {
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv-hotbar-ability-header {
   align-items: center;
   gap: 10px;
   min-height: 0;
@@ -35,7 +35,7 @@ body.ffxiv-paper-theme .ffxiv-hotbar-ability-header {
   border-bottom: 2px solid var(--ffxiv-ability-header-divider);
 }
 
-body.ffxiv-paper-theme .ffxiv-hotbar-ability-header img {
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv-hotbar-ability-header img {
   flex-basis: 46px;
   width: 46px;
   height: 46px;
@@ -44,7 +44,7 @@ body.ffxiv-paper-theme .ffxiv-hotbar-ability-header img {
   box-shadow: none;
 }
 
-body.ffxiv-paper-theme .ffxiv-hotbar-ability-name {
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv-hotbar-ability-name {
   margin: 0;
   color: var(--ffxiv-ink);
   font-size: 17px;
@@ -52,7 +52,7 @@ body.ffxiv-paper-theme .ffxiv-hotbar-ability-name {
   line-height: 1.1;
 }
 
-body.ffxiv-paper-theme .ffxiv-hotbar-ability-type {
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv-hotbar-ability-type {
   margin-top: 3px;
   color: var(--ffxiv-ink);
   font-size: 12.5px;
@@ -60,7 +60,7 @@ body.ffxiv-paper-theme .ffxiv-hotbar-ability-type {
 }
 
 /* Region 2: data row as "Label: value" pairs instead of the spread-out grid */
-body.ffxiv-paper-theme .ffxiv-hotbar-ability-details {
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv-hotbar-ability-details {
   grid-template-columns: repeat(4, max-content);
   justify-content: start;
   gap: 1px 4px;
@@ -71,51 +71,51 @@ body.ffxiv-paper-theme .ffxiv-hotbar-ability-details {
   color: var(--ffxiv-ability-label);
 }
 
-body.ffxiv-paper-theme .ffxiv-hotbar-ability-details dt {
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv-hotbar-ability-details dt {
   color: var(--ffxiv-ink);
   font-weight: 700;
 }
 
-body.ffxiv-paper-theme .ffxiv-hotbar-ability-details dt::after {
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv-hotbar-ability-details dt::after {
   content: ":";
 }
 
-body.ffxiv-paper-theme .ffxiv-hotbar-ability-details dd {
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv-hotbar-ability-details dd {
   margin-right: 12px;
   color: var(--ffxiv-ink);
   text-align: left;
 }
 
 /* Region 3: body */
-body.ffxiv-paper-theme .ffxiv-hotbar-ability-overview {
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv-hotbar-ability-overview {
   padding: 5px 12px 9px;
   color: var(--ffxiv-ink);
 }
 
-body.ffxiv-paper-theme .ffxiv-hotbar-ability-section-label {
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv-hotbar-ability-section-label {
   display: inline;
   margin: 0 3px 0 0;
   color: var(--ffxiv-ability-label);
   font-weight: 700;
 }
 
-body.ffxiv-paper-theme .ffxiv-hotbar-ability-section-label::after {
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv-hotbar-ability-section-label::after {
   content: ":";
 }
 
-body.ffxiv-paper-theme .ffxiv-hotbar-ability-section {
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv-hotbar-ability-section {
   display: block;
 }
 
-body.ffxiv-paper-theme .ffxiv-hotbar-ability-section-content {
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv-hotbar-ability-section-content {
   display: inline;
 }
 
-body.ffxiv-paper-theme .ffxiv-hotbar-ability-section-content > p:first-child {
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv-hotbar-ability-section-content > p:first-child {
   display: inline;
 }
 
-body.ffxiv-paper-theme .ffxiv-hotbar-ability-overview hr {
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv-hotbar-ability-overview hr {
   margin: 4px 0;
   background: transparent;
   height: 0;

@@ -1,0 +1,89 @@
+/* =========================================================
+   Themes (Paper, Eorzea) — Item sheets
+   Panels, tags and list rows of the Item and Job sheets. The system lays 
+   rgba(0,0,0,.12) panels over the sheet, which turn grey on parchment.
+   ========================================================= */
+
+.ffxiv.item:is(.paper_theme, .eorzea_theme) .ability-sheet-tabs .item,
+.ffxiv.item:is(.paper_theme, .eorzea_theme) .item-sheet-tabs .item,
+.ffxiv.item:is(.paper_theme, .eorzea_theme) .ability-sheet-panel,
+.ffxiv.item:is(.paper_theme, .eorzea_theme) .summon-actors-editor,
+.ffxiv.item:is(.paper_theme, .eorzea_theme) .status-effects-editor {
+  border-color: var(--theme-line);
+}
+
+.ffxiv.item:is(.paper_theme, .eorzea_theme) .ability-sheet-tabs .item.active,
+.ffxiv.item:is(.paper_theme, .eorzea_theme) .item-sheet-tabs .item.active {
+  border-color: var(--ffxiv-gold);
+  background: var(--theme-gold-tint);
+}
+
+.ffxiv.item:is(.paper_theme, .eorzea_theme) .ability-panel-header,
+.ffxiv.item:is(.paper_theme, .eorzea_theme) .status-effects-header {
+  border-bottom-color: var(--theme-line);
+}
+
+/* Item sheets: the system lays rgba(0,0,0,.12) panels over the sheet, which
+   turns grey on parchment. Same selectors as the system, with the theme class. */
+.ffxiv.item:is(.paper_theme, .eorzea_theme) .item-modern-panel,
+.ffxiv.item:is(.paper_theme, .eorzea_theme) .job-attribute-section,
+.ffxiv.item.item-modern-sheet:is(.paper_theme, .eorzea_theme) .item-details-card {
+  background: var(--theme-panel);
+  border-color: var(--ffxiv-gold-light);
+  box-shadow: none;
+}
+
+.ffxiv.item:is(.paper_theme, .eorzea_theme) .job-ability-name,
+.ffxiv.item:is(.paper_theme, .eorzea_theme) .job-ability-type,
+.ffxiv.item:is(.paper_theme, .eorzea_theme) .job-ability-empty {
+  background: var(--theme-field);
+  border-color: var(--ffxiv-gold-light);
+  color: var(--ffxiv-ink);
+}
+
+.ffxiv.item:is(.paper_theme, .eorzea_theme) .job-ability-row button:not(.remove-job-ability):not(.remove-job-pet):not(.remove-summon-actor) {
+  background: var(--theme-btn);
+  border: 1px solid var(--ffxiv-gold-dark);
+  color: var(--ffxiv-ink);
+}
+
+.ffxiv.item:is(.paper_theme, .eorzea_theme) .job-attribute-section h2,
+.ffxiv.item:is(.paper_theme, .eorzea_theme) .ability-panel-header h2 {
+  color: var(--ffxiv-ink);
+}
+
+/* Tags (locked view and editor) */
+.ffxiv.item.item-locked:is(.paper_theme, .eorzea_theme) .ability-tags-editor .item-locked-tag-list .tag,
+.ffxiv.item:is(.paper_theme, .eorzea_theme) .tag-list .tag {
+  background: transparent;
+  border-color: var(--ffxiv-gold);
+  color: var(--ffxiv-ink);
+}
+
+/* Greyed "None" values and other muted text on the sheet */
+.ffxiv.item:is(.paper_theme, .eorzea_theme) .item-locked-field,
+.ffxiv.item:is(.paper_theme, .eorzea_theme) .item-details-card .resource-content,
+.ffxiv.item:is(.paper_theme, .eorzea_theme) .item-details-card .resource-content > * {
+  color: var(--ffxiv-ink);
+}
+
+/* Item sheets */
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv.item.item-modern-sheet .sheet-body > .attributes,
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv.item.item-modern-sheet .sheet-body > .resources,
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv.item.item-modern-sheet .sheet-body > .tags-container,
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv.item.item-modern-sheet .sheet-body > prose-mirror {
+  background: var(--theme-panel) !important;
+}
+
+/* Gear: Job Requirement / Modifiers chips in the locked view */
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv.item.item-locked .tags-container .item-locked-field {
+  background: var(--theme-field);
+  border-color: var(--ffxiv-gold-light);
+  color: var(--ffxiv-ink);
+}
+
+/* Ability sheet, critical-hit rules (system 5.5.0): the divider between rules
+   is a light gold that nearly disappears on parchment. */
+.ffxiv.item:is(.paper_theme, .eorzea_theme) .ability-critical-rule + .ability-critical-rule {
+  border-top-color: var(--theme-line);
+}

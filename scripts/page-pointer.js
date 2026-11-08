@@ -16,6 +16,14 @@ import { MODULE_ID } from "./constants.js";
 import { isPagePointerEnabled } from "./settings.js";
 
 const POINTER_SRC = `modules/${MODULE_ID}/images/Icons/pointer.webp`;
+// Pointing hand (images/Icons/pointer.webp, 85 x 69 px) shown at 37 x 30 px.
+// The fingertip sits at TIP_X / TIP_Y inside the image; it touches the left
+// edge of the page entry, at the entry's vertical center.
+const POINTER_WIDTH = 37;
+const POINTER_HEIGHT = 30;
+const TIP_X = 35;
+const TIP_Y = 12;
+const TIP_GAP = 2;
 const POINTER_TRANSITION = "top 180ms cubic-bezier(0.22, 0.61, 0.36, 1), left 180ms cubic-bezier(0.22, 0.61, 0.36, 1), opacity 120ms";
 
 const CONTROLLERS = new Set();
@@ -91,8 +99,8 @@ export class FFXIVJournalPagePointer {
       Object.assign(this.#pointer.style, {
         position: "fixed",
         display: "block",
-        width: "53px",
-        height: "29px",
+        width: `${POINTER_WIDTH}px`,
+        height: `${POINTER_HEIGHT}px`,
         margin: "0",
         padding: "0",
         border: "0",
@@ -191,10 +199,8 @@ export class FFXIVJournalPagePointer {
       return;
     }
 
-    const pointerWidth = pointer.getBoundingClientRect().width || 53;
-    const pointerHeight = pointer.getBoundingClientRect().height || 29;
-    const left = Math.round(rect.left - pointerWidth + 18);
-    const top = Math.round(rect.top + (rect.height - pointerHeight) / 2 + 4);
+    const left = Math.round(rect.left + TIP_GAP - TIP_X);
+    const top = Math.round(rect.top + rect.height / 2 - TIP_Y);
 
     pointer.style.transition = animate && this.#visible ? POINTER_TRANSITION : "none";
     pointer.style.left = `${left}px`;
@@ -214,17 +220,7 @@ export class FFXIVJournalPagePointer {
 
   #findActiveTarget(sidebar) {
     const pageId = this.#sheet?.pageId;
-
-    if (pageId) {
-      try {
-        const exact = sidebar.querySelector(`[data-page-id="${CSS.escape(pageId)}"]`);
-        if (exact) return exact;
-      } catch {
-        // Fall through to locally managed active state.
-      }
-    }
-
-    return sidebar.querySelector(".ffxiv-journal__page-item.is-active");
+    return pageId ? sidebar.querySelector(`[data-page-id="${CSS.escape(pageId)}"]`) : null;
   }
 
   #detachListeners() {

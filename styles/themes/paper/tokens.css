@@ -1,10 +1,13 @@
 /* =========================================================
    Paper Theme — Tokens
-   Colors and variables of the Paper Theme. `.paper_theme` is the class 
-   the system puts on sheets, item sheets and floating tooltips 
-   (CONFIG.theme = "paper", see scripts/paper-theme.js). Chat cards keep 
-   the system's own theme class, so they get the same tokens through the 
-   body class `ffxiv-paper-theme`.
+   Colors and variables of the Paper Theme. The rules live in
+   styles/themes/common/ and are shared with the Eorzea Theme; this file
+   only sets the values. `.paper_theme` is the class the system puts on
+   sheets, item sheets and floating tooltips (CONFIG.theme = "paper", see
+   scripts/paper-theme.js). Chat cards keep the system's own theme class,
+   so they get the same tokens through the body class `ffxiv-paper-theme`.
+   The Layout's own colors (`--ffxiv-*`, styles/variables.css) are already
+   parchment colors and are used as they are.
    ========================================================= */
 
 .paper_theme,
@@ -59,13 +62,28 @@ body.ffxiv-paper-theme .chat-ffxiv:is(.dark_theme, .light_theme, .blue_theme) {
   --rarity-unique: #b01c1c;
 
   /* --- Surfaces shared by the rules below --- */
-  --paper-line: var(--ffxiv-gold-light);
-  --paper-panel: linear-gradient(180deg, rgba(247, 244, 233, 0.62) 0%, rgba(238, 234, 221, 0.62) 100%);
-  --paper-card: var(--ffxiv-paper-light);
-  --paper-card-head: linear-gradient(180deg, #e9e5d4 0%, var(--ffxiv-paper-dark) 100%);
-  --paper-field: rgba(255, 255, 255, 0.55);
-  --paper-tab: linear-gradient(180deg, var(--ffxiv-paper-light) 0%, var(--ffxiv-paper-dark) 100%);
-  --paper-btn: linear-gradient(180deg, var(--ffxiv-gold-light) 0%, var(--ffxiv-gold) 100%);
+  --theme-line: var(--ffxiv-gold-light);
+  --theme-panel: linear-gradient(180deg, rgba(247, 244, 233, 0.62) 0%, rgba(238, 234, 221, 0.62) 100%);
+  --theme-card: var(--ffxiv-paper-light);
+  --theme-card-head: linear-gradient(180deg, #e9e5d4 0%, var(--ffxiv-paper-dark) 100%);
+  --theme-field: rgba(255, 255, 255, 0.55);
+  --theme-tab: linear-gradient(180deg, var(--ffxiv-paper-light) 0%, var(--ffxiv-paper-dark) 100%);
+  --theme-btn: linear-gradient(180deg, var(--ffxiv-gold-light) 0%, var(--ffxiv-gold) 100%);
+
+  /* --- Single values of the shared rules (styles/themes/common/) --- */
+  --theme-sheen-50: rgba(255, 255, 255, 0.5);
+  --theme-sheen-45: rgba(255, 255, 255, 0.45);
+  --theme-sheen-40: rgba(255, 255, 255, 0.4);
+  --theme-sheen-35: rgba(255, 255, 255, 0.35);
+  --theme-sheen-12: rgba(255, 255, 255, 0.12);
+  --theme-shadow-warm: rgba(80, 60, 30, 0.25);
+  --theme-tab-highlight: #fffdf3;
+  --theme-tab-highlight-active: #fff3c8;
+  --theme-gold-glow: rgba(177, 138, 69, 0.45);
+  --theme-gold-tint: rgba(177, 138, 69, 0.18);
+  --theme-button-hover-text: #000;
+  --theme-slot-top: #ddd4b8;
+  --theme-slot-bottom: #d1c7a8;
 
   /* --- Foundry variables the system's CSS reads (ink instead of the
          light-on-dark values of Foundry's dark theme) --- */

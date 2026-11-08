@@ -1,0 +1,54 @@
+/* =========================================================
+   Themes (Paper, Eorzea) — NPC statblock
+   Hard-coded dark areas of the NPC statblock; the system sets these with 
+   high specificity, hence `!important`.
+   ========================================================= */
+
+/* NPC / statblock */
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv.actor .npc-statblock,
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv.actor .statblock-content,
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv.actor .npc-secondary-stat,
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv.actor .npc-defense-cell,
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv.actor .npc-elite-foe-toggle,
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv.actor .npc-main-stats .resource {
+  background: var(--theme-field) !important;
+  border-color: var(--theme-line) !important;
+}
+
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv.actor .npc-stat-label,
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv.actor .statblock-header {
+  background: var(--theme-tab) !important;
+  color: var(--ffxiv-ink) !important;
+  border-color: var(--ffxiv-gold-light) !important;
+}
+
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv.actor .npc-statblock .resources.grid-5col .resource .resource-label.roll-attribute {
+  background: var(--theme-btn) !important;
+  color: var(--ffxiv-ink) !important;
+}
+
+/* NPC: labels that the system hard-codes light grey, and the dark attribute boxes */
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv.actor .npc-secondary-label,
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv.actor .npc-defense-heading {
+  color: var(--ffxiv-ink) !important;
+  opacity: 1;
+}
+
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv.actor .npc-statblock .resources.grid-5col .resource {
+  background: var(--theme-field) !important;
+  border-color: var(--ffxiv-gold-light) !important;
+}
+
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv.actor .npc-statblock .resources.grid-5col .resource .resource-content,
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv.actor .npc-statblock .resources.grid-5col .resource .resource-content .npc-plain-value,
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv.actor .npc-statblock .resources.grid-5col .resource .resource-content input {
+  color: var(--ffxiv-ink) !important;
+  text-shadow: none !important;
+}
+
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv.actor .npc-statblock .npc-plain-value,
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv.actor .npc-statblock .npc-stat-number,
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv.actor .npc-statblock .input-window {
+  color: var(--ffxiv-ink) !important;
+  text-shadow: none !important;
+}
