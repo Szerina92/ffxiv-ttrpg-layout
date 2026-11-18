@@ -1,13 +1,4 @@
-/**
- * FFXIV TTRPG Layout — Rollable Table Embed
- *
- * Syntax: `@FFXIVTable[uuid]{label|left|right|center}`
- *
- * Renders a Foundry RollTable as a table with a roll button. Rolling uses the
- * table's own `draw()`, so chat output, replacement rules and permissions are
- * Foundry's (the result is posted to chat). The drawn rows are highlighted in
- * every embed of that table.
- */
+/* Rollable Table Embed */
 
 import { localize } from "../i18n.js";
 import { embedPattern, enrichEmbed, normalizePosition, pickPosition } from "../utils/enricher-options.js";
@@ -20,17 +11,14 @@ const ROLL_SELECTOR = "[data-ffxiv-table-roll]";
 
 const formatRange = ([low, high]) => (low === high ? String(low) : `${low}–${high}`);
 
-/** Font Awesome (free) only ships a d6 and a d20 icon; every other die uses the generic dice icon. */
 const DIE_ICONS = Object.freeze({ 6: "fa-dice-d6", 20: "fa-dice-d20" });
 
-/** Die shown on the roll button: "1d6" → "d6", "2d6+1" stays as written. */
 function describeFormula(formula) {
   const text = String(formula ?? "").trim().replace(/\s+/g, "");
   const sides = Number(text.match(/d(\d+)/i)?.[1]);
   return { dice: text.replace(/^1(?=d)/i, ""), icon: DIE_ICONS[sides] ?? "fa-dice" };
 }
 
-/** HTML of a table result: its name, an optional description, or a link to the referenced document. */
 function resultSource(result) {
   const name = String(result.name ?? result.text ?? "").trim();
   const description = String(result.description ?? "").trim();
@@ -78,7 +66,6 @@ export async function createTableEmbed(uuid, { label, position, depth = 1 } = {}
   return root;
 }
 
-/** Highlight the drawn rows in every visible embed of the table. */
 function showDrawResult(table, { results }) {
   const drawnIds = new Set(results.map(result => result.id));
 
@@ -124,6 +111,5 @@ export function registerTableEmbed() {
       createTableEmbed(uuid, { label, position: pickPosition(options), depth })),
   });
 
-  // Enriched HTML is serialized, so listeners cannot live on the elements themselves.
   document.addEventListener("click", onRollClick);
 }

@@ -1,6 +1,4 @@
-/* Generic Text Editor callouts — component based.
-   Background and icon are independent public class-based properties.
-   Scenario remains a separate legacy/specialized callout. */
+/* Callouts */
 .ffxiv-journal__text :is(.ffxiv-bg-light-blue, .ffxiv-bg-white, .ffxiv-bg-paperscroll, .ffxiv-bg-green, .ffxiv-icon-gm),
 .prosemirror :is(.ffxiv-bg-light-blue, .ffxiv-bg-white, .ffxiv-bg-paperscroll, .ffxiv-bg-green, .ffxiv-icon-gm) {
   position: relative;
@@ -22,8 +20,6 @@
   margin-bottom: 0;
 }
 
-/* HEADER COLOUR — marked text receives the same visual treatment as the
- * module's H3 headings, without changing the document's heading structure. */
 .ffxiv-journal__text :is(.ffxiv-header-blue, .ffxiv-header-red, .ffxiv-header-green),
 .prosemirror :is(.ffxiv-header-blue, .ffxiv-header-red, .ffxiv-header-green) {
   font-family: "Cinzel", "Trajan Pro", Georgia, serif;
@@ -57,8 +53,6 @@
 
 .ffxiv-journal__text .ffxiv-bg-white,
 .prosemirror .ffxiv-bg-white {
-  /* Extend the paper farther toward the page edges without changing the
-     usable text width of the callout. */
   margin-inline: -56px;
   padding-inline: 68px;
   padding-top: 36px;
@@ -81,9 +75,6 @@
   padding-top: 28px;
 }
 
-/* The GM icon is a visual property of the generic callout. Rendering it as a
- * pseudo-element keeps it outside ProseMirror's inline-content normalization,
- * so it remains centered on the callout's own vertical axis. */
 .ffxiv-journal__text .ffxiv-icon-gm::before,
 .prosemirror .ffxiv-icon-gm::before {
   content: "";
@@ -104,8 +95,6 @@
   color: var(--ffxiv-text-example);
 }
 
-/* FFXIV-inspired standalone generic callout blocks.
-   Scenario remains a separate specialized component. */
 .ffxiv-journal__text .ffxiv-callout {
   position: relative;
   margin: 1.45em 2px;
@@ -130,9 +119,6 @@
   line-height: 1;
   text-transform: uppercase;
 }
-/* SCENARIO — rounded, slightly heavier FFXIV-style frame.
-   The speaker icon sits directly before the first text line;
-   the label word itself is intentionally not displayed. */
 .ffxiv-journal__text .ffxiv-callout--scenario {
   border: 2px solid var(--ffxiv-overlay-brown-034);
   border-radius: 14px;

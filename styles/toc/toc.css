@@ -1,4 +1,4 @@
-/* FFXIV Compendium ToC — table of contents window and its author editor. */
+/* Compendium Table of Contents */
 
 .ffxiv-compendium-toc-app .window-content {
   padding: 0;
@@ -51,7 +51,6 @@
   column-gap: 36px;
 }
 
-/* Groups may flow across columns so the two columns stay balanced; only headings stay with their first entry. */
 .ffxiv-compendium-toc__group {
   margin: 0 0 22px;
 }

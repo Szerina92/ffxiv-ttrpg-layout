@@ -1,6 +1,6 @@
-/* ---------------------------------------------------------
+/* =========================================================
    Book page / gold frame
-   --------------------------------------------------------- */
+   ========================================================= */
 .ffxiv-journal__page {
   position: relative;
   max-width: none;
@@ -22,8 +22,6 @@
   width: 100%;
 }
 
-/* 1.4.14 — When Foundry's native Text Page setting hides the page title,
-   keep the page actions available without reserving the title's large space. */
 .ffxiv-journal__page-header--title-hidden {
   min-height: 31px;
 }
@@ -34,9 +32,6 @@
   text-align: center;
 }
 
-/* Class Summary pages use the Job icon as part of the page title.
-   This override is intentionally scoped to Class Summary pages so normal
-   Journal Entry Pages keep their existing centered title presentation. */
 .ffxiv-journal__page-title-group--class-summary {
   display: flex;
   align-items: center;

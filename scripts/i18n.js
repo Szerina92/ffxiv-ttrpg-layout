@@ -1,17 +1,9 @@
-/** FFXIV TTRPG Layout — shared localization helpers. */
+/* Localization helpers */
 
-/**
- * Localize a module key. With `data`, placeholders such as `{size}` are filled in.
- * Module strings always exist in lang/en.json, which Foundry uses as fallback.
- */
 export function localize(key, data) {
   return data === undefined ? game.i18n.localize(key) : game.i18n.format(key, data);
 }
 
-/**
- * Localize a key that may not exist (for example a key owned by the game
- * system) and return `fallback` when it is missing.
- */
 export function localizeOr(key, fallback = "") {
   return key && game.i18n.has(key) ? game.i18n.localize(key) : fallback;
 }
@@ -27,11 +19,6 @@ function tagFallbackLabel(tag) {
     .trim();
 }
 
-/**
- * Localize any FFXIV tag without maintaining a hardcoded tag whitelist.
- * The system key is preferred; module-specific wording is used when the
- * module has a matching Tag.* or Item.* localization entry.
- */
 function localizeTag(tag) {
   const normalized = String(tag ?? "").trim();
   if (!normalized) return "";
@@ -50,11 +37,8 @@ function localizeTag(tag) {
   return tagFallbackLabel(normalized);
 }
 
-/** Return every supplied tag, in source order, with no whitelist/filter. */
 export function localizeTags(tags) {
   if (!Array.isArray(tags)) return [];
-  // Different tag keys can share a label (e.g. the item type and the tag
-  // "Limit Break"); every label appears once.
   const seen = new Set();
   return tags.map(localizeTag).filter(label => {
     const key = String(label ?? "").trim().toLowerCase();

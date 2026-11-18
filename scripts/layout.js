@@ -1,6 +1,4 @@
-/**
- * FFXIV TTRPG Layout — central module hub.
- */
+/* Module entry point */
 
 import "./babele.js";
 import { registerSettings } from "./settings.js";
@@ -16,11 +14,13 @@ import { registerTableEmbed } from "./embeds/table-embed.js";
 import { registerChatCards } from "./embeds/chat-card.js";
 import { activateIconLinks } from "./utils/icon-click.js";
 import { activateCardDrag } from "./utils/card-drag.js";
-import { registerRuleMigration } from "./rule-migration.js";
+import { activateItemLinkMarking } from "./utils/enrich.js";
+import { activateLinkTooltips } from "./utils/link-tooltip.js";
+import { registerRuleColors } from "./rule-colors.js";
 import { registerEditorMenu } from "./editor-menu.js";
 import { registerCompendiumToc } from "./toc/toc.js";
-import { registerPaperTheme } from "./paper-theme.js";
-import { registerActorAbilityCards } from "./sheets/actor-ability-cards.js";
+import { registerThemes } from "./themes.js";
+import { registerActorSheet } from "./sheets/actor-sheet.js";
 import { refreshPagePointers } from "./page-pointer.js";
 import { preloadPageChangeSound } from "./page-change-sound.js";
 
@@ -37,12 +37,12 @@ Hooks.once("init", async () => {
   registerSettings({ onPagePointerChange: refreshPagePointers });
 
   registerJournalSheet();
-  registerRuleMigration();
+  registerRuleColors();
   registerClassSummarySheet();
   registerEditorMenu();
   registerCompendiumToc();
-  registerPaperTheme();
-  registerActorAbilityCards();
+  registerThemes();
+  registerActorSheet();
 
   registerItemEmbed();
   registerAbilityEmbed();
@@ -59,4 +59,6 @@ Hooks.once("init", async () => {
 Hooks.once("ready", () => {
   activateIconLinks();
   activateCardDrag();
+  activateItemLinkMarking();
+  activateLinkTooltips();
 });

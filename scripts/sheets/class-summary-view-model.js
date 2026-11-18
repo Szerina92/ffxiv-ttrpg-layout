@@ -1,12 +1,4 @@
-/**
- * FFXIV TTRPG Layout — Class Summary View Model.
- *
- * This module contains the presentation-ready data for the Class Summary
- * attribute block. The FFXIV Job Item remains the authoritative source.
- *
- * The attribute view model is consumed by the Class Summary renderer and keeps
- * level-specific presentation data separate from raw Item data.
- */
+/* Class Summary view model */
 
 import { localize, localizeOr } from "../i18n.js";
 
@@ -76,12 +68,6 @@ function formatSignedValue(value) {
   return numericValue > 0 ? `+${numericValue}` : `${numericValue}`;
 }
 
-/**
- * Build the level-specific attribute View Model for a Job Item.
- *
- * @param {Item} item The FFXIV TTRPG Job Item.
- * @returns {object|null} Presentation-ready attribute data.
- */
 export function buildClassSummaryAttributesViewModel(item) {
   if (!item || item.documentName !== "Item" || item.type !== "job") {
     return null;

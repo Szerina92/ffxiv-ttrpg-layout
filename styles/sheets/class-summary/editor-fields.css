@@ -1,6 +1,6 @@
-/* ---------------------------------------------------------
+/* =========================================================
    Native Journal page settings
-   --------------------------------------------------------- */
+   ========================================================= */
 .ffxiv-class-summary-editor__page-settings-title > label > i {
   width: 1rem;
   color: var(--ffxiv-ink);
@@ -16,9 +16,9 @@
   text-align: center;
 }
 
-/* ---------------------------------------------------------
-   Rich-text field — shared Quest Summary editor language
-   --------------------------------------------------------- */
+/* =========================================================
+   Rich-text field
+   ========================================================= */
 .ffxiv-class-summary-editor__introduction-field {
   display: flex;
   flex-direction: column;
@@ -80,9 +80,9 @@
   align-self: flex-end;
 }
 
-/* ---------------------------------------------------------
-   Jobs field — shared editor container language
-   --------------------------------------------------------- */
+/* =========================================================
+   Jobs field
+   ========================================================= */
 @media (max-width: 420px) {
   .ffxiv-class-summary-editor__selected-jobs {
     grid-template-columns: 1fr;

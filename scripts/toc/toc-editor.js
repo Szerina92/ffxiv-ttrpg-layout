@@ -1,10 +1,4 @@
-/**
- * FFXIV TTRPG Layout — Table of Contents editor.
- *
- * Lets the author decide which pages of a Journal compendium appear in the
- * ToC and in which role (chapter, subchapter, entry). The result is stored as
- * a flag on each Journal page, so it ships with the compendium.
- */
+/* Table of Contents editor */
 
 import { MODULE_ID } from "../constants.js";
 import { localize } from "../i18n.js";
@@ -33,7 +27,6 @@ class TocEditorApplication extends HandlebarsApplicationMixin(ApplicationV2) {
     },
   };
 
-  /** @param {CompendiumCollection} pack */
   constructor(pack, options = {}) {
     super({
       id: `ffxiv-toc-editor-${pack.collection.replace(/[^a-zA-Z0-9_-]/g, "-")}`,
@@ -80,7 +73,6 @@ class TocEditorApplication extends HandlebarsApplicationMixin(ApplicationV2) {
   async _onRender(context, options) {
     await super._onRender(context, options);
 
-    // Parent choices depend on the roles selected in the form, so they are rebuilt live.
     this.element.querySelectorAll("select[data-role-select]").forEach(select => {
       select.addEventListener("change", () => {
         this.#refreshParentOptions();
@@ -91,7 +83,6 @@ class TocEditorApplication extends HandlebarsApplicationMixin(ApplicationV2) {
     this.#refreshHeadingToggles();
   }
 
-  /** The H2 option only applies to chapters and subchapters on text pages. */
   #refreshHeadingToggles() {
     for (const row of this.element.querySelectorAll("tr[data-uuid]")) {
       const toggle = row.querySelector("input[data-headings-toggle]");
@@ -100,7 +91,6 @@ class TocEditorApplication extends HandlebarsApplicationMixin(ApplicationV2) {
     }
   }
 
-  /** Rebuild each parent select from the roles currently chosen in the form. */
   #refreshParentOptions(initialRows = null) {
     const rows = [...this.element.querySelectorAll("tr[data-uuid]")];
     const current = rows.map(row => ({

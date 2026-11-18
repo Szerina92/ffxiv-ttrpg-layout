@@ -1,4 +1,4 @@
-/* FFXIV Pet Embed — Unified Card pet container based on the handbook reference. */
+/* Pet embed */
 
 .ffxiv-pet-embed {
   box-sizing: border-box;
@@ -146,7 +146,6 @@
   min-width: 0;
 }
 
-/* Pet abilities are the same Unified Cards used by the Class Summary. */
 .ffxiv-pet-embed .ffxiv-class-summary__ability-node {
   margin: 0;
 }

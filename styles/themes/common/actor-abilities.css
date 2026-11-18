@@ -1,8 +1,5 @@
 /* =========================================================
    Themes (Paper, Eorzea) — Actor sheets: abilities
-   Ability cards, tabs and buttons of the Character, NPC and Pet sheets, 
-   plus job resources. Mirrors the system's `.blue_theme` rules 
-   (the css folder) with `:is(.paper_theme, .eorzea_theme)`, so specificity matches.
    ========================================================= */
 
 .ffxiv.actor.npc:is(.paper_theme, .eorzea_theme) nav.npc-sheet-tabs .sub-tab {
@@ -94,6 +91,7 @@
 }
 
 .ffxiv.actor:is(.character, .npc):is(.paper_theme, .eorzea_theme) .actor-player-abilities .ability-roll-button,
+.ffxiv.actor.npc:is(.paper_theme, .eorzea_theme) .actor-player-abilities .ability-marker-button,
 .ffxiv.actor:is(.character, .npc):is(.paper_theme, .eorzea_theme) .actor-player-abilities .move-buttons button {
   border-color: var(--ffxiv-gold-dark);
   background: var(--theme-btn);
@@ -177,6 +175,7 @@
 }
 
 .ffxiv.actor:is(.character, .npc, .pet):is(.paper_theme, .eorzea_theme) .actor-abilities .ability-roll-button,
+.ffxiv.actor:is(.character, .npc, .pet):is(.paper_theme, .eorzea_theme) .actor-abilities .ability-marker-button,
 .ffxiv.actor:is(.character, .npc, .pet):is(.paper_theme, .eorzea_theme) .pet-ability-roll-button {
   border-color: var(--ffxiv-gold-dark);
   background: var(--theme-btn);
@@ -189,6 +188,7 @@
 }
 
 .ffxiv.actor:is(.character, .npc, .pet):is(.paper_theme, .eorzea_theme) .actor-abilities .ability-roll-button:hover,
+.ffxiv.actor:is(.character, .npc, .pet):is(.paper_theme, .eorzea_theme) .actor-abilities .ability-marker-button:hover,
 .ffxiv.actor:is(.character, .npc, .pet):is(.paper_theme, .eorzea_theme) .pet-ability-roll-button:hover {
   color: var(--theme-button-hover-text) !important;
 }
@@ -206,9 +206,6 @@
   box-shadow: inset 0 0 0 1px var(--theme-sheen-35);
 }
 
-/* System ability cards on the actor sheet: bold inside the description text
-   keeps the text color (labels stay colored); ABI and ATT marks work here too.
-   Labels are the direct <strong> of a row, description text sits in <p>/<li>. */
 :is(.paper_theme, .eorzea_theme) .actor-abilities .ability-card .effect :is(p, li) strong {
   color: inherit;
 }
@@ -223,10 +220,6 @@
   font-weight: 700;
 }
 
-/* Actor sheet ability cards: the data rows (Cost, Target, Range, Check, CR)
-   read like the Ability Card: plain "Label: value" text on the header
-   background, no chip behind each value. The scripted Check/CR rows are in
-   scripts/sheets/actor-ability-cards.js. */
 .ffxiv.actor:is(.character, .npc):is(.paper_theme, .eorzea_theme) .actor-player-abilities .ability-details {
   display: block;
   padding: 3px 8px 4px 6px;
@@ -235,8 +228,6 @@
 }
 
 .ffxiv.actor:is(.character, .npc):is(.paper_theme, .eorzea_theme) .actor-player-abilities .detail {
-  /* One block per pair: a row that does not fit moves down as a whole, so
-     "CR:" stays with its value; only a value wider than the card wraps. */
   display: inline-block;
   max-width: 100%;
   vertical-align: top;
@@ -255,7 +246,27 @@
   margin-left: 0;
 }
 
-/* Combo chain ("Combo From") is not shown in the compact ability card */
+/* Combo chain */
 .ffxiv.actor:is(.character, .npc):is(.paper_theme, .eorzea_theme) .actor-player-abilities .ability-details .detail.combo-chain {
   display: none;
+}
+
+/* Marker preview */
+.ffxiv.actor.npc:is(.paper_theme, .eorzea_theme) .actor-player-abilities .ability-card.has-markers .ability-marker-read-preview {
+  border-color: var(--theme-line);
+  background: var(--theme-field);
+}
+
+.ffxiv.actor.npc:is(.paper_theme, .eorzea_theme) .actor-player-abilities .ability-card.has-markers .ability-marker-preview-heading {
+  border-bottom-color: var(--theme-line);
+  color: var(--ffxiv-ink);
+}
+
+/* Ability card icons */
+.ffxiv.actor:is(.character, .npc, .pet):is(.paper_theme, .eorzea_theme) .ability-card .ability-icon {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  outline: 0;
+  background: none;
 }

@@ -1,11 +1,5 @@
 /* =========================================================
-   Themes (Paper, Eorzea) — Rule tooltip (system 5.6.0)
-   The system shows rule explanations in Foundry's core tooltip
-   (`#tooltip`, and `.locked-tooltip` once pinned), both hung on <body>
-   with the class `ffxiv-enriched-tooltip` (also used for the hover tooltip
-   of UUID links). Same paper look and translucency as the hotbar ability
-   tooltip. Rule tooltips (`ffxiv-rule-tooltip`) start with the rule name in
-   a <strong> inside the first <p>, followed by the rule text.
+   Themes (Paper, Eorzea) — Rule tooltip
    ========================================================= */
 
 body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) :is(#tooltip, .locked-tooltip).ffxiv-enriched-tooltip {
@@ -24,7 +18,7 @@ body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) :is(#tooltip, .locked-tooltip).
   text-shadow: none;
 }
 
-/* Rule name (rule tooltips only; link tooltips start with plain description text) */
+/* Rule name */
 body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) :is(#tooltip, .locked-tooltip).ffxiv-rule-tooltip > p:first-child {
   margin: 0 0 4px;
   padding-bottom: 3px;
@@ -36,7 +30,7 @@ body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) :is(#tooltip, .locked-tooltip).
   font-size: 15px;
 }
 
-/* Rule text: bold keeps the text color, links and rule references stay readable */
+/* Rule text */
 body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) :is(#tooltip, .locked-tooltip).ffxiv-enriched-tooltip :is(p, li) strong {
   color: inherit;
 }

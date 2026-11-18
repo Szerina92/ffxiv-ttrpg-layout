@@ -1,6 +1,5 @@
 /* =========================================================
-   FFXIV TTRPG Layout — Class Summary Sheet
-   Vertical handbook-inspired presentation.
+   Class Summary Sheet
    ========================================================= */
 
 .ffxiv-class-summary-page .window-content {
@@ -23,9 +22,9 @@
   outline-offset: -10px;
 }
 
-/* ---------------------------------------------------------
+/* =========================================================
    Header
-   --------------------------------------------------------- */
+   ========================================================= */
 .ffxiv-class-summary__header {
   display: grid;
   grid-template-columns: minmax(260px, 1fr);
@@ -112,8 +111,6 @@
   width: 100%;
 }
 
-/* The job icon carries the Job of the selected level: drag it onto a
-   character sheet (scripts/utils/card-drag.js). */
 .ffxiv-class-summary__job-icon[data-ffxiv-drag-uuid] {
   cursor: grab;
 }

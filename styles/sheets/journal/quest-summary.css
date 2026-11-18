@@ -1,9 +1,6 @@
-/* ---------------------------------------------------------
-   Quest Summary — compact player-facing quest briefing card.
-   Inserted from the native ProseMirror toolbar and rendered as part of
-   normal Journal text. Kept scoped to the Layout so it never changes
-   Foundry's native editor content outside this module.
-   --------------------------------------------------------- */
+/* =========================================================
+   Quest Summary
+   ========================================================= */
 .ffxiv-journal__text .ffxiv-quest-summary,
 .prosemirror .ffxiv-quest-summary {
   position: relative;
@@ -22,8 +19,6 @@
     0 2px 8px var(--ffxiv-overlay-black-016);
 }
 
-/* Quest Summary alignment modes. Center remains the default layout.
- * Left and Right use float so normal journal text can wrap around the card. */
 .ffxiv-journal__text .ffxiv-quest-summary--align-left,
 .prosemirror .ffxiv-quest-summary--align-left {
   float: left;
@@ -146,9 +141,6 @@
   background: var(--ffxiv-paper-dark);
 }
 
-/* Optional quest image — no wrapper is rendered when no image was selected.
- * The image uses a very subtle four-edge wash: each side softens outward
- * toward the parchment while the center remains visually clear. */
 .ffxiv-journal__text .ffxiv-quest-summary__image,
 .prosemirror .ffxiv-quest-summary__image {
   position: relative;
@@ -251,8 +243,6 @@
   margin-bottom: 0;
 }
 
-/* Editable cards get a subtle interaction affordance without changing the
- * saved Journal HTML. */
 .ffxiv-journal__text .ffxiv-quest-summary--editable,
 .prosemirror .ffxiv-quest-summary--editable {
   cursor: pointer;
@@ -267,9 +257,9 @@
     0 3px 11px var(--ffxiv-overlay-black-016);
 }
 
-/* ---------------------------------------------------------
-   Quest Summary Editor — DialogV2 authoring UI.
-   --------------------------------------------------------- */
+/* =========================================================
+   Quest Summary editor
+   ========================================================= */
 .ffxiv-quest-summary-dialog {
   color: var(--ffxiv-ink, #292b2d);
 }
@@ -305,8 +295,6 @@
   gap: 8px;
 }
 
-/* The Quest Header intentionally mirrors the fixed Class Summary editor header:
- * labels/icons occupy the first column and native controls the second. */
 .ffxiv-quest-summary-editor__title-row {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
@@ -359,11 +347,9 @@
 
 .ffxiv-quest-summary-editor input[type="text"]:focus {
   border-color: var(--ffxiv-gold);
-  box-shadow: 0 0 0 2px var(--ffxiv-overlay-gold-012);
   outline: none;
 }
 
-/* Header fields use the same compact native-control dimensions as Class Summary. */
 .ffxiv-quest-summary-editor__title-row input[type="text"],
 .ffxiv-quest-summary-editor__header-field input[type="text"],
 .ffxiv-quest-summary-editor__header-field select {
@@ -546,7 +532,6 @@
   }
 }
 
-/* Quest toolbar accent. */
 .ffxiv-editor-accent--quest {
   display: inline-flex;
   align-items: center;
@@ -562,9 +547,9 @@
   line-height: 1;
 }
 
-/* ---------------------------------------------------------
-   Quest Summary — optional Objectives section
-   --------------------------------------------------------- */
+/* =========================================================
+   Quest Summary objectives
+   ========================================================= */
 
 .ffxiv-quest-summary__objectives--hidden {
   display: none !important;

@@ -1,10 +1,4 @@
-/**
- * FFXIV TTRPG Layout — Ability Embed
- *
- * `@FFXIVAbility[uuid]` renders an Item of type "ability" as the same FFXIV
- * Card that the Class Summary and the Ability tooltip use. The card data is
- * built once in `buildAbilityCardData`, so all three stay identical.
- */
+/* Ability Embed */
 
 import { buildAbilityCardData } from "../sheets/class-summary-data.js";
 import { applyCardEmbedOptions } from "../utils/card-embed.js";

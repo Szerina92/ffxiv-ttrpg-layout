@@ -1,13 +1,9 @@
 /* =========================================================
-   Themes (Paper, Eorzea) — Actor sheets: attributes, header, inventory
-   Attributes tab, HP/MP gauges, barrier, profile, fortune row, 
-   inventory, effects. Mirrors the system's `.blue_theme` rules, plus 
-   areas where the system hard-codes dark colors (no Blue Theme variant 
-   exists).
+   Themes (Paper, Eorzea) — Actor sheets
    ========================================================= */
 
-.ffxiv.actor:is(.paper_theme, .eorzea_theme) .actor-attributes-tab h2 {
-  color: var(--ffxiv-gold-dark);
+.ffxiv.actor:is(.paper_theme, .eorzea_theme) :is(.actor-attributes-tab, .actor-job-config) h2 {
+  color: var(--text-color);
   text-shadow: none;
 }
 
@@ -113,14 +109,11 @@
   box-shadow: none;
 }
 
-/* Barrier label: no text shadow on the light chip. */
 .ffxiv.actor:is(.paper_theme, .eorzea_theme) .barrier-chip-label {
   color: var(--ffxiv-ink);
   text-shadow: none;
 }
 
-/* Value fields inside the HP/MP bars keep the system's light text on the colored bar;
-   only the barrier number sits on the paper chip. */
 .ffxiv.actor:is(.paper_theme, .eorzea_theme) .barrier-chip input.barrier-input {
   color: var(--ffxiv-ink);
   text-shadow: none;
@@ -175,4 +168,13 @@ body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv.actor .actor-effects .ef
 body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv.actor .actor-job-slot {
   background: var(--theme-field);
   border-color: var(--theme-line);
+}
+
+.ffxiv.actor:is(.character, .npc):is(.paper_theme, .eorzea_theme) .charname input,
+.ffxiv.actor.npc:is(.paper_theme, .eorzea_theme) .sheet-npc-header .charname h1 input {
+  border: 1px solid var(--ffxiv-gold-dark);
+  border-radius: 4px;
+  background: var(--theme-field);
+  color: var(--ffxiv-ink);
+  text-shadow: none;
 }

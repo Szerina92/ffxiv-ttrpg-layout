@@ -1,14 +1,7 @@
-/**
- * FFXIV TTRPG Layout — Chat Cards
- *
- * Shows Ability and Trait chat messages of the FFXIV system with the same FFXIV
- * Card as the Class Summary, embeds and tooltips. Purely a display change: the
- * stored message is untouched, the system's `.item-card` stays in the DOM
- * (hidden) so the system's own button handlers keep working. Part of the
- * themes: the cards only appear while the Paper or Eorzea Theme is on.
- */
+/* Chat cards */
 
 import { isModuleThemeEnabled } from "../settings.js";
+import { isAbilityType } from "../utils/ability-data.js";
 import { createAbilityEmbed } from "./ability-embed.js";
 import { createTraitEmbed } from "./trait-embed.js";
 
@@ -26,7 +19,7 @@ async function replaceItemCard(original) {
   }
   if (!item) return;
 
-  const create = item.type === "ability" ? createAbilityEmbed : item.type === "trait" ? createTraitEmbed : null;
+  const create = isAbilityType(item.type) ? createAbilityEmbed : item.type === "trait" ? createTraitEmbed : null;
   if (!create) return;
 
   const card = await create(item.uuid);

@@ -1,26 +1,12 @@
 /* =========================================================
-   FFXIV TTRPG Layout — central stylesheet entry point
-
-   module.json loads only this file. New style files are added here
-   with one @import line, so adding one needs a page reload instead of
-   a full Foundry restart.
-
-   Order matters (later rules win at equal specificity):
-   1. variables  — design tokens used by everything below
-   2. sheets     — Journal and Class Summary pages
-   3. embeds     — cards, tooltips and chat cards built from them
-   4. toc        — Table of Contents
-   5. themes     — Paper and Eorzea Theme for the FFXIV system, last
-                   because they override system styles and the card
-                   styles above
+   Stylesheet entry point
    ========================================================= */
 
 /* 1. Variables */
 @import url("variables.css");
 
-/* 2. Sheets. Each folder is the former single file cut into consecutive
-      sections, so the cascade order is unchanged. */
-/* 2a. Journal (frame, typography, callouts, tables, editor, shared page-editor controls, Quest Summary) */
+/* 2. Sheets */
+/* 2a. Journal */
 @import url("sheets/journal/base-and-header.css");
 @import url("sheets/journal/layout.css");
 @import url("sheets/journal/book-page.css");
@@ -53,12 +39,12 @@
 @import url("embeds/pet-embed.css");
 @import url("embeds/table-embed.css");
 @import url("embeds/ability-embed.css");
+@import url("embeds/uuid-links.css");
 
 /* 4. Table of Contents */
 @import url("toc/toc.css");
 
-/* 5. Themes for the FFXIV system: one token file per theme, then the
-      rules both themes share (one file per area). */
+/* 5. Themes */
 @import url("themes/paper/tokens.css");
 @import url("themes/eorzea/tokens.css");
 @import url("themes/common/actor-abilities.css");

@@ -1,5 +1,5 @@
 <div class="ffxiv-class-summary__ability-node{{#if card.hasComboChildren}} ffxiv-class-summary__ability-node--combo-parent{{/if}}">
-  <article class="ffxiv-class-summary__ability-card ffxiv-card{{#if card.isItem}} ffxiv-card--item{{/if}}" data-ffxiv-card-type="{{card.cardType}}">
+  <article class="ffxiv-class-summary__ability-card ffxiv-card{{#if card.isItem}} ffxiv-card--item{{/if}}" data-ffxiv-card-type="{{card.cardType}}"{{#if card.uuid}}{{#unless card.isItem}} data-ffxiv-card-uuid="{{card.uuid}}" data-ffxiv-card-kind="ability"{{/unless}}{{/if}}>
     <div class="ffxiv-class-summary__ability-top">
       <div class="ffxiv-class-summary__ability-head">
         {{#if card.img}}
@@ -40,7 +40,7 @@
         {{#if card.traits}}<div><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIV.Abilities.TraitsShort"}}:</strong> {{{card.traits}}}</div>{{/if}}
         {{#if card.description}}<div class="ffxiv-card__description">{{{card.description}}}</div>{{/if}}
       {{else}}
-        {{#if card.baseEffect}}<div class="ffxiv-class-summary__ability-row--base"><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIV.Abilities.BaseEffect"}}:</strong> {{{card.baseEffect}}}{{#if card.comboNames.length}} <span class="ffxiv-class-summary__ability-combo-inline"><strong>{{localize "FFXIVTTRPGLayout.Ability.Combo"}}:</strong> <span class="ffxiv-class-summary__ability-combo-names">{{#each card.comboNames}}{{#unless @first}} {{localize "FFXIVTTRPGLayout.Common.Or"}} {{/unless}}{{this}}{{/each}}</span></span>{{/if}}</div>{{else if card.comboNames.length}}<div class="ffxiv-class-summary__ability-row--base"><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIVTTRPGLayout.Ability.Combo"}}:</strong> <span class="ffxiv-class-summary__ability-combo-names">{{#each card.comboNames}}{{#unless @first}} {{localize "FFXIVTTRPGLayout.Common.Or"}} {{/unless}}{{this}}{{/each}}</span></div>{{/if}}
+        {{#if card.baseEffect}}<div class="ffxiv-class-summary__ability-row--base"><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIV.Abilities.BaseEffect"}}:</strong> {{{card.baseEffect}}}</div>{{/if}}
         {{#if card.directHit}}<div><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIV.Abilities.DirectHit"}}:</strong> {{{card.directHit}}}</div>{{/if}}
         {{#if card.limitations}}<p><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIV.Abilities.Limitations"}}:</strong> {{card.limitations}}</p>{{/if}}
         {{#if card.markerArea}}<p><strong class="ffxiv-class-summary__ability-label">{{localize "FFXIV.Abilities.MarkerArea"}}:</strong> {{card.markerArea}}</p>{{/if}}

@@ -1,7 +1,4 @@
-/**
- * FFXIV TTRPG Layout — NPC / Actor Embed
- * Renders `@FFXIVActor[uuid]{label|left|right|center|double}` as an NPC stat block.
- */
+/* NPC Embed */
 
 import { localize } from "../i18n.js";
 import { buildAbilityCardData } from "../sheets/class-summary-data.js";
@@ -11,26 +8,11 @@ import { renderElement } from "../utils/render.js";
 import { numberOr, text } from "../utils/values.js";
 import { defensePattern, defenseTerms } from "../utils/defense-terms.js";
 import { scheduleDoubleBalance } from "./npc-embed-balance.js";
+import { ATTRIBUTES, CHECK_ABBREVIATIONS } from "../utils/ability-data.js";
 
 const TEMPLATE = "modules/ffxiv-ttrpg-layout/templates/embeds/npc-embed.hbs";
 
-const PRIMARY_STATS = [
-  ["STR", "strength"],
-  ["DEX", "dexterity"],
-  ["VIT", "vitality"],
-  ["INT", "intelligence"],
-  ["MND", "mind"],
-];
-
 const NPC_SIZE_GRIDS = { small: "1x1", medium: "1x1", large: "2x2", huge: "3x3", colossal: "4x4" };
-
-const ABILITY_CHECK_ABBREVIATIONS = {
-  "FFXIV.Attributes.Strength.long": "STR",
-  "FFXIV.Attributes.Dexterity.long": "DEX",
-  "FFXIV.Attributes.Vitality.long": "VIT",
-  "FFXIV.Attributes.Intelligence.long": "INT",
-  "FFXIV.Attributes.Mind.long": "MND",
-};
 
 /* -------------------------------------------- */
 /*  Small formatters                            */
@@ -46,10 +28,9 @@ function getNpcSizeGrid(sizeValue, actor) {
 
 function formatAbilityCheck(value) {
   const check = text(value);
-  return ABILITY_CHECK_ABBREVIATIONS[check] ?? check;
+  return CHECK_ABBREVIATIONS[check] ?? check;
 }
 
-/** Split a CR value so that "Defense" / "Magic Defense" can be highlighted. */
 function formatCrValue(value) {
   const crText = text(value);
   if (!crText) return null;
@@ -89,12 +70,6 @@ async function appendRichTextLine(lines, label, content, relativeTo = null, dept
 
   const enriched = await enrich(html, relativeTo, { depth });
 
-  // The NPC Embed places this rich value inside an existing <p>.
-  // Foundry's enrichment may return one or more block-level <p>/<div>
-  // elements. Nesting those directly inside another <p> causes the browser
-  // to repair the invalid HTML, which separates the value onto a new line
-  // and introduces the apparent indentation/margin seen in the NPC card.
-  // Flatten the top-level block wrappers while retaining their inline HTML.
   const wrapper = document.createElement("div");
   wrapper.innerHTML = String(enriched ?? "");
 
@@ -124,7 +99,6 @@ async function buildAbilityDetailData(item, { checkModifier = "", depth = 0 } = 
     if (content) lines.push({ parts: [detailPart(label, content)] });
   };
 
-  // Two values share one line, separated visually when both are present.
   const addPairLine = (first, second) => {
     const parts = [first, second].filter(part => part.value);
     parts.forEach((part, index) => { part.separator = index > 0; });
@@ -167,9 +141,6 @@ async function buildAbilityDetailData(item, { checkModifier = "", depth = 0 } = 
 /*  Embed data                                  */
 /* -------------------------------------------- */
 
-/**
- * Build the template data of an NPC embed.
- */
 async function buildActorEmbedData(actor, { double = false, depth = 0 } = {}) {
   const system = actor.system ?? {};
   const primary = system.primary_attributes ?? {};
@@ -234,7 +205,7 @@ async function buildActorEmbedData(actor, { double = false, depth = 0 } = {}) {
         value: `${numberOr(secondary.speed?.value, 0)} ${text(secondary.speed?.unit) || localize("FFXIVTTRPGLayout.NPC.Squares")}`,
       },
     ],
-    primaryStats: PRIMARY_STATS.map(([label, key]) => {
+    primaryStats: ATTRIBUTES.map(([label, key]) => {
       const value = numberOr(primary[key]?.value, 0);
       return { label, value: value >= 0 ? `+${value}` : `${value}` };
     }),
@@ -254,8 +225,6 @@ export async function createActorEmbed(uuid, { label, position, double = false, 
   if (typeof uuid !== "string" || !uuid.trim()) return null;
 
   const actor = await fromUuid(uuid.trim());
-  // This subsystem renders NPC Actors only.
-  // Pet Actors are handled exclusively by pet-embed.js / @FFXIVPet.
   if (actor?.documentName !== "Actor" || actor.type !== "npc") return null;
 
   const data = await buildActorEmbedData(actor, { double, depth });

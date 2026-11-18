@@ -1,24 +1,9 @@
-/**
- * FFXIV TTRPG Layout — Journal Page Pointer for Foundry VTT V14.
- *
- * The pointer follows the active page entry in the custom journal sidebar.
- * It is optional and controlled through the module settings.
- *
- * The pointer is an image on <body> with a very high z-index, so it would
- * shine through any window above its Journal. Instead of tracking which
- * Journal is in front, every update asks the browser what is really visible
- * at the page entry (`elementFromPoint`): the pointer is shown only when the
- * entry itself is the topmost element there. That covers other Journals,
- * other applications and entries scrolled out of the sidebar.
- */
+/* Page pointer */
 
 import { MODULE_ID } from "./constants.js";
 import { isPagePointerEnabled } from "./settings.js";
 
 const POINTER_SRC = `modules/${MODULE_ID}/images/Icons/pointer.webp`;
-// Pointing hand (images/Icons/pointer.webp, 85 x 69 px) shown at 37 x 30 px.
-// The fingertip sits at TIP_X / TIP_Y inside the image; it touches the left
-// edge of the page entry, at the entry's vertical center.
 const POINTER_WIDTH = 37;
 const POINTER_HEIGHT = 30;
 const TIP_X = 35;
@@ -28,7 +13,6 @@ const POINTER_TRANSITION = "top 180ms cubic-bezier(0.22, 0.61, 0.36, 1), left 18
 
 const CONTROLLERS = new Set();
 
-/** Re-apply the Page Pointer setting to every open Journal sheet. */
 export function refreshPagePointers() {
   for (const controller of CONTROLLERS) controller.sync();
 }
@@ -37,8 +21,6 @@ function requestAllUpdates() {
   for (const controller of CONTROLLERS) controller.scheduleUpdate();
 }
 
-// Windows opening or closing change what covers a Journal. The new window
-// gets its z-index after rendering, so check once it has settled.
 for (const hook of ["renderApplicationV2", "closeApplicationV2"]) {
   Hooks.on(hook, () => setTimeout(requestAllUpdates, 60));
 }
@@ -54,13 +36,11 @@ export class FFXIVJournalPagePointer {
   #ownerWindow = null;
   #onPosition = () => this.scheduleUpdate();
   #onResize = () => this.scheduleUpdate();
-  // Scrolling updates immediately and without gliding, or the pointer trails behind the list.
   #onScroll = () => this.update({ animate: false });
   #onActivate = () => {
     this.scheduleUpdate();
     setTimeout(() => this.scheduleUpdate(), 120);
   };
-  // While a mouse button is held, another window may be dragged over this one.
   #onPointerMove = event => {
     if (event.buttons) this.scheduleUpdate();
   };
@@ -70,7 +50,6 @@ export class FFXIVJournalPagePointer {
     CONTROLLERS.add(this);
   }
 
-  /** Attach or remove the pointer according to the current setting. */
   sync() {
     if (isPagePointerEnabled()) this.attach();
     else this.destroy();
@@ -126,7 +105,6 @@ export class FFXIVJournalPagePointer {
     this.#sidebar = sidebar;
     this.#ownerDocument = ownerDocument;
     this.#ownerWindow = ownerWindow;
-    // `scroll` does not bubble; capture also catches the scrolling list inside the sidebar.
     this.#sidebar.addEventListener("scroll", this.#onScroll, { capture: true, passive: true });
     ownerWindow.addEventListener("resize", this.#onResize, { passive: true });
     ownerDocument.addEventListener("pointerdown", this.#onActivate, true);
@@ -161,11 +139,6 @@ export class FFXIVJournalPagePointer {
     });
   }
 
-  /**
-   * @param {object} [options]
-   * @param {boolean} [options.animate=true] Glide to the new position. Never glides
-   *   when the pointer was hidden, so it does not fly in from an old place.
-   */
   update({ animate = true } = {}) {
     if (!isPagePointerEnabled()) {
       this.#hide();
@@ -189,8 +162,6 @@ export class FFXIVJournalPagePointer {
       return;
     }
 
-    // Only show the pointer when the page entry itself is what the user sees at
-    // its position: not scrolled out of the list, not covered by another window.
     const probeX = rect.left + Math.min(8, rect.width / 2);
     const probeY = rect.top + rect.height / 2;
     const hit = doc.elementFromPoint(probeX, probeY);

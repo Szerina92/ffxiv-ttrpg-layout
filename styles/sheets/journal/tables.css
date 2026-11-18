@@ -1,8 +1,6 @@
-/* ---------------------------------------------------------
+/* =========================================================
    FFXIV Tables
-   Opt-in only: add class="ffxiv-table" to a native table.
-   Visual base: the Class Summary Attributes table.
-   --------------------------------------------------------- */
+   ========================================================= */
 .ffxiv-journal__text table.ffxiv-table,
 .prosemirror table.ffxiv-table {
   width: 100%;
@@ -20,7 +18,6 @@
   box-shadow: 0 2px 4px var(--ffxiv-overlay-black-024);
 }
 
-/* Keep the native table layout. Only the visual treatment changes. */
 .ffxiv-journal__text table.ffxiv-table thead,
 .prosemirror table.ffxiv-table thead,
 .ffxiv-journal__text table.ffxiv-table thead tr,
@@ -45,7 +42,6 @@
   vertical-align: middle;
 }
 
-/* Optional group headings can be expressed as tbody row headers using <th>. */
 .ffxiv-journal__text table.ffxiv-table tbody th,
 .prosemirror table.ffxiv-table tbody th {
   padding: 5px 9px;
@@ -190,7 +186,6 @@
   height: auto;
 }
 
-/* Foundry content should not inherit an accidental hard text colour */
 .ffxiv-journal__text [style*="color"] strong,
 .ffxiv-journal__text [style*="color"] b,
 .ffxiv-journal__text [style*="color"] em,

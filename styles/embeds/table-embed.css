@@ -1,5 +1,4 @@
-/* FFXIV Rollable Table Embed — dark table surface shared with `table.ffxiv-table`.
-   Selectors are prefixed with the root class so generic Journal table styles never win. */
+/* Table embed */
 
 .ffxiv-table-embed {
   box-sizing: border-box;
@@ -85,7 +84,7 @@
   font-weight: 700;
 }
 
-/* Roll button: [die icon] d6, placed in the range column header. */
+/* Roll button */
 .ffxiv-table-embed .ffxiv-table-embed__roll {
   display: inline-flex;
   align-items: center;

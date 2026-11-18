@@ -1,9 +1,5 @@
 /* =========================================================
    Themes (Paper, Eorzea) — Hotbar ability tooltip
-   The tooltip of the hotbar hangs on <body>, outside any sheet. Same 
-   regions and colors as the module's ability card (header and data row 
-   paper-dark, body paper-light), slightly translucent because it is an 
-   overlay.
    ========================================================= */
 
 body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv-hotbar-ability-tooltip {
@@ -39,8 +35,8 @@ body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv-hotbar-ability-header im
   flex-basis: 46px;
   width: 46px;
   height: 46px;
-  border: 1px solid var(--ffxiv-gold-dark);
-  border-radius: 5px;
+  border: 0;
+  border-radius: 0;
   box-shadow: none;
 }
 
@@ -59,11 +55,10 @@ body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv-hotbar-ability-type {
   font-style: italic;
 }
 
-/* Region 2: data row as "Label: value" pairs instead of the spread-out grid */
+/* Region 2: data row */
 body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv-hotbar-ability-details {
-  grid-template-columns: repeat(4, max-content);
-  justify-content: start;
-  gap: 1px 4px;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 1px 6px;
   margin: 0;
   padding: 4px 12px 5px;
   background: color-mix(in srgb, var(--ffxiv-paper-dark) 86%, transparent);
@@ -81,9 +76,9 @@ body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv-hotbar-ability-details d
 }
 
 body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv-hotbar-ability-details dd {
-  margin-right: 12px;
   color: var(--ffxiv-ink);
   text-align: left;
+  overflow-wrap: anywhere;
 }
 
 /* Region 3: body */
@@ -119,4 +114,15 @@ body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv-hotbar-ability-overview 
   margin: 4px 0;
   background: transparent;
   height: 0;
+}
+
+/* Readiness note and separators */
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv-hotbar-ability-readiness {
+  margin: 6px 12px 0;
+  color: var(--ffxiv-red-bright);
+}
+
+body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv-hotbar-ability-details dt:nth-of-type(even) {
+  padding-left: 0;
+  border-left: 0;
 }

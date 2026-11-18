@@ -1,7 +1,5 @@
 /* =========================================================
    Themes (Paper, Eorzea) — Item sheets
-   Panels, tags and list rows of the Item and Job sheets. The system lays 
-   rgba(0,0,0,.12) panels over the sheet, which turn grey on parchment.
    ========================================================= */
 
 .ffxiv.item:is(.paper_theme, .eorzea_theme) .ability-sheet-tabs .item,
@@ -23,8 +21,6 @@
   border-bottom-color: var(--theme-line);
 }
 
-/* Item sheets: the system lays rgba(0,0,0,.12) panels over the sheet, which
-   turns grey on parchment. Same selectors as the system, with the theme class. */
 .ffxiv.item:is(.paper_theme, .eorzea_theme) .item-modern-panel,
 .ffxiv.item:is(.paper_theme, .eorzea_theme) .job-attribute-section,
 .ffxiv.item.item-modern-sheet:is(.paper_theme, .eorzea_theme) .item-details-card {
@@ -60,7 +56,7 @@
   color: var(--ffxiv-ink);
 }
 
-/* Greyed "None" values and other muted text on the sheet */
+/* Muted text */
 .ffxiv.item:is(.paper_theme, .eorzea_theme) .item-locked-field,
 .ffxiv.item:is(.paper_theme, .eorzea_theme) .item-details-card .resource-content,
 .ffxiv.item:is(.paper_theme, .eorzea_theme) .item-details-card .resource-content > * {
@@ -75,15 +71,37 @@ body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv.item.item-modern-sheet .
   background: var(--theme-panel) !important;
 }
 
-/* Gear: Job Requirement / Modifiers chips in the locked view */
+/* Gear chips */
 body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv.item.item-locked .tags-container .item-locked-field {
   background: var(--theme-field);
   border-color: var(--ffxiv-gold-light);
   color: var(--ffxiv-ink);
 }
 
-/* Ability sheet, critical-hit rules (system 5.5.0): the divider between rules
-   is a light gold that nearly disappears on parchment. */
 .ffxiv.item:is(.paper_theme, .eorzea_theme) .ability-critical-rule + .ability-critical-rule {
   border-top-color: var(--theme-line);
+}
+
+.ffxiv:is(.actor, .item):is(.paper_theme, .eorzea_theme) :is(.actor-edit-toggle, .item-edit-toggle) {
+  border: 1px solid var(--ffxiv-gold-dark);
+  background: var(--theme-card);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  color: var(--ffxiv-ink);
+}
+
+.ffxiv:is(.actor, .item):is(.paper_theme, .eorzea_theme) :is(.actor-edit-toggle, .item-edit-toggle).active {
+  border-color: var(--ffxiv-gold-dark);
+  background: var(--theme-btn);
+  box-shadow: inset 0 0 0 1px var(--theme-sheen-40), 0 1px 3px rgba(0, 0, 0, 0.3);
+  color: var(--ffxiv-ink);
+}
+
+.ffxiv:is(.paper_theme, .eorzea_theme) :is(prose-mirror, .prosemirror) menu {
+  border-color: var(--theme-line);
+  background: var(--theme-card-head);
+  color: var(--ffxiv-ink);
+}
+
+.ffxiv:is(.paper_theme, .eorzea_theme) :is(prose-mirror, .prosemirror) menu :is(button, button i, .pm-dropdown, .pm-dropdown i) {
+  color: var(--ffxiv-ink);
 }

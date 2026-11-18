@@ -1,0 +1,66 @@
+/* =========================================================
+   Ability and Trait links
+   ========================================================= */
+
+a.content-link.ffxiv-uuid-link[data-type="Item"][data-uuid] {
+  display: inline-block;
+  overflow-wrap: normal;
+  word-break: normal;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  color: inherit;
+  font-weight: 700;
+  line-height: inherit;
+  white-space: nowrap;
+  text-decoration: none;
+  vertical-align: baseline;
+  transition: text-shadow .12s ease;
+}
+
+a.content-link.ffxiv-uuid-link--ability[data-type="Item"][data-uuid] {
+  color: var(--ffxiv-red-bright);
+}
+
+a.content-link.ffxiv-uuid-link[data-type="Item"][data-uuid]::before {
+  content: none;
+  display: none;
+}
+
+a.content-link.ffxiv-uuid-link[data-type="Item"][data-uuid] > i {
+  display: none;
+}
+
+a.content-link.ffxiv-uuid-link[data-type="Item"][data-uuid]:hover,
+a.content-link.ffxiv-uuid-link[data-type="Item"][data-uuid]:focus-visible {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-shadow: 0 0 6px color-mix(in srgb, currentColor 45%, transparent);
+}
+
+a.content-link.ffxiv-uuid-link--ability[data-type="Item"][data-uuid]:hover,
+a.content-link.ffxiv-uuid-link--ability[data-type="Item"][data-uuid]:focus-visible {
+  color: var(--ffxiv-red-bright);
+}
+
+.ffxiv-link--att a.content-link.ffxiv-uuid-link[data-type="Item"][data-uuid],
+.ffxiv-link--att a.content-link.ffxiv-uuid-link[data-type="Item"][data-uuid]:is(:hover, :focus-visible) {
+  color: var(--ffxiv-red-bright);
+}
+
+.ffxiv-link--abi a.content-link.ffxiv-uuid-link[data-type="Item"][data-uuid],
+.ffxiv-link--abi a.content-link.ffxiv-uuid-link[data-type="Item"][data-uuid]:is(:hover, :focus-visible) {
+  color: var(--ffxiv-blue-dark);
+}
+
+.ffxiv-auto-mark {
+  color: var(--ffxiv-red-bright);
+  font-weight: 700;
+}
+
+.ffxiv-auto-mark--trait {
+  color: inherit;
+}

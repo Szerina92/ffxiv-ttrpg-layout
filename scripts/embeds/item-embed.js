@@ -1,9 +1,4 @@
-/**
- * FFXIV TTRPG Layout — Item Embed
- *
- * Item Cards use the same shared FFXIV Card component as Class Summary
- * abilities. The Item type only supplies the data; the card layout is shared.
- */
+/* Item Embed */
 
 import { localize, localizeTags } from "../i18n.js";
 import { tidyRichText } from "../sheets/class-summary-data.js";
@@ -31,7 +26,6 @@ export async function createItemEmbed(uuid, { label, depth = 1 } = {}) {
 
   const description = text(system.description);
   const baseEffect = text(system.base_effect);
-  // Minions and mounts keep their traits in an own rich-text field.
   const traits = text(system.traits);
   const minionType = text(system.minion_type);
   const typeLabels = [minionType ? localize(minionType) : "", ...localizeTags(system.tags)].filter(Boolean);
@@ -44,10 +38,6 @@ export async function createItemEmbed(uuid, { label, depth = 1 } = {}) {
     img: item.img ?? "",
     typeLabel: typeLabels.join(", "),
     metaFields,
-    // Rich text: links such as @UUID[…]{Cure} in augments become real links.
-    // tidyRichText unwraps the first paragraph, so the text stays next to its label.
-    // Embeds in these texts (e.g. the ability an augment grants) render as
-    // nested cards, one level deep (see enrichEmbed).
     baseEffect: baseEffect ? tidyRichText(await enrich(baseEffect, item, { depth })) : "",
     traits: traits ? tidyRichText(await enrich(traits, item, { depth })) : "",
     description: description ? await enrich(description, item, { depth }) : "",

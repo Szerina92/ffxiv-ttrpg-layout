@@ -1,6 +1,6 @@
-/* ---------------------------------------------------------
+/* =========================================================
    Ability combo nesting
-   --------------------------------------------------------- */
+   ========================================================= */
 .ffxiv-class-summary__ability-node {
   min-width: 0;
 }
@@ -17,15 +17,6 @@
   padding: 10px 0 0 22px;
 }
 
-/*
- * Combo connector geometry:
- *
- * The connector lives 21px left of every child card. The first child owns
- * the short vertical segment coming up from the parent card, while the
- * child nodes continue the spine only as far as the next child / the final
- * child's center. This prevents any connector from extending below the
- * combo group.
- */
 .ffxiv-class-summary__ability-children > .ffxiv-class-summary__ability-node {
   position: relative;
   z-index: 1;
@@ -48,12 +39,10 @@
   bottom: -10px;
 }
 
-/* The first child starts directly at the parent card's bottom. */
 .ffxiv-class-summary__ability-children > .ffxiv-class-summary__ability-node:first-child:not(:last-child)::after {
   top: -10px;
 }
 
-/* The final child stops exactly at its own vertical center. */
 .ffxiv-class-summary__ability-children > .ffxiv-class-summary__ability-node:last-child::after {
   top: -10px;
   bottom: auto;

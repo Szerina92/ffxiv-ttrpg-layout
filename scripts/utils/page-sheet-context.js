@@ -1,4 +1,4 @@
-/** FFXIV TTRPG Layout — context shared by the custom JournalEntryPage sheets. */
+/* Page sheet context */
 
 function sortedCategories(journal) {
   const categories = journal?.categories?.contents;
@@ -16,13 +16,6 @@ function sortedCategories(journal) {
     .filter(category => category.id && category.name);
 }
 
-/**
- * Page title, heading level and category data used by the native page controls.
- * Categories belong to the parent JournalEntry and are referenced by id.
- *
- * @param {foundry.applications.sheets.journal.JournalEntryPageSheet} sheet
- * @param {string} noCategoryLabel Localized label of the empty category option.
- */
 export function buildPageControlsContext(sheet, noCategoryLabel) {
   const page = sheet.page;
   const categories = sortedCategories(page?.parent);

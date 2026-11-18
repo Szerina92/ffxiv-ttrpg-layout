@@ -1,20 +1,7 @@
-/** FFXIV TTRPG Layout — ProseMirror editor window for a single page data field. */
+/* Field editor */
 
 import { createNativeTextDocument } from "./native-text-proxy.js";
 
-/**
- * Create a ProseMirror editor sheet that edits one HTML field of a custom
- * JournalEntryPage subtype (for example `system.content`) in a separate window.
- *
- * The editor works on a temporary text-page proxy; all writes are redirected
- * to `system.<field>`, so the proxy never becomes a persisted `text.content`.
- *
- * @param {object} config
- * @param {string} config.field Name of the HTML field inside `page.system`.
- * @param {() => string} config.getTitle Localized window title.
- * @param {object} config.defaultOptions ApplicationV2 DEFAULT_OPTIONS of the editor.
- * @returns {typeof foundry.applications.sheets.journal.JournalEntryPageProseMirrorSheet}
- */
 export function createFieldEditor({ field, getTitle, defaultOptions }) {
   const { JournalEntryPageProseMirrorSheet } = foundry.applications.sheets.journal;
   const toSystemUpdate = value => ({ system: { [field]: String(value ?? "") } });

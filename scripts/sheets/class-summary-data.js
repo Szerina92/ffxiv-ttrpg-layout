@@ -1,9 +1,4 @@
-/**
- * FFXIV TTRPG Layout — Class Summary data adapter.
- *
- * Converts FFXIV Job and Pet data into presentation-ready view models used by
- * the Class Summary and the Pet Card. The source documents remain authoritative.
- */
+/* Class Summary data */
 
 import { buildClassSummaryAttributesViewModel } from "./class-summary-view-model.js";
 import { localize, localizeTags } from "../i18n.js";
@@ -11,8 +6,8 @@ import { getComboKeys, getContentKeys, getSourceText } from "../utils/content-ke
 import { defensePattern } from "../utils/defense-terms.js";
 import { enrich } from "../utils/enrich.js";
 import { numberOr, text } from "../utils/values.js";
+import { ATTRIBUTES, CHECK_ABBREVIATIONS, isAbilityType, SPECIAL_CHECK } from "../utils/ability-data.js";
 
-/** Name variants (English/German) and the abbreviation used to recognise special Jobs. */
 const JOB_ALIASES = Object.freeze({
   bard: { names: ["bard", "barde"], abbreviation: "brd" },
   monk: { names: ["monk", "moench", "mönch", "moine"], abbreviation: "mnk" },
@@ -34,29 +29,13 @@ function hasTag(item, tag) {
   return Array.isArray(tags) && tags.includes(`FFXIV.Tags.${tag}`);
 }
 
-const CHECK_ATTRIBUTE_ABBREVIATIONS = new Map([
-  ["FFXIV.Attributes.Strength.long", "STR"],
-  ["FFXIV.Attributes.Dexterity.long", "DEX"],
-  ["FFXIV.Attributes.Vitality.long", "VIT"],
-  ["FFXIV.Attributes.Intelligence.long", "INT"],
-  ["FFXIV.Attributes.Mind.long", "MND"],
-]);
-
-const SPECIAL_CHECK = "FFXIV.Special";
-
-const CHECK_ATTRIBUTE_KEYS = new Map([
-  ["STR", "strength"],
-  ["DEX", "dexterity"],
-  ["VIT", "vitality"],
-  ["INT", "intelligence"],
-  ["MND", "mind"],
-]);
+const CHECK_ATTRIBUTE_KEYS = new Map(ATTRIBUTES);
 
 function normalizeCheck(value) {
   const normalized = text(value);
   if (!normalized || normalized.toLowerCase() === "none") return "";
   if (normalized === SPECIAL_CHECK) return localize("FFXIV.Special");
-  return CHECK_ATTRIBUTE_ABBREVIATIONS.get(normalized) ?? normalized;
+  return CHECK_ABBREVIATIONS[normalized] ?? normalized;
 }
 
 function getCheckModifier(jobSystem, check) {
@@ -103,27 +82,16 @@ function formatChallengeParts(value) {
 
 function abilityTypeFromTags(tags) {
   if (!Array.isArray(tags)) return "";
-  // Fixed keys, not translated words: the sections are chosen by these.
   if (tags.includes("FFXIV.Tags.Primary")) return "Primary";
   if (tags.includes("FFXIV.Tags.Secondary")) return "Secondary";
   if (tags.includes("FFXIV.Tags.Instant")) return "Instant";
   return "";
 }
 
-/**
- * Convert the flat ability list from the Job Item into combo trees.
- *
- * The FFXIV system stores the prerequisite as `system.combo` using the
- * prerequisite ability's name (for example `Dragoon Combo ...` has
- * `combo: "True Thrust"`). The Job Item remains authoritative; this helper
- * only builds presentation groups for the Class Summary renderer.
- */
 function buildAbilityComboGroups(abilities) {
   const entries = Array.isArray(abilities) ? abilities : [];
   if (!entries.length) return [];
 
-  // Abilities are matched by translation-safe keys (original and displayed
-  // name), so a combo still resolves when Babele translated the names.
   const byKey = new Map();
   for (const ability of entries) {
     for (const key of ability?.contentKeys ?? []) {
@@ -147,25 +115,16 @@ function buildAbilityComboGroups(abilities) {
     const kids = childrenByParent.get(ability) ?? [];
     return {
       ...ability,
-      comboNames: kids.map(child => child.name),
       comboChildren: kids.map(attachChildren),
       hasComboChildren: kids.length > 0,
     };
   };
 
-  // Only abilities without a valid combo parent remain at the root level.
-  // This prevents a combo child from also appearing as an independent card.
   return entries
     .filter(ability => !children.has(ability))
     .map(attachChildren);
 }
 
-/**
- * Estimate the rendered height of an ability tree. This is intentionally
- * approximate: it is only used to distribute the root ability groups across
- * two visual columns so a tall combo chain does not create a large empty
- * area beside it. The actual card remains fully content-driven in CSS.
- */
 function estimateAbilityHeight(ability) {
   if (!ability) return 0;
 
@@ -174,7 +133,6 @@ function estimateAbilityHeight(ability) {
     [ability.target, ability.range].filter(Boolean).join(" "),
     [ability.check, ability.challenge].filter(Boolean).join(" CR: "),
     ability.baseEffect,
-    ability.comboNames?.join(" or "),
     ability.directHit,
     ability.limitations,
     ability.markerArea,
@@ -199,13 +157,6 @@ function estimateAbilityHeight(ability) {
   return height;
 }
 
-/**
- * Arrange root ability groups into two balanced columns. Combo trees stay
- * together as one group, while unrelated abilities are packed into the
- * currently shorter column. This keeps the existing two-column presentation
- * without the large holes created when a combo tree becomes taller than its
- * neighbours.
- */
 function buildAbilityComboColumns(abilities) {
   const groups = buildAbilityComboGroups(abilities);
   if (groups.length <= 1) return groups.length ? [groups] : [];
@@ -222,11 +173,6 @@ function buildAbilityComboColumns(abilities) {
   return columns.filter(column => column.length);
 }
 
-/**
- * Estimate the rendered height of a Trait / Other Effect card. This mirrors
- * the lightweight balancing used for Ability sections: the source order is
- * preserved, while cards are distributed into the currently shorter column.
- */
 function estimateTraitHeight(trait) {
   if (!trait) return 0;
 
@@ -239,10 +185,6 @@ function estimateTraitHeight(trait) {
   return 38 + (titleLines - 1) * 16 + 8 + bodyLines * 16;
 }
 
-/**
- * Arrange Traits & Other Effects in the same two-column, height-balanced
- * presentation used by the other Class Summary sections.
- */
 function buildTraitColumns(traits) {
   const entries = Array.isArray(traits) ? traits : [];
   if (entries.length <= 1) return entries.length ? [entries] : [];
@@ -266,13 +208,6 @@ function isLimitBreak(grant, item) {
     || text(grant?.name).startsWith("Limit Break:");
 }
 
-/**
- * Card rows put a label before rich text ("Base Effect: …"). Authors usually
- * write that text as paragraphs, and a paragraph inside the row would push the
- * label onto its own line; blank paragraphs at the start or end would add gaps
- * ("Direct Hit" floating below an empty line). Trim blank edges and let the
- * first paragraph flow inline; later paragraphs stay as they are.
- */
 export function tidyRichText(html) {
   if (!html) return html;
 
@@ -305,10 +240,6 @@ async function enrichRichText(value, document, depth = 0) {
   }
 }
 
-/**
- * "(d20 + 3)" when a Job supplies the attribute value. Without Job context
- * (tooltip, Ability embed) the attribute name itself is shown: "(d20 + INT)".
- */
 function buildCheckModifier(rawCheck, jobItem, jobSystem) {
   if (text(rawCheck) === SPECIAL_CHECK) return "";
   const check = normalizeCheck(rawCheck);
@@ -323,9 +254,6 @@ async function normalizeAbility(grant, item, jobItem, depth = 0) {
   const system = item?.system ?? {};
   const jobSystem = jobItem?.system ?? {};
   const tags = Array.isArray(system.tags) ? system.tags : [];
-  // Keep every tag supplied by the source Item. There is intentionally no
-  // whitelist here: the FFXIV system can introduce additional tags without
-  // requiring a Layout update.
   const typeLabels = localizeTags(tags);
 
   return {
@@ -352,7 +280,6 @@ async function normalizeAbility(grant, item, jobItem, depth = 0) {
     combo: text(system.combo),
     contentKeys: getContentKeys(item),
     comboKeys: getComboKeys(item),
-    comboNames: [],
     directHit: await enrichRichText(system.direct_hit, item, depth),
     limitations: text(system.limitations),
     markerArea: text(system.marker_area),
@@ -377,18 +304,6 @@ async function normalizeTrait(grant, item, depth = 0) {
   };
 }
 
-/**
- * Normalize an individual FFXIV ability Item for reuse outside the Class
- * Summary. The Item remains the authoritative source; callers only provide
- * the optional context document used for check modifiers.
- */
-
-/**
- * Build the shared Pet Card view model used both by standalone Pet Embeds and
- * by the Class Summary Pets section. The resolved Actor remains the
- * authoritative source; its embedded Ability Items are converted through the
- * same Unified Card data path used everywhere else.
- */
 function estimatePetHeight(pet) {
   if (!pet) return 0;
 
@@ -439,7 +354,7 @@ export async function buildPetCardData(actor, { depth = 0 } = {}) {
   const abilities = [];
 
   for (const child of Array.from(actor.items ?? [])) {
-    if (child?.type !== "ability") continue;
+    if (!isAbilityType(child?.type)) continue;
     const ability = await buildAbilityCardData(child, actor, { depth });
     if (ability) abilities.push(ability);
   }
@@ -468,7 +383,7 @@ export async function buildTraitCardData(item, { depth = 0 } = {}) {
 }
 
 export async function buildAbilityCardData(item, contextDocument = null, { depth = 0 } = {}) {
-  if (!item || item.documentName !== "Item" || item.type !== "ability") return null;
+  if (!item || item.documentName !== "Item" || !isAbilityType(item.type)) return null;
   return normalizeAbility({ uuid: item.uuid, name: item.name }, item, contextDocument, depth);
 }
 
@@ -480,10 +395,6 @@ async function resolveJobFromUuid(uuid) {
   return item;
 }
 
-/**
- * Resolve a Job grant. The UUID comes first; when it no longer resolves (for
- * example a translated compendium), the system's name-key matching is used.
- */
 async function resolveGrantItem(grant) {
   let item = null;
   try {
@@ -611,14 +522,6 @@ async function buildClassSummaryData(item) {
   };
 }
 
-/**
- * Build the Class Summary context shared by the Journal view and the page sheet.
- *
- * @param {JournalEntryPage} page The Class Summary page.
- * @param {object} [options]
- * @param {boolean} [options.includeSummary=true] Build the full Class Summary for the active Job.
- *   The edit view only needs the Job list and therefore skips this.
- */
 export async function buildClassSummaryPageContext(page, { includeSummary = true } = {}) {
   const { jobUuids, currentJobUuid: activeJobUuid, introduction } = page.system;
 

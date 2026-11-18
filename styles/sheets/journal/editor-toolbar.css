@@ -1,8 +1,7 @@
-/* ---------------------------------------------------------
-   X|V semantic formatting dropdown in Foundry's native
-   ProseMirror toolbar.
-   --------------------------------------------------------- */
-/* v1.5.0: X|V native nested submenus. */
+/* =========================================================
+   X|V editor menu
+   ========================================================= */
+/* X|V submenus */
 .ffxiv-editor-xv-menu .ffxiv-editor-submenu-entry {
   font-weight: 700;
 }
@@ -108,6 +107,10 @@
   color: var(--ffxiv-blue-dark);
 }
 
+.ffxiv-editor-xv-menu .ffxiv-editor-accent--nolink {
+  color: var(--ffxiv-muted);
+}
+
 .ffxiv-editor-xv-menu .ffxiv-editor-semantic-entry--att:hover,
 .ffxiv-editor-xv-menu .ffxiv-editor-semantic-entry--att:focus-visible {
   color: var(--ffxiv-red-bright);
@@ -118,7 +121,7 @@
   color: var(--ffxiv-blue-dark);
 }
 
-/* Semantic marks used by ATT and ABI. */
+/* ATT and ABI marks */
 .ffxiv-journal__text .ffxiv-att,
 .ffxiv-journal__text .ffxiv-abi,
 .prosemirror .ffxiv-att,
@@ -134,12 +137,10 @@
   color: var(--ffxiv-blue-dark);
 }
 
-/* v1.3.5: FFXIV-style numbered list markers */
+/* Numbered list markers */
 .ffxiv-journal__text ol > li::marker,
 .ffxiv-editor .ProseMirror ol > li::marker,
 .prosemirror-menu ol > li::marker {
   color: var(--ffxiv-black);
   font-weight: 700;
 }
-
-/* Item and NPC embed styling lives in the dedicated embed stylesheets. */

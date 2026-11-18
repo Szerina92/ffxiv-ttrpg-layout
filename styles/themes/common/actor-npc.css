@@ -1,7 +1,5 @@
 /* =========================================================
    Themes (Paper, Eorzea) — NPC statblock
-   Hard-coded dark areas of the NPC statblock; the system sets these with 
-   high specificity, hence `!important`.
    ========================================================= */
 
 /* NPC / statblock */
@@ -27,7 +25,7 @@ body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv.actor .npc-statblock .re
   color: var(--ffxiv-ink) !important;
 }
 
-/* NPC: labels that the system hard-codes light grey, and the dark attribute boxes */
+/* NPC labels and attributes */
 body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv.actor .npc-secondary-label,
 body:is(.ffxiv-paper-theme, .ffxiv-eorzea-theme) .ffxiv.actor .npc-defense-heading {
   color: var(--ffxiv-ink) !important;

@@ -1,18 +1,4 @@
-/**
- * Create the native JournalEntryPage text-document proxy used by custom
- * ProseMirror editors.
- *
- * The helper owns only the mechanical Foundry text-page bridge. Consumers
- * remain responsible for field-specific persistence and editor lifecycle.
- *
- * @param {JournalEntryPage} page The real source JournalEntryPage.
- * @param {object} options Proxy configuration.
- * @param {() => string} options.getName Return the temporary text-page name.
- * @param {() => string} options.getContent Return the current text content.
- * @param {(target: JournalEntryPage, content: string, operation: object) => Promise<unknown>} options.update Persist a normal update.
- * @param {(target: JournalEntryPage, content: string, options: object) => void} options.updateSource Persist a source update.
- * @returns {JournalEntryPage} A JournalEntryPage-compatible native-text proxy.
- */
+/* Native text proxy */
 export function createNativeTextDocument(
   page,
   {

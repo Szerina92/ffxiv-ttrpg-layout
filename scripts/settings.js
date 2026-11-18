@@ -1,8 +1,4 @@
-/**
- * FFXIV TTRPG Layout — module settings.
- * All settings are client-scoped. Registration order is the order shown in
- * the module settings dialog.
- */
+/* Settings */
 
 import { MODULE_ID } from "./constants.js";
 
@@ -12,6 +8,7 @@ const SETTINGS = Object.freeze({
   pageChangeSoundVolume: "experimentalPageChangeSoundVolume",
   paperTheme: "paperTheme",
   eorzeaTheme: "eorzeaTheme",
+  autoLinks: "experimentalAutoLinks",
 });
 
 const getSetting = key => game.settings.get(MODULE_ID, key);
@@ -19,16 +16,11 @@ const getSetting = key => game.settings.get(MODULE_ID, key);
 export const isPagePointerEnabled = () => getSetting(SETTINGS.pagePointer) === true;
 export const isPageChangeSoundEnabled = () => getSetting(SETTINGS.pageChangeSound) === true;
 export const isPaperThemeEnabled = () => getSetting(SETTINGS.paperTheme) === true;
-/** Paper wins if both are on (the settings switch each other off, see below). */
 export const isEorzeaThemeEnabled = () => !isPaperThemeEnabled() && getSetting(SETTINGS.eorzeaTheme) === true;
-/** True while one of the Layout's themes (Paper or Eorzea) styles the system. */
 export const isModuleThemeEnabled = () => isPaperThemeEnabled() || isEorzeaThemeEnabled();
+export const isAutoLinksEnabled = () => getSetting(SETTINGS.autoLinks) === true;
 export const getPageChangeSoundVolumePercent = () => Number(getSetting(SETTINGS.pageChangeSoundVolume));
 
-/**
- * @param {object} [callbacks]
- * @param {() => void} [callbacks.onPagePointerChange] Called when the Page Pointer setting changes.
- */
 export function registerSettings({ onPagePointerChange } = {}) {
   const register = (key, label, data) => game.settings.register(MODULE_ID, key, {
     name: `FFXIVTTRPGLayout.Settings.${label}`,
@@ -55,7 +47,6 @@ export function registerSettings({ onPagePointerChange } = {}) {
     default: 50,
   });
 
-  // Only one theme at a time: switching one on switches the other off.
   const switchOff = key => {
     if (getSetting(key) === true) game.settings.set(MODULE_ID, key, false);
   };
@@ -72,5 +63,10 @@ export function registerSettings({ onPagePointerChange } = {}) {
     default: false,
     requiresReload: true,
     onChange: enabled => enabled && switchOff(SETTINGS.paperTheme),
+  });
+
+  register(SETTINGS.autoLinks, "AutoLinks", {
+    type: Boolean,
+    default: true,
   });
 }

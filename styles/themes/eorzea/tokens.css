@@ -1,21 +1,5 @@
 /* =========================================================
    Eorzea Theme — Tokens
-   Dark theme after the FFXIV game interface: charcoal window surfaces,
-   slightly lighter cards on them, light text, grey secondary text,
-   gold-orange labels, gold frames, bronze for active/primary buttons and
-   an amber selection tint, cyan for highlighted values. Same structure as the Paper Theme: the rules live
-   in styles/themes/common/ and read the variables below.
-
-   `.eorzea_theme` is the class the system puts on sheets, item sheets
-   and floating tooltips (CONFIG.theme = "eorzea", see
-   scripts/paper-theme.js). Chat, the hotbar tooltip, enriched tooltips
-   and the inventory context menu hang on <body>; they get the tokens
-   through the body class `ffxiv-eorzea-theme`.
-
-   Unlike the Paper Theme, this file also redefines the Layout's own
-   colors (`--ffxiv-ink`, `--ffxiv-paper-*`, `--ffxiv-gold-*` …), because
-   they are tuned for parchment. The override is limited to the themed
-   areas, so Journals and the Layout's own pages keep their look.
    ========================================================= */
 
 .eorzea_theme,
@@ -28,7 +12,7 @@ body.ffxiv-eorzea-theme :is(
 ) {
   color-scheme: dark;
 
-  /* --- The Layout's own colors, dark variant --- */
+  /* Layout colors */
   --ffxiv-ink: #e8e4da;
   --ffxiv-muted: #b0aba0;
   --ffxiv-paper: #262626;
@@ -45,7 +29,7 @@ body.ffxiv-eorzea-theme :is(
   --ffxiv-red-dark: #e0806f;
   --ffxiv-card-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
 
-  /* --- Variables the system's own themes define (css/vars.css) --- */
+  /* System theme variables */
   --option-background-color: #2a2a2a;
   --background-color: linear-gradient(180deg, #2b2b2b 0%, #232323 55%, #1c1c1c 100%);
   --text-color: var(--ffxiv-ink);
@@ -84,7 +68,7 @@ body.ffxiv-eorzea-theme :is(
   --subtabactive-background: linear-gradient(0deg, #3a3a3a 0%, #4a4a4a 100%);
   --subtabactive-filter: none;
 
-  /* --- Rarity colors readable on dark surfaces --- */
+  /* Rarity colors */
   --rarity-basic: var(--ffxiv-ink);
   --rarity-green: #6fd38e;
   --rarity-aetherial: #e27bc0;
@@ -92,7 +76,7 @@ body.ffxiv-eorzea-theme :is(
   --rarity-relic: #b48cf0;
   --rarity-unique: #ff6b6b;
 
-  /* --- Surfaces shared by the rules in styles/themes/common/ --- */
+  /* Surfaces */
   --theme-line: #5a5548;
   --theme-panel: linear-gradient(180deg, rgba(0, 0, 0, 0.14) 0%, rgba(0, 0, 0, 0.22) 100%);
   --theme-card: #363636;
@@ -101,7 +85,7 @@ body.ffxiv-eorzea-theme :is(
   --theme-tab: linear-gradient(180deg, #3e3e3e 0%, #2c2c2c 100%);
   --theme-btn: linear-gradient(180deg, #5c4b30 0%, #3d3323 100%);
 
-  /* --- Single values of the shared rules --- */
+  /* Shared rule values */
   --theme-sheen-50: rgba(255, 255, 255, 0.08);
   --theme-sheen-45: rgba(255, 255, 255, 0.07);
   --theme-sheen-40: rgba(255, 255, 255, 0.06);
@@ -116,7 +100,7 @@ body.ffxiv-eorzea-theme :is(
   --theme-slot-top: #3a3a3a;
   --theme-slot-bottom: #2e2e2e;
 
-  /* --- Foundry variables the system's CSS reads --- */
+  /* Foundry variables */
   --color-text-primary: var(--ffxiv-ink);
   --color-text-secondary: var(--ffxiv-muted);
   --color-border-light-primary: var(--ffxiv-gold);

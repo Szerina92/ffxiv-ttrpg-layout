@@ -1,10 +1,4 @@
-/**
- * FFXIV TTRPG Layout — Pet Embed
- *
- * Standalone Pet Embeds and Class Summary Pet Cards share the same Pet Card
- * template and the same underlying Pet view model. The presentation remains
- * type-specific, while Ability children use the Unified Card component.
- */
+/* Pet Embed */
 
 import { buildPetCardData } from "../sheets/class-summary-data.js";
 import { embedPattern, enrichEmbed, normalizePosition, pickPosition } from "../utils/enricher-options.js";

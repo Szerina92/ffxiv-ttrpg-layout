@@ -5,9 +5,6 @@
     }
   },
   "FFXIVTTRPGLayout": {
-    "Common": {
-      "Or": "or"
-    },
     "ClassSummary": {
       "Title": "Class Summary",
       "PageTitle": "Page Title",
@@ -28,10 +25,12 @@
       "ClickToOpenEditor": "Click here to open the editor.",
       "SongAbilities": "Song Abilities",
       "TechniqueAbilities": "Technique Abilities",
-      "NinjutsuAbilities": "Ninjutsu Abilities"
+      "NinjutsuAbilities": "Ninjutsu Abilities",
+      "PrimaryAbilities": "Primary Abilities",
+      "SecondaryAbilities": "Secondary Abilities",
+      "InstantAbilities": "Instant Abilities"
     },
     "Ability": {
-      "Combo": "Combo",
       "SpecialCheck": "Special (d20, Critical)"
     },
     "Item": {
@@ -55,7 +54,9 @@
       "PaperTheme": "Paper Theme",
       "PaperThemeHint": "Overrides core settings light/dark color scheme with a paper theme, inspired by the FFXIV TTRPG Rulebook. Does not work with the Blue Color Theme.",
       "EorzeaTheme": "Eorzea Theme",
-      "EorzeaThemeHint": "Overrides core settings light/dark color scheme with a dark theme, inspired by the FFXIV game interface. Does not work with the Blue Color Theme. Switches the Paper Theme off."
+      "EorzeaThemeHint": "Overrides core settings light/dark color scheme with a dark theme, inspired by the FFXIV game interface. Does not work with the Blue Color Theme. Switches the Paper Theme off.",
+      "AutoLinks": "Ability and Trait Detection (Experimental)",
+      "AutoLinksHint": "Finds the names of Abilities and Traits in the text of the cards on the Character sheet (Paper or Eorzea Theme only) and turns them into links with a tooltip; in the Class Summary the names are only highlighted. Abilities show in red and bold, Traits in bold. An Ability that names itself gets no tooltip. To exclude a passage, mark it with No Link in the X|V editor menu (class ffxiv-nolink)."
     },
     "Journal": {
       "UnsupportedPageType": "This page type is not currently displayed by the Layout.",
@@ -72,6 +73,7 @@
       "Links": "Links",
       "AttackLink": "Attack Link",
       "AbilityLink": "Ability Link",
+      "NoLink": "No Link (Ability and Trait detection)",
       "Quest": "Quest",
       "QuestSummary": "Quest Summary",
       "QuestTitlePlaceholder": "Quest Name",
@@ -150,20 +152,9 @@
       "Result": "Result",
       "RollError": "The table could not be rolled."
     },
-    "RuleMigration": {
-      "Name": "Remove Rule links",
-      "Label": "Remove Rule links",
-      "Hint": "The Layout no longer has its own Rule system. Replaces &Rule[Key]{Text} in your world and in unlocked compendiums (world and module) with the plain text. Use the Rules of the FFXIV system instead.",
-      "Title": "Remove Rule links",
-      "Found": "{links} Rule link(s) in {documents} document(s) will be replaced by their visible text:",
-      "More": "… and {count} more",
-      "NoLinks": "No Rule links found.",
-      "Locked": "Locked compendiums are not scanned: {packs}. Unlock them (Compendium → right-click → Toggle Edit Lock) and run the tool again to include them. System compendiums are never changed.",
-      "DeletePages": "Also delete {count} leftover Rule page(s) from the removed Rule page type",
-      "Backup": "This changes your documents permanently. Make a backup first.",
-      "Run": "Remove",
-      "NothingToDo": "No Rule links or Rule pages found. Nothing to do.",
-      "Done": "Rule cleanup finished: {updated} document(s) updated, {deleted} Rule page(s) deleted, {failed} failed, {remaining} Rule link(s) left (see console)."
+    "Rules": {
+      "Color": "Color",
+      "ColorHint": "Color of this rule's term wherever a text mentions it. Leave empty for the default look."
     }
   }
 }

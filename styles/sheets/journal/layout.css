@@ -1,4 +1,4 @@
-/* Native Foundry Journal V2 page container: remove core spacing around our parchment page. */
+/* Journal page container */
 .ffxiv-journal-sheet .journal-entry-content {
   padding: 0 !important;
 }

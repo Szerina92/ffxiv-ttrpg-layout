@@ -61,7 +61,6 @@ const CALLOUT_ICONS = Object.freeze({
   },
 });
 
-/** Closest ancestor-or-self element matching the selector; text nodes start at their parent. */
 function closestElement(node, selector) {
   const element = node?.nodeType === Node.ELEMENT_NODE ? node : node?.parentElement;
   return element?.closest(selector) ?? null;
@@ -128,15 +127,6 @@ function replaceCallout(menu, callout, mutate) {
   mutate(replacement);
 
   try {
-    // Do not use EditorView#pasteHTML here. In Foundry V14 that method runs
-    // through the paste pipeline, including ProseMirrorImagePlugin, which
-    // expects a real ClipboardEvent and therefore can receive a null
-    // clipboard.files value when called programmatically.
-    //
-    // Delete the existing block with a normal transaction first. ProseMirror
-    // then maps the active selection to a valid insertion point. Foundry's
-    // native menu insertion path can safely parse and insert the replacement
-    // HTML without invoking the paste-event plugins.
     view.dispatch(view.state.tr.delete(from, to));
 
     const insertionHTML = replacement.matches(CALLOUT_SELECTOR)
@@ -164,9 +154,6 @@ function applyHeaderColor(colorKey, applySemanticInsert) {
   const color = TEXT_HEADER_COLORS[colorKey];
   if (!color || typeof applySemanticInsert !== "function") return false;
 
-  // "Header Colour" is an inline text-formatting tool, not a callout-header
-  // selector. The marked text receives the same typography used by FFXIV H3
-  // headings, with the selected header colour applied to that text only.
   return applySemanticInsert(
     `<span class="${color.className}"><selection></selection></span>`
   );
@@ -203,10 +190,6 @@ function applyIcon(menu, iconKey, applyInsert) {
     return replaceCallout(menu, callout, replacement => {
       removeClassesWithPrefix(replacement, "ffxiv-icon-");
 
-      // Keep the icon as callout state rather than inserting an inline node.
-      // ProseMirror may normalize arbitrary span/img wrappers inside a block,
-      // which made the previous icon positioning unreliable. The CSS pseudo-
-      // element below is anchored directly to the callout container instead.
       if (iconKey === "gm") {
         replacement.classList.add(icon.className);
       }
@@ -242,8 +225,6 @@ function buildTextColorEntries(applySemanticInsert) {
     cmd: () => applySemanticInsert(`<span class="${config.className}"><selection></selection></span>`),
   }));
 
-  // Ability and Attack are semantic text treatments, so keep them together
-  // with the other text-colour tools in the Text Editor submenu.
   const semanticEntries = [
     {
       action: "ffxiv-ability",

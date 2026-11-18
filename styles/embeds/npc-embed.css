@@ -1,4 +1,4 @@
-/* FFXIVActor Embed — extracted from supplied working 1.7.2 stand. */
+/* NPC embed */
 
 .ffxiv-actor-embed {
   display: block;
@@ -31,17 +31,13 @@
   line-height: 1.35;
 }
 
-/* Wide / double-column NPC layout: full bleed across the journal page. */
+/* Double layout */
 .ffxiv-actor-embed--npc.ffxiv-actor-embed--double {
   width: calc(100% + 96px);
   min-width: 0;
   max-width: none;
   margin: 1.25rem -48px;
 }
-
-/* Double mode: the whole page-width layout uses a wider primary column and a
-   narrower extended column. JavaScript chooses the ability split dynamically
-   after the live DOM has been attached. */
 
 /* Optional positioning modifiers */
 .ffxiv-actor-embed--npc.ffxiv-actor-embed--float-left {
@@ -311,7 +307,6 @@
   font-weight: 700;
 }
 
-/* Keep NPC ability check modifiers aligned with the Class Summary presentation. */
 .ffxiv-actor-embed--npc .ffxiv-actor-embed__ability-check-modifier {
   margin-left: 0.25em;
   color: inherit;
@@ -334,7 +329,6 @@
   color: var(--ffxiv-npc-link);
   font-weight: 700;
 }
-/* UUID/document links inside ability rich text use the module's bright red. */
 .ffxiv-actor-embed--npc .ffxiv-actor-embed__ability-detail a.content-link[data-uuid],
 .ffxiv-actor-embed--npc .ffxiv-actor-embed__trait-detail a.content-link[data-uuid] {
   color: var(--ffxiv-red-bright);
@@ -402,8 +396,6 @@
   }
 }
 
-/* Double mode — full-width two-column layout. The primary column intentionally
-   gets more room than the extended column, matching the NPC rulebook-style mockup. */
 .ffxiv-actor-embed--npc.ffxiv-actor-embed--double .ffxiv-actor-embed__double-layout {
   display: grid;
   grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);

@@ -1,11 +1,4 @@
-/**
- * FFXIV TTRPG Layout — "X|V" dropdown in Foundry V14's native ProseMirror toolbar.
- *
- * V14 exposes getProseMirrorMenuDropDowns specifically for adding custom
- * top-level dropdowns to the existing editor toolbar. The dropdown contains
- * the FFXIV semantic text styles, Quest Summaries,
- * Scenario callouts and ATT/ABI links.
- */
+/* X|V editor menu */
 
 import { localize } from "./i18n.js";
 import { buildCalloutTextEditorEntries, buildScenarioEditorEntry } from "./callouts.js";
@@ -16,10 +9,6 @@ async function getQuestSummaryEditorPageFromMenu(menu) {
   const editorDOM = menu?.view?.dom;
   if (!editorDOM) return null;
 
-  // The native Foundry V14 Journal ProseMirror field carries the edited
-  // JournalEntryPage UUID directly on the <prose-mirror> element. This is
-  // the most reliable source because it belongs to the exact editor instance
-  // which fired this menu action.
   const proseMirror = editorDOM.closest?.("prose-mirror");
   const documentUUID = String(
     proseMirror?.dataset?.documentUuid
@@ -36,8 +25,6 @@ async function getQuestSummaryEditorPageFromMenu(menu) {
     }
   }
 
-  // Fallback: find the rendered JournalEntryPageProseMirrorSheet application
-  // which contains this exact editor DOM and use its public `page` accessor.
   const applications = [...foundry.applications.instances.values()];
 
   for (const app of applications) {
@@ -47,7 +34,6 @@ async function getQuestSummaryEditorPageFromMenu(menu) {
     if (root?.contains?.(editorDOM)) return page;
   }
 
-  // Fallback for our custom journal DOM if a stable data-page-id is available.
   let node = editorDOM;
   while (node) {
     const pageId = String(
@@ -69,11 +55,6 @@ async function getQuestSummaryEditorPageFromMenu(menu) {
 }
 
 function addEditorMenu(menu, config) {
-  /**
-   * Insert an HTML block/inline fragment using Foundry's native ProseMirror
-   * insertion pipeline. The <selection> placeholder is replaced by the
-   * current selection when present.
-   */
   const applyInsert = (html, { inline = false } = {}) => {
     const state = menu?.view?.state;
     const view = menu?.view;
@@ -90,16 +71,6 @@ function addEditorMenu(menu, config) {
     return true;
   };
 
-  /**
-   * Apply an FFXIV semantic inline style to the current text selection.
-   *
-   * Foundry's generic inline insertion is fine for a selection contained in a
-   * single text block, but wrapping a selection that spans multiple paragraphs
-   * in one <span> collapses the block structure. Split multi-paragraph
-   * selections into one inline operation per text block so paragraph breaks are
-   * preserved. Processing from the end towards the start keeps earlier document
-   * positions stable while each range is updated.
-   */
   const applySemanticInsert = html => {
     const view = menu?.view;
     const state = view?.state;
@@ -143,7 +114,6 @@ function addEditorMenu(menu, config) {
     cmd: () => applySemanticInsert(`<span class="ffxiv-link--${type}"><selection></selection></span>`),
   });
 
-  // Foundry V14 uses the `children` property for nested ProseMirror dropdowns.
   config.xv = {
     title: "X|V",
     cssClass: "ffxiv-editor-xv-menu",
@@ -182,6 +152,13 @@ function addEditorMenu(menu, config) {
         children: [
           buildLinkEntry("att", "ATT", "FFXIVTTRPGLayout.Editor.AttackLink"),
           buildLinkEntry("abi", "ABI", "FFXIVTTRPGLayout.Editor.AbilityLink"),
+          {
+            action: "ffxiv-nolink",
+            title: localize("FFXIVTTRPGLayout.Editor.NoLink"),
+            icon: '<span class="ffxiv-editor-accent ffxiv-editor-accent--nolink">NO</span>',
+            class: "ffxiv-editor-semantic-entry ffxiv-editor-semantic-entry--nolink",
+            cmd: () => applySemanticInsert('<span class="ffxiv-nolink"><selection></selection></span>'),
+          },
         ],
       }),
     ],

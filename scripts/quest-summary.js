@@ -1,13 +1,8 @@
-/**
- * FFXIV TTRPG Layout — Quest Summary authoring and rendering.
- *
- * Quest Summaries are intentionally independent from the FFXIV system.
- * They are user-authored Journal content stored directly in the parent
- * JournalEntryPage text as a small, self-contained HTML component.
- */
+/* Quest Summary */
 
 import { localize } from "./i18n.js";
 import { createNativeTextDocument } from "./utils/native-text-proxy.js";
+import { escapeHTML } from "./utils/values.js";
 
 const { JournalEntryPageProseMirrorSheet } = foundry.applications.sheets.journal;
 
@@ -52,10 +47,6 @@ const QUEST_STYLES = Object.freeze({
   },
 });
 
-function escapeHTML(value) {
-  return foundry.utils.escapeHTML(String(value ?? ""));
-}
-
 function makeQuestSummaryId() {
   return foundry.utils.randomID(16);
 }
@@ -84,9 +75,6 @@ function levelPrefix() {
   return localize("FFXIVTTRPGLayout.Editor.QuestLevelPrefix");
 }
 
-/**
- * Build the HTML which is stored in the JournalEntryPage text field.
- */
 export function buildQuestSummaryHTML(data = {}, { questId = makeQuestSummaryId() } = {}) {
   const value = normalizeData(data);
   const level = escapeHTML(value.level);
@@ -152,8 +140,6 @@ function extractSectionContent(element, selector) {
   const content = section.querySelector(":scope > .ffxiv-quest-summary__section-content");
   if (content) return content.innerHTML.trim();
 
-  // Support older Quest Summary markup where section content was nested
-  // directly under the section wrapper.
   const clone = section.cloneNode(true);
   clone.querySelector(".ffxiv-quest-summary__section-title")?.remove();
   clone.querySelector(".ffxiv-quest-summary__description-title")?.remove();
@@ -170,10 +156,6 @@ function extractLegacyLevel(element) {
   return raw.replace(/^(?:lv\.?|st\.?|level|stufe)\s*/i, "").trim() || "00";
 }
 
-/**
- * Read Quest Summary data from the rendered card, including older markup
- * that can still be migrated transparently.
- */
 export function parseQuestSummaryElement(element) {
   if (!element) return normalizeData();
 
@@ -219,16 +201,6 @@ function createContentPreview(value, emptyLabel) {
   return preview;
 }
 
-
-
-/**
- * Open a native Foundry V14 ProseMirror editor for one Quest Summary field.
- *
- * This intentionally follows the same architecture as the Class Summary
- * introduction editor: a JournalEntryPageProseMirrorSheet receives a proxy
- * text document, while the real source page is kept untouched until the
- * Quest Summary dialog is finally saved.
- */
 async function openQuestSummaryFieldEditor(sourcePage, field, value, onChange) {
   if (!sourcePage?.isOwner) return null;
   if (![
@@ -254,8 +226,6 @@ async function openQuestSummaryFieldEditor(sourcePage, field, value, onChange) {
 class FFXIVQuestSummaryProseMirrorEditor extends JournalEntryPageProseMirrorSheet {
   static DEFAULT_OPTIONS = {
     form: {
-      // Finish the native child editor on Save so control returns to the
-      // Quest Summary dialog.
       submitOnChange: false,
       closeOnSubmit: true,
     },
@@ -557,10 +527,6 @@ function makeDialogContent(data, editorState, sourcePage) {
   return content;
 }
 
-/**
- * Open the user-facing Quest Summary editor.
- * Returns normalized data on Save and null when the dialog is canceled.
- */
 export async function openQuestSummaryEditor(initial = {}, { sourcePage = null } = {}) {
   const DialogV2 = globalThis.foundry?.applications?.api?.DialogV2;
   if (!DialogV2) {
@@ -709,7 +675,6 @@ export async function openQuestSummaryEditor(initial = {}, { sourcePage = null }
             previewBox.appendChild(empty);
           },
         );
-
       });
     },
     ok: {
@@ -738,10 +703,6 @@ export async function openQuestSummaryEditor(initial = {}, { sourcePage = null }
   });
 }
 
-/**
- * Replace one Quest Summary in an existing JournalEntryPage text document.
- * Returns false when the target cannot be found.
- */
 export async function replaceQuestSummaryInPage(page, questId, data, { cardIndex = -1 } = {}) {
   if (!page) return false;
   if (page.type !== "text" || !page.text) return false;
@@ -763,10 +724,6 @@ export async function replaceQuestSummaryInPage(page, questId, data, { cardIndex
   return true;
 }
 
-/**
- * Add the edit affordance to rendered Quest Summaries without storing UI-only
- * state back into Journal content.
- */
 export function decorateQuestSummaryCards(root, { editable = false } = {}) {
   if (!root) return;
   for (const card of root.querySelectorAll(".ffxiv-quest-summary")) {
@@ -778,4 +735,3 @@ export function decorateQuestSummaryCards(root, { editable = false } = {}) {
     }
   }
 }
-

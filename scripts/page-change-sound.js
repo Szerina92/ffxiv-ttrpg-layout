@@ -1,9 +1,4 @@
-/**
- * FFXIV TTRPG Layout — Journal Page Change Sound.
- *
- * Plays a local UI confirmation sound when the user selects a different
- * Journal page from the custom TOC. Enabled by default and client-local.
- */
+/* Page change sound */
 
 import { MODULE_ID } from "./constants.js";
 import { getPageChangeSoundVolumePercent, isPageChangeSoundEnabled } from "./settings.js";
@@ -28,7 +23,6 @@ export async function preloadPageChangeSound() {
   }
 }
 
-/** Play the sound locally (not broadcast) through Foundry's interface audio channel. */
 export function playPageChangeSound() {
   if (!isPageChangeSoundEnabled()) return;
 

@@ -1,6 +1,6 @@
-/* ---------------------------------------------------------
+/* =========================================================
    Class Summary Journal Page
-   --------------------------------------------------------- */
+   ========================================================= */
 .ffxiv-journal__class-summary {
   width: 100%;
   box-sizing: border-box;
@@ -43,7 +43,7 @@
   margin-bottom: 8px;
 }
 
-/* Shared editor page-settings primitives */
+/* Page settings */
 .ffxiv-editor-page-settings {
   margin: 0 0 14px;
   padding: var(--ffxiv-container-editor-padding);

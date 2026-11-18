@@ -1,17 +1,6 @@
-/**
- * FFXIV TTRPG Layout — NPC Embed "double" layout balancing.
- *
- * In double mode the abilities are split into two columns at a point that
- * minimizes the height difference. This needs real layout measurements, so it
- * only runs once the embed is connected to the document and again on resize.
- */
+/* NPC embed double layout */
 
 export function scheduleDoubleBalance(root) {
-  // The enricher returns the root before Foundry necessarily inserts it into
-  // the live document. Waiting on the disconnected root can therefore miss
-  // the real render lifecycle (and leave the extended column empty).
-  // Observe document insertions first, then balance once the actual node is
-  // connected.
   const tryBalance = () => {
     if (!root.isConnected) return false;
     balanceDoubleAbilities(root);
@@ -34,8 +23,6 @@ export function scheduleDoubleBalance(root) {
 
   mutationObserver.observe(host, { childList: true, subtree: true });
 
-  // Foundry/ProseMirror can perform insertion work between mutation cycles,
-  // so also give the freshly returned node a couple of frame opportunities.
   let attempts = 0;
   const frameAttempt = () => {
     if (tryBalance()) {
@@ -48,13 +35,6 @@ export function scheduleDoubleBalance(root) {
   requestAnimationFrame(frameAttempt);
 }
 
-/**
- * Double mode uses a dynamic split point instead of a fixed ability count.
- * The split preserves ability order and minimizes the total vertical height
- * difference between the two outer columns. Because the right column is
- * narrower, each ability is measured at both final column widths before the
- * best contiguous split is selected.
- */
 function balanceDoubleAbilities(root) {
   const layout = root.querySelector('.ffxiv-actor-embed__double-layout');
   const primaryColumn = layout?.querySelector('.ffxiv-actor-embed__ability-column--primary');
@@ -71,7 +51,6 @@ function balanceDoubleAbilities(root) {
     return;
   }
 
-  // Restore canonical order in the wider primary column before measuring.
   extendedColumn.replaceChildren();
   for (const block of blocks) primaryColumn.appendChild(block);
 
@@ -79,12 +58,9 @@ function balanceDoubleAbilities(root) {
   const primaryBaseHeight = Math.max(0, primary.getBoundingClientRect().height - primaryAbilityHeight);
   const leftHeights = blocks.map(block => block.getBoundingClientRect().height);
 
-  // Measure the same blocks in the narrower right column so text wrapping is
-  // reflected accurately in the balancing calculation.
   extendedColumn.replaceChildren(...blocks);
   const rightHeights = blocks.map(block => block.getBoundingClientRect().height);
 
-  // Restore canonical order in the primary column before applying the split.
   for (const block of blocks) primaryColumn.appendChild(block);
 
   const leftTotal = leftHeights.reduce((sum, height) => sum + height, 0);

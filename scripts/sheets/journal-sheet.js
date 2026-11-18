@@ -1,10 +1,4 @@
-/**
- * FFXIV TTRPG Layout
- * Custom Journal Entry sheet for Foundry VTT V14.
- *
- * Foundry's JournalEntry / JournalEntryPage documents remain the data source.
- * This sheet only controls their presentation.
- */
+/* Journal sheet */
 
 import { CLASS_SUMMARY_PAGE_TYPE, SYSTEM_RULE_PAGE_TYPE } from "../constants.js";
 import { playPageChangeSound } from "../page-change-sound.js";
@@ -19,16 +13,13 @@ import { isPageChangeSoundEnabled } from "../settings.js";
 import { enrich } from "../utils/enrich.js";
 import { bindPageFrame } from "../utils/page-frame.js";
 import { buildClassSummaryPageContext } from "./class-summary-data.js";
+import { linkClassSummary } from "../utils/auto-links.js";
 
 const { DocumentSheetConfig } = foundry.applications.apps;
 const { JournalEntrySheet } = foundry.applications.sheets.journal;
 
 const TEMPLATE_PATH = "modules/ffxiv-ttrpg-layout/templates/sheets";
 
-/**
- * Replace `@Embed[<JournalEntry uuid>]` by an embed of that Journal's first page,
- * because Foundry can only embed pages, not whole Journal Entries.
- */
 async function normalizeJournalEntryEmbeds(content) {
   if (typeof content !== "string" || !content.includes("@Embed[")) return content;
 
@@ -61,7 +52,6 @@ class FFXIVJournalSheet extends JournalEntrySheet {
     window: { resizable: true },
   };
 
-  /** Prepare the data of one page for journal-page-view.hbs. */
   async #buildPageViewData(page) {
     let content = "";
     let jobIcon = "";
@@ -121,6 +111,7 @@ class FFXIVJournalSheet extends JournalEntrySheet {
     element.replaceChildren();
     element.insertAdjacentHTML("afterbegin", html);
     decorateQuestSummaryCards(element, { editable: this.isEditable });
+    if (page.type === CLASS_SUMMARY_PAGE_TYPE) linkClassSummary(element);
   }
 
   async _onRender(context, options) {
@@ -129,7 +120,6 @@ class FFXIVJournalSheet extends JournalEntrySheet {
     this.#pagePointer ??= new FFXIVJournalPagePointer(this);
     this.#pagePointer.sync();
 
-    // The native Journal header is hidden by CSS (styles/sheets/journal/late-overrides.css).
     const scroller = this.element?.querySelector(".journal-entry-pages");
     scroller?.classList.add("ffxiv-journal__native-pages");
     this.#bindPageFrame(scroller);
@@ -137,7 +127,6 @@ class FFXIVJournalSheet extends JournalEntrySheet {
     this.#bindDelegatedListeners();
   }
 
-  /** Bind the page frame once per scroll container. */
   #bindPageFrame(scroller) {
     if (!scroller || scroller === this.#pageFrameScroller) return;
     this.#disposePageFrame?.();
@@ -164,11 +153,6 @@ class FFXIVJournalSheet extends JournalEntrySheet {
     await this.goToPage(pageId);
   }
 
-  /**
-   * Play the optional page-change confirmation sound at the actual page
-   * transition boundary used by Foundry's JournalEntrySheet. This catches the
-   * native V14 TOC navigation, regardless of the sidebar DOM implementation.
-   */
   goToPage(pageId, options = {}) {
     const targetPageId = String(pageId ?? "").trim();
     const currentPageId = String(this.pageId ?? "").trim();
@@ -184,7 +168,6 @@ class FFXIVJournalSheet extends JournalEntrySheet {
   /*  Delegated listeners                         */
   /* -------------------------------------------- */
 
-  /** All interactive elements inside the rendered pages are handled by three delegated listeners. */
   #bindDelegatedListeners() {
     const root = this.element;
     if (!root || root.dataset.ffxivListenersBound === "true") return;
@@ -197,7 +180,6 @@ class FFXIVJournalSheet extends JournalEntrySheet {
     root.addEventListener("dblclick", event => this.#onQuestSummaryDoubleClick(event));
   }
 
-  /** Match an element inside this sheet's root. */
   #closest(event, selector) {
     const match = event.target?.closest?.(selector);
     return match && this.element?.contains(match) ? match : null;
@@ -257,7 +239,6 @@ export function registerJournalSheet() {
     label: "FFXIVTTRPGLayout.Journal.SheetTitle",
   });
 
-  // Re-render the open Journal when the page it currently shows changes.
   Hooks.on("updateJournalEntryPage", async page => {
     for (const app of Object.values(page?.parent?.apps ?? {})) {
       if (app instanceof FFXIVJournalSheet && app.pageId === page.id) await app.render();

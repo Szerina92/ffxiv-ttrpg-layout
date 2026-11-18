@@ -1,23 +1,12 @@
-/** FFXIV TTRPG Layout — shared rich-text enrichment. */
+/* Rich-text enrichment */
 
-import { stripRuleMacros } from "../rule-migration.js";
+import { isAbilityType } from "./ability-data.js";
+import { watchElement } from "./watch-element.js";
 
 const TextEditor = foundry.applications.ux.TextEditor.implementation;
 
-/**
- * Enrich HTML with the option set used throughout this module.
- *
- * @param {string} content Raw HTML.
- * @param {foundry.abstract.Document|null} [relativeTo] Document used to resolve relative links.
- * @param {object} [options]
- * @param {boolean} [options.secrets] Reveal secret blocks. Defaults to the ownership of `relativeTo`,
- *   so GM-only secrets are never shown to players.
- * @param {number} [options.depth] Embed nesting level of this text (0 = top level). Passed to the
- *   Layout's enrichers as `ffxivEmbedDepth`, which stop nesting cards at MAX_EMBED_DEPTH.
- * @returns {Promise<string>}
- */
-export function enrich(content, relativeTo = null, { secrets = relativeTo?.isOwner ?? false, depth = 0 } = {}) {
-  return TextEditor.enrichHTML(stripRuleMacros(String(content ?? "")), {
+export async function enrich(content, relativeTo = null, { secrets = relativeTo?.isOwner ?? false, depth = 0 } = {}) {
+  const html = await TextEditor.enrichHTML(String(content ?? ""), {
     custom: true,
     documents: true,
     embeds: true,
@@ -27,4 +16,54 @@ export function enrich(content, relativeTo = null, { secrets = relativeTo?.isOwn
     relativeTo,
     ffxivEmbedDepth: depth,
   });
+  return markItemLinks(html);
+}
+
+/* -------------------------------------------- */
+/*  Ability and Trait links                     */
+/* -------------------------------------------- */
+
+const LINK_CLASS = "ffxiv-uuid-link";
+const linkKind = type => (isAbilityType(type) ? "ability" : type === "trait" ? "trait" : null);
+
+async function itemType(uuid) {
+  try {
+    const entry = fromUuidSync(uuid, { strict: false });
+    if (entry?.type) return entry.type;
+    return (await fromUuid(uuid))?.type ?? "";
+  } catch (_error) {
+    return "";
+  }
+}
+
+async function markItemLinksIn(root) {
+  if (!root?.querySelectorAll) return false;
+  let changed = false;
+  for (const link of root.querySelectorAll(`a.content-link[data-type="Item"][data-uuid]:not(.${LINK_CLASS})`)) {
+    const kind = linkKind(await itemType(link.dataset.uuid));
+    if (!kind) continue;
+    link.classList.add(LINK_CLASS, `${LINK_CLASS}--${kind}`);
+    for (const attribute of ["data-tooltip", "data-tooltip-text", "data-tooltip-html"]) link.removeAttribute(attribute);
+    changed = true;
+  }
+  return changed;
+}
+
+async function markItemLinks(html) {
+  if (!html.includes("content-link")) return html;
+  const template = document.createElement("template");
+  template.innerHTML = html;
+  return (await markItemLinksIn(template.content)) ? template.innerHTML : html;
+}
+
+export function activateItemLinkMarking() {
+  const markNow = root => markItemLinksIn(root)
+    .catch(error => console.warn("FFXIV TTRPG Layout | Unable to mark item links", error));
+  const mark = (_app, html) => {
+    const root = html instanceof HTMLElement ? html : html?.[0];
+    markNow(root);
+    watchElement(root, "item-links", markNow);
+  };
+  Hooks.on("renderApplicationV2", mark);
+  Hooks.on("renderChatMessageHTML", mark);
 }

@@ -1,20 +1,12 @@
 /* =========================================================
    Paper Theme — Tokens
-   Colors and variables of the Paper Theme. The rules live in
-   styles/themes/common/ and are shared with the Eorzea Theme; this file
-   only sets the values. `.paper_theme` is the class the system puts on
-   sheets, item sheets and floating tooltips (CONFIG.theme = "paper", see
-   scripts/paper-theme.js). Chat cards keep the system's own theme class,
-   so they get the same tokens through the body class `ffxiv-paper-theme`.
-   The Layout's own colors (`--ffxiv-*`, styles/variables.css) are already
-   parchment colors and are used as they are.
    ========================================================= */
 
 .paper_theme,
 body.ffxiv-paper-theme .chat-ffxiv:is(.dark_theme, .light_theme, .blue_theme) {
   color-scheme: light;
 
-  /* --- Variables the system's own themes define (css/vars.css) --- */
+  /* System theme variables */
   --option-background-color: var(--ffxiv-paper-light);
   --background-color: var(--ffxiv-paper-parchment, none) 0 0 / 100% 100% no-repeat, var(--ffxiv-paper);
   --text-color: var(--ffxiv-ink);
@@ -53,7 +45,7 @@ body.ffxiv-paper-theme .chat-ffxiv:is(.dark_theme, .light_theme, .blue_theme) {
   --subtabactive-background: linear-gradient(0deg, var(--gradient-color-1) 0%, var(--gradient-color-2) 40%, var(--gradient-color-3) 60%, var(--gradient-color-4) 100%);
   --subtabactive-filter: none;
 
-  /* --- Rarity colors readable on parchment (the system's basic rarity is white) --- */
+  /* Rarity colors */
   --rarity-basic: var(--ffxiv-ink);
   --rarity-green: #1f7a4a;
   --rarity-aetherial: #b83a82;
@@ -61,7 +53,7 @@ body.ffxiv-paper-theme .chat-ffxiv:is(.dark_theme, .light_theme, .blue_theme) {
   --rarity-relic: #5a2f8c;
   --rarity-unique: #b01c1c;
 
-  /* --- Surfaces shared by the rules below --- */
+  /* Surfaces */
   --theme-line: var(--ffxiv-gold-light);
   --theme-panel: linear-gradient(180deg, rgba(247, 244, 233, 0.62) 0%, rgba(238, 234, 221, 0.62) 100%);
   --theme-card: var(--ffxiv-paper-light);
@@ -70,7 +62,7 @@ body.ffxiv-paper-theme .chat-ffxiv:is(.dark_theme, .light_theme, .blue_theme) {
   --theme-tab: linear-gradient(180deg, var(--ffxiv-paper-light) 0%, var(--ffxiv-paper-dark) 100%);
   --theme-btn: linear-gradient(180deg, var(--ffxiv-gold-light) 0%, var(--ffxiv-gold) 100%);
 
-  /* --- Single values of the shared rules (styles/themes/common/) --- */
+  /* Shared rule values */
   --theme-sheen-50: rgba(255, 255, 255, 0.5);
   --theme-sheen-45: rgba(255, 255, 255, 0.45);
   --theme-sheen-40: rgba(255, 255, 255, 0.4);
@@ -85,8 +77,6 @@ body.ffxiv-paper-theme .chat-ffxiv:is(.dark_theme, .light_theme, .blue_theme) {
   --theme-slot-top: #ddd4b8;
   --theme-slot-bottom: #d1c7a8;
 
-  /* --- Foundry variables the system's CSS reads (ink instead of the
-         light-on-dark values of Foundry's dark theme) --- */
   --color-text-primary: var(--ffxiv-ink);
   --color-text-secondary: var(--ffxiv-muted);
   --color-border-light-primary: var(--ffxiv-gold);

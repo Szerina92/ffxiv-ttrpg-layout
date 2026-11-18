@@ -1,4 +1,4 @@
-<article class="ffxiv-class-summary__trait-card">
+<article class="ffxiv-class-summary__trait-card"{{#if card.uuid}} data-ffxiv-card-uuid="{{card.uuid}}" data-ffxiv-card-kind="trait"{{/if}}>
   <div class="ffxiv-class-summary__trait-head">
     <h3 style="font-weight: 700;">{{card.name}}</h3>
     {{#if card.typeLabel}}<span class="ffxiv-class-summary__trait-type">{{card.typeLabel}}</span>{{/if}}

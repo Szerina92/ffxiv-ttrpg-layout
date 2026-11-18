@@ -1,16 +1,11 @@
-/**
- * FFXIV TTRPG Layout — Class Summary JournalEntryPage type.
- *
- * This is a custom JournalEntryPage subtype, not a JournalEntry sheet.
- * A Class Summary is therefore created from the Journal's "Neue Seite"
- * dialog and lives alongside normal Text/Image/PDF/Video pages.
- */
+/* Class Summary sheet */
 
 import { CLASS_SUMMARY_PAGE_TYPE } from "../constants.js";
 import { localize } from "../i18n.js";
 import { createFieldEditor } from "../utils/field-editor.js";
 import { buildPageControlsContext } from "../utils/page-sheet-context.js";
 import { buildClassSummaryPageContext } from "./class-summary-data.js";
+import { linkClassSummary } from "../utils/auto-links.js";
 
 const { DocumentSheetConfig } = foundry.applications.apps;
 const { JournalEntryPageHandlebarsSheet } = foundry.applications.sheets.journal;
@@ -19,15 +14,11 @@ class ClassSummaryPageDataModel extends foundry.abstract.TypeDataModel {
   static defineSchema() {
     const fields = foundry.data.fields;
     return {
-      // Job Item UUIDs only; the Item documents remain the authoritative
-      // source for all Job data.
       jobUuids: new fields.ArrayField(
         new fields.StringField({ required: true, nullable: false, blank: false, trim: true }),
         { required: false, nullable: false, initial: () => [] },
       ),
 
-      // UUID of the Job variant currently selected for Journal rendering.
-      // Use `currentJobUuid` to read the effective selection.
       activeJobUuid: new fields.DocumentUUIDField({
         required: false,
         nullable: true,
@@ -39,13 +30,11 @@ class ClassSummaryPageDataModel extends foundry.abstract.TypeDataModel {
     };
   }
 
-  /** Pages created before multi-level Job storage only contain `jobUuid`. */
   static migrateData(source) {
     if (source.jobUuid && !source.jobUuids?.length) source.jobUuids = [source.jobUuid];
     return super.migrateData(source);
   }
 
-  /** The selected Job, falling back to the first stored Job. */
   get currentJobUuid() {
     return this.jobUuids.includes(this.activeJobUuid) ? this.activeJobUuid : (this.jobUuids[0] ?? null);
   }
@@ -91,8 +80,6 @@ class FFXIVClassSummarySheet extends JournalEntryPageHandlebarsSheet {
   async _prepareContext(options) {
     const context = await super._prepareContext(options);
 
-    // The complete Class Summary is only rendered in view mode; the editor
-    // receives just the Job list.
     const pageContext = await buildClassSummaryPageContext(this.page, { includeSummary: this.isView });
 
     return {
@@ -113,9 +100,6 @@ class FFXIVClassSummarySheet extends JournalEntryPageHandlebarsSheet {
     event?.preventDefault?.();
     if (!this.page?.isOwner || !this.isView) return;
 
-    // The empty-state link is part of this page-sheet instance. Change the
-    // existing application's mode, then re-render it, so Foundry swaps from
-    // VIEW_PARTS to EDIT_PARTS without creating another application window.
     try {
       this.options.mode = "edit";
       await this.render({ force: true });
@@ -153,6 +137,7 @@ class FFXIVClassSummarySheet extends JournalEntryPageHandlebarsSheet {
     const root = this.element;
     if (!root) return;
 
+    linkClassSummary(root);
     root.addEventListener("dragover", this.#handleDragOver);
     root.addEventListener("dragleave", this.#handleDragLeave);
     root.addEventListener("drop", this.#handleDrop);
@@ -193,9 +178,6 @@ class FFXIVClassSummarySheet extends JournalEntryPageHandlebarsSheet {
     const transfer = event.dataTransfer;
     if (!transfer) return;
 
-    // Foundry Item drags normally expose JSON in text/plain. Accept the
-    // application/json variant as well so the drop remains robust across
-    // Foundry drag sources.
     const raw = transfer.getData("text/plain") || transfer.getData("application/json");
     if (!raw) return;
 
@@ -235,10 +217,6 @@ class FFXIVClassSummarySheet extends JournalEntryPageHandlebarsSheet {
 export function registerClassSummarySheet() {
   FFXIVClassSummarySheet.register();
 
-  // A newly created Class Summary must always start empty. Foundry can carry
-  // forward page creation data in some Journal workflows, so explicitly reset
-  // our custom fields here rather than allowing a previous Job reference to
-  // leak into a new page.
   Hooks.on("preCreateJournalEntryPage", (page, data) => {
     if (data?.type !== CLASS_SUMMARY_PAGE_TYPE) return;
     page.updateSource({ system: { jobUuids: [], activeJobUuid: null, introduction: "" } });

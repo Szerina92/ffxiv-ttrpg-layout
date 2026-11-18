@@ -1,9 +1,4 @@
-/**
- * FFXIV TTRPG Layout — Table of Contents window of a Journal compendium.
- *
- * Replaces the standard compendium window for packs whose author defined a
- * ToC. Clicking an entry opens the Journal at the corresponding page.
- */
+/* Table of Contents window */
 
 import { MODULE_ID } from "../constants.js";
 import { localize } from "../i18n.js";
@@ -12,18 +7,11 @@ import { buildTocTree } from "./toc-tree.js";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
-/** Whether the current user may define the ToC. Locked packs are reported when saving. */
 export const canEditToc = () => game.user.hasRole("ASSISTANT");
 
 const normalizeText = text => String(text ?? "").replace(/\s+/g, " ").trim();
 const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-/**
- * Scroll an open Journal to an H2 of one of its pages. The sheet renders its
- * pages asynchronously, so the heading is awaited. This does not use the sheet's
- * own anchor navigation, which needs the table of contents of an already
- * rendered page.
- */
 async function scrollToHeading(sheet, pageId, text, occurrence) {
   const target = normalizeText(text);
   const findHeading = () => {
@@ -36,7 +24,6 @@ async function scrollToHeading(sheet, pageId, text, occurrence) {
   for (let attempt = 0; attempt < 40; attempt += 1) {
     const heading = findHeading();
     if (heading) {
-      // Let the sheet finish its own jump to the page before scrolling to the heading.
       await wait(120);
       (findHeading() ?? heading).scrollIntoView({ block: "start", behavior: "smooth" });
       return true;
@@ -65,10 +52,8 @@ class CompendiumTocApplication extends HandlebarsApplicationMixin(ApplicationV2)
     },
   };
 
-  /** Callbacks provided by the registration layer, to avoid import cycles. */
   static handlers = { editToc: null, showStandardView: null };
 
-  /** @param {CompendiumCollection} pack */
   constructor(pack, options = {}) {
     super({
       id: CompendiumTocApplication.idFor(pack),
@@ -82,7 +67,6 @@ class CompendiumTocApplication extends HandlebarsApplicationMixin(ApplicationV2)
     return `ffxiv-compendium-toc-${pack.collection.replace(/[^a-zA-Z0-9_-]/g, "-")}`;
   }
 
-  /** The open ToC window of a pack, if any. */
   static of(pack) {
     const app = foundry.applications.instances.get(CompendiumTocApplication.idFor(pack));
     return app instanceof CompendiumTocApplication ? app : null;
@@ -144,26 +128,18 @@ class CompendiumTocApplication extends HandlebarsApplicationMixin(ApplicationV2)
   }
 }
 
-/**
- * Open (or bring to front) the ToC window of a pack.
- *
- * @param {CompendiumCollection} pack
- * @param {{left?: number, top?: number}} [position] Initial window position.
- */
 export function openTocApplication(pack, position = {}) {
   const existing = CompendiumTocApplication.of(pack);
   if (existing) return existing.render({ force: true });
   return new CompendiumTocApplication(pack, { position }).render({ force: true });
 }
 
-/** Re-render the open ToC window of a pack, if there is one. */
 export function refreshTocApplication(packId) {
   for (const app of foundry.applications.instances.values()) {
     if (app instanceof CompendiumTocApplication && app.pack.collection === packId) app.render();
   }
 }
 
-/** Close the open ToC window of a pack, if there is one. */
 export const closeTocApplication = pack => CompendiumTocApplication.of(pack)?.close();
 
 export function setTocApplicationHandlers(handlers) {
