@@ -16,6 +16,7 @@ import { activateIconLinks } from "./utils/icon-click.js";
 import { activateCardDrag } from "./utils/card-drag.js";
 import { activateItemLinkMarking } from "./utils/enrich.js";
 import { activateLinkTooltips } from "./utils/link-tooltip.js";
+import { activateHotbarDetection } from "./utils/auto-links.js";
 import { registerRuleColors } from "./rule-colors.js";
 import { registerEditorMenu } from "./editor-menu.js";
 import { registerCompendiumToc } from "./toc/toc.js";
@@ -61,4 +62,5 @@ Hooks.once("ready", () => {
   activateCardDrag();
   activateItemLinkMarking();
   activateLinkTooltips();
+  activateHotbarDetection();
 });

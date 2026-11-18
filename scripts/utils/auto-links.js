@@ -1,6 +1,6 @@
 /* Ability and Trait detection */
 
-import { isAutoLinksEnabled } from "../settings.js";
+import { isAutoLinksEnabled, isModuleThemeEnabled } from "../settings.js";
 import { isAbilityType } from "./ability-data.js";
 
 const MIN_LENGTH = 3;
@@ -12,7 +12,13 @@ const SKIP = [
   ".detail > strong", ".effect > strong", ".ffxiv-class-summary__ability-label",
 ].join(", ");
 
+const ALL_KINDS = new Set(["ability", "trait"]);
+const NO_KINDS = new Set();
+const TRAIT_KINDS = new Set(["trait"]);
+
 const ACTOR_REGIONS = ".ability-details .detail, .ability-effects .effect, .ability-description";
+const HOTBAR_REGIONS = ".ffxiv-hotbar-ability-details dd, .ffxiv-hotbar-ability-section-content";
+const HOTBAR_TOOLTIP = "aside.ffxiv-hotbar-ability-tooltip:not(.ffxiv-link-tooltip)";
 const RULE_SELECTOR = ".ffxiv-rule-reference";
 const SUMMARY_REGIONS = ".ffxiv-class-summary__ability-meta .ffxiv-class-summary__ability-value, .ffxiv-class-summary__ability-body, .ffxiv-class-summary__trait-body";
 
@@ -112,7 +118,7 @@ function acceptedMatches(text, segments, { byName, pattern }) {
   return matches;
 }
 
-function rebuildRun(segments, matches, selfUuid, marksOnly) {
+function rebuildRun(segments, matches, selfUuid, linkKinds) {
   const pieces = [];
   const pushRange = (from, to) => {
     for (const segment of segments) {
@@ -125,7 +131,8 @@ function rebuildRun(segments, matches, selfUuid, marksOnly) {
   let position = 0;
   for (const match of matches) {
     pushRange(position, match.start);
-    pieces.push(marksOnly || match.entry.uuid === selfUuid ? createMark(match.entry, match.text) : createLink(match.entry, match.text));
+    const asLink = linkKinds.has(match.entry.kind) && match.entry.uuid !== selfUuid;
+    pieces.push(asLink ? createLink(match.entry, match.text) : createMark(match.entry, match.text));
     position = match.end;
   }
   pushRange(position, Infinity);
@@ -139,7 +146,7 @@ function rebuildRun(segments, matches, selfUuid, marksOnly) {
   anchor.remove();
 }
 
-function linkRegion(region, matcher, selfUuid, { marksOnly = false } = {}) {
+function linkRegion(region, matcher, selfUuid, linkKinds = ALL_KINDS) {
   const parents = [region, ...region.querySelectorAll("*")].filter(element => element === region || !isSkipped(element, region));
   for (const parent of parents) {
     for (const run of runsOf(parent)) {
@@ -147,7 +154,7 @@ function linkRegion(region, matcher, selfUuid, { marksOnly = false } = {}) {
       const text = segments.map(segment => segment.text).join("");
       if (!text.trim()) continue;
       const matches = acceptedMatches(text, segments, matcher);
-      if (matches.length) rebuildRun(segments, matches, selfUuid, marksOnly);
+      if (matches.length) rebuildRun(segments, matches, selfUuid, linkKinds);
     }
   }
 }
@@ -184,6 +191,48 @@ export function linkClassSummary(root) {
   if (!matcher) return;
 
   for (const card of cards) {
-    for (const region of card.querySelectorAll(SUMMARY_REGIONS)) linkRegion(region, matcher, card.dataset.ffxivCardUuid, { marksOnly: true });
+    for (const region of card.querySelectorAll(SUMMARY_REGIONS)) linkRegion(region, matcher, card.dataset.ffxivCardUuid, NO_KINDS);
   }
 }
+
+/* -------------------------------------------- */
+/*  Hotbar tooltip                              */
+/* -------------------------------------------- */
+
+let hoveredSlotUuid = "";
+
+function hotbarItem(tooltip) {
+  const name = tooltip.querySelector(".ffxiv-hotbar-ability-name")?.textContent?.trim();
+  const slotItem = hoveredSlotUuid ? fromUuidSync(hoveredSlotUuid, { strict: false }) : null;
+  if (slotItem?.parent?.documentName === "Actor" && slotItem.name === name) return slotItem;
+
+  const actor = canvas?.tokens?.controlled?.[0]?.actor ?? game.user.character;
+  return actor?.items.find(item => item.name === name) ?? null;
+}
+
+function linkHotbarTooltip(tooltip) {
+  const item = hotbarItem(tooltip);
+  const actor = item?.parent;
+  if (!actor) return;
+
+  const matcher = buildMatcher(actor.items.map(entry => ({ name: entry.name, uuid: entry.uuid, kind: kindOf(entry.type) })));
+  if (!matcher) return;
+  for (const region of tooltip.querySelectorAll(HOTBAR_REGIONS)) linkRegion(region, matcher, item.uuid, TRAIT_KINDS);
+}
+
+export function activateHotbarDetection() {
+  document.addEventListener("pointerover", event => {
+    const slot = event.target?.closest?.("#hotbar [data-document-uuid]");
+    if (slot) hoveredSlotUuid = slot.dataset.documentUuid;
+  }, true);
+
+  new MutationObserver(mutations => {
+    if (!isAutoLinksEnabled() || !isModuleThemeEnabled()) return;
+    for (const mutation of mutations) {
+      for (const node of mutation.addedNodes) {
+        if (node instanceof HTMLElement && node.matches(HOTBAR_TOOLTIP)) linkHotbarTooltip(node);
+      }
+    }
+  }).observe(document.body, { childList: true });
+}
+

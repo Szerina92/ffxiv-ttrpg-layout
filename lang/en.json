@@ -56,7 +56,7 @@
       "EorzeaTheme": "Eorzea Theme",
       "EorzeaThemeHint": "Overrides core settings light/dark color scheme with a dark theme, inspired by the FFXIV game interface. Does not work with the Blue Color Theme. Switches the Paper Theme off.",
       "AutoLinks": "Ability and Trait Detection (Experimental)",
-      "AutoLinksHint": "Finds the names of Abilities and Traits in the text of the cards on the Character sheet (Paper or Eorzea Theme only) and turns them into links with a tooltip; in the Class Summary the names are only highlighted. Abilities show in red and bold, Traits in bold. An Ability that names itself gets no tooltip. To exclude a passage, mark it with No Link in the X|V editor menu (class ffxiv-nolink)."
+      "AutoLinksHint": "Finds the names of Abilities and Traits in the text of ability cards and marks them. Character sheet (Paper or Eorzea Theme): links with a tooltip. Hotbar tooltip (Paper or Eorzea Theme): Abilities highlighted, Traits as links with a tooltip. Class Summary: highlighted only. To exclude a passage, mark it with No Link in the X|V editor menu (class ffxiv-nolink)."
     },
     "Journal": {
       "UnsupportedPageType": "This page type is not currently displayed by the Layout.",
